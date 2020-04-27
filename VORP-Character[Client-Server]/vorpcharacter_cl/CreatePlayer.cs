@@ -1415,8 +1415,9 @@ namespace vorpcore_cl.Scripts
                 Debug.WriteLine($"OnItemSelect: [{_menu}, {_item}, {_index}]");
                 if (_index == 23)
                 {
-                    Debug.WriteLine($"Terminado");
+                    Debug.WriteLine($"Terminado");                    
                     SaveChanges();
+                    mdu.CloseMenu();
                 }
             };
 

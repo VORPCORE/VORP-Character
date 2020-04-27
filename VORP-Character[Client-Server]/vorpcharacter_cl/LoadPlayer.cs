@@ -202,7 +202,7 @@ namespace vorpcharacter_cl
             await Utils.Miscellanea.LoadModel(model_hash);
             
             Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
-            await Delay(1000);
+            await Delay(2000);
             int pPedID = API.PlayerPedId();
 
             //LoadSkin
