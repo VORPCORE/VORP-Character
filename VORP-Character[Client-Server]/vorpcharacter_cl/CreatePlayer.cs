@@ -1,0 +1,1721 @@
+﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using MenuAPI;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using vorpcharacter_cl.Utils;
+
+namespace vorpcore_cl.Scripts
+{
+    public class CreatePlayer : BaseScript
+    {
+        /*
+         * Cosas que me vienen bien
+         * --Hombre Cam
+         * -559.6671, -3775.44, 239.4266
+         * -9.622695, 0, -86.08074
+         * -- Mujer Cam
+         * -559.8455, -3776.596, 239.4435
+         * -13.41718, 0, -88.04576
+         * 
+         * SetCamActiveWithInterp(Cam2, Cam1, 5000, false, false)
+	     * Wait(5000)
+         * 
+         *            Citizen.InvokeNative(0xED40380076A31506, PlayerId(), model2)
+         *            Citizen.InvokeNative(0x283978A15512B2FE,PlayerPedId(),true)
+         * 
+         */
+
+        bool isSelectSexActive = false;
+        string model_f = "mp_female";
+        string model_m = "mp_male";
+        int PedFemale;
+        int PedMale;
+        int Camera;
+        int Camera_Male;
+        int Camera_Female;
+        int Camera_Editor;
+        int Camera_DressUp;
+        bool onKeyBoard = false;
+
+        //Para guardar en DB
+        static Dictionary<string, object> skinPlayer = new Dictionary<string, object>() {
+            { "sex", "mp_male" },
+
+            { "Head", 0.0f },
+
+            { "EyeBrowH", 0.0f },
+            { "EyeBrowW", 0.0f },
+            { "EyeBrowD", 0.0f },
+
+            { "EarsH", 0.0f },
+            { "EarsW", 0.0f },
+            { "EarsD", 0.0f },
+            { "EarsL", 0.0f },
+
+            { "EyeLidH", 0.0f },
+            { "EyeLidW", 0.0f },
+
+            { "EyeD", 0.0f },
+            { "EyeAng", 0.0f },
+            { "EyeDis", 0.0f },
+            { "EyeH", 0.0f },
+
+            { "NoseW", 0.0f },
+            { "NoseS", 0.0f },
+            { "NoseH", 0.0f },
+            { "NoseAng", 0.0f },
+            { "NoseC", 0.0f },
+            { "NoseDis", 0.0f },
+            
+            { "CheekBonesH", 0.0f },
+            { "CheekBonesW", 0.0f },
+            { "CheekBonesD", 0.0f },
+
+            { "MouthW", 0.0f },
+            { "MouthD", 0.0f },
+            { "MouthX", 0.0f },
+            { "MouthY", 0.0f },
+
+            { "ULiphH", 0.0f },
+            { "ULiphW", 0.0f },
+            { "ULiphD", 0.0f },
+
+            { "LLiphH", 0.0f },
+            { "LLiphW", 0.0f },
+            { "LLiphD", 0.0f },
+
+            { "JawH", 0.0f },
+            { "JawW", 0.0f },
+            { "JawD", 0.0f },
+
+            { "ChinH", 0.0f },
+            { "ChinW", 0.0f },
+            { "ChinD", 0.0f },
+
+            { "Beard", 0 },
+
+            { "Hair", 0 },
+
+            { "Body", 0 },
+
+            { "Waist", 0 },
+        };
+
+        //Para guardar en DB
+        static Dictionary<string, object> clothesPlayer = new Dictionary<string, object>() {
+            { "Hat", -1 },
+            { "EyeWear", -1 },
+            { "NeckWear", -1 },
+            { "NeckTies", -1 },
+            { "Shrit", -1 },
+            { "Suspender", -1 },
+            { "Vest", -1 },
+            { "Coat", -1 },
+            { "Poncho", -1 },
+            { "Cloak", -1 },
+            { "Glove", -1 },
+            { "RingRh", -1 },
+            { "RingLh", -1 },
+            { "Bracelet", -1 },
+            { "Gunbelt", -1 },
+            { "Belt", -1 },
+            { "Buckle", -1 },
+            { "Holster", -1 },
+            { "Pant", -1 },
+            { "Skirt", -1 },
+            { "Chap", -1 },
+            { "Boots", -1 },
+            { "Spurs", -1 },
+        };
+
+        public CreatePlayer()
+        {
+
+            EventHandlers["vorp:createPlayer"] += new Action(StartCreation);
+
+            Tick += OnTick;
+            Tick += OnTickAnimm;
+
+            /*
+             * Command "creador" para testear y desarrollar el creador de personaje
+             */
+            API.RegisterCommand("startanim", new Action(StartAnim), false);
+            API.RegisterCommand("move", new Action(MoveAnim), false);
+
+            API.RegisterCommand("creador", new Action(StartCreation), false);                        
+            API.RegisterCommand("stopcrear", new Action(StopCreation), false);
+            API.RegisterCommand("coords", new Action(GetCoords), false);
+            API.RegisterCommand("ccoords", new Action(GetCamCoords), false);
+
+            API.RegisterNuiCallbackType("register");
+            EventHandlers["__cfx_nui:register"] += new Action<ExpandoObject>(RegisterChar);
+
+        }
+
+        [Tick]
+        private async Task OnTickAnimm()
+        {
+            if (pedCreated != 0)
+            {
+                //SetPedIntoVehicle 0x0D3B5BAEA08F63E9 
+                Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
+            }
+
+            if (pedCreated != 0)
+            {
+                float above = Function.Call<float>((Hash)0x0D3B5BAEA08F63E9, API.PlayerPedId());
+
+                if (above < 1.0f)
+                {
+                    API.FreezeEntityPosition(pedCreated, false);
+                    API.DeletePed(ref pedCreated);
+                    API.DeleteVehicle(ref vehCreated);
+                    pedCreated = 0;
+                }
+            }
+            await Delay(1);
+        }
+
+        private async void MoveAnim()
+        {
+            API.FreezeEntityPosition(pedCreated, false);
+            API.DeletePed(ref pedCreated);
+            API.DeleteVehicle(ref vehCreated);
+            
+        }
+
+        public static int vehCreated = 0;
+        public static int pedCreated = 0;
+
+        private async void StartAnim()
+        {
+            uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
+            Vector3 coords = new Vector3(-366.431f, 727.4282f, 220.3232f);
+            Miscellanea.LoadModel(HashVeh);
+            vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, true, true, true, true);
+            //Spawn
+            Function.Call((Hash)0x283978A15512B2FE, vehCreated, true);
+            //TaskWanderStandard
+            Function.Call((Hash)0xBB9CE077274F6A1B, 10, 10);
+            
+
+            uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
+            Miscellanea.LoadModel(HashPed);
+            pedCreated = API.CreatePed(HashPed, coords.X + 1, coords.Y, coords.Z, 0.0f, true, true, true, true);
+            //Spawn
+            Function.Call((Hash)0x283978A15512B2FE, pedCreated, true);
+
+            Function.Call((Hash)0xF75B0D629E1C063D, API.PlayerPedId(), vehCreated, -1, false);
+
+
+            API.TaskLeaveVehicle(API.PlayerPedId(), vehCreated, 0, 0);
+
+
+            //API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
+            //API.SetEntityHeading(API.PlayerPedId(), 0);
+
+            await Delay(1000);
+            //SetPedIntoVehicle
+            Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
+
+            API.SetEntityAsMissionEntity(pedCreated, true, true);
+            API.SetEntityAsMissionEntity(pedCreated, true, true);
+
+            API.FreezeEntityPosition(pedCreated, true);
+
+            API.SetRelationshipBetweenGroups(1, HashPed, (uint)API.GetHashKey("PLAYER"));
+
+            TriggerEvent("vorp:Tip", "Bienvenido a VoRP, esperamos que tu estancia aquí sea de lo más entretenida, por favor recuerda no saltar del globo y disfrutar de las vista antes de rolear.", 15000);
+
+        }
+
+        
+
+        private void RegisterChar(dynamic obj)
+        {
+            Debug.WriteLine(obj.firstname);
+            API.SetNuiFocus(false, false); // soy gilipollas recordar a futuro el false copon
+            TriggerServerEvent("vorp:SaveSkinDB", skinPlayer, clothesPlayer, obj.firstname);
+            StopCreation();
+            StartAnim();
+        }
+
+        private async void StopCreation()
+        {
+            isSelectSexActive = false;
+
+            await DeleteAll();
+        }
+
+        public void MenuCreateCharacter(string model)
+        {
+            skinPlayer["sex"] = model;
+
+            //Definimos el nombre y subtitlo del menu con un constructor
+            Menu mcc = new Menu("Editor Personaje", "Edita tu personaje");
+            MenuController.AddMenu(mcc);
+
+
+            //Tipo de tamaños del 1 al 10
+            List<string> sizeType = new List<string>();
+
+            for (float i = 1; i < 11; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+            {
+                sizeType.Add("Tamaño #" + i);
+            }
+
+            MenuListItem mListHead = new MenuListItem("Tamaño de la cara", sizeType, 0, "Elije la forma de la cara de tu personaje"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListHead); // Lo añadimos al menu
+
+            //Altura cejas
+            MenuListItem mListEyeBrowH = new MenuListItem("Altura de las cejas", sizeType, 0, "Elije la altura de tus cejas"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeBrowH); // Lo añadimos al menu
+            //Anchura cejas
+            MenuListItem mListEyeBrowW = new MenuListItem("Ancho de las cejas", sizeType, 0, "Elije el ancho de tus cejas"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeBrowW); // Lo añadimos al menu
+            //Profundida cejas
+            MenuListItem mListEyeBrowD = new MenuListItem("Profundida de las cejas", sizeType, 0, "Elije la profundidad de tus cejas"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeBrowD); // Lo añadimos al menu
+
+            //Altura Orejas
+            MenuListItem mListEarsH = new MenuListItem("Altura de las orejas", sizeType, 0, "Elije la altura de tus orejas"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEarsH); // Lo añadimos al menu
+            //Anchura Orejas
+            MenuListItem mListEarsW = new MenuListItem("Angulo de las orejas", sizeType, 0, "Elije el angulo de tus orejas"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEarsW); // Lo añadimos al menu
+            //Tamaño Orejas
+            MenuListItem mListEarsD = new MenuListItem("Tamaño de las orejas", sizeType, 0, "Elije el tamaño de tus orejas"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEarsD); // Lo añadimos al menu
+            //Tamaño Lobulo de la oreja
+            MenuListItem mListEarsL = new MenuListItem("Tamaño del lobulo", sizeType, 0, "Elije el tamaño del lobulo de tus orejas"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEarsL); // Lo añadimos al menu
+
+            //Altura de los parpados
+            MenuListItem mListEyeLidH = new MenuListItem("Altura de los parpados", sizeType, 0, "Elije la altura de tus parpados"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeLidH); // Lo añadimos al menu
+            //Ancho de los parpados
+            MenuListItem mListEyeLidW = new MenuListItem("Ancho de los parpados", sizeType, 0, "Elije la Anchura de tus parpados"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeLidW); // Lo añadimos al menu
+
+            //Profundida de los ojos
+            MenuListItem mListEyeD = new MenuListItem("Profundida de los ojos", sizeType, 0, "Elije la profundida de tus ojos"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeD); // Lo añadimos al menu
+            //Angulo de los ojos
+            MenuListItem mListEyeAng = new MenuListItem("Angulo de los ojos", sizeType, 0, "Elije el angulo de tus ojos"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeAng); // Lo añadimos al menu
+            //Distancia de los ojos
+            MenuListItem mListEyeDis = new MenuListItem("Distancia de los ojos", sizeType, 0, "Elije la distancia de tus ojos"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeDis); // Lo añadimos al menu
+            //Altura de los ojos
+            MenuListItem mListEyeH = new MenuListItem("Altura de los ojos", sizeType, 0, "Elije la altura de tus ojos"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListEyeH); // Lo añadimos al menu
+
+
+            MenuListItem mListNoseW = new MenuListItem("Ancho de la nariz", sizeType, 0, "Elije la ancho de tu nariz"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListNoseW); // Lo añadimos al menu
+
+            MenuListItem mListNoseS = new MenuListItem("Tamaño de la nariz", sizeType, 0, "Elije el tamaño de tu nariz"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListNoseS); // Lo añadimos al menu
+
+            MenuListItem mListNoseH = new MenuListItem("Altura de la nariz", sizeType, 0, "Elije la altura de tu nariz"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListNoseH); // Lo añadimos al menu
+
+            MenuListItem mListNoseAng = new MenuListItem("Angulo de la nariz", sizeType, 0, "Elije el angulo de tu nariz"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListNoseAng); // Lo añadimos al menu
+
+            MenuListItem mListNoseC = new MenuListItem("Curvatura de la nariz", sizeType, 0, "Elije la curvatura de tu nariz"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListNoseC); // Lo añadimos al menu
+
+            MenuListItem mListNoseDis = new MenuListItem("Distancia de los orificios", sizeType, 0, "Elije la distancia de tus orificios nasales"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListNoseDis); // Lo añadimos al menu
+
+
+            MenuListItem mListCheekBonesH = new MenuListItem("Altura de los pomulos", sizeType, 0, "Elije la altura de tus pomulos"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListCheekBonesH); // Lo añadimos al menu
+
+            MenuListItem mListCheekBonesW = new MenuListItem("Ancho de los pomulos", sizeType, 0, "Elije la anchura de tus pomulos"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListCheekBonesW); // Lo añadimos al menu
+
+            MenuListItem mListCheekBonesD = new MenuListItem("Profundida de los pomulos", sizeType, 0, "Elije la profundida de tus pomulos"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListCheekBonesD); // Lo añadimos al menu
+
+
+            MenuListItem mListMouthW = new MenuListItem("Ancho de la boca", sizeType, 0, "Elije la anchura de tu boca"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListMouthW); // Lo añadimos al menu
+
+            MenuListItem mListMouthD = new MenuListItem("Profundida de la boca", sizeType, 0, "Elije la profundida de tu boca"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListMouthD); // Lo añadimos al menu
+
+            MenuListItem mListMouthX = new MenuListItem("Posición de la boca X", sizeType, 0, "Elije la posición X de tu boca"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListMouthX); // Lo añadimos al menu
+
+            MenuListItem mListMouthY = new MenuListItem("Posición de la boca Y", sizeType, 0, "Elije la posición Y de tu boca"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListMouthY); // Lo añadimos al menu
+
+
+            MenuListItem mListULiphH = new MenuListItem("Altura del labio superior", sizeType, 0, "Elije la altura del labio superior"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListULiphH); // Lo añadimos al menu
+            MenuListItem mListULiphW = new MenuListItem("Ancho del labio superior", sizeType, 0, "Elije el ancho del labio superior"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListULiphW); // Lo añadimos al menu
+            MenuListItem mListULiphD = new MenuListItem("Profundida del labio superior", sizeType, 0, "Elije la profundida del labio superior"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListULiphD); // Lo añadimos al menu
+            MenuListItem mListLLiphH = new MenuListItem("Altura del labio inferior", sizeType, 0, "Elije la altura del labio inferior"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListLLiphH); // Lo añadimos al menu
+            MenuListItem mListLLiphW = new MenuListItem("Ancho del labio inferior", sizeType, 0, "Elije el ancho del labio inferior"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListLLiphW); // Lo añadimos al menu
+            MenuListItem mListLLiphD = new MenuListItem("Profundida del labio inferior", sizeType, 0, "Elije la profundida del labio inferior"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListLLiphD); // Lo añadimos al menu
+
+
+            MenuListItem mListJawH = new MenuListItem("Altura de la mandíbula", sizeType, 0, "Elije la altura de la mandíbula"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListJawH); // Lo añadimos al menu
+
+            MenuListItem mListJawW = new MenuListItem("Ancho de la mandíbula", sizeType, 0, "Elije el acho de la mandíbula"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListJawW); // Lo añadimos al menu
+
+            MenuListItem mListJawD = new MenuListItem("Profundida de la mandíbula", sizeType, 0, "Elije la profundida de la mandíbula"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListJawD); // Lo añadimos al menu
+
+
+            MenuListItem mListChinH = new MenuListItem("Altura de la barbilla", sizeType, 0, "Elije la altura de la barbilla"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListChinH); // Lo añadimos al menu
+
+            MenuListItem mListChinW = new MenuListItem("Ancho de la barbilla", sizeType, 0, "Elije el acho de la barbilla"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListChinW); // Lo añadimos al menu
+
+            MenuListItem mListChinD = new MenuListItem("Profundida de la barbilla", sizeType, 0, "Elije la profundida de la barbilla"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListChinD); //Lo añadimos al menu
+            
+            List<string> beardType = new List<string>();
+
+            if (model == "mp_male")
+            {
+                //Barbas de Hombre
+                for (float i = 1; i < SkinsUtils.BEARD_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+                {
+                    beardType.Add("Barbas #" + i);
+                }
+            }
+            else
+            {
+                    beardType.Add("No Hay");
+            }
+
+            MenuListItem mListBeard = new MenuListItem("Tipo de barba", beardType, 0, "Elije la barba de tu personaje"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListBeard); // Lo añadimos al menu
+
+
+            //List<string> mustacheType = new List<string>();
+
+            //if (model == "mp_male")
+            //{
+                //Dientes de Hombre
+            //    for (float i = 1; i < SkinsUtils.MUSTACHE_MALE.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+            //    {
+            //        mustacheType.Add("Bigote #" + i);
+            //    }
+            //}
+            //else
+            //{
+            //    mustacheType.Add("No Hay");
+           // }
+
+            //MenuListItem mListMustache = new MenuListItem("Tipo de Bigote", mustacheType, 0, "Elije el bigote de tu personaje"); // Añadimos la lista al boton
+            //mcc.AddMenuItem(mListMustache); // Lo añadimos al menu
+
+            List<string> hairType = new List<string>();
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.HAIR_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+                {
+                    hairType.Add("Cabello #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.HAIR_FEMALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+                {
+                    hairType.Add("Cabello #" + i);
+                }
+            }
+
+            MenuListItem mListHair = new MenuListItem("Tipo de Cabello", hairType, 0, "Elije el cabello apropiado a tu personaje"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListHair); // Lo añadimos al menu
+
+            //Tipo de cuerpo
+            List<string> bodyType = new List<string>();
+
+            for(int i = 1; i < SkinsUtils.BODY_TYPES.Count +1 ; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+            {
+                bodyType.Add("Cuerpo #" + i);
+            }
+
+            MenuListItem mListBody = new MenuListItem("Forma del cuerpo", bodyType, 0, "Elije la forma del cuerpo de tu personaje, desde muy corpulento hasta anorexico"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListBody); // Lo añadimos al menu
+
+            //Tipo de cuerpo
+            List<string> waistType = new List<string>();
+
+            for (int i = 1; i < SkinsUtils.WAIST_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+            {
+                waistType.Add("Cintura #" + i);
+            }
+
+            MenuListItem mListWaist = new MenuListItem("Tipo de Cintura", waistType, 0, "Elije la forma de la cintura de tu personaje"); // Añadimos la lista al boton
+            mcc.AddMenuItem(mListWaist); // Lo añadimos al menu
+
+            //Terminamos y confirmamos
+            mcc.AddMenuItem(new MenuItem("Crear Personaje", "Si tienes todo listo, es hora de vestirse, no podras volver atras asi que asegurate de tener todo bien elegido.")
+            {
+                Enabled = true,
+                LeftIcon = MenuItem.Icon.TICK
+            });
+
+            mcc.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
+            {
+                // Code in here would get executed whenever the selected value of a list item changes (when left/right key is pressed).
+                Debug.WriteLine($"Cambios del menu: [{_menu}, {_listItem}, {_oldIndex}, {_newIndex}, {_itemIndex}]");
+                int pPID = API.PlayerPedId();
+                float _sizeValue = (float)_newIndex;
+                _sizeValue = _sizeValue / 10.0f;
+
+                switch (_itemIndex)
+                {
+                    case 0:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x84D6, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["Head"] = _sizeValue;
+                        break;
+                    case 1:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3303, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeBrowH"] = _sizeValue;
+                        break;
+                    case 2:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2FF9, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeBrowW"] = _sizeValue;
+                        break;
+                    case 3:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x4AD1, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeBrowD"] = _sizeValue;
+                        break;
+                    case 4:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC04F, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EarsH"] = _sizeValue;
+                        break;
+                    case 5:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB6CE, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EarsW"] = _sizeValue;
+                        break;
+                    case 6:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2844, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EarsD"] = _sizeValue;
+                        break;
+                    case 7:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xED30, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EarsL"] = _sizeValue;
+                        break;
+                    case 8:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8B2B, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeLidH"] = _sizeValue;
+                        break;
+                    case 9:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1B6B, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeLidW"] = _sizeValue;
+                        break;
+                    case 10:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEE44, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeD"] = _sizeValue;
+                        break;
+                    case 11:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xD266, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeAng"] = _sizeValue;
+                        break;
+                    case 12:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xA54E, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeDis"] = _sizeValue;
+                        break;
+                    case 13:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xDDFB, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["EyeH"] = _sizeValue;
+                        break;
+                    case 14:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6E7F, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["NoseW"] = _sizeValue;
+                        break;
+                    case 15:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3471, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["NoseS"] = _sizeValue;
+                        break;
+                    case 16:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x03F5, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["NoseH"] = _sizeValue;
+                        break;
+                    case 17:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x34B1, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["NoseAng"] = _sizeValue;
+                        break;
+                    case 18:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF156, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["NoseC"] = _sizeValue;
+                        break;
+                    case 19:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x561E, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["NoseDis"] = _sizeValue;
+                        break;
+                    case 20:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6A0B, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["CheekBonesH"] = _sizeValue;
+                        break;
+                    case 21:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xABCF, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["CheekBonesW"] = _sizeValue;
+                        break;
+                    case 22:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x358D, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["CheekBonesD"] = _sizeValue;
+                        break;
+                    case 23:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF065, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["MouthW"] = _sizeValue;
+                        break;
+                    case 24:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xAA69, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["MouthD"] = _sizeValue;
+                        break;
+                    case 25:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x7AC3, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["MouthX"] = _sizeValue;
+                        break;
+                    case 26:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x410D, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["MouthY"] = _sizeValue;
+                        break;
+                    case 27:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1A00, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["ULiphH"] = _sizeValue;
+                        break;
+                    case 28:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x91C1, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["ULiphW"] = _sizeValue;
+                        break;
+                    case 29:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC375, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["ULiphD"] = _sizeValue;
+                        break;
+                    case 30:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xBB4D, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["LLiphH"] = _sizeValue;
+                        break;
+                    case 31:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB0B0, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["LLiphW"] = _sizeValue;
+                        break;
+                    case 32:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x5D16, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["LLiphD"] = _sizeValue;
+                        break;
+                    case 33:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8D0A, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["JawH"] = _sizeValue;
+                        break;
+                    case 34:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEBAE, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["JawW"] = _sizeValue;
+                        break;
+                    case 35:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1DF6, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["JawD"] = _sizeValue;
+                        break;
+                    case 36:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3C0F, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["ChinH"] = _sizeValue;
+                        break;
+                    case 37:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC3B2, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["ChinW"] = _sizeValue;
+                        break;
+                    case 38:
+                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xE323, _sizeValue);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["ChinD"] = _sizeValue;
+                        break;
+                    case 39:
+                        if (model == "mp_male")
+                        {
+                            if (_newIndex == 0)
+                            {
+                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0x15D3C7F2, 0);
+                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0xB6B63737, 0);
+                                Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
+                                skinPlayer["Beard"] = -1;
+                            }
+                            else
+                            {
+                                Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.BEARD_MALE[_newIndex - 1], true, false, true);
+                                skinPlayer["Beard"] = SkinsUtils.BEARD_MALE[_newIndex - 1];
+                            }
+                        }
+                        else
+                        {
+                            //Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.TEETH_FEMALE[_newIndex], true, true, true);
+                        }
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        break;
+                    /**case 40:
+                        if (model == "mp_male")
+                        {
+                          
+                            //Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.MUSTACHE_MALE[_newIndex], true, true, true);
+                        }
+                        else
+                        {
+                            //Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.TEETH_FEMALE[_newIndex], true, true, true);
+                        }
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        break;*/
+                    case 40:
+                        if (model == "mp_male")
+                        {
+                            if (_newIndex == 0)
+                            {
+                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0x864B03AE, 0);
+                                Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
+                                skinPlayer["Hair"] = -1;
+                            }
+                            else
+                            {
+                                Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.HAIR_MALE[_newIndex - 1], true, true, true);
+                                skinPlayer["Hair"] = SkinsUtils.HAIR_MALE[_newIndex - 1];
+                            }
+
+                        }
+                        else
+                        {
+                            if (_newIndex == 0)
+                            {
+                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0x864B03AE, 0);
+                                Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
+                                skinPlayer["Hair"] = -1;
+                            }
+                            else
+                            {
+                                Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.HAIR_FEMALE[_newIndex - 1], true, true, true);
+                                skinPlayer["Hair"] = SkinsUtils.HAIR_MALE[_newIndex - 1];
+                            }
+                        }
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        break;
+                    case 41:
+                        Function.Call((Hash)0x1902C4CFCC5BE57C, pPID, SkinsUtils.BODY_TYPES[_newIndex]);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["Body"] = SkinsUtils.BODY_TYPES[_newIndex];
+                        break;
+                    case 42:
+                        Function.Call((Hash)0x1902C4CFCC5BE57C, pPID, SkinsUtils.WAIST_TYPES[_newIndex]);
+                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                        skinPlayer["Waist"] = SkinsUtils.WAIST_TYPES[_newIndex];
+                        break;
+                }
+            };
+
+            mcc.OnItemSelect += (_menu, _item, _index) =>
+            {
+                // Code in here would get executed whenever an item is pressed.
+                Debug.WriteLine($"OnItemSelect: [{_menu}, {_item}, {_index}]");
+                if (_index == 43)
+                {
+                    mcc.CloseMenu();
+                    DressUp(model);
+                }
+            };
+
+            mcc.OpenMenu();
+        }
+
+        public void MenuDressUpCharacter(string model)
+        {
+            //Definimos el nombre y subtitlo del menu con un constructor
+            Menu mdu = new Menu("Vestidor", "Viste tu personaje");
+            MenuController.AddMenu(mdu);
+
+
+            List<string> hatType = new List<string>();
+            hatType.Add("Sin Sombrero");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.HATS_MALE.Count + 1; i++)
+                {
+                    hatType.Add("Sombrero #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.HATS_FEMALE.Count + 1; i++)
+                {
+                    hatType.Add("Sombrero #" + i);
+                }
+            }
+            MenuListItem mListHats = new MenuListItem("Sombreros", hatType, 0, "Opcional"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListHats); // Lo añadimos al menu
+
+            List<string> eyeWearType = new List<string>();
+            eyeWearType.Add("Sin Anteojos");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.EYEWEAR_MALE.Count + 1; i++) 
+                {
+                    eyeWearType.Add("Anteojos #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.EYEWEAR_FEMALE.Count + 1; i++) 
+                {
+                    eyeWearType.Add("Anteojos #" + i);
+                }
+            }
+            MenuListItem mListEyeWear = new MenuListItem("Anteojos", eyeWearType, 0, "Opcional"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListEyeWear); // Lo añadimos al menu
+
+            List<string> neckWearType = new List<string>();
+            neckWearType.Add("Cuello Descubierto");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.NECKWEAR_MALE.Count + 1; i++)
+                {
+                    neckWearType.Add("Cuello #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.NECKWEAR_FEMALE.Count + 1; i++)
+                {
+                    neckWearType.Add("Cuello #" + i);
+                }
+            }
+            MenuListItem mListNeckWear = new MenuListItem("Cuellos", neckWearType, 0, "Opcional"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListNeckWear); // Lo añadimos al menu
+
+            List<string> neckTiesType = new List<string>();
+            neckTiesType.Add("Sin Corbatas");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.NECKTIES_MALE.Count + 1; i++)
+                {
+                    neckTiesType.Add("Corbata #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.NECKTIES_FEMALE.Count + 1; i++)
+                {
+                    neckTiesType.Add("Corbata #" + i);
+                }
+            }
+            MenuListItem mListNeckTies = new MenuListItem("Corbatas", neckTiesType, 0, "Opcional"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListNeckTies); // Lo añadimos al menu
+
+            List<string> shirtsType = new List<string>();
+            shirtsType.Add("Sin Camiseta");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.SHIRTS_MALE.Count + 1; i++)
+                {
+                    shirtsType.Add("Camisa #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.SHIRTS_FEMALE.Count + 1; i++)
+                {
+                    shirtsType.Add("Camisa #" + i);
+                }
+            }
+            MenuListItem mListShirts = new MenuListItem("Camisetas", shirtsType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListShirts); // Lo añadimos al menu
+
+            List<string> suspendersType = new List<string>();
+            suspendersType.Add("Sin Tirantes");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.SUSPENDERS_MALE.Count + 1; i++)
+                {
+                    suspendersType.Add("Tirante #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.SUSPENDERS_FEMALE.Count + 1; i++)
+                {
+                    suspendersType.Add("Tirante #" + i);
+                }
+            }
+            MenuListItem mListSuspenders = new MenuListItem("Tirantes", suspendersType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListSuspenders); // Lo añadimos al menu
+
+
+            List<string> vestType = new List<string>();
+            vestType.Add("Sin Chaleco");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.VEST_MALE.Count + 1; i++)
+                {
+                    vestType.Add("Chaleco #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.VEST_FEMALE.Count + 1; i++)
+                {
+                    vestType.Add("Chaleco #" + i);
+                }
+            }
+            MenuListItem mListVest = new MenuListItem("Chalecos", vestType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListVest); // Lo añadimos al menu
+
+            List<string> coatsType = new List<string>();
+            coatsType.Add("Sin Abrigo");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.COATS_MALE.Count + 1; i++)
+                {
+                    coatsType.Add("Abrigo #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.COATS_FEMALE.Count + 1; i++)
+                {
+                    coatsType.Add("Abrigo #" + i);
+                }
+            }
+            MenuListItem mListCoats = new MenuListItem("Abrigos", coatsType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListCoats); // Lo añadimos al menu
+
+            List<string> ponchosType = new List<string>();
+            ponchosType.Add("Sin Poncho");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.PONCHOS_MALE.Count + 1; i++)
+                {
+                    ponchosType.Add("Poncho #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.PONCHOS_FEMALE.Count + 1; i++)
+                {
+                    ponchosType.Add("Poncho #" + i);
+                }
+            }
+            MenuListItem mListPonchos = new MenuListItem("Ponchos", ponchosType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListPonchos); // Lo añadimos al menu
+
+            List<string> cloakType = new List<string>();
+            cloakType.Add("Sin Capa");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.CLOAK_MALE.Count + 1; i++)
+                {
+                    cloakType.Add("Capa #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.CLOAK_FEMALE.Count + 1; i++)
+                {
+                    cloakType.Add("Capa #" + i);
+                }
+            }
+            MenuListItem mListCloak = new MenuListItem("Capas", cloakType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListCloak); // Lo añadimos al menu
+
+            List<string> glovesType = new List<string>();
+            glovesType.Add("Sin Guantes");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.GLOVES_MALE.Count + 1; i++)
+                {
+                    glovesType.Add("Guantes #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.GLOVES_FEMALE.Count + 1; i++)
+                {
+                    glovesType.Add("Guantes #" + i);
+                }
+            }
+            MenuListItem mListGloves = new MenuListItem("Guantes", glovesType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListGloves); // Lo añadimos al menu
+
+            List<string> ringsRhType = new List<string>();
+            ringsRhType.Add("Sin Anillo");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.RINGS_RH_MALE.Count + 1; i++)
+                {
+                    ringsRhType.Add("Anillo #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.RINGS_RH_FEMALE.Count + 1; i++)
+                {
+                    ringsRhType.Add("Anillo #" + i);
+                }
+            }
+            MenuListItem mListRingsRhType = new MenuListItem("Anillos (Mano Derecha)", ringsRhType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListRingsRhType); // Lo añadimos al menu
+
+            List<string> ringsLhType = new List<string>();
+            ringsLhType.Add("Sin Anillo");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.RINGS_LH_MALE.Count + 1; i++)
+                {
+                    ringsLhType.Add("Anillo #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.RINGS_LH_FEMALE.Count + 1; i++)
+                {
+                    ringsLhType.Add("Anillo #" + i);
+                }
+            }
+            MenuListItem mListRingsLh = new MenuListItem("Anillos (Mano Izquierda)", ringsLhType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListRingsLh); // Lo añadimos al menu
+
+            List<string> braceletsType = new List<string>();
+            braceletsType.Add("Sin Pulsera");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.BRACELETS_MALE.Count + 1; i++)
+                {
+                    braceletsType.Add("Pulsera #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.BRACELETS_FEMALE.Count + 1; i++)
+                {
+                    braceletsType.Add("Pulsera #" + i);
+                }
+            }
+            MenuListItem mListbracelets = new MenuListItem("Pulseras", braceletsType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListbracelets); // Lo añadimos al menu
+
+            List<string> gunbeltType = new List<string>();
+            gunbeltType.Add("Sin Cinturón");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.GUNBELT_MALE.Count + 1; i++)
+                {
+                    gunbeltType.Add("Cinturón #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.GUNBELT_FEMALE.Count + 1; i++)
+                {
+                    gunbeltType.Add("Cinturón #" + i);
+                }
+            }
+            MenuListItem mListGunbelt = new MenuListItem("Cinturónes de pistola", gunbeltType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListGunbelt); // Lo añadimos al menu
+
+
+            List<string> beltType = new List<string>();
+            beltType.Add("Sin Cinturón");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.BELT_MALE.Count + 1; i++)
+                {
+                    beltType.Add("Cinturón #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.BELT_FEMALE.Count + 1; i++)
+                {
+                    beltType.Add("Cinturón #" + i);
+                }
+            }
+            MenuListItem mListBelt = new MenuListItem("Cinturónes", beltType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListBelt); // Lo añadimos al menu
+
+            List<string> buckleType = new List<string>();
+            buckleType.Add("Sin Hebilla");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.BUCKLE_MALE.Count + 1; i++)
+                {
+                    buckleType.Add("Hebilla #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.BUCKLE_FEMALE.Count + 1; i++)
+                {
+                    buckleType.Add("Hebilla #" + i);
+                }
+            }
+            MenuListItem mListBuckle = new MenuListItem("Hebillas", buckleType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListBuckle); // Lo añadimos al menu
+
+            List<string> holstersSType = new List<string>();
+            holstersSType.Add("Sin Funda");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.HOLSTERS_S_MALE.Count + 1; i++)
+                {
+                    holstersSType.Add("Funda #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.HOLSTERS_S_FEMALE.Count + 1; i++)
+                {
+                    holstersSType.Add("Funda #" + i);
+                }
+            }
+            MenuListItem mListSHolsters = new MenuListItem("Fundas (Izquierda)", holstersSType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListSHolsters); // Lo añadimos al menu
+
+            List<string> pantsType = new List<string>();
+            pantsType.Add("Sin Pantalon");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.PANTS_MALE.Count + 1; i++)
+                {
+                    pantsType.Add("Pantalon #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.PANTS_FEMALE.Count + 1; i++)
+                {
+                    pantsType.Add("Pantalon #" + i);
+                }
+            }
+            MenuListItem mListPants = new MenuListItem("Pantalones", pantsType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListPants); // Lo añadimos al menu
+
+            List<string> skirtsType = new List<string>();
+            pantsType.Add("Sin Falda");
+
+            if (model == "mp_male")
+            {
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.SKIRTS_FEMALE.Count + 1; i++)
+                {
+                    skirtsType.Add("Falda #" + i);
+                }
+            }
+            MenuListItem mListSkirts = new MenuListItem("Faldas", skirtsType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListSkirts); // Lo añadimos al menu
+
+            List<string> chapsType = new List<string>();
+            chapsType.Add("Sin Zahon");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.CHAPS_MALE.Count + 1; i++)
+                {
+                    chapsType.Add("Zahon #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.CHAPS_FEMALE.Count + 1; i++)
+                {
+                    chapsType.Add("Zahon #" + i);
+                }
+            }
+            MenuListItem mListChaps = new MenuListItem("Zahones", chapsType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListChaps); // Lo añadimos al menu
+
+            List<string> bootsType = new List<string>();
+            bootsType.Add("Sin Botas");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.BOOTS_MALE.Count + 1; i++)
+                {
+                    bootsType.Add("Botas #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.BOOTS_FEMALE.Count + 1; i++)
+                {
+                    bootsType.Add("Botas #" + i);
+                }
+            }
+            MenuListItem mListBoots = new MenuListItem("Botas", bootsType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListBoots); // Lo añadimos al menu
+
+            List<string> spursType = new List<string>();
+            spursType.Add("Sin Espuelas");
+
+            if (model == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.SPURS_MALE.Count + 1; i++)
+                {
+                    spursType.Add("Espuelas #" + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.SPURS_FEMALE.Count + 1; i++)
+                {
+                    spursType.Add("Espuelas #" + i);
+                }
+            }
+            MenuListItem mListSpurs = new MenuListItem("Espuelas", spursType, 0, "Por ver"); // Añadimos la lista al boton
+            mdu.AddMenuItem(mListSpurs); // Lo añadimos al menu
+
+            //Terminamos y confirmamos
+            mdu.AddMenuItem(new MenuItem("Vestir Personaje", "Asegurate de tener todo bien elegido, por que luego tendras que ir a una tienda de ropa si quieres cambiar.")
+            {
+                Enabled = true,
+                LeftIcon = MenuItem.Icon.TICK
+            });
+
+            mdu.OnIndexChange += (_menu, _oldItem, _newItem, _oldIndex, _newIndex) =>
+            {
+                Debug.WriteLine($"OnIndexChange: [{_menu}, {_oldItem}, {_newItem}, {_oldIndex}, {_newIndex}]");
+                if (_newIndex == 21 || _newIndex == 22) // botas spurs
+                {
+                    API.SetCamCoord(Camera_DressUp, -561.0254f, -3775.601f, 238.4716f);
+                    API.SetCamRot(Camera_DressUp, -42.500001f, 0.0f, -179.7251f, 0);
+                }else if((_newIndex > 13 && _newIndex < 21) || _newIndex == 10 ) // cintura y pantalones
+                {
+                    API.SetCamCoord(Camera_DressUp, -561.0295f, -3775.138f, 237.8114f); 
+                    API.SetCamRot(Camera_DressUp, 20.1059f, 0.0f, -177.3419f, 0);
+                }
+                else if (_newIndex == 12 || _newIndex == 13) // cintura y pantalones
+                {
+                    API.SetCamCoord(Camera_DressUp, -561.769f, -3776.043f, 238.42f);
+                    API.SetCamRot(Camera_DressUp, 4.749468f, 0.0f, -121.8509f, 0);
+                }
+                else if (_newIndex == 11) // cintura y pantalones
+                {
+                    API.SetCamCoord(Camera_DressUp, -560.1163f, -3776.413f, 238.2835f);
+                    API.SetCamRot(Camera_DressUp, 12.45644f, 0.0f, 95.26049f, 0);
+                }
+                else if (_newIndex == 23) // cintura y pantalones
+                {
+                    API.SetCamCoord(Camera_DressUp, -560.9759f, -3774.125f, 239.6413f);
+                    API.SetCamRot(Camera_DressUp, -22.19865f, 0.0f, 179.3026f, 0);
+                }
+                else
+                {
+                    API.SetCamCoord(Camera_DressUp, -560.7456f, -3775.021f, 239.3405f);
+                    API.SetCamRot(Camera_DressUp, -5.915717f, 0.0f, 179.2227f, 0);
+                }
+            };
+
+            mdu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
+            {
+                // Code in here would get executed whenever the selected value of a list item changes (when left/right key is pressed).
+                Debug.WriteLine($"Cambios del menu: [{_menu}, {_listItem}, {_oldIndex}, {_newIndex}, {_itemIndex}]");
+                int pPID = API.PlayerPedId();
+                
+                switch (_itemIndex)
+                {
+                    // New System more simplificated
+                    case 0:
+                        SetPlayerComponent(model, _newIndex, 0x9925C067, "Hat", SkinsUtils.HATS_MALE, SkinsUtils.HATS_FEMALE);
+                        break;
+                    case 1:
+                        SetPlayerComponent(model, _newIndex, 0x5E47CA6, "EyeWear", SkinsUtils.EYEWEAR_MALE, SkinsUtils.EYEWEAR_FEMALE);                        
+                        break;
+                    case 2:
+                        SetPlayerComponent(model, _newIndex, 0x5FC29285, "NeckWear", SkinsUtils.NECKWEAR_MALE, SkinsUtils.NECKWEAR_FEMALE);
+                        break;
+                    case 3:
+                        SetPlayerComponent(model, _newIndex, 0x7A96FACA, "NeckTies", SkinsUtils.NECKTIES_MALE, SkinsUtils.NECKTIES_FEMALE);                      
+                        break;
+                    case 4:
+                        SetPlayerComponent(model, _newIndex, 0x2026C46D, "Shirt", SkinsUtils.SHIRTS_MALE, SkinsUtils.SHIRTS_FEMALE);
+                        break;
+                    case 5:
+                        SetPlayerComponent(model, _newIndex, 0x877A2CF7, "Suspender", SkinsUtils.SUSPENDERS_MALE, SkinsUtils.SUSPENDERS_FEMALE);
+                        break;
+                    case 6:
+                        SetPlayerComponent(model, _newIndex, 0x485EE834, "Vest", SkinsUtils.VEST_MALE, SkinsUtils.VEST_FEMALE);
+                        break;
+                    case 7:
+                        SetPlayerComponent(model, _newIndex, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
+                        break;
+                    case 8:
+                        SetPlayerComponent(model, _newIndex, 0xAF14310B, "Poncho", SkinsUtils.PONCHOS_MALE, SkinsUtils.PONCHOS_FEMALE);
+                        break;
+                    case 9:
+                        SetPlayerComponent(model, _newIndex, 0x3C1A74CD, "Cloak", SkinsUtils.CLOAK_MALE, SkinsUtils.CLOAK_FEMALE);
+                        break;
+                    case 10:
+                        SetPlayerComponent(model, _newIndex, 0xEABE0032, "Glove", SkinsUtils.GLOVES_MALE, SkinsUtils.GLOVES_FEMALE);
+                        break;
+                    case 11:
+                        SetPlayerComponent(model, _newIndex, 0x7A6BBD0B, "RingRh", SkinsUtils.RINGS_RH_MALE, SkinsUtils.RINGS_RH_FEMALE);
+                        break;
+                    case 12:
+                        SetPlayerComponent(model, _newIndex, 0xF16A1D23, "RingLh", SkinsUtils.RINGS_LH_MALE, SkinsUtils.RINGS_LH_FEMALE);
+                        break;
+                    case 13:
+                        SetPlayerComponent(model, _newIndex, 0x7BC10759, "Bracelet", SkinsUtils.BRACELETS_MALE, SkinsUtils.BRACELETS_FEMALE);
+                        break;
+                    case 14:
+                        SetPlayerComponent(model, _newIndex, 0x9B2C8B89, "Gunbelt", SkinsUtils.GUNBELT_MALE, SkinsUtils.GUNBELT_FEMALE);
+                        break;
+                    case 15:
+                        SetPlayerComponent(model, _newIndex, 0xA6D134C6, "Belt", SkinsUtils.BELT_MALE, SkinsUtils.BELT_FEMALE);
+                        break;
+                    case 16:
+                        SetPlayerComponent(model, _newIndex, 0xFAE9107F, "Buckle", SkinsUtils.BUCKLE_MALE, SkinsUtils.BUCKLE_FEMALE);
+                        break;
+                    case 17:
+                        SetPlayerComponent(model, _newIndex, 0xB6B6122D, "Holster", SkinsUtils.HOLSTERS_S_MALE, SkinsUtils.HOLSTERS_S_FEMALE);
+                        break;
+                    case 18:
+                        SetPlayerComponent(model, _newIndex, 0x1D4C528A, "Pant", SkinsUtils.PANTS_MALE, SkinsUtils.PANTS_FEMALE);
+                        break;
+                    case 19:
+                        SetPlayerComponent(model, _newIndex, 0xA0E3AB7F, "Skirt", SkinsUtils.SKIRTS_FEMALE, SkinsUtils.SKIRTS_FEMALE);
+                        break;
+                    case 20:
+                        SetPlayerComponent(model, _newIndex, 0x3107499B, "Chap", SkinsUtils.CHAPS_MALE, SkinsUtils.CHAPS_FEMALE);
+                        break;
+                    case 21:
+                        SetPlayerComponent(model, _newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
+                        break;
+                    case 22:
+                        SetPlayerComponent(model, _newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
+                        break;
+                }
+            };
+
+            mdu.OnItemSelect += (_menu, _item, _index) =>
+            {
+                // Code in here would get executed whenever an item is pressed.
+                Debug.WriteLine($"OnItemSelect: [{_menu}, {_item}, {_index}]");
+                if (_index == 23)
+                {
+                    Debug.WriteLine($"Terminado");
+                    SaveChanges();
+                }
+            };
+
+
+            mdu.OpenMenu();
+        }
+
+        //Experimental function
+        private void SetPlayerComponent(string model, int _newIndex, uint category, string idlist, List<uint> male_components, List<uint> female_components)
+        {
+            int pPID = API.PlayerPedId();
+            if (model == "mp_male")
+            {
+                if (_newIndex == 0)
+                {
+                    Function.Call((Hash)0xD710A5007C2AC539, pPID, category, 0);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
+                    clothesPlayer[idlist] = -1;
+                }
+                else
+                {
+                    //Miscellanea.LoadModel(male_components[_newIndex - 1]);
+
+                    Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
+                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, male_components[_newIndex - 1], true, true, false);
+                    clothesPlayer[idlist] = male_components[_newIndex - 1];
+                }
+            }
+            else
+            {
+                if (_newIndex == 0)
+                {
+                    Function.Call((Hash)0xD710A5007C2AC539, pPID, category, 0);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
+                    clothesPlayer[idlist] = -1;
+                }
+                else
+                {
+                    //Miscellanea.LoadModel(male_components[_newIndex - 1]);
+                    Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
+                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, female_components[_newIndex - 1], true, true, true);
+                    clothesPlayer[idlist] = female_components[_newIndex - 1];
+                }
+            }
+            Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+        }
+
+        private async Task SaveChanges()
+        {
+            API.SetNuiFocus(true, false);
+
+            string json = "{\"type\": \"enableui\",\"enable\": \"true\"}";
+
+            API.SendNuiMessage(json);
+        }
+
+
+        private void GetCamCoords()
+        {
+
+            int pid = API.PlayerPedId();
+            Vector3 pCCoords = API.GetGameplayCamCoord();
+            Vector3 pCRot = API.GetGameplayCamRot(0);
+            Debug.WriteLine(pCCoords.ToString());
+            Debug.WriteLine(pCRot.ToString());
+        }
+
+        public void GetCoords()
+        {
+
+            int pid = API.PlayerPedId();
+            Vector3 pCoords = API.GetEntityCoords(pid, true, true);
+            Debug.WriteLine(pCoords.ToString());
+            float heading = API.GetEntityHeading(pid);
+            Debug.WriteLine(heading.ToString());
+        }
+
+        private async void StartCreation()
+        {
+
+            //para testear
+
+            /*
+             * Cargamos los modelos del mapa de creación del online de RDR2
+             */
+            Function.Call(Hash._REQUEST_IMAP, 183712523);
+            Function.Call(Hash._REQUEST_IMAP, -1699673416);
+            Function.Call(Hash._REQUEST_IMAP, 1679934574);
+            /*
+             * Cambiamos el tiempo para que se vea de mañana
+             */
+            Function.Call(Hash.SET_CLOCK_TIME, 12, 00, 0);
+            API.SetClockTime(12, 00, 00);
+
+            Miscellanea.TeleportToCoords(-563.1345f, -3775.811f, 237.60f);
+            /*
+             * Cargammos las Peds en el sitio
+             */
+            await CreationSelectPeds();
+            /*
+             * Creamos las camaras para movernos de sala con ella y la activamos
+             */
+            await CreateCams();
+            /*
+             * Esperamos un tiempo a que pueda cargar los modelos y el tiempo
+             */
+
+            API.SetCamActive(Camera, true);
+            API.RenderScriptCams(true, true, 1000, true, true, 0);
+
+            isSelectSexActive = true;
+                     
+        }
+
+        private async Task CreateCams()
+        {
+            Camera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.83f, -3776.33f, 239.58f, -13.56231f, 0.00f, -91.93626f, 40.00f, false, 0);
+            Camera_Male = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.6671f, -3775.44f, 239.4266f, -9.622695f, 0.0f, -86.08074f, 40.00f, false, 0);
+            Camera_Female = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.8455f, -3776.596f, 239.4435f, -13.41718f, 0.0f, -88.04576f, 40.00f, false, 0);
+            Camera_Editor = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.1333f, -3780.923f, 239.4437f, -11.32719f, 0.0f, -90.96693f, 40.00f, false, 0);
+
+            Camera_DressUp = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.7456f, -3775.021f, 239.3405f, -5.915717f, 0.0f, 179.2227f, 40.00f, false, 0);
+
+
+            uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
+            await Miscellanea.LoadModel(HashVeh);
+
+            uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
+            await Miscellanea.LoadModel(HashPed);
+
+        }
+
+        private async Task DeleteAll()
+        {
+            API.SetCamActive(Camera, false);
+            API.DestroyCam(Camera, true);
+            API.SetCamActive(Camera_Male, false);
+            API.DestroyCam(Camera_Male, true);
+            API.SetCamActive(Camera_Female, false);
+            API.DestroyCam(Camera_Female, true);
+            API.SetCamActive(Camera_Editor, false);
+            API.DestroyCam(Camera_Editor, true);
+            API.SetCamActive(Camera_DressUp, false);
+            API.DestroyCam(Camera_DressUp, true);
+            API.RenderScriptCams(false, true, 5000, true, true, 0);
+            API.FreezeEntityPosition(API.PlayerPedId(), false);
+        }
+
+        private async Task CreationSelectPeds()
+        {
+
+            uint hash_f = (uint)API.GetHashKey(model_f);
+            uint hash_m = (uint)API.GetHashKey(model_m);
+            /*
+             * Esperamos a que cargen los modelos en cache
+             */
+            await Miscellanea.LoadModel(hash_f);
+            await Miscellanea.LoadModel(hash_m);
+            /*
+             * Creamos los modelos en el sitio de creacion
+             */
+            PedFemale = API.CreatePed((uint)hash_f, -558.43f, -3776.65f, 237.7f, 93.2f, true, true, true, true);
+            PedMale = API.CreatePed((uint)hash_m, -558.52f, -3775.6f, 237.7f, 93.2f, true, true, true, true);
+            /*
+             * Necesitan un radom Outfit ya que no se por que no salen si no
+             */
+            Function.Call((Hash)0x283978A15512B2FE, PedFemale, true);
+            Function.Call((Hash)0x283978A15512B2FE, PedMale, true);
+            /*
+             * Congelamos las Peds
+             */
+            API.FreezeEntityPosition(PedFemale, true);
+            API.FreezeEntityPosition(PedMale, true);
+
+        }
+        private async void CreationSexPed(string model, int camedit)
+        {
+            int pID = API.PlayerId();
+            int pPedID = API.PlayerPedId();
+            Miscellanea.TeleportToCoords(-558.3258f, -3781.111f, 237.60f, 93.2f);
+            API.FreezeEntityPosition(pPedID, true);
+            uint model_hash = (uint)API.GetHashKey(model);
+            await Miscellanea.LoadModel(model_hash);
+            Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
+            Function.Call((Hash)0x283978A15512B2FE, pPedID, true);
+            API.RenderScriptCams(false, true, 3000, true, true, 0);
+            await Delay(2500);
+            API.SetCamActive(Camera_Editor, true);
+            API.RenderScriptCams(true, true, 1000, true, true, 0);
+            API.DeletePed(ref PedFemale);
+            API.DeletePed(ref PedMale);
+            MenuCreateCharacter(model);
+        }
+
+        private async void DressUp(string model)
+        {
+            int pPedID = API.PlayerPedId();
+            API.FreezeEntityPosition(pPedID, false);
+            Miscellanea.TeleportToCoords(-560.9953f, -3776.425f, 237.60f, 359.9842f);
+            API.FreezeEntityPosition(pPedID, true);
+            API.RenderScriptCams(false, true, 2000, true, true, 0);
+            await Delay(1000);
+            API.SetCamActive(Camera_DressUp, true);
+            API.RenderScriptCams(true, true, 1000, true, true, 0);
+            MenuDressUpCharacter(model);
+        }
+
+        private async Task OnTick()
+        {
+            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendRight) && isSelectSexActive) {
+                Debug.WriteLine("Derecha");
+
+                if (API.IsCamActive(Camera))
+                {
+                    API.SetCamActiveWithInterp(Camera_Female, Camera, 2000, 0, 0);
+                    API.SetCamActive(Camera, false);
+                }
+                else if (API.IsCamActive(Camera_Male))
+                {
+                    API.SetCamActiveWithInterp(Camera_Female, Camera_Male, 2000, 0, 0);
+                    API.SetCamActive(Camera_Male, false);
+                }
+                else
+                {
+                    API.SetCamActiveWithInterp(Camera, Camera_Female, 2000, 0, 0);
+                    API.SetCamActive(Camera_Female, false);
+                }
+                await Delay(2000);
+            }
+
+            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendLeft) && isSelectSexActive)
+            {
+                Debug.WriteLine("Izquierda");
+
+                if (API.IsCamActive(Camera))
+                {
+                    API.SetCamActiveWithInterp(Camera_Male, Camera, 2000, 0, 0);
+                    API.SetCamActive(Camera, false);
+                }
+                else if (API.IsCamActive(Camera_Female))
+                {
+                    API.SetCamActiveWithInterp(Camera_Male, Camera_Female, 2000, 0, 0);
+                    API.SetCamActive(Camera_Female, false);
+                }
+                else
+                {
+                    API.SetCamActiveWithInterp(Camera, Camera_Male, 2000, 0, 0);
+                    API.SetCamActive(Camera_Male, false);
+                }
+                await Delay(2000);
+            }
+
+            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendAccept) && isSelectSexActive)
+            {
+                
+                if (API.IsCamActive(Camera_Male))
+                {
+                    Debug.WriteLine("Hombre");
+                    CreationSexPed(model_m, Camera_Male);
+                    isSelectSexActive = false;
+                }
+                else if (API.IsCamActive(Camera_Female))
+                {
+                    Debug.WriteLine("Mujer");
+                    CreationSexPed(model_f, Camera_Female);
+                    isSelectSexActive = false;
+                }
+                else
+                {
+                    Debug.WriteLine("Sin seleccionar");
+                }
+                await Delay(100);
+            }
+
+            if (false)
+            {
+
+                if (API.IsCamActive(Camera_Male))
+                {
+                    Debug.WriteLine("Hombre");
+                    CreationSexPed(model_m, Camera_Male);
+                    isSelectSexActive = false;
+                }
+                else if (API.IsCamActive(Camera_Female))
+                {
+                    Debug.WriteLine("Mujer");
+                    CreationSexPed(model_f, Camera_Female);
+                    isSelectSexActive = false;
+                }
+                else
+                {
+                    Debug.WriteLine("Sin seleccionar");
+                }
+                await Delay(100);
+            }
+
+            API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);
+
+        }
+
+    }
+}

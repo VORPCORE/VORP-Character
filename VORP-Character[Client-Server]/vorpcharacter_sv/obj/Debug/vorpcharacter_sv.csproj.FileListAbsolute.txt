@@ -1,0 +1,11 @@
+E:\RLC_Core\VORP_Core[Server-Cliente]\build\vorp_character\vorpcharacter_sv.net.dll
+E:\RLC_Core\VORP_Core[Server-Cliente]\build\vorp_character\vorpcharacter_sv.net.pdb
+E:\RLC_Core\VORP_Core[Server-Cliente]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csprojAssemblyReference.cache
+E:\RLC_Core\VORP_Core[Server-Cliente]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.dll
+E:\RLC_Core\VORP_Core[Server-Cliente]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.pdb
+E:\RLC_Core\VORP_Core[Server-Cliente]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csproj.CopyComplete
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_sv.net.dll
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_sv.net.pdb
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csprojAssemblyReference.cache
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.dll
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.pdb
