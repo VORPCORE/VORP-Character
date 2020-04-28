@@ -1692,7 +1692,7 @@ namespace vorpcore_cl.Scripts
                 await Delay(100);
             }
 
-            if (false)
+            if (false) //Feature Rotate Cam
             {
 
                 if (API.IsCamActive(Camera_Male))

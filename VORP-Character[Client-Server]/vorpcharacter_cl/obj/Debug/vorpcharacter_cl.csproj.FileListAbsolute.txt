@@ -13,3 +13,4 @@ E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.pdb
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.dll
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.pdb
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\Languages.xml
