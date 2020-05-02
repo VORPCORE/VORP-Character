@@ -11,11 +11,13 @@ server_scripts {
 }
 
 files {
+  'Config.json',
+  'Es.json',
   'MenuAPI.dll',
   'Newtonsoft.Json.dll',
   'html/index.html',
   'html/script.js',
-  'html/style.css',
+  'html/style.css'
 }
 
 ui_page 'html/index.html'

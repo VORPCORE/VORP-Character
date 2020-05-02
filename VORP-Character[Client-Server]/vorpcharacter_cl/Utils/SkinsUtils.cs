@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace vorpcharacter_cl.Utils
 {
-    public static class SkinsUtils
+    public class SkinsUtils
     {
+        public SkinsUtils()
+        {
+            
+        }
+
 
         /* Sombreros */
         public static List<uint> HATS_MALE = new List<uint>()
@@ -3767,7 +3772,7 @@ namespace vorpcharacter_cl.Utils
             0xDE6CAD77,
             0xE1669DB4,
             0xE391A20A,
-            0xE4D2570A,
+            //0xE4D2570A,
            // 0xE7C17301, error se bugeo este
         };
 

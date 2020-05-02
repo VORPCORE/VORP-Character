@@ -1,6 +1,11 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,26 +16,32 @@ namespace vorpcharacter_cl.Utils
 {
     public class Language : BaseScript
     {
-
-        public static Dictionary<string, string> DefaultLang = new Dictionary<string, string>(); 
+        public static Dictionary<string, string> Config = new Dictionary<string, string>();
+        public static Dictionary<string, string> Langs = new Dictionary<string, string>();
 
         public Language()
         {
-            //XmlDocument LanguageDoc = new XmlDocument();
-            //LanguageDoc.Load(@"Languages.xml");
-            //string defaultLang = LanguageDoc.SelectSingleNode("default").InnerText;
+            EventHandlers[$"{API.GetCurrentResourceName()}:SendDefaultLang"] += new Action<ExpandoObject, ExpandoObject>(setDefaultLang);
 
-            //XDocument.Load(@"Languages.xml").Descendants(defaultLang).ToDictionary(elementSelector => elementSelector.Name, elementSelector => elementSelector.Value);
-
-            //Debug.WriteLine($"Loaded language {defaultLang}");
-
-            //Debug.WriteLine($"Lang Nodes {DefaultLang.ToString()}");
-
+            TriggerServerEvent($"{API.GetCurrentResourceName()}:getLanguage");
         }
 
+        private void setDefaultLang(ExpandoObject dc, ExpandoObject dl)
+        {
+            Debug.WriteLine("PENE");
 
+            foreach (var c in dc)
+            {
+                Config[c.Key] = c.Value.ToString();
+                Debug.WriteLine($"{c.Key} RUBI LA XUPA {c.Value.ToString()}");
+            }
 
+            foreach (var l in dl)
+            {
+                Langs[l.Key] = l.Value.ToString();
+                Debug.WriteLine($"{l.Key} RUBI LA XUPA {l.Value.ToString()}");
+            }
 
-
+        }
     }
 }

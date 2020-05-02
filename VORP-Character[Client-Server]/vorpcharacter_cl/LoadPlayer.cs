@@ -14,7 +14,10 @@ namespace vorpcharacter_cl
         public LoadPlayer()
         {
             EventHandlers["playerSpawned"] += new Action<object>(callToSetOutFit);
-            EventHandlers["vorp:loadPlayerSkin"] += new Action<ExpandoObject, ExpandoObject>(loadPlayerSkin);
+            EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<ExpandoObject, ExpandoObject>(loadPlayerSkin);
+
+            /*CallBack*/ //
+            EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<ExpandoObject, ExpandoObject>(loadPlayerSkin);
         }
 
         private async void loadPlayerSkin(ExpandoObject sskin, ExpandoObject scloth)

@@ -1,0 +1,110 @@
+{
+  //Corps
+  "TitleMenuBody": "Éditeur de personnages", // Titre du Menu
+  "SubTitleMenuBody": "Éditez votre personnage", // Description du Menu
+
+  "TypeValues": "Type #", // Les options de chaque section
+  "BeardValue": "Barbe #", // Les options de la section barbe
+  "HairValue": "Cheveux #", // Les options de section de cheveux
+  "BodySizeValue": "Corps #", // Les options de section de corps
+  "WaistValue": "Taille #", // Les options de section de taille
+
+  "FaceSize": "Taille du visage",
+  "EyebrowHeight": "Hauteur des sourcils",
+  "EyebrowWidth": "Largeur des sourcils",
+  "EyebrowDepth": "Profondeur des sourcils",
+  "EarsHeight": "Hauteur d'oreille",
+  "EarsAngle": "Inclinaison des oreilles",
+  "EarsSize": "Taille des oreilles",
+  "EarsLobeSize": "Taille du lobe",
+  "EyelidsHeight": "Hauteur des paupières",
+  "EyelidsWidth": "Largeur des paupières",
+  "EyeDepth": "Profondeur des yeux",
+  "EyeAngle": "Inclinaison des yeux",
+  "EyeSeparation": "Séparation des yeux",
+  "EyeHeight": "Hauteur des yeux",
+  "NouseWidth": "Largeur de nez",
+  "NouseSize": "Taille de nez",
+  "NouseHeight": "Hauteur du nez",
+  "NouseAngle": "Inclinaison du nez",
+  "NouseCurvature": "Courbure du nez",
+  "NostrilsSeparation": "Séparation des narines",
+  "CheekbonesHeight": "Hauteur des pommettes",
+  "CheekbonesWidth": "Largeur de joue",
+  "CheekbonesDepth": "Profondeur des pommettes",
+  "MouthWidth": "Largeur de bouche",
+  "MouthDepth": "Profondeur de la bouche",
+  "MouthDeviation": "Écart de bouche",
+  "MouthHeight": "Hauteur de la bouche",
+  "UpperLipHeight": "Hauteur de la lèvre supérieure",
+  "UpperLipWidth": "Largeur de lèvre supérieure",
+  "UpperLipDepth": "Profondeur de la lèvre supérieure",
+  "LowerLipHeight": "Hauteur de lèvre inférieure",
+  "LowerLipWidth": "Largeur de lèvre inférieure",
+  "LowerLipDepth": "Profondeur des lèvres inférieure",
+  "MandibleHeight": "Hauteur de mâchoire",
+  "MandibleWidth": "Largeur de mâchoirea",
+  "MandibleDepth": "Profondeur de mâchoire",
+  "ChinHeight": "Hauteur du menton",
+  "ChinWidth": "Largeur du menton",
+  "ChinDepth": "Profondeur du menton",
+  "BeardType": "Type de barbe",
+  "HairType": "Type de cheveux",
+  "BodyType": "Forme du corps",
+  "WaistType": "Type de taille",
+
+  "Confirm": "Confirmer", // Confirmez les options et passez au menu suivant
+
+
+  //Vêtements
+  "TitleMenuClothes": "Dressing", // Titre du Menu
+  "SubTitleMenuClothes": "Habillez votre personnage", // Description du Menu
+
+  "HatsValue": "Chapeau #", // Les options de la section chapeaux
+  "GlassesValue": "Lunettes #", // Les options dans la section verres
+  "NeckwearValue": "Vêtement #", // Les options de la section cravates
+  "TiesValue": "Cravate #", // Les options de la section liens
+  "ShirtsValue": "Chemise #", // Les options de la section chemises
+  "SuspendersValue": "Accolades #", // Les options de la section sangles
+  "VestsValue": "Gilet #", // Les options de la section gilets
+  "CoatsValue": "Manteau #", // Les options de la section des manteaux
+  "PonchosValue": "Poncho #", // Les options de la section poncho
+  "CloaksValue": "Cape #", // Les options de la section des couches
+  "GlovesValue": "Gants #", // Les options de la section des gants
+  "RingsValue": "Anneau #", // Les options de la section d'anneau
+  "BraceletsValue": "Bracelet #", // Les options de la section bracelets
+  "HolstersValue": "Étui #", // Les options de la section étuis
+  "BeltsValue": "Ceinture #", // Les options de la section ceintures
+  "BucklesValue": "Boucle #", // Les options de la section boucles
+  "PantsValue": "Pantalon #", // Les options de la section pantalon
+  "SkirtsValue": "Jupe #", // Les options de la section jupes
+  "ChapsValue": "Chaps #", // Les options de la section chaffes
+  "BootsValue": "Bottes #", // Les options de la section bottes
+  "SpursValue": "Éperons #", // Les options de la section des éperons
+
+  "Hats": "Chapeaux",
+  "Glasses": "Lunettes",
+  "Neckwear": "Vêtements",
+  "Ties": "Cravates",
+  "Shirts": "Chemises",
+  "Suspenders": "Accolades",
+  "Vests": "Gilets",
+  "Coats": "Manteaux",
+  "Ponchos": "Ponchos",
+  "Cloaks": "Couches",
+  "Gloves": "Gants",
+  "RightRings": "Anneaux à droite",
+  "LeftRings": "Anneaux à gauche",
+  "Bracelets": "Bracelets",
+  "PrimaryHolsters": "Étui principal",
+  "Belts": "Ceintures",
+  "Buckles": "Boucles",
+  "SecondaryHolsters": "Étuis secondaires",
+  "Pants": "Pantalons",
+  "Skirts": "Jupes",
+  "Chaps": "Chaps",
+  "Boots": "Bottes",
+  "Spurs": "Éperons",
+
+  "Finish": "Habiller le personnage" // Confirmer les options du Menu
+}

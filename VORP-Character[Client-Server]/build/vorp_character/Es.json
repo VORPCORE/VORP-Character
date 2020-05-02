@@ -1,0 +1,8 @@
+{
+  "TitleMenuSkin": "Editor Personaje", // set your language in Languages.json file
+  "SubTitleMenuSkin": "Edita tu personaje", // set your language in Languages.json file
+
+  "SizeValues": "Tamaño #", // set your language in Languages.json file
+
+  "SizeFace": "Tamaño de la cara" // set your language in Languages.json file
+}

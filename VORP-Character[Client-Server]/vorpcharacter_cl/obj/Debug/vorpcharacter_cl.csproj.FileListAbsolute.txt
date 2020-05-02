@@ -8,9 +8,11 @@ E:\RLC_Core\VORP_Core[Server-Cliente]\vorpcharacter_cl\obj\Debug\vorpcharacter_c
 E:\RLC_Core\VORP_Core[Server-Cliente]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.pdb
 E:\RLC_Core\VORP_Core[Server-Cliente]\build\vorp_character\vorpcharacter_cl.net.dll
 E:\RLC_Core\VORP_Core[Server-Cliente]\build\vorp_character\vorpcharacter_cl.net.pdb
-E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csprojAssemblyReference.cache
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.dll
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.pdb
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.dll
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.pdb
-E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\Languages.xml
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CopyComplete
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\Config.json
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\es.json
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csprojAssemblyReference.cache
