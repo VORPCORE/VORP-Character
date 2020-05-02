@@ -1,4 +1,4 @@
-{
+﻿{
   //Body
   "TitleMenuBody": "Character Editor", // Menu Title
   "SubTitleMenuBody": "Customize your character", // Menu Description
@@ -23,11 +23,11 @@
   "EyeAngle": "Eye inclination",
   "EyeSeparation": "Eye separation",
   "EyeHeight": "Eye height",
-  "NouseWidth": "Nouse width",
-  "NouseSize": "Nouse size",
-  "NouseHeight": "Nouse height",
-  "NouseAngle": "Nouse inclination",
-  "NouseCurvature": "Nouse curvature",
+  "NoseWidth": "Nose width",
+  "NoseSize": "Nose size",
+  "NoseHeight": "Nose height",
+  "NoseAngle": "Nose inclination",
+  "NoseCurvature": "Nose curvature",
   "NostrilsSeparation": "Nostrils separation",
   "CheekbonesHeight": "Cheekbones height",
   "CheekbonesWidth": "Cheekbones width",
@@ -55,6 +55,51 @@
 
   "Confirm": "Confirm", // Confirms the options and advances to the next Menu
 
+  //Descriptions of the body Menu sections
+  "FaceSizeDesc": "Choose the face size",
+  "EyebrowHeightDesc": "Choose the eyebrow height",
+  "EyebrowWidthDesc": "Choose the eyebrow width",
+  "EyebrowDepthDesc": "Choose the eyebrow depth",
+  "EarsHeightDesc": "Choose the ears height",
+  "EarsAngleDesc": "Choose the ears inclination",
+  "EarsSizeDesc": "Choose the ears size",
+  "EarsLobeSizeDesc": "Choose the earlobe size",
+  "EyelidsHeightDesc": "Choose the earlids height",
+  "EyelidsWidthDesc": "Choose the earlids width",
+  "EyeDepthDesc": "Choose the eyes depth",
+  "EyeAngleDesc": "Choose the eyes inclination",
+  "EyeSeparationDesc": "Choose the eyes separation",
+  "EyeHeightDesc": "Choose the eyes height",
+  "NoseWidthDesc": "Choose the Nose width",
+  "NoseSizeDesc": "Choose the Nose size",
+  "NoseHeigthDesc": "Choose the Nose height",
+  "NoseAngleDesc": "Choose the Nose inclination",
+  "NoseCurvatureDesc": "Choose the Nose curvature",
+  "NostrilsSeparationDesc": "Choose the nostrils separation",
+  "CheekbonesHeightDesc": "Choose the cheekbones height",
+  "CheekbonesWidthDesc": "Choose the cheekbones width",
+  "CheekbonesDepthDesc": "Choose the cheekbones depth",
+  "MouthWidthDesc": "Choose the mouth width",
+  "MouthDepthDesc": "Choose the mouth depth",
+  "MouthDeviationDesc": "Choose the mouth deviation",
+  "MouthHeightDesc": "Choose the mouth height",
+  "UpperLipHeightDesc": "Choose the upper lip height",
+  "UpperLipWidthDesc": "Choose the upper lip width",
+  "UpperLipDepthDesc": "Choose the upper lip depth",
+  "LowerLipHeightDesc": "Choose the lower lip height",
+  "LowerLipWidthDesc": "Choose the lower lip width",
+  "LowerLipDepthDesc": "Choose the lower lip depth",
+  "MandibleHeightDesc": "Choose the mandible height",
+  "MandibleWidthDesc": "Choose the mandible width",
+  "MandibleDepthDesc": "Choose the mandible depth",
+  "ChinHeightDesc": "Choose the chin height",
+  "ChinWidthDesc": "Choose the chin width",
+  "ChinDepthDesc": "Choose the chin depth",
+  "BeardTypeDesc": "Choose the beard",
+  "HairTypeDesc": "Choose the hair",
+  "BodyTypeDesc": "Choose the body form",
+  "WaistTypeDesc": "Choose the waist",
+  "ConfirmDesc": "If you have everything ready, it is time to dress up, you would not be able to go back so make sure you have everything well selected",
 
   //Clothing
   "TitleMenuClothes": "Dressing room", // Menu Title
@@ -106,5 +151,32 @@
   "Boots": "Boots",
   "Spurs": "Spurs",
 
-  "Finish": "Dress up character" // Confirms the options of the Menu
+  "Finish": "Dress up character", // Confirms the options of the Menu
+
+  //Descriptions of the clothing Menu sections
+  "HatsDesc": "Choose the hat",
+  "GlassesDesc": "Choose the glasses",
+  "NeckwearDesc": "Choose the neckwear",
+  "TiesDesc": "Choose the tie",
+  "ShirtsDesc": "Choose the shirt",
+  "SuspendersDesc": "Choose the suspenders",
+  "VestsDesc": "Choose the vest",
+  "CoatsDesc": "Choose the coat",
+  "PonchosDesc": "Choose the poncho",
+  "CloaksDesc": "Choose the cloak",
+  "GlovesDesc": "Choose the gloves",
+  "RightRingsDesc": "Choose the right hand rings",
+  "LeftRingsDesc": "Choose the left hand rings",
+  "BraceletsDesc": "Choose the bracelet",
+  "PrimaryHolstersDesc": "Choose the primary holster",
+  "BeltsDesc": "Choose the belt",
+  "BucklesDesc": "Choose the buckle",
+  "SecondaryHolstersDesc": "Choose the secondary holster",
+  "PantsDesc": "Choose the pants",
+  "SkirtsDesc": "Choose the skirt",
+  "ChapsDesc": "Choose the chaps",
+  "BootsDesc": "Choose the boots",
+  "SpursDesc": "Choose the spurs",
+  "FinishDesc": "Make sure you have everything chosen as you want, you will have to go to a clothing store in order to change your clothes",
+  "TipFinal": "Welcome to VORP CORE, we hope that your stay is the most entertaining, please remember not to jump off the hot air balloon and enjoy the views"
 }

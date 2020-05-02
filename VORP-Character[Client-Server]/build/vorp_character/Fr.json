@@ -1,7 +1,7 @@
-{
+Ôªø{
   //Corps
-  "TitleMenuBody": "…diteur de personnages", // Titre du Menu
-  "SubTitleMenuBody": "…ditez votre personnage", // Description du Menu
+  "TitleMenuBody": "√âditeur de personnages", // Titre du Menu
+  "SubTitleMenuBody": "√âditez votre personnage", // Description du Menu
 
   "TypeValues": "Type #", // Les options de chaque section
   "BeardValue": "Barbe #", // Les options de la section barbe
@@ -17,34 +17,34 @@
   "EarsAngle": "Inclinaison des oreilles",
   "EarsSize": "Taille des oreilles",
   "EarsLobeSize": "Taille du lobe",
-  "EyelidsHeight": "Hauteur des paupiËres",
-  "EyelidsWidth": "Largeur des paupiËres",
+  "EyelidsHeight": "Hauteur des paupi√®res",
+  "EyelidsWidth": "Largeur des paupi√®res",
   "EyeDepth": "Profondeur des yeux",
   "EyeAngle": "Inclinaison des yeux",
-  "EyeSeparation": "SÈparation des yeux",
+  "EyeSeparation": "S√©paration des yeux",
   "EyeHeight": "Hauteur des yeux",
-  "NouseWidth": "Largeur de nez",
-  "NouseSize": "Taille de nez",
-  "NouseHeight": "Hauteur du nez",
-  "NouseAngle": "Inclinaison du nez",
-  "NouseCurvature": "Courbure du nez",
-  "NostrilsSeparation": "SÈparation des narines",
+  "NoseWidth": "Largeur de nez",
+  "NoseSize": "Taille de nez",
+  "NoseHeight": "Hauteur du nez",
+  "NoseAngle": "Inclinaison du nez",
+  "NoseCurvature": "Courbure du nez",
+  "NostrilsSeparation": "S√©paration des narines",
   "CheekbonesHeight": "Hauteur des pommettes",
   "CheekbonesWidth": "Largeur de joue",
   "CheekbonesDepth": "Profondeur des pommettes",
   "MouthWidth": "Largeur de bouche",
   "MouthDepth": "Profondeur de la bouche",
-  "MouthDeviation": "…cart de bouche",
+  "MouthDeviation": "√âcart de bouche",
   "MouthHeight": "Hauteur de la bouche",
-  "UpperLipHeight": "Hauteur de la lËvre supÈrieure",
-  "UpperLipWidth": "Largeur de lËvre supÈrieure",
-  "UpperLipDepth": "Profondeur de la lËvre supÈrieure",
-  "LowerLipHeight": "Hauteur de lËvre infÈrieure",
-  "LowerLipWidth": "Largeur de lËvre infÈrieure",
-  "LowerLipDepth": "Profondeur des lËvres infÈrieure",
-  "MandibleHeight": "Hauteur de m‚choire",
-  "MandibleWidth": "Largeur de m‚choirea",
-  "MandibleDepth": "Profondeur de m‚choire",
+  "UpperLipHeight": "Hauteur de la l√®vre sup√©rieure",
+  "UpperLipWidth": "Largeur de l√®vre sup√©rieure",
+  "UpperLipDepth": "Profondeur de la l√®vre sup√©rieure",
+  "LowerLipHeight": "Hauteur de l√®vre inf√©rieure",
+  "LowerLipWidth": "Largeur de l√®vre inf√©rieure",
+  "LowerLipDepth": "Profondeur des l√®vres inf√©rieure",
+  "MandibleHeight": "Hauteur de m√¢choire",
+  "MandibleWidth": "Largeur de m√¢choirea",
+  "MandibleDepth": "Profondeur de m√¢choire",
   "ChinHeight": "Hauteur du menton",
   "ChinWidth": "Largeur du menton",
   "ChinDepth": "Profondeur du menton",
@@ -52,17 +52,62 @@
   "HairType": "Type de cheveux",
   "BodyType": "Forme du corps",
   "WaistType": "Type de taille",
-
   "Confirm": "Confirmer", // Confirmez les options et passez au menu suivant
 
+  //Descriptions des sections du menu du corps
+  "FaceSizeDesc": "Choisissez la taille du visage",
+  "EyebrowHeightDesc": "Choisissez la hauteur des sourcils",
+  "EyebrowWidthDesc": "Choisissez la largeur des sourcils",
+  "EyebrowDepthDesc": "Choose the eyebrow depth",
+  "EarsHeightDesc": "Choisissez la profondeur des sourcils",
+  "EarsAngleDesc": "Choisissez l'inclinaison des oreilles",
+  "EarsSizeDesc": "Choisissez la taille des oreilles",
+  "EarsLobeSizeDesc": "Choisissez la taille du lobe d'oreille",
+  "EyelidsHeightDesc": "Choisissez la hauteur des √©couteurs",
+  "EyelidsWidthDesc": "Choisissez la largeur des √©couteurs",
+  "EyeDepthDesc": "Choisissez la profondeur des yeux",
+  "EyeAngleDesc": "Choisissez l'inclinaison des yeux",
+  "EyeSeparationDesc": "Choisissez la s√©paration des yeux",
+  "EyeHeightDesc": "Choisissez la hauteur des yeux",
+  "NoseWidthDesc": "Choisissez la largeur de nouse",
+  "NoseSizeDesc": "Choisissez la taille du nez",
+  "NoseHeigthDesc": "Choisissez la hauteur du nez",
+  "NoseAngleDesc": "Choisissez l'inclinaison du nez",
+  "NoseCurvatureDesc": "Choisissez la courbure du nez",
+  "NostrilsSeparationDesc": "Choisissez la s√©paration des narines",
+  "CheekbonesHeightDesc": "Choisissez la hauteur des pommettes",
+  "CheekbonesWidthDesc": "Choisissez la largeur des pommettes",
+  "CheekbonesDepthDesc": "Choisissez la profondeur des pommettes",
+  "MouthWidthDesc": "Choisissez la largeur de la bouche",
+  "MouthDepthDesc": "Choisissez la profondeur de la bouche",
+  "MouthDeviationDesc": "Choisissez la d√©viation de la bouche",
+  "MouthHeightDesc": "Choisissez la hauteur de la bouche",
+  "UpperLipHeightDesc": "Choisissez la hauteur de la l√®vre sup√©rieure",
+  "UpperLipWidthDesc": "Choisissez la largeur de la l√®vre sup√©rieure",
+  "UpperLipDepthDesc": "Choisissez la profondeur de la l√®vre sup√©rieure",
+  "LowerLipHeightDesc": "Choisissez la hauteur de l√®vre inf√©rieure",
+  "LowerLipWidthDesc": "Choisissez la largeur de l√®vre inf√©rieure",
+  "LowerLipDepthDesc": "Choisissez la profondeur de l√®vre inf√©rieure",
+  "MandibleHeightDesc": "Choisissez la hauteur de la mandibule",
+  "MandibleWidthDesc": "Choisissez la largeur de la mandibule",
+  "MandibleDepthDesc": "Choisissez la profondeur de la mandibule",
+  "ChinHeightDesc": "Choisissez la hauteur du menton",
+  "ChinWidthDesc": "Choisissez la largeur du menton",
+  "ChinDepthDesc": "Choisissez la profondeur du menton",
+  "BeardTypeDesc": "Choisissez la barbe",
+  "HairTypeDesc": "Choisissez les cheveux",
+  "BodyTypeDesc": "Choisissez la forme du corps",
+  "WaistTypeDesc": "Choisissez la taille",
+  "ConfirmDesc": "Si vous avez tout pr√™t, il est temps de vous habiller, vous ne pourrez pas revenir en arri√®re alors assurez-vous d'avoir tout bien s√©lectionn√©",
 
-  //VÍtements
+
+  //V√™tements
   "TitleMenuClothes": "Dressing", // Titre du Menu
   "SubTitleMenuClothes": "Habillez votre personnage", // Description du Menu
 
   "HatsValue": "Chapeau #", // Les options de la section chapeaux
   "GlassesValue": "Lunettes #", // Les options dans la section verres
-  "NeckwearValue": "VÍtement #", // Les options de la section cravates
+  "NeckwearValue": "V√™tement #", // Les options de la section cravates
   "TiesValue": "Cravate #", // Les options de la section liens
   "ShirtsValue": "Chemise #", // Les options de la section chemises
   "SuspendersValue": "Accolades #", // Les options de la section sangles
@@ -73,18 +118,18 @@
   "GlovesValue": "Gants #", // Les options de la section des gants
   "RingsValue": "Anneau #", // Les options de la section d'anneau
   "BraceletsValue": "Bracelet #", // Les options de la section bracelets
-  "HolstersValue": "…tui #", // Les options de la section Ètuis
+  "HolstersValue": "√âtui #", // Les options de la section √©tuis
   "BeltsValue": "Ceinture #", // Les options de la section ceintures
   "BucklesValue": "Boucle #", // Les options de la section boucles
   "PantsValue": "Pantalon #", // Les options de la section pantalon
   "SkirtsValue": "Jupe #", // Les options de la section jupes
   "ChapsValue": "Chaps #", // Les options de la section chaffes
   "BootsValue": "Bottes #", // Les options de la section bottes
-  "SpursValue": "…perons #", // Les options de la section des Èperons
+  "SpursValue": "√âperons #", // Les options de la section des √©perons
 
   "Hats": "Chapeaux",
   "Glasses": "Lunettes",
-  "Neckwear": "VÍtements",
+  "Neckwear": "V√™tements",
   "Ties": "Cravates",
   "Shirts": "Chemises",
   "Suspenders": "Accolades",
@@ -93,18 +138,45 @@
   "Ponchos": "Ponchos",
   "Cloaks": "Couches",
   "Gloves": "Gants",
-  "RightRings": "Anneaux ‡ droite",
-  "LeftRings": "Anneaux ‡ gauche",
+  "RightRings": "Anneaux √† droite",
+  "LeftRings": "Anneaux √† gauche",
   "Bracelets": "Bracelets",
-  "PrimaryHolsters": "…tui principal",
+  "PrimaryHolsters": "√âtui principal",
   "Belts": "Ceintures",
   "Buckles": "Boucles",
-  "SecondaryHolsters": "…tuis secondaires",
+  "SecondaryHolsters": "√âtuis secondaires",
   "Pants": "Pantalons",
   "Skirts": "Jupes",
   "Chaps": "Chaps",
   "Boots": "Bottes",
-  "Spurs": "…perons",
+  "Spurs": "√âperons",
 
-  "Finish": "Habiller le personnage" // Confirmer les options du Menu
+  "Finish": "Habiller le personnage", // Confirmer les options du Menu
+
+  //Descriptions des sections du menu des v√™tements
+  "HatsDesc": "Choisissez le chapeau",
+  "GlassesDesc": "Choisissez les verres",
+  "NeckwearDesc": "Choisissez les cravates",
+  "TiesDesc": "Choisissez la cravate",
+  "ShirtsDesc": "Choisissez la chemise",
+  "SuspendersDesc": "Choisissez les bretelles",
+  "VestsDesc": "Choisissez le gilet",
+  "CoatsDesc": "Choisissez le manteau",
+  "PonchosDesc": "Choisissez le poncho",
+  "CloaksDesc": "Choisissez la cape",
+  "GlovesDesc": "Choisissez les gants",
+  "RightRingsDesc": "Choisissez les bagues de droite",
+  "LeftRingsDesc": "Choisissez les bagues gauche",
+  "BraceletsDesc": "Choisissez le bracelet",
+  "PrimaryHolstersDesc": "Choisissez l'√©tui principal",
+  "BeltsDesc": "Choisissez la ceinture",
+  "BucklesDesc": "Choisissez la boucle",
+  "SecondaryHolstersDesc": "Choisissez l'√©tui secondaire",
+  "PantsDesc": "Choisissez le pantalon",
+  "SkirtsDesc": "Choisissez la jupe",
+  "ChapsDesc": "Choisissez les chaps",
+  "BootsDesc": "Choisissez les bottes",
+  "SpursDesc": "Choisissez les √©perons",
+  "FinishDesc": "Assurez-vous que vous avez tout choisi comme vous le souhaitez, vous devrez vous rendre dans un magasin de v√™tements pour changer de v√™tements",
+  "TipFinal": "Bienvenue √† VORP CORE, nous esp√©rons que votre s√©jour sera des plus divertissants, n'oubliez pas de ne pas sauter de la montgolfi√®re et de profiter de la vue"
 }
