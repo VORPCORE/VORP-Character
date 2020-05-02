@@ -8,5 +8,5 @@ Character Creation for VORP Core
 
 ## How to install
 
-* Copy and paste ```VORP-Character[Client-Server]/build/vorp_character/``` folder to ```resources/vorp_character```
+* Copy and paste ```VORP-Character/vorp_character/``` folder to ```resources/vorp_character```
 * Add ```ensure vorp_character``` to your ```server.cfg``` file
