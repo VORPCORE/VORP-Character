@@ -21,60 +21,60 @@ namespace vorpcharacter_cl.Utils
         /// More info in http://vorpwiki.ddns.net/en/API-VORP-SKINS
         /// </summary>
         /// <param name="cb"></param>
-        private void GetSkinUtils(dynamic cb)
+        public void GetSkinUtils(dynamic cb)
         {
-            Dictionary<string, object> sk = new Dictionary<string, object>()
+            Dictionary<string, List<uint>> sk = new Dictionary<string, List<uint>>()
             {
-                ["hats_male"] = HATS_MALE,
-                ["hats_female"] = HATS_FEMALE,
-                ["eyewear_male"] = EYEWEAR_MALE,
-                ["eyewear_female"] = EYEWEAR_FEMALE,
-                ["neckwear_male"] = NECKWEAR_MALE,
-                ["neckwear_female"] = NECKWEAR_FEMALE,
-                ["neckties_male"] = NECKTIES_MALE,
-                ["neckties_female"] = NECKTIES_FEMALE,
-                ["shirts_male"] = SHIRTS_MALE,
-                ["shirts_female"] = SHIRTS_FEMALE,
-                ["suspenders_male"] = SUSPENDERS_MALE,
-                ["suspenders_female"] = SUSPENDERS_FEMALE,
-                ["vest_male"] = VEST_MALE,
-                ["vest_female"] = VEST_FEMALE,
-                ["coats_male"] = COATS_MALE,
-                ["coats_female"] = COATS_FEMALE,
-                ["ponchos_male"] = PONCHOS_MALE,
-                ["ponchos_female"] = PONCHOS_FEMALE,
-                ["cloaks_male"] = CLOAK_MALE,
-                ["cloaks_female"] = CLOAK_FEMALE,
-                ["gloves_male"] = GLOVES_MALE,
-                ["gloves_female"] = GLOVES_FEMALE,
-                ["rings_rh_male"] = RINGS_RH_MALE,
-                ["rings_rh_female"] = RINGS_RH_FEMALE,
-                ["rings_lh_male"] = RINGS_LH_MALE,
-                ["rings_lh_female"] = RINGS_LH_FEMALE,
-                ["bracelets_male"] = BRACELETS_MALE,
-                ["bracelets_female"] = BRACELETS_FEMALE,
-                ["gunbelts_male"] = GUNBELT_MALE,
-                ["gunbelts_female"] = GUNBELT_FEMALE,
-                ["belts_male"] = BELT_MALE,
-                ["belts_female"] = BELT_FEMALE,
-                ["buckles_male"] = BUCKLE_MALE,
-                ["buckles_female"] = BUCKLE_FEMALE,
-                ["holsters_s_male"] = HOLSTERS_S_MALE,
-                ["holsters_s_female"] = HOLSTERS_S_FEMALE,
-                ["pants_male"] = PANTS_MALE,
-                ["pants_female"] = PANTS_FEMALE,
-                ["skirts_female"] = SKIRTS_FEMALE,
-                ["boots_male"] = BOOTS_MALE,
-                ["boots_female"] = BOOTS_FEMALE,
-                ["chaps_male"] = CHAPS_MALE,
-                ["chaps_female"] = CHAPS_FEMALE,
-                ["spurs_male"] = SPURS_MALE,
-                ["spurs_female"] = SPURS_FEMALE,
-                ["hair_male"] = HAIR_MALE,
-                ["hair_female"] = HAIR_FEMALE,
-                ["beard_male"] = BEARD_MALE,
-                ["teeth_male"] = TEETH_MALE,
-                ["teeth_female"] = TEETH_FEMALE
+                { "hats_male", HATS_MALE },
+                { "hats_female", HATS_FEMALE },
+                { "eyewear_male", EYEWEAR_MALE},
+                { "eyewear_female", EYEWEAR_FEMALE},
+                { "neckwear_male", NECKWEAR_MALE},
+                { "neckwear_female", NECKWEAR_FEMALE},
+                { "neckties_male", NECKTIES_MALE},
+                { "neckties_female", NECKTIES_FEMALE},
+                { "shirts_male", SHIRTS_MALE},
+                { "shirts_female", SHIRTS_FEMALE},
+                { "suspenders_male", SUSPENDERS_MALE},
+                { "suspenders_female", SUSPENDERS_FEMALE},
+                { "vest_male", VEST_MALE},
+                { "vest_female", VEST_FEMALE},
+                { "coats_male", COATS_MALE},
+                { "coats_female", COATS_FEMALE},
+                { "ponchos_male", PONCHOS_MALE},
+                { "ponchos_female", PONCHOS_FEMALE},
+                { "cloaks_male", CLOAK_MALE},
+                { "cloaks_female", CLOAK_FEMALE},
+                { "gloves_male", GLOVES_MALE},
+                { "gloves_female", GLOVES_FEMALE},
+                { "rings_rh_male", RINGS_RH_MALE},
+                { "rings_rh_female", RINGS_RH_FEMALE},
+                { "rings_lh_male", RINGS_LH_MALE},
+                { "rings_lh_female", RINGS_LH_FEMALE},
+                { "bracelets_male", BRACELETS_MALE},
+                { "bracelets_female", BRACELETS_FEMALE},
+                { "gunbelts_male", GUNBELT_MALE},
+                { "gunbelts_female", GUNBELT_FEMALE},
+                { "belts_male", BELT_MALE},
+                { "belts_female", BELT_FEMALE},
+                { "buckles_male", BUCKLE_MALE},
+                { "buckles_female", BUCKLE_FEMALE},
+                { "holsters_s_male", HOLSTERS_S_MALE},
+                { "holsters_s_female", HOLSTERS_S_FEMALE},
+                { "pants_male", PANTS_MALE},
+                { "pants_female", PANTS_FEMALE},
+                { "skirts_female", SKIRTS_FEMALE},
+                { "boots_male", BOOTS_MALE},
+                { "boots_female", BOOTS_FEMALE},
+                { "chaps_male", CHAPS_MALE},
+                { "chaps_female", CHAPS_FEMALE},
+                { "spurs_male", SPURS_MALE},
+                { "spurs_female", SPURS_FEMALE},
+                { "hair_male", HAIR_MALE},
+                { "hair_female", HAIR_FEMALE},
+                { "beard_male", BEARD_MALE},
+                { "teeth_male", TEETH_MALE},
+                { "teeth_female", TEETH_FEMALE}
             };
 
             cb.Invoke(sk);
@@ -7975,7 +7975,7 @@ namespace vorpcharacter_cl.Utils
             0xF5D31879,
         };
 
-        public static List<int> TEETH_MALE = new List<int>()
+        public static List<uint> TEETH_MALE = new List<uint>()
         {
             0x14E18306,
             0x16C30C8A,
@@ -7988,7 +7988,7 @@ namespace vorpcharacter_cl.Utils
             //0xE11FFFF5, uint
         };
 
-        public static List<int> TEETH_FEMALE = new List<int>()
+        public static List<uint> TEETH_FEMALE = new List<uint>()
         {
             0x54A6C2E4,
             0x39340BFF,

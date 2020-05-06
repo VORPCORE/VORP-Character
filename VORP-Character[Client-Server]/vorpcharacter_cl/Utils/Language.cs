@@ -28,18 +28,15 @@ namespace vorpcharacter_cl.Utils
 
         private void setDefaultLang(ExpandoObject dc, ExpandoObject dl)
         {
-            Debug.WriteLine("PENE");
 
             foreach (var c in dc)
             {
                 Config[c.Key] = c.Value.ToString();
-                Debug.WriteLine($"{c.Key} RUBI LA XUPA {c.Value.ToString()}");
             }
 
             foreach (var l in dl)
             {
                 Langs[l.Key] = l.Value.ToString();
-                Debug.WriteLine($"{l.Key} RUBI LA XUPA {l.Value.ToString()}");
             }
 
         }

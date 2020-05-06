@@ -22,8 +22,45 @@ namespace vorpcharacter_sv
             EventHandlers["vorpcharacter:getPlayerSkin"] += new Action<Player>(getPlayerSkin);
             EventHandlers[$"{API.GetCurrentResourceName()}:getLanguage"] += new Action<Player>(getLanguage);
 
+            /*CallBack*/
+            EventHandlers["vorpcharacter:getPlayerClothes"] += new Action<int, dynamic>(getPlayerClothes);
+
             LoadConfigAnfLang();
 
+        }
+
+        private void getPlayerClothes(int source, dynamic cb)
+        {
+
+            PlayerList pl = new PlayerList();
+            Player p = pl[source];
+
+            if (p == null)
+            {
+                cb.Invoke("Not Conected - Can't Find SteamID");
+                return;
+            }
+
+            string sid = "steam:" + p.Identifiers["steam"];
+
+            Exports["ghmattimysql"].execute("SELECT * FROM characters WHERE identifier = ?", new[] { sid }, new Action<dynamic>((result) =>
+            {
+                if (result.Count == 0)
+                {
+                    Debug.WriteLine("ERROR: User not found");
+                }
+                else
+                {
+                    Dictionary<string, string> comp = new Dictionary<string, string>();
+
+                    /* Seteamos todos los paraametros que nos puedan servir para comprobaciones*/
+                    comp.Add("cloths", result[0].compPlayer);
+                    comp.Add("skins", result[0].skinPlayer);
+
+                    cb.Invoke(comp); //Enviamos los datos de vuelta
+                }
+
+            }));
         }
 
         private void LoadConfigAnfLang()
@@ -75,7 +112,7 @@ namespace vorpcharacter_sv
                     Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_body);
 
 
-                    source.TriggerEvent("vorp:loadPlayerSkin", sskin, scloth);
+                    source.TriggerEvent("vorpcharacter:loadPlayerSkin", sskin, scloth);
                 }
 
             }));

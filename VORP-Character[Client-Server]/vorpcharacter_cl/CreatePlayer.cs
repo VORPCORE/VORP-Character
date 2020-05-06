@@ -99,7 +99,7 @@ namespace vorpcore_cl.Scripts
             { "EyeWear", -1 },
             { "NeckWear", -1 },
             { "NeckTies", -1 },
-            { "Shrit", -1 },
+            { "Shirt", -1 },
             { "Suspender", -1 },
             { "Vest", -1 },
             { "Coat", -1 },
@@ -216,8 +216,7 @@ namespace vorpcore_cl.Scripts
 
         private void RegisterChar(dynamic obj)
         {
-            Debug.WriteLine(obj.firstname);
-            API.SetNuiFocus(false, false); // soy gilipollas recordar a futuro el false copon
+            API.SetNuiFocus(false, false);
             TriggerServerEvent("vorp:SaveSkinDB", skinPlayer, clothesPlayer, obj.firstname);
             StopCreation();
             StartAnim();
@@ -749,7 +748,6 @@ namespace vorpcore_cl.Scripts
             mcc.OnItemSelect += (_menu, _item, _index) =>
             {
                 // Code in here would get executed whenever an item is pressed.
-                Debug.WriteLine($"OnItemSelect: [{_menu}, {_item}, {_index}]");
                 if (_index == 43)
                 {
                     mcc.CloseMenu();
@@ -1282,7 +1280,6 @@ namespace vorpcore_cl.Scripts
 
             mdu.OnIndexChange += (_menu, _oldItem, _newItem, _oldIndex, _newIndex) =>
             {
-                Debug.WriteLine($"OnIndexChange: [{_menu}, {_oldItem}, {_newItem}, {_oldIndex}, {_newIndex}]");
                 if (_newIndex == 21 || _newIndex == 22) // botas spurs
                 {
                     API.SetCamCoord(Camera_DressUp, -561.0254f, -3775.601f, 238.4716f);
@@ -1317,7 +1314,6 @@ namespace vorpcore_cl.Scripts
             mdu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
             {
                 // Code in here would get executed whenever the selected value of a list item changes (when left/right key is pressed).
-                Debug.WriteLine($"Cambios del menu: [{_menu}, {_listItem}, {_oldIndex}, {_newIndex}, {_itemIndex}]");
                 int pPID = API.PlayerPedId();
                 
                 switch (_itemIndex)
@@ -1398,10 +1394,8 @@ namespace vorpcore_cl.Scripts
             mdu.OnItemSelect += (_menu, _item, _index) =>
             {
                 // Code in here would get executed whenever an item is pressed.
-                Debug.WriteLine($"OnItemSelect: [{_menu}, {_item}, {_index}]");
                 if (_index == 23)
-                {
-                    Debug.WriteLine($"Terminado");                    
+                {                
                     SaveChanges();
                     mdu.CloseMenu();
                 }
@@ -1613,7 +1607,6 @@ namespace vorpcore_cl.Scripts
         private async Task OnTick()
         {
             if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendRight) && isSelectSexActive) {
-                Debug.WriteLine("Derecha");
 
                 if (API.IsCamActive(Camera))
                 {
@@ -1635,7 +1628,6 @@ namespace vorpcore_cl.Scripts
 
             if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendLeft) && isSelectSexActive)
             {
-                Debug.WriteLine("Izquierda");
 
                 if (API.IsCamActive(Camera))
                 {

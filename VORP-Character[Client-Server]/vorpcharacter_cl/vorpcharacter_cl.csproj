@@ -63,9 +63,6 @@
     <Compile Include="Utils\SkinsUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
