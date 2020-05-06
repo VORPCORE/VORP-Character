@@ -7,7 +7,7 @@ Character Creation for VORP Core
 - [VORP-Core](https://github.com/VORPCORE/VORP-Core)
 
 ## How to install
-- [Download lastest version](https://github.com/VORPCORE/VORP-Character/releases)
+* [Download lastest version](https://github.com/VORPCORE/VORP-Character/releases)
 * Copy and paste ```vorp_character``` folder to ```resources/vorp_character```
 * Add ```ensure vorp_character``` to your ```server.cfg``` file
 * To change the language go to ```resources/vorp_character``` and change the default language
