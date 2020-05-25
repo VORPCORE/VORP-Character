@@ -12,3 +12,6 @@ Character Creation for VORP Core
 * Add ```ensure vorp_character``` to your ```server.cfg``` file
 * To change the language go to ```resources/vorp_character``` and change the default language
 * Now you are ready!!
+
+## Wiki
+[Wiki VORP CORE Character](https://forum.vorpcore.com/d/8-api-vorp-character)
