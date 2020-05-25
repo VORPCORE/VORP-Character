@@ -13,7 +13,6 @@ namespace vorpcore_cl.Scripts
 {
     public class CreatePlayer : BaseScript
     {
-
         bool isSelectSexActive = false;
         bool isDressUpPed = false;
         bool isInCharCreation = false;
@@ -122,24 +121,64 @@ namespace vorpcore_cl.Scripts
 
         public CreatePlayer()
         {
-
             EventHandlers["vorpcharacter:createPlayer"] += new Action(StartCreation);
 
             Tick += OnTick;
             Tick += OnTickAnimm;
 
-            API.RegisterCommand("createchar", new Action(StartCreation), false);
-            API.RegisterCommand("stopcrear", new Action(StopCreation), false);
+            API.RegisterCommand("createchar", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                if (args[0] == null)
+                {
+                    TriggerServerEvent("vorpcharacter:CommandCreate", -1);
+                }
+                else
+                {
+                    int target;
+                    if (int.TryParse(args[0].ToString(), out target))
+                    {
+                        TriggerServerEvent("vorpcharacter:CommandCreate", target);
+                    }
+                    else
+                    {
+                        TriggerEvent("vorp:Tip", "Please use sintax: [/createchar id] id is a number.", 5000);
+                    }
+
+                }
+
+            }), false);
 
             API.RegisterNuiCallbackType("register");
             EventHandlers["__cfx_nui:register"] += new Action<ExpandoObject>(RegisterChar);
+        }
 
+        private void CheckCreation()
+        {
+            TriggerServerEvent("vorpcharacter:CommandCreate");
         }
 
         [Tick]
-        private async Task OnTickCameraSetup()
+        private async Task InstancePlayer()
         {
-            await Delay(0);
+            if (isSelectSexActive || isDressUpPed || isInCharCreation)
+            {
+                for (int i = 0; i < 255; i++)
+                {
+                    if (API.NetworkIsPlayerActive(i))
+                    {
+                        if (API.GetPlayerPed(i) != API.PlayerPedId())
+                        {
+                            API.SetEntityAlpha(API.GetPlayerPed(i), 0, false);
+                            API.SetEntityNoCollisionEntity(API.PlayerPedId(), API.GetPlayerPed(i), false);
+                            await Delay(1);
+                        }
+
+                    }
+
+                }
+            }
+            
+            await Delay(3000);
         }
 
         [Tick]
@@ -184,7 +223,7 @@ namespace vorpcore_cl.Scripts
 
             uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
             Miscellanea.LoadModel(HashPed);
-            pedCreated = API.CreatePed(HashPed, coords.X + 1, coords.Y, coords.Z, 0.0f, true, true, true, true);
+            pedCreated = API.CreatePed(HashPed, coords.X + 1, coords.Y, coords.Z, 0.0f, false, true, true, true);
             //Spawn
             Function.Call((Hash)0x283978A15512B2FE, pedCreated, true);
 
@@ -208,16 +247,28 @@ namespace vorpcore_cl.Scripts
 
             API.SetRelationshipBetweenGroups(1, HashPed, (uint)API.GetHashKey("PLAYER"));
 
-            TriggerEvent("vorp:Tip", "Bienvenido a VORP, esperamos que tu estancia aquí sea de lo más entretenida, por favor recuerda no saltar del globo y disfrutar de las vista antes de rolear.", 15000);
+            TriggerEvent("vorp:Tip", Language.Langs["TipFinal"], 15000);
+
+            for (int i = 0; i < 255; i++)
+            {
+                if (API.NetworkIsPlayerActive(i))
+                {
+                    if (API.GetPlayerPed(i) != API.PlayerPedId())
+                    {
+                        API.SetEntityAlpha(API.GetPlayerPed(i), 255, false);
+                        API.SetEntityNoCollisionEntity(API.PlayerPedId(), API.GetPlayerPed(i), true);
+                    }
+
+                }
+
+            }
 
         }
-
-        
 
         private void RegisterChar(dynamic obj)
         {
             API.SetNuiFocus(false, false);
-            TriggerServerEvent("vorp:SaveSkinDB", skinPlayer, clothesPlayer, obj.firstname);
+            TriggerServerEvent("vorpcharacter:SaveSkinDB", skinPlayer, clothesPlayer, obj.firstname);
             StopCreation();
             StartAnim();
         }
@@ -241,7 +292,7 @@ namespace vorpcore_cl.Scripts
             //Definimos el nombre y subtitlo del menu con un constructor
             Menu mcc = new Menu(Language.Langs["TitleMenuBody"], Language.Langs["SubTitleMenuBody"]);
             MenuController.AddMenu(mcc);
-
+            MenuController.MenuToggleKey = (Control)0;
 
             //Tipo de tamaños del 1 al 10
             List<string> sizeType = new List<string>();
@@ -750,9 +801,21 @@ namespace vorpcore_cl.Scripts
                 // Code in here would get executed whenever an item is pressed.
                 if (_index == 43)
                 {
-                    mcc.CloseMenu();
+                    isInCharCreation = false;
                     DressUp(model);
+                    mcc.CloseMenu();
                 }
+            };
+
+
+            mcc.OnMenuClose += (_menu) =>
+            {
+                // Code in here gets triggered whenever the menu is closed.
+                if (isInCharCreation)
+                {
+                    mcc.OpenMenu();
+                }
+
             };
 
             mcc.OpenMenu();
@@ -766,7 +829,7 @@ namespace vorpcore_cl.Scripts
             //Definimos el nombre y subtitlo del menu con un constructor
             Menu mdu = new Menu(Language.Langs["TitleMenuClothes"], Language.Langs["SubTitleMenuClothes"]);
             MenuController.AddMenu(mdu);
-
+            MenuController.MenuToggleKey = (Control)0;
 
             List<string> hatType = new List<string>();
             hatType.Add(Language.Langs["NoHatsValue"]);
@@ -1395,10 +1458,21 @@ namespace vorpcore_cl.Scripts
             {
                 // Code in here would get executed whenever an item is pressed.
                 if (_index == 23)
-                {                
+                {
+                    isDressUpPed = false;
                     SaveChanges();
                     mdu.CloseMenu();
                 }
+            };
+
+            mdu.OnMenuClose += (_menu) =>
+            {
+                // Code in here gets triggered whenever the menu is closed.
+                if (isDressUpPed)
+                {
+                    mdu.OpenMenu();
+                }
+                
             };
 
 
@@ -1465,7 +1539,6 @@ namespace vorpcore_cl.Scripts
 
         private async Task SaveChanges()
         {
-            isDressUpPed = false;
             API.SetNuiFocus(true, false);
 
             string json = "{\"type\": \"enableui\",\"enable\": \"true\"}";
@@ -1510,13 +1583,12 @@ namespace vorpcore_cl.Scripts
 
         private async Task CreateCams()
         {
-            Camera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.83f, -3776.33f, 239.58f, -13.56231f, 0.00f, -91.93626f, 40.00f, false, 0);
-            Camera_Male = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.6671f, -3775.44f, 239.4266f, -9.622695f, 0.0f, -86.08074f, 40.00f, false, 0);
-            Camera_Female = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.8455f, -3776.596f, 239.4435f, -13.41718f, 0.0f, -88.04576f, 40.00f, false, 0);
-            Camera_Editor = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.1333f, -3780.923f, 239.4437f, -11.32719f, 0.0f, -90.96693f, 40.00f, false, 0);
+            Camera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.83f, -3776.33f, 239.58f, -13.56231f, 0.00f, -91.93626f, 45.00f, false, 0);
+            Camera_Male = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.6671f, -3775.44f, 239.4266f, -9.622695f, 0.0f, -86.08074f, 45.00f, false, 0);
+            Camera_Female = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.8455f, -3776.596f, 239.4435f, -13.41718f, 0.0f, -88.04576f, 45.00f, false, 0);
+            Camera_Editor = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.1333f, -3780.923f, 239.4437f, -11.32719f, 0.0f, -90.96693f, 45.00f, false, 0);
 
-            Camera_DressUp = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.7456f, -3775.021f, 239.3405f, -5.915717f, 0.0f, 179.2227f, 40.00f, false, 0);
-
+            Camera_DressUp = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.7456f, -3775.021f, 239.3405f, -5.915717f, 0.0f, 179.2227f, 45.00f, false, 0);
 
             uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
             await Miscellanea.LoadModel(HashVeh);
@@ -1555,8 +1627,8 @@ namespace vorpcore_cl.Scripts
             /*
              * Creamos los modelos en el sitio de creacion
              */
-            PedFemale = API.CreatePed((uint)hash_f, -558.43f, -3776.65f, 237.7f, 93.2f, true, true, true, true);
-            PedMale = API.CreatePed((uint)hash_m, -558.52f, -3775.6f, 237.7f, 93.2f, true, true, true, true);
+            PedFemale = API.CreatePed((uint)hash_f, -558.43f, -3776.65f, 237.7f, 93.2f, false, true, true, true);
+            PedMale = API.CreatePed((uint)hash_m, -558.52f, -3775.6f, 237.7f, 93.2f, false, true, true, true);
             /*
              * Necesitan un radom Outfit ya que no se por que no salen si no
              */
@@ -1591,7 +1663,6 @@ namespace vorpcore_cl.Scripts
 
         private async void DressUp(string model)
         {
-            isInCharCreation = false;
             int pPedID = API.PlayerPedId();
             API.FreezeEntityPosition(pPedID, false);
             Miscellanea.TeleportToCoords(-560.9953f, -3776.425f, 237.60f, DressHeading);

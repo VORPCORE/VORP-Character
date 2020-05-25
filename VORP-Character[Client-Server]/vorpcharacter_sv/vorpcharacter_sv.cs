@@ -21,12 +21,38 @@ namespace vorpcharacter_sv
             EventHandlers["vorpcharacter:SaveSkinDB"] += new Action<Player, object, object, string>(SaveSkinDB);
             EventHandlers["vorpcharacter:getPlayerSkin"] += new Action<Player>(getPlayerSkin);
             EventHandlers[$"{API.GetCurrentResourceName()}:getLanguage"] += new Action<Player>(getLanguage);
-
             /*CallBack*/
             EventHandlers["vorpcharacter:getPlayerClothes"] += new Action<int, dynamic>(getPlayerClothes);
 
             LoadConfigAnfLang();
 
+            EventHandlers["vorpcharacter:CommandCreate"] += new Action<Player, int>(StartCreation);
+        }
+
+        private void StartCreation([FromSource] Player source, int target)
+        {
+            int _source = int.Parse(source.Handle);
+            TriggerEvent("vorp:getCharacter", _source, new Action<dynamic>((user) =>
+            {
+                Debug.WriteLine(user.group);
+                if(user.group == "admin")
+                {
+                    if (target == -1)
+                    {
+                        source.TriggerEvent("vorpcharacter:createPlayer");
+                    }
+                    else
+                    {
+                        PlayerList pl = new PlayerList();
+                        Player p = pl[target];
+                        p.TriggerEvent("vorpcharacter:createPlayer");
+                    }
+                }
+                else
+                {
+                    source.TriggerEvent("vorp:Tip", "You don't have enough permissions", 5000);
+                }
+            }));
         }
 
         private void getPlayerClothes(int source, dynamic cb)
@@ -114,7 +140,6 @@ namespace vorpcharacter_sv
 
                     source.TriggerEvent("vorpcharacter:loadPlayerSkin", sskin, scloth);
                 }
-
             }));
         }
 
@@ -129,10 +154,17 @@ namespace vorpcharacter_sv
             string skinPlayer = JsonConvert.SerializeObject(skin);
             string componentsPlayer = JsonConvert.SerializeObject(components);
 
-            Exports["ghmattimysql"].execute("INSERT INTO characters (`identifier`, `firstname`, `lastname`, `skinPlayer`, `compPlayer`) VALUES (?, ?, ?, ?, ?)", new object[] { sid, firstname, lastname, skinPlayer, componentsPlayer });
-
-
-
+            Exports["ghmattimysql"].execute("SELECT * FROM characters WHERE identifier = ?", new[] { sid }, new Action<dynamic>((result) =>
+            {
+                if (result.Count == 0)
+                {
+                    Exports["ghmattimysql"].execute("INSERT INTO characters (`identifier`, `firstname`, `lastname`, `skinPlayer`, `compPlayer`) VALUES (?, ?, ?, ?, ?)", new object[] { sid, firstname, lastname, skinPlayer, componentsPlayer });
+                }
+                else
+                {
+                    Exports["ghmattimysql"].execute("UPDATE characters SET firstname=?, lastname=?, skinPlayer=?, compPlayer=? WHERE identifier=? AND id=?", new object[] { firstname, lastname, skinPlayer, componentsPlayer, sid });
+                }
+            }));
         }
     }
 }
