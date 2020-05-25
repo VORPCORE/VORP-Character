@@ -14,4 +14,4 @@
 Now you are ready!
 
 ## Wiki
-[Wiki VORP CORE Character](https://forum.vorpcore.com/d/8-api-vorp-character)
+[Wiki VORP Character](https://forum.vorpcore.com/d/8-api-vorp-character)
