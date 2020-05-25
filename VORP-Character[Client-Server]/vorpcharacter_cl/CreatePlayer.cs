@@ -287,6 +287,8 @@ namespace vorpcore_cl.Scripts
         /// <param name="model"></param>
         public void MenuCreateCharacter(string model)
         {
+            MenuController.Menus.Clear();
+
             skinPlayer["sex"] = model;
 
             //Definimos el nombre y subtitlo del menu con un constructor
@@ -826,6 +828,8 @@ namespace vorpcore_cl.Scripts
         /// <param name="model"></param>
         public void MenuDressUpCharacter(string model, bool isCommand)
         {
+            MenuController.Menus.Clear();
+
             //Definimos el nombre y subtitlo del menu con un constructor
             Menu mdu = new Menu(Language.Langs["TitleMenuClothes"], Language.Langs["SubTitleMenuClothes"]);
             MenuController.AddMenu(mdu);
