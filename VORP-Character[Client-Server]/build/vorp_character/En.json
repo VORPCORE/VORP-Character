@@ -1,4 +1,4 @@
-﻿{
+{
   //Body
   "TitleMenuBody": "Character Editor", // Menu Title
   "SubTitleMenuBody": "Customize your character", // Menu Description
@@ -126,6 +126,27 @@
   "ChapsValue": "Chaps #", // The options of the chaps section
   "BootsValue": "Boots #", // The options of the boots section
   "SpursValue": "Spurs #", // The options of the spurs section
+  "NoHatsValue": "Without a Hat", // The option it gives when you do not wear a hat
+  "NoGlassesValue": "Without Glasses", // The option it gives when you do not wear glasses
+  "NoNeckwearValue": "Without Neckwear", // The option it gives when you do not wear neckwear
+  "NoTiesValue": "Without a Tie", // The option it gives when you do not wear a tie
+  "NoShirtsValue": "Without a Shirt", // The option it gives when you do not wear a shirt
+  "NoSuspendersValue": "Without Suspenders", // The option it gives when you do not wear suspenders
+  "NoVestsValue": "Without a Vest", // The option it gives when you do not wear a vest
+  "NoCoatsValue": "Without a Coat", // The option it gives when you do not wear a coat
+  "NoPonchosValue": "Without a Poncho", // The option it gives when you do not wear a poncho
+  "NoCloaksValue": "Without a Cloak", // The option it gives when you do not wear a cloak
+  "NoGlovesValue": "Without Gloves", // The option it gives when you do not wear gloves
+  "NoRingsValue": "Without a Ring", // The option it gives when you do not wear a ring
+  "NoBraceletsValue": "Without a Bracelet", // The option it gives when you do not wear a bracelet
+  "NoHolstersValue": "Without a Holster", // The option it gives when you do not wear a holster
+  "NoBeltsValue": "Without a Belt", // The option it gives when you do not wear a belt
+  "NoBucklesValue": "Without a Buckle", // The option it gives when you do not wear a buckle
+  "NoPantsValue": "Without Pants", // The option it gives when you do not wear pants
+  "NoSkirtsValue": "Without a Skirt", // The option it gives when you do not wear a skirt
+  "NoChapsValue": "Without Chaps", // The option it gives when you do not wear chaps
+  "NoBootsValue": "Without Boots", // The option it gives when you do not wear boots
+  "NoSpursValue": "Without Spurs", // The option it gives when you do not wear spurs
 
   "Hats": "Hats",
   "Glasses": "Glasses",
