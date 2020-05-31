@@ -8,6 +8,7 @@
   "HairValue": "Cheveux #", // Les options de section de cheveux
   "BodySizeValue": "Corps #", // Les options de section de corps
   "WaistValue": "Taille #", // Les options de section de taille
+  "NoExistValue": "N'existe pas", // L'option qu'il donne quand il n'y a pas d'option
 
   "FaceSize": "Taille du visage",
   "EyebrowHeight": "Hauteur des sourcils",
@@ -126,6 +127,27 @@
   "ChapsValue": "Chaps #", // Les options de la section chaffes
   "BootsValue": "Bottes #", // Les options de la section bottes
   "SpursValue": "Éperons #", // Les options de la section des éperons
+  "NoHatsValue": "Sans Chapeau", // L'option qu'il donne lorsque vous ne portez pas de chapeau
+  "NoGlassesValue": "Sans Lunettes", // L'option qu'il donne lorsque vous ne portez pas de lunettes
+  "NoNeckwearValue": "Sans Cravates", // L'option qu'il donne lorsque vous ne portez pas de cravates
+  "NoTiesValue": "Sans Cravate", // L'option qu'il donne lorsque vous ne portez pas de cravate
+  "NoShirtsValue": "Sans Chemise", // L'option qu'il donne lorsque vous ne portez pas de chemise
+  "NoSuspendersValue": "Sans Bretelles", // L'option qu'il donne lorsque vous ne portez pas de bretelles
+  "NoVestsValue": "Sans Gilet", // L'option qu'il donne lorsque vous ne portez pas de gilet
+  "NoCoatsValue": "Sans Manteau", // L'option qu'il donne lorsque vous ne portez pas de manteau
+  "NoPonchosValue": "Sans Poncho", // L'option qu'il donne lorsque vous ne portez pas de poncho
+  "NoCloaksValue": "Sans Cape", // L'option qu'il donne lorsque vous ne portez pas de cape
+  "NoGlovesValue": "Sans Gants", // L'option qu'il donne lorsque vous ne portez pas de gants
+  "NoRingsValue": "Sans Bague", // L'option qu'il donne lorsque vous ne portez pas de bague
+  "NoBraceletsValue": "Sans Bracelet", // L'option qu'il donne lorsque vous ne portez pas de bracelet
+  "NoHolstersValue": "Sans Étui", // L'option qu'il donne lorsque vous ne portez pas d'étui
+  "NoBeltsValue": "Sans Ceinture", // L'option qu'il donne lorsque vous ne portez pas de ceinture
+  "NoBucklesValue": "Sans Boucle", // L'option qu'il donne lorsque vous ne portez pas de boucle
+  "NoPantsValue": "Sans Pantalons", // L'option qu'il donne lorsque vous ne portez pas de pantalon
+  "NoSkirtsValue": "Sans Jupe", // L'option qu'il donne lorsque vous ne portez pas de jupe
+  "NoChapsValue": "Sans Chaps", // L'option qu'il donne lorsque vous ne portez pas de jambières
+  "NoBootsValue": "Sans Bottes", // L'option qu'il donne lorsque vous ne portez pas de bottes
+  "NoSpursValue": "Sans Éperons", // L'option qu'il donne lorsque vous ne portez pas d'éperons
 
   "Hats": "Chapeaux",
   "Glasses": "Lunettes",

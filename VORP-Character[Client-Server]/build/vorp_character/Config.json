@@ -1,3 +1,8 @@
 {
-  "defaultlang": "es" // set your language in Languages.json file
+  "defaultlang": "es", // set your language in Languages.json file
+
+  //StartingMoney
+  "StartingMoney": 0,
+  "StartingGold": 0,
+  "StartingRol": 0
 }
