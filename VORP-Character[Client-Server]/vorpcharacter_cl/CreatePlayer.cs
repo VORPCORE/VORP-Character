@@ -780,7 +780,7 @@ namespace vorpcore_cl.Scripts
                             else
                             {
                                 Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.HAIR_FEMALE[_newIndex - 1], true, true, true);
-                                skinPlayer["Hair"] = SkinsUtils.HAIR_MALE[_newIndex - 1];
+                                skinPlayer["Hair"] = SkinsUtils.HAIR_FEMALE[_newIndex - 1];
                             }
                         }
                         Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
