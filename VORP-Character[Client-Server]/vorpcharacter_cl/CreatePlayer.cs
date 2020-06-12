@@ -382,7 +382,7 @@ namespace vorpcore_cl.Scripts
             mcc.AddMenuItem(mListMouthY); // Lo añadimos al menu
 
 
-            MenuListItem mListULiphH = new MenuListItem("UpperLipHeight", sizeType, 0, Language.Langs["UpperLipHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListULiphH = new MenuListItem(Language.Langs["UpperLipHeight"], sizeType, 0, Language.Langs["UpperLipHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListULiphH); // Lo añadimos al menu
             MenuListItem mListULiphW = new MenuListItem(Language.Langs["UpperLipWidth"], sizeType, 0, Language.Langs["UpperLipWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListULiphW); // Lo añadimos al menu
