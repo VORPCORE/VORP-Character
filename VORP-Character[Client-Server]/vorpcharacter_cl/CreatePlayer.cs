@@ -1245,7 +1245,7 @@ namespace vorpcore_cl.Scripts
             mdu.AddMenuItem(mListPants); // Lo añadimos al menu
 
             List<string> skirtsType = new List<string>();
-            pantsType.Add(Language.Langs["NoSkirtsValue"]);
+            skirtsType.Add(Language.Langs["NoSkirtsValue"]);
 
             if (model == "mp_male")
             {
