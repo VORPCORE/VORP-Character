@@ -287,7 +287,10 @@ namespace vorpcharacter_cl
             SetPlayerComponent(skin["sex"], 0xA6D134C6, "Belt", cloths);
             SetPlayerComponent(skin["sex"], 0xFAE9107F, "Buckle", cloths);
             SetPlayerComponent(skin["sex"], 0xB6B6122D, "Holster", cloths);
-            SetPlayerComponent(skin["sex"], 0x1D4C528A, "Pant", cloths);
+            if (cloths["Skirt"] != -1) // Prevents both Pant & Skirt in female ped.
+            {
+                SetPlayerComponent(skin["sex"], 0x1D4C528A, "Pant", cloths);
+            }
             SetPlayerComponent(skin["sex"], 0xA0E3AB7F, "Skirt", cloths);
             SetPlayerComponent(skin["sex"], 0x3107499B, "Chap", cloths);
             SetPlayerComponent(skin["sex"], 0x777EC6EF, "Boots", cloths);
@@ -337,9 +340,11 @@ namespace vorpcharacter_cl
 
         private async Task IsLoaded()
         {
-            while (Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId()))
+            await Delay(2000);
+            while (!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId()))
             {
                 Debug.WriteLine("Not Loaded");
+                await Delay(1000);
             }
         }
 
