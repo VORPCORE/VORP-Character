@@ -163,7 +163,7 @@ namespace vorpcharacter_sv
                 }
                 else
                 {
-                    Exports["ghmattimysql"].execute("UPDATE characters SET firstname=?, lastname=?, skinPlayer=?, compPlayer=? WHERE identifier=? AND id=?", new object[] { firstname, lastname, skinPlayer, componentsPlayer, sid });
+                    Exports["ghmattimysql"].execute("UPDATE characters SET firstname=?, lastname=?, skinPlayer=?, compPlayer=? WHERE identifier=?", new object[] { firstname, lastname, skinPlayer, componentsPlayer, sid });
                 }
             }));
         }

@@ -147,9 +147,6 @@ namespace vorpcore_cl.Scripts
                 }
 
             }), false);
-
-            API.RegisterNuiCallbackType("register");
-            EventHandlers["__cfx_nui:register"] += new Action<ExpandoObject>(RegisterChar);
         }
 
         private void CheckCreation()
@@ -263,14 +260,6 @@ namespace vorpcore_cl.Scripts
 
             }
 
-        }
-
-        private void RegisterChar(dynamic obj)
-        {
-            API.SetNuiFocus(false, false);
-            TriggerServerEvent("vorpcharacter:SaveSkinDB", skinPlayer, clothesPlayer, obj.firstname);
-            StopCreation();
-            StartAnim();
         }
 
         private async void StopCreation()
@@ -1543,11 +1532,21 @@ namespace vorpcore_cl.Scripts
 
         private async Task SaveChanges()
         {
-            API.SetNuiFocus(true, false);
-
-            string json = "{\"type\": \"enableui\",\"enable\": \"true\"}";
-
-            API.SendNuiMessage(json);
+            TriggerEvent("vorpinputs:getInput", Language.Langs["ButtonInputName"], Language.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
+            {
+                string result = cb;
+                await Delay(1000);
+                if (result.Length < 3) {
+                    TriggerEvent("vorp:Tip", Language.Langs["PlaceHolderInputName"], 3000); // from client side
+                    SaveChanges();
+                }
+                else
+                {
+                    TriggerServerEvent("vorpcharacter:SaveSkinDB", skinPlayer, clothesPlayer, result);
+                    StopCreation();
+                    StartAnim();
+                }
+            }));
         }
 
         private async void StartCreation()
@@ -1739,11 +1738,14 @@ namespace vorpcore_cl.Scripts
                 }
                 else
                 {
-                    Debug.WriteLine("Sin seleccionar");
                 }
                 await Delay(100);
             }
 
+            if (isSelectSexActive)
+            {
+                await DrawTxt(Language.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+            }
 
             if (isInCharCreation) //Fix Run Ped
             {
@@ -1779,5 +1781,15 @@ namespace vorpcore_cl.Scripts
 
         }
 
+        public async Task DrawTxt(string text, float x, float y, float fontscale, float fontsize, int r, int g, int b, int alpha, bool textcentred, bool shadow)
+        {
+            long str = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", text);
+            Function.Call(Hash.SET_TEXT_SCALE, fontscale, fontsize);
+            Function.Call(Hash._SET_TEXT_COLOR, r, g, b, alpha);
+            Function.Call(Hash.SET_TEXT_CENTRE, textcentred);
+            if (shadow) { Function.Call(Hash.SET_TEXT_DROPSHADOW, 1, 0, 0, 255); }
+            Function.Call(Hash.SET_TEXT_FONT_FOR_CURRENT_COMMAND, 1);
+            Function.Call(Hash._DISPLAY_TEXT, str, x, y);
+        }
     }
 }
