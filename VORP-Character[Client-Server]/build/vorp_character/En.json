@@ -1,7 +1,7 @@
 {
     "PressRightOrLeft": "Press [<-] or [->] to select your gender",
     //Input Name 
-    "PlaceHolderInputName": "Write the name and last name of your character",
+    "PlaceHolderInputName": "Write the first name and last name of your character",
     "ButtonInputName": "Confirm",
     "InputError": "You must have a name longer than 3 letters",
     //Body
