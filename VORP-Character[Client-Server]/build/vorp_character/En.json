@@ -1,4 +1,9 @@
 {
+    "PressRightOrLeft": "Press [<-] or [->] to select your gender",
+    //Input Name 
+    "PlaceHolderInputName": "Write the name and last name of your character",
+    "ButtonInputName": "Confirm",
+    "InputError": "You must have a name longer than 3 letters",
     //Body
     "TitleMenuBody": "Character Editor", // Menu Title
     "SubTitleMenuBody": "Customize your character", // Menu Description
