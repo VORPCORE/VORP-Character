@@ -1,5 +1,5 @@
 ﻿{
-    "PressRightOrLeft": "Presiona [~e~<-~q~] o [~e~->~q~] para seleccionar el sexo",
+    "PressRightOrLeft": "Presiona [<-] o [->] para seleccionar el sexo",
     //Input Name 
     "PlaceHolderInputName": "Escribe un nombre y apellido para tu personaje",
     "ButtonInputName": "Confirmar",
