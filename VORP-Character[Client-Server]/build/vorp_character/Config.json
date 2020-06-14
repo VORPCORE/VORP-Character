@@ -1,5 +1,5 @@
 {
-  "defaultlang": "es", // set your language in Languages.json file
+  "defaultlang": "Es", // set your language in Languages.json file
 
   //StartingMoney
   "StartingMoney": 0,
