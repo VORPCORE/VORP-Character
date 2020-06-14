@@ -147,6 +147,22 @@ namespace vorpcore_cl.Scripts
                 }
 
             }), false);
+
+            API.RegisterCommand("bmp", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                string comp = "0x" + args[0].ToString();
+                int compInt = Convert.ToInt32(comp, 16);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), compInt, true, true, true);
+                Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            }), false);
+
+            API.RegisterCommand("bsp", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                string comp = "0x" + args[0].ToString();
+                int compInt = Convert.ToInt32(comp, 16);
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), compInt, true, false, true);
+                Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            }), false);
         }
 
         private void CheckCreation()
