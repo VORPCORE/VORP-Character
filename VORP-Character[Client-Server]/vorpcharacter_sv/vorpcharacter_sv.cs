@@ -159,7 +159,7 @@ namespace vorpcharacter_sv
                 if (result.Count == 0)
                 {
                     Exports["ghmattimysql"].execute("INSERT INTO characters (`identifier`, `firstname`, `lastname`, `skinPlayer`, `compPlayer`) VALUES (?, ?, ?, ?, ?)", new object[] { sid, firstname, lastname, skinPlayer, componentsPlayer });
-                    SetStartMoney(int.Parse(source.Handle));
+                    SetStartMoney(int.Parse(source.Handle), source);
                 }
                 else
                 {
@@ -168,7 +168,7 @@ namespace vorpcharacter_sv
             }));
         }
 
-        private async Task SetStartMoney(int source)
+        private async Task SetStartMoney(int source, Player player)
         {
             await Delay(5000);
             TriggerEvent("vorp:addMoney", source, 0, int.Parse(Config["StartingMoney"].ToString()));
@@ -178,6 +178,7 @@ namespace vorpcharacter_sv
             TriggerEvent("vorp:addMoney", source, 2, int.Parse(Config["StartingRol"].ToString()));
             await Delay(500);
             TriggerEvent("vorp:firstSpawn", source);
+            player.TriggerEvent("vorp:firstSpawn");
         }
     }
 }
