@@ -1,4 +1,9 @@
 {
+  "PressRightOrLeft": "Appuyez [<-] ou [->] pour sélectionner votre sexe",
+  //Nom d'entrée 
+  "PlaceHolderInputName": "Écrivez le prénom et le nom de votre personnage",
+  "ButtonInputName": "Confirmer",
+  "InputError": "Vous devez avoir un nom de plus de 3 lettres",
   //Corps
   "TitleMenuBody": "Éditeur de personnages", // Titre du Menu
   "SubTitleMenuBody": "Éditez votre personnage", // Description du Menu
