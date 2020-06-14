@@ -11,7 +11,7 @@ namespace vorpcharacter_cl.Menus
 {
     class MainMenu
     {
-        private static Menu mainMenu = new Menu(Language.Langs["TitleMenuBody"], Language.Langs["SubTitleMenuBody"]);
+        private static Menu mainMenu = new Menu(Language.Langs["TitleMainMenu"], Language.Langs["SubTitleMainMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {
@@ -22,17 +22,38 @@ namespace vorpcharacter_cl.Menus
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            //Weapons Buy Menu
-            //MenuController.AddSubmenu(mainMenu, BuyMenu.GetMenu());
+            //SkinMenu
+            MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
 
-            //MenuItem subMenuBuyBtn = new MenuItem(GetConfig.Langs["MenuMainButtonBuyWeapons"], " ")
-            //{
-            //    RightIcon = MenuItem.Icon.ARROW_RIGHT
-            //};
+            MenuItem subMenuSkinBtn = new MenuItem(Language.Langs["TitleSkinMenu"], Language.Langs["SubTitleSkinMenu"])
+            {
+                RightIcon = MenuItem.Icon.ARROW_RIGHT
+            };
 
-            //mainMenu.AddMenuItem(subMenuBuyBtn);
-            //MenuController.BindMenuItem(mainMenu, BuyMenu.GetMenu(), subMenuBuyBtn);
+            mainMenu.AddMenuItem(subMenuSkinBtn);
+            MenuController.BindMenuItem(mainMenu, SkinMenu.GetMenu(), subMenuSkinBtn);
 
+            //FaceMenu
+            MenuController.AddSubmenu(mainMenu, FaceMenu.GetMenu());
+
+            MenuItem subMenuFaceBtn = new MenuItem(Language.Langs["TitleFaceMenu"], Language.Langs["SubTitleFaceMenu"])
+            {
+                RightIcon = MenuItem.Icon.ARROW_RIGHT
+            };
+
+            mainMenu.AddMenuItem(subMenuFaceBtn);
+            MenuController.BindMenuItem(mainMenu, FaceMenu.GetMenu(), subMenuFaceBtn);
+
+            //ClothesMenu
+            MenuController.AddSubmenu(mainMenu, ClothesMenu.GetMenu());
+
+            MenuItem subMenuClothesBtn = new MenuItem(Language.Langs["TitleClothesMenu"], Language.Langs["SubTitleClothesMenu"])
+            {
+                RightIcon = MenuItem.Icon.ARROW_RIGHT
+            };
+
+            mainMenu.AddMenuItem(subMenuClothesBtn);
+            MenuController.BindMenuItem(mainMenu, ClothesMenu.GetMenu(), subMenuClothesBtn);
 
 
             mainMenu.OnMenuOpen += (_menu) => {
