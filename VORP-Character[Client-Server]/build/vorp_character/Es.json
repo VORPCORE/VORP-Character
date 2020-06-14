@@ -3,7 +3,7 @@
     //Input Name 
     "PlaceHolderInputName": "Escribe un nombre y apellido para tu personaje",
     "ButtonInputName": "Confirmar",
-    "InputError": "Debes ponerte un nombre con minimo 3 caracteres",
+    "InputError": "Debes ponerte un nombre con mínimo 3 caracteres",
     //Cuerpo
     "TitleMenuBody": "Editor de Personaje", // Título del Menú
     "SubTitleMenuBody": "Edita tu personaje", // Descripción del Menú
