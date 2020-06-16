@@ -9,13 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
-namespace vorpcore_cl.Scripts
+namespace vorpcore_cl
 {
     public class CreatePlayer : BaseScript
     {
         bool isSelectSexActive = false;
         bool isDressUpPed = false;
         bool isInCharCreation = false;
+        public static string model_selected;
         string model_f = "mp_female";
         string model_m = "mp_male";
         int PedFemale;
@@ -163,6 +164,15 @@ namespace vorpcore_cl.Scripts
                 Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), compInt, true, false, true);
                 Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
             }), false);
+
+            API.RegisterCommand("reset", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                string comp = "0x" + args[0].ToString();
+                int compInt = Convert.ToInt32(comp, 16);
+                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), compInt, 0);
+                Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
+            }), false);
+
         }
 
         private void CheckCreation()

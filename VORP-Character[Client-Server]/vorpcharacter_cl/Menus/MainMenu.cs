@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
+using vorpcore_cl;
 
 namespace vorpcharacter_cl.Menus
 {
@@ -21,6 +22,28 @@ namespace vorpcharacter_cl.Menus
 
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
+
+            List<string> bodyType = new List<string>();
+            bodyType.Add(Language.Langs["NoGlassesValue"]);
+
+            if (CreatePlayer.model_selected == "mp_male")
+            {
+                //Cabellos de Hombre
+                for (float i = 1; i < SkinsUtils.EYEWEAR_MALE.Count + 1; i++)
+                {
+                    bodyType.Add(Language.Langs["GlassesValue"] + i);
+                }
+            }
+            else
+            {
+                //Cabellos de Mujer
+                for (float i = 1; i < SkinsUtils.EYEWEAR_FEMALE.Count + 1; i++)
+                {
+                    bodyType.Add(Language.Langs["GlassesValue"] + i);
+                }
+            }
+            MenuListItem mListEyeWear = new MenuListItem(Language.Langs["Glasses"], bodyType, 0, Language.Langs["GlassesDesc"]); // Añadimos la lista al boton
+            mainMenu.AddMenuItem(mListEyeWear); // Lo añadimos al menu
 
             //SkinMenu
             MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
