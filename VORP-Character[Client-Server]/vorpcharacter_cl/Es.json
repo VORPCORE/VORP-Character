@@ -17,6 +17,9 @@
   "TitleSkinMenu": "Edita tu skin",
   "SubTitleSkinMenu": "Dale rasgos a tu personaje",
 
+  "TitleImportMenu": "Importar Skin",
+  "SubTitleImportMenu": "Si has jugado en otro servidor que use VORP Core podras importar tu skin.",
+
   "TypeValues": "Tipo #", // Las opciones de cada apartado
   "BeardValue": "Barba #", // Las opciones del apartado de la barba
   "HairValue": "Pelo #", // Las opciones del apartado del pelo

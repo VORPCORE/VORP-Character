@@ -4,5 +4,18 @@
   //StartingMoney
   "StartingMoney": 0,
   "StartingGold": 0,
-  "StartingRol": 0
+  "StartingRol": 0,
+
+
+  //Do not Touch this.
+  "Male": [
+    {
+      "Body": [ "206061DB", "84BAA309" ],
+      "Heads": [ "A0BE4A7B" ]
+    },
+    {
+      "Body": [ "34C3B131", "27F95FB6" ],
+      "Heads": [ "2BADE2F9" ]
+    }
+  ] 
 }
