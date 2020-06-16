@@ -23,6 +23,17 @@ namespace vorpcharacter_cl.Menus
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
+            //ImportMenu
+            MenuController.AddSubmenu(mainMenu, ImportMenu.GetMenu());
+
+            MenuItem subMenuImportBtn = new MenuItem(Language.Langs["TitleImportMenu"], Language.Langs["SubTitleImportMenu"])
+            {
+                RightIcon = MenuItem.Icon.STAR
+            };
+
+            mainMenu.AddMenuItem(subMenuImportBtn);
+            MenuController.BindMenuItem(mainMenu, ImportMenu.GetMenu(), subMenuImportBtn);
+
             //SkinMenu
             MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
 
