@@ -67,7 +67,14 @@ namespace vorpcharacter_cl.Menus
             mainMenu.AddMenuItem(subMenuClothesBtn);
             MenuController.BindMenuItem(mainMenu, ClothesMenu.GetMenu(), subMenuClothesBtn);
 
+            //Finish Button
+            MenuItem FinishBtn = new MenuItem(Language.Langs["FinishBtnMainMenu"], Language.Langs["SubFinishBtnMainMenu"])
+            {
+                RightIcon = MenuItem.Icon.TICK
+            };
+            mainMenu.AddMenuItem(FinishBtn);
 
+            //Events
             mainMenu.OnMenuOpen += (_menu) => {
                 
             };
@@ -80,7 +87,7 @@ namespace vorpcharacter_cl.Menus
             mainMenu.OnItemSelect += (_menu, _item, _index) =>
             {
                 // Code in here would get executed whenever an item is pressed.
-                if (_index == 3)
+                if (_index == 0)
                 {
                     //isDressUpPed = false;
                     //SaveChanges();

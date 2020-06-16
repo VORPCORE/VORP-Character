@@ -5,8 +5,10 @@
   "ButtonInputName": "Confirmar",
   "InputError": "Debes ponerte un nombre con mínimo 3 caracteres",
   //Cuerpo
-  "TitleMainMenu": "Editor de Personaje", // Título del Menú
-  "SubTitleMainMenu": "Edita tu personaje", // Descripción del Menú
+  "TitleMainMenu": "Editor de Personaje",
+  "SubTitleMainMenu": "Edita tu personaje",
+  "FinishBtnMainMenu": "Finalizar y Guardar",
+  "SubFinishBtnMainMenu": "Terminar la creación del personaje.",
 
   "TitleClothesMenu": "Vestidor",
   "SubTitleClothesMenu": "Viste tu personaje",
