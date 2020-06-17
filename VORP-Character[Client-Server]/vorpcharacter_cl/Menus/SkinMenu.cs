@@ -39,10 +39,10 @@ namespace vorpcharacter_cl.Menus
                 List<string> faceValues = new List<string>();
                 for (int i = 1; i <= GetConfig.Config["Male"][0]["Faces"].Count(); i++)
                 {
-                    bodyValues.Add(GetConfig.Langs["BodyColorValues"] + i);
+                    bodyValues.Add(GetConfig.Langs["FaceValues"] + i);
                 }
 
-                MenuListItem btnSelectorFace = new MenuListItem(GetConfig.Langs["BodyColor"], bodyValues, 0, GetConfig.Langs["BodyColorDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorFace = new MenuListItem(GetConfig.Langs["FaceType"], faceValues, 0, GetConfig.Langs["FaceTypeDesc"]); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
             }
             else //Female
@@ -55,6 +55,16 @@ namespace vorpcharacter_cl.Menus
                 }
 
                 MenuListItem btnSelectorBody = new MenuListItem(GetConfig.Langs["BodyColor"], bodyValues, 0, GetConfig.Langs["BodyColorDesc"]); // Añadimos la lista al boton
+                skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
+
+                //Faces
+                List<string> faceValues = new List<string>();
+                for (int i = 1; i <= GetConfig.Config["Female"][0]["Faces"].Count(); i++)
+                {
+                    bodyValues.Add(GetConfig.Langs["FaceValues"] + i);
+                }
+
+                MenuListItem btnSelectorFace = new MenuListItem(GetConfig.Langs["FaceType"], faceValues, 0, GetConfig.Langs["FaceTypeDesc"]); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
             }
 
