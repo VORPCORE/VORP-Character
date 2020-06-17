@@ -270,7 +270,7 @@ namespace vorpcore_cl
 
             API.SetRelationshipBetweenGroups(1, HashPed, (uint)API.GetHashKey("PLAYER"));
 
-            TriggerEvent("vorp:Tip", Language.Langs["TipFinal"], 15000);
+            TriggerEvent("vorp:Tip", GetConfig.Langs["TipFinal"], 15000);
 
             for (int i = 0; i < 255; i++)
             {
@@ -307,7 +307,7 @@ namespace vorpcore_cl
             skinPlayer["sex"] = model;
 
             //Definimos el nombre y subtitlo del menu con un constructor
-            Menu mcc = new Menu(Language.Langs["TitleMenuBody"], Language.Langs["SubTitleMenuBody"]);
+            Menu mcc = new Menu(GetConfig.Langs["TitleMenuBody"], GetConfig.Langs["SubTitleMenuBody"]);
             MenuController.AddMenu(mcc);
             MenuController.MenuToggleKey = (Control)0;
 
@@ -316,129 +316,129 @@ namespace vorpcore_cl
 
             for (float i = 1; i < 11; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
             {
-                sizeType.Add(Language.Langs["TypeValues"] + i);
+                sizeType.Add(GetConfig.Langs["TypeValues"] + i);
             }
 
-            MenuListItem mListHead = new MenuListItem(Language.Langs["FaceSize"], sizeType, 0, Language.Langs["FaceSizeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListHead = new MenuListItem(GetConfig.Langs["FaceSize"], sizeType, 0, GetConfig.Langs["FaceSizeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListHead); // Lo añadimos al menu
 
             //Altura cejas
-            MenuListItem mListEyeBrowH = new MenuListItem(Language.Langs["EyebrowHeight"], sizeType, 0, Language.Langs["EyebrowHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeBrowH = new MenuListItem(GetConfig.Langs["EyebrowHeight"], sizeType, 0, GetConfig.Langs["EyebrowHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeBrowH); // Lo añadimos al menu
             //Anchura cejas
-            MenuListItem mListEyeBrowW = new MenuListItem(Language.Langs["EyebrowWidth"], sizeType, 0, Language.Langs["EyebrowWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeBrowW = new MenuListItem(GetConfig.Langs["EyebrowWidth"], sizeType, 0, GetConfig.Langs["EyebrowWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeBrowW); // Lo añadimos al menu
             //Profundida cejas
-            MenuListItem mListEyeBrowD = new MenuListItem(Language.Langs["EyebrowDepth"], sizeType, 0, Language.Langs["EyebrowDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeBrowD = new MenuListItem(GetConfig.Langs["EyebrowDepth"], sizeType, 0, GetConfig.Langs["EyebrowDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeBrowD); // Lo añadimos al menu
 
             //Altura Orejas
-            MenuListItem mListEarsH = new MenuListItem(Language.Langs["EarsHeight"], sizeType, 0, Language.Langs["EarsHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEarsH = new MenuListItem(GetConfig.Langs["EarsHeight"], sizeType, 0, GetConfig.Langs["EarsHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEarsH); // Lo añadimos al menu
             //Anchura Orejas
-            MenuListItem mListEarsW = new MenuListItem(Language.Langs["EarsAngle"], sizeType, 0, Language.Langs["EarsAngleDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEarsW = new MenuListItem(GetConfig.Langs["EarsAngle"], sizeType, 0, GetConfig.Langs["EarsAngleDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEarsW); // Lo añadimos al menu
             //Tamaño Orejas
-            MenuListItem mListEarsD = new MenuListItem(Language.Langs["EarsSize"], sizeType, 0, Language.Langs["EarsSizeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEarsD = new MenuListItem(GetConfig.Langs["EarsSize"], sizeType, 0, GetConfig.Langs["EarsSizeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEarsD); // Lo añadimos al menu
             //Tamaño Lobulo de la oreja
-            MenuListItem mListEarsL = new MenuListItem(Language.Langs["EarsLobeSize"], sizeType, 0, Language.Langs["EarsLobeSizeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEarsL = new MenuListItem(GetConfig.Langs["EarsLobeSize"], sizeType, 0, GetConfig.Langs["EarsLobeSizeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEarsL); // Lo añadimos al menu
 
             //Altura de los parpados
-            MenuListItem mListEyeLidH = new MenuListItem(Language.Langs["EyelidsHeight"], sizeType, 0, Language.Langs["EyelidsHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeLidH = new MenuListItem(GetConfig.Langs["EyelidsHeight"], sizeType, 0, GetConfig.Langs["EyelidsHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeLidH); // Lo añadimos al menu
             //Ancho de los parpados
-            MenuListItem mListEyeLidW = new MenuListItem(Language.Langs["EyelidsWidth"], sizeType, 0, Language.Langs["EyelidsWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeLidW = new MenuListItem(GetConfig.Langs["EyelidsWidth"], sizeType, 0, GetConfig.Langs["EyelidsWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeLidW); // Lo añadimos al menu
 
             //Profundida de los ojos
-            MenuListItem mListEyeD = new MenuListItem(Language.Langs["EyeDepth"], sizeType, 0, Language.Langs["EyeDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeD = new MenuListItem(GetConfig.Langs["EyeDepth"], sizeType, 0, GetConfig.Langs["EyeDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeD); // Lo añadimos al menu
             //Angulo de los ojos
-            MenuListItem mListEyeAng = new MenuListItem(Language.Langs["EyeAngle"], sizeType, 0, Language.Langs["EyeAngleDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeAng = new MenuListItem(GetConfig.Langs["EyeAngle"], sizeType, 0, GetConfig.Langs["EyeAngleDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeAng); // Lo añadimos al menu
             //Distancia de los ojos
-            MenuListItem mListEyeDis = new MenuListItem(Language.Langs["EyeSeparation"], sizeType, 0, Language.Langs["EyeSeparationDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeDis = new MenuListItem(GetConfig.Langs["EyeSeparation"], sizeType, 0, GetConfig.Langs["EyeSeparationDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeDis); // Lo añadimos al menu
             //Altura de los ojos
-            MenuListItem mListEyeH = new MenuListItem(Language.Langs["EyeHeight"], sizeType, 0, Language.Langs["EyeHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeH = new MenuListItem(GetConfig.Langs["EyeHeight"], sizeType, 0, GetConfig.Langs["EyeHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListEyeH); // Lo añadimos al menu
 
 
-            MenuListItem mListNoseW = new MenuListItem(Language.Langs["NoseWidth"], sizeType, 0, Language.Langs["NoseWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNoseW = new MenuListItem(GetConfig.Langs["NoseWidth"], sizeType, 0, GetConfig.Langs["NoseWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListNoseW); // Lo añadimos al menu
 
-            MenuListItem mListNoseS = new MenuListItem(Language.Langs["NoseSize"], sizeType, 0, Language.Langs["NoseSizeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNoseS = new MenuListItem(GetConfig.Langs["NoseSize"], sizeType, 0, GetConfig.Langs["NoseSizeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListNoseS); // Lo añadimos al menu
 
-            MenuListItem mListNoseH = new MenuListItem(Language.Langs["NoseHeight"], sizeType, 0, Language.Langs["NoseHeigthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNoseH = new MenuListItem(GetConfig.Langs["NoseHeight"], sizeType, 0, GetConfig.Langs["NoseHeigthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListNoseH); // Lo añadimos al menu
 
-            MenuListItem mListNoseAng = new MenuListItem(Language.Langs["NoseAngle"], sizeType, 0, Language.Langs["NoseAngleDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNoseAng = new MenuListItem(GetConfig.Langs["NoseAngle"], sizeType, 0, GetConfig.Langs["NoseAngleDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListNoseAng); // Lo añadimos al menu
 
-            MenuListItem mListNoseC = new MenuListItem(Language.Langs["NoseCurvature"], sizeType, 0, Language.Langs["NoseCurvatureDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNoseC = new MenuListItem(GetConfig.Langs["NoseCurvature"], sizeType, 0, GetConfig.Langs["NoseCurvatureDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListNoseC); // Lo añadimos al menu
 
-            MenuListItem mListNoseDis = new MenuListItem(Language.Langs["NostrilsSeparation"], sizeType, 0, Language.Langs["NostrilsSeparationDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNoseDis = new MenuListItem(GetConfig.Langs["NostrilsSeparation"], sizeType, 0, GetConfig.Langs["NostrilsSeparationDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListNoseDis); // Lo añadimos al menu
 
 
-            MenuListItem mListCheekBonesH = new MenuListItem(Language.Langs["CheekbonesHeight"], sizeType, 0, Language.Langs["CheekbonesHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCheekBonesH = new MenuListItem(GetConfig.Langs["CheekbonesHeight"], sizeType, 0, GetConfig.Langs["CheekbonesHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListCheekBonesH); // Lo añadimos al menu
 
-            MenuListItem mListCheekBonesW = new MenuListItem(Language.Langs["CheekbonesWidth"], sizeType, 0, Language.Langs["CheekbonesWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCheekBonesW = new MenuListItem(GetConfig.Langs["CheekbonesWidth"], sizeType, 0, GetConfig.Langs["CheekbonesWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListCheekBonesW); // Lo añadimos al menu
 
-            MenuListItem mListCheekBonesD = new MenuListItem(Language.Langs["CheekbonesDepth"], sizeType, 0, Language.Langs["CheekbonesDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCheekBonesD = new MenuListItem(GetConfig.Langs["CheekbonesDepth"], sizeType, 0, GetConfig.Langs["CheekbonesDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListCheekBonesD); // Lo añadimos al menu
 
 
-            MenuListItem mListMouthW = new MenuListItem(Language.Langs["MouthWidth"], sizeType, 0, Language.Langs["MouthWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListMouthW = new MenuListItem(GetConfig.Langs["MouthWidth"], sizeType, 0, GetConfig.Langs["MouthWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListMouthW); // Lo añadimos al menu
 
-            MenuListItem mListMouthD = new MenuListItem(Language.Langs["MouthDepth"], sizeType, 0, Language.Langs["MouthDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListMouthD = new MenuListItem(GetConfig.Langs["MouthDepth"], sizeType, 0, GetConfig.Langs["MouthDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListMouthD); // Lo añadimos al menu
 
-            MenuListItem mListMouthX = new MenuListItem(Language.Langs["MouthDeviation"], sizeType, 0, Language.Langs["MouthDeviationDesc"]); // Añadimos la lista al boton
+            MenuListItem mListMouthX = new MenuListItem(GetConfig.Langs["MouthDeviation"], sizeType, 0, GetConfig.Langs["MouthDeviationDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListMouthX); // Lo añadimos al menu
 
-            MenuListItem mListMouthY = new MenuListItem(Language.Langs["MouthHeight"], sizeType, 0, Language.Langs["MouthHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListMouthY = new MenuListItem(GetConfig.Langs["MouthHeight"], sizeType, 0, GetConfig.Langs["MouthHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListMouthY); // Lo añadimos al menu
 
 
-            MenuListItem mListULiphH = new MenuListItem(Language.Langs["UpperLipHeight"], sizeType, 0, Language.Langs["UpperLipHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListULiphH = new MenuListItem(GetConfig.Langs["UpperLipHeight"], sizeType, 0, GetConfig.Langs["UpperLipHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListULiphH); // Lo añadimos al menu
-            MenuListItem mListULiphW = new MenuListItem(Language.Langs["UpperLipWidth"], sizeType, 0, Language.Langs["UpperLipWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListULiphW = new MenuListItem(GetConfig.Langs["UpperLipWidth"], sizeType, 0, GetConfig.Langs["UpperLipWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListULiphW); // Lo añadimos al menu
-            MenuListItem mListULiphD = new MenuListItem(Language.Langs["UpperLipDepth"], sizeType, 0, Language.Langs["UpperLipDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListULiphD = new MenuListItem(GetConfig.Langs["UpperLipDepth"], sizeType, 0, GetConfig.Langs["UpperLipDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListULiphD); // Lo añadimos al menu
-            MenuListItem mListLLiphH = new MenuListItem(Language.Langs["LowerLipHeight"], sizeType, 0, Language.Langs["LowerLipHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListLLiphH = new MenuListItem(GetConfig.Langs["LowerLipHeight"], sizeType, 0, GetConfig.Langs["LowerLipHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListLLiphH); // Lo añadimos al menu
-            MenuListItem mListLLiphW = new MenuListItem(Language.Langs["LowerLipWidth"], sizeType, 0, Language.Langs["LowerLipWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListLLiphW = new MenuListItem(GetConfig.Langs["LowerLipWidth"], sizeType, 0, GetConfig.Langs["LowerLipWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListLLiphW); // Lo añadimos al menu
-            MenuListItem mListLLiphD = new MenuListItem(Language.Langs["LowerLipDepth"], sizeType, 0, Language.Langs["LowerLipDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListLLiphD = new MenuListItem(GetConfig.Langs["LowerLipDepth"], sizeType, 0, GetConfig.Langs["LowerLipDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListLLiphD); // Lo añadimos al menu
 
 
-            MenuListItem mListJawH = new MenuListItem(Language.Langs["MandibleHeight"], sizeType, 0, Language.Langs["MandibleHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListJawH = new MenuListItem(GetConfig.Langs["MandibleHeight"], sizeType, 0, GetConfig.Langs["MandibleHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListJawH); // Lo añadimos al menu
 
-            MenuListItem mListJawW = new MenuListItem(Language.Langs["MandibleWidth"], sizeType, 0, Language.Langs["MandibleWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListJawW = new MenuListItem(GetConfig.Langs["MandibleWidth"], sizeType, 0, GetConfig.Langs["MandibleWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListJawW); // Lo añadimos al menu
 
-            MenuListItem mListJawD = new MenuListItem(Language.Langs["MandibleDepth"], sizeType, 0, Language.Langs["MandibleDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListJawD = new MenuListItem(GetConfig.Langs["MandibleDepth"], sizeType, 0, GetConfig.Langs["MandibleDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListJawD); // Lo añadimos al menu
 
 
-            MenuListItem mListChinH = new MenuListItem(Language.Langs["ChinHeight"], sizeType, 0, Language.Langs["ChinHeightDesc"]); // Añadimos la lista al boton
+            MenuListItem mListChinH = new MenuListItem(GetConfig.Langs["ChinHeight"], sizeType, 0, GetConfig.Langs["ChinHeightDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListChinH); // Lo añadimos al menu
 
-            MenuListItem mListChinW = new MenuListItem(Language.Langs["ChinWidth"], sizeType, 0, Language.Langs["ChinWidthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListChinW = new MenuListItem(GetConfig.Langs["ChinWidth"], sizeType, 0, GetConfig.Langs["ChinWidthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListChinW); // Lo añadimos al menu
 
-            MenuListItem mListChinD = new MenuListItem(Language.Langs["ChinDepth"], sizeType, 0, Language.Langs["ChinDepthDesc"]); // Añadimos la lista al boton
+            MenuListItem mListChinD = new MenuListItem(GetConfig.Langs["ChinDepth"], sizeType, 0, GetConfig.Langs["ChinDepthDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListChinD); //Lo añadimos al menu
             
             List<string> beardType = new List<string>();
@@ -448,15 +448,15 @@ namespace vorpcore_cl
                 //Barbas de Hombre
                 for (float i = 1; i < SkinsUtils.BEARD_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    beardType.Add(Language.Langs["BeardValue"] + i);
+                    beardType.Add(GetConfig.Langs["BeardValue"] + i);
                 }
             }
             else
             {
-                    beardType.Add(Language.Langs["NoExistValue"]);
+                    beardType.Add(GetConfig.Langs["NoExistValue"]);
             }
 
-            MenuListItem mListBeard = new MenuListItem(Language.Langs["BeardType"], beardType, 0, Language.Langs["BeardTypeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBeard = new MenuListItem(GetConfig.Langs["BeardType"], beardType, 0, GetConfig.Langs["BeardTypeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListBeard); // Lo añadimos al menu
 
 
@@ -485,7 +485,7 @@ namespace vorpcore_cl
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.HAIR_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    hairType.Add(Language.Langs["HairValue"] + i);
+                    hairType.Add(GetConfig.Langs["HairValue"] + i);
                 }
             }
             else
@@ -493,11 +493,11 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.HAIR_FEMALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    hairType.Add(Language.Langs["HairValue"] + i);
+                    hairType.Add(GetConfig.Langs["HairValue"] + i);
                 }
             }
 
-            MenuListItem mListHair = new MenuListItem(Language.Langs["HairType"], hairType, 0, Language.Langs["HairTypeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListHair = new MenuListItem(GetConfig.Langs["HairType"], hairType, 0, GetConfig.Langs["HairTypeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListHair); // Lo añadimos al menu
 
             //Tipo de cuerpo
@@ -505,10 +505,10 @@ namespace vorpcore_cl
 
             for(int i = 1; i < SkinsUtils.BODY_TYPES.Count +1 ; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
             {
-                bodyType.Add(Language.Langs["BodySizeValue"] + i);
+                bodyType.Add(GetConfig.Langs["BodySizeValue"] + i);
             }
 
-            MenuListItem mListBody = new MenuListItem(Language.Langs["BodyType"], bodyType, 0, Language.Langs["BodyTypeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBody = new MenuListItem(GetConfig.Langs["BodyType"], bodyType, 0, GetConfig.Langs["BodyTypeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListBody); // Lo añadimos al menu
 
             //Tipo de cuerpo
@@ -516,14 +516,14 @@ namespace vorpcore_cl
 
             for (int i = 1; i < SkinsUtils.WAIST_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
             {
-                waistType.Add(Language.Langs["WaistValue"] + i);
+                waistType.Add(GetConfig.Langs["WaistValue"] + i);
             }
 
-            MenuListItem mListWaist = new MenuListItem(Language.Langs["WaistType"], waistType, 0, Language.Langs["WaistTypeDesc"]); // Añadimos la lista al boton
+            MenuListItem mListWaist = new MenuListItem(GetConfig.Langs["WaistType"], waistType, 0, GetConfig.Langs["WaistTypeDesc"]); // Añadimos la lista al boton
             mcc.AddMenuItem(mListWaist); // Lo añadimos al menu
 
             //Terminamos y confirmamos
-            mcc.AddMenuItem(new MenuItem(Language.Langs["Confirm"], Language.Langs["ConfirmDesc"])
+            mcc.AddMenuItem(new MenuItem(GetConfig.Langs["Confirm"], GetConfig.Langs["ConfirmDesc"])
             {
                 Enabled = true,
                 LeftIcon = MenuItem.Icon.TICK
@@ -846,19 +846,19 @@ namespace vorpcore_cl
             MenuController.Menus.Clear();
 
             //Definimos el nombre y subtitlo del menu con un constructor
-            Menu mdu = new Menu(Language.Langs["TitleMenuClothes"], Language.Langs["SubTitleMenuClothes"]);
+            Menu mdu = new Menu(GetConfig.Langs["TitleMenuClothes"], GetConfig.Langs["SubTitleMenuClothes"]);
             MenuController.AddMenu(mdu);
             MenuController.MenuToggleKey = (Control)0;
 
             List<string> hatType = new List<string>();
-            hatType.Add(Language.Langs["NoHatsValue"]);
+            hatType.Add(GetConfig.Langs["NoHatsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.HATS_MALE.Count + 1; i++)
                 {
-                    hatType.Add(Language.Langs["HatsValue"] + i);
+                    hatType.Add(GetConfig.Langs["HatsValue"] + i);
                 }
             }
             else
@@ -866,21 +866,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.HATS_FEMALE.Count + 1; i++)
                 {
-                    hatType.Add(Language.Langs["HatsValue"] + i);
+                    hatType.Add(GetConfig.Langs["HatsValue"] + i);
                 }
             }
-            MenuListItem mListHats = new MenuListItem(Language.Langs["Hats"], hatType, 0, Language.Langs["HatsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListHats = new MenuListItem(GetConfig.Langs["Hats"], hatType, 0, GetConfig.Langs["HatsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListHats); // Lo añadimos al menu
 
             List<string> eyeWearType = new List<string>();
-            eyeWearType.Add(Language.Langs["NoGlassesValue"]);
+            eyeWearType.Add(GetConfig.Langs["NoGlassesValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.EYEWEAR_MALE.Count + 1; i++) 
                 {
-                    eyeWearType.Add(Language.Langs["GlassesValue"] + i);
+                    eyeWearType.Add(GetConfig.Langs["GlassesValue"] + i);
                 }
             }
             else
@@ -888,21 +888,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.EYEWEAR_FEMALE.Count + 1; i++) 
                 {
-                    eyeWearType.Add(Language.Langs["GlassesValue"] + i);
+                    eyeWearType.Add(GetConfig.Langs["GlassesValue"] + i);
                 }
             }
-            MenuListItem mListEyeWear = new MenuListItem(Language.Langs["Glasses"], eyeWearType, 0, Language.Langs["GlassesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeWear = new MenuListItem(GetConfig.Langs["Glasses"], eyeWearType, 0, GetConfig.Langs["GlassesDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListEyeWear); // Lo añadimos al menu
 
             List<string> neckWearType = new List<string>();
-            neckWearType.Add(Language.Langs["NoNeckwearValue"]);
+            neckWearType.Add(GetConfig.Langs["NoNeckwearValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.NECKWEAR_MALE.Count + 1; i++)
                 {
-                    neckWearType.Add(Language.Langs["NeckwearValue"] + i);
+                    neckWearType.Add(GetConfig.Langs["NeckwearValue"] + i);
                 }
             }
             else
@@ -910,21 +910,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.NECKWEAR_FEMALE.Count + 1; i++)
                 {
-                    neckWearType.Add(Language.Langs["NeckwearValue"] + i);
+                    neckWearType.Add(GetConfig.Langs["NeckwearValue"] + i);
                 }
             }
-            MenuListItem mListNeckWear = new MenuListItem(Language.Langs["Neckwear"], neckWearType, 0, Language.Langs["NeckwearDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNeckWear = new MenuListItem(GetConfig.Langs["Neckwear"], neckWearType, 0, GetConfig.Langs["NeckwearDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListNeckWear); // Lo añadimos al menu
 
             List<string> neckTiesType = new List<string>();
-            neckTiesType.Add(Language.Langs["NoTiesValue"]);
+            neckTiesType.Add(GetConfig.Langs["NoTiesValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.NECKTIES_MALE.Count + 1; i++)
                 {
-                    neckTiesType.Add(Language.Langs["TiesValue"] + i);
+                    neckTiesType.Add(GetConfig.Langs["TiesValue"] + i);
                 }
             }
             else
@@ -932,21 +932,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.NECKTIES_FEMALE.Count + 1; i++)
                 {
-                    neckTiesType.Add(Language.Langs["TiesValue"] + i);
+                    neckTiesType.Add(GetConfig.Langs["TiesValue"] + i);
                 }
             }
-            MenuListItem mListNeckTies = new MenuListItem(Language.Langs["Ties"], neckTiesType, 0, Language.Langs["TiesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNeckTies = new MenuListItem(GetConfig.Langs["Ties"], neckTiesType, 0, GetConfig.Langs["TiesDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListNeckTies); // Lo añadimos al menu
 
             List<string> shirtsType = new List<string>();
-            shirtsType.Add(Language.Langs["NoShirtsValue"]);
+            shirtsType.Add(GetConfig.Langs["NoShirtsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.SHIRTS_MALE.Count + 1; i++)
                 {
-                    shirtsType.Add(Language.Langs["ShirtsValue"] + i);
+                    shirtsType.Add(GetConfig.Langs["ShirtsValue"] + i);
                 }
             }
             else
@@ -954,21 +954,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SHIRTS_FEMALE.Count + 1; i++)
                 {
-                    shirtsType.Add(Language.Langs["ShirtsValue"] + i);
+                    shirtsType.Add(GetConfig.Langs["ShirtsValue"] + i);
                 }
             }
-            MenuListItem mListShirts = new MenuListItem(Language.Langs["Shirts"], shirtsType, 0, Language.Langs["ShirtsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListShirts = new MenuListItem(GetConfig.Langs["Shirts"], shirtsType, 0, GetConfig.Langs["ShirtsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListShirts); // Lo añadimos al menu
 
             List<string> suspendersType = new List<string>();
-            suspendersType.Add(Language.Langs["NoSuspendersValue"]);
+            suspendersType.Add(GetConfig.Langs["NoSuspendersValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.SUSPENDERS_MALE.Count + 1; i++)
                 {
-                    suspendersType.Add(Language.Langs["SuspendersValue"] + i);
+                    suspendersType.Add(GetConfig.Langs["SuspendersValue"] + i);
                 }
             }
             else
@@ -976,22 +976,22 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SUSPENDERS_FEMALE.Count + 1; i++)
                 {
-                    suspendersType.Add(Language.Langs["SuspendersValue"] + i);
+                    suspendersType.Add(GetConfig.Langs["SuspendersValue"] + i);
                 }
             }
-            MenuListItem mListSuspenders = new MenuListItem(Language.Langs["Suspenders"], suspendersType, 0, Language.Langs["SuspendersDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSuspenders = new MenuListItem(GetConfig.Langs["Suspenders"], suspendersType, 0, GetConfig.Langs["SuspendersDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListSuspenders); // Lo añadimos al menu
 
 
             List<string> vestType = new List<string>();
-            vestType.Add(Language.Langs["NoVestsValue"]);
+            vestType.Add(GetConfig.Langs["NoVestsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.VEST_MALE.Count + 1; i++)
                 {
-                    vestType.Add(Language.Langs["VestsValue"] + i);
+                    vestType.Add(GetConfig.Langs["VestsValue"] + i);
                 }
             }
             else
@@ -999,21 +999,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.VEST_FEMALE.Count + 1; i++)
                 {
-                    vestType.Add(Language.Langs["VestsValue"] + i);
+                    vestType.Add(GetConfig.Langs["VestsValue"] + i);
                 }
             }
-            MenuListItem mListVest = new MenuListItem(Language.Langs["Vests"], vestType, 0, Language.Langs["VestsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListVest = new MenuListItem(GetConfig.Langs["Vests"], vestType, 0, GetConfig.Langs["VestsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListVest); // Lo añadimos al menu
 
             List<string> coatsType = new List<string>();
-            coatsType.Add(Language.Langs["NoCoatsValue"]);
+            coatsType.Add(GetConfig.Langs["NoCoatsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.COATS_MALE.Count + 1; i++)
                 {
-                    coatsType.Add(Language.Langs["CoatsValue"] + i);
+                    coatsType.Add(GetConfig.Langs["CoatsValue"] + i);
                 }
             }
             else
@@ -1021,21 +1021,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.COATS_FEMALE.Count + 1; i++)
                 {
-                    coatsType.Add(Language.Langs["CoatsValue"] + i);
+                    coatsType.Add(GetConfig.Langs["CoatsValue"] + i);
                 }
             }
-            MenuListItem mListCoats = new MenuListItem(Language.Langs["Coats"], coatsType, 0, Language.Langs["CoatsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCoats = new MenuListItem(GetConfig.Langs["Coats"], coatsType, 0, GetConfig.Langs["CoatsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListCoats); // Lo añadimos al menu
 
             List<string> ponchosType = new List<string>();
-            ponchosType.Add(Language.Langs["NoPonchosValue"]);
+            ponchosType.Add(GetConfig.Langs["NoPonchosValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.PONCHOS_MALE.Count + 1; i++)
                 {
-                    ponchosType.Add(Language.Langs["PonchosValue"] + i);
+                    ponchosType.Add(GetConfig.Langs["PonchosValue"] + i);
                 }
             }
             else
@@ -1043,21 +1043,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.PONCHOS_FEMALE.Count + 1; i++)
                 {
-                    ponchosType.Add(Language.Langs["PonchosValue"] + i);
+                    ponchosType.Add(GetConfig.Langs["PonchosValue"] + i);
                 }
             }
-            MenuListItem mListPonchos = new MenuListItem(Language.Langs["Ponchos"], ponchosType, 0, Language.Langs["PonchosDesc"]); // Añadimos la lista al boton
+            MenuListItem mListPonchos = new MenuListItem(GetConfig.Langs["Ponchos"], ponchosType, 0, GetConfig.Langs["PonchosDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListPonchos); // Lo añadimos al menu
 
             List<string> cloakType = new List<string>();
-            cloakType.Add(Language.Langs["NoCloaksValue"]);
+            cloakType.Add(GetConfig.Langs["NoCloaksValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.CLOAK_MALE.Count + 1; i++)
                 {
-                    cloakType.Add(Language.Langs["CloaksValue"] + i);
+                    cloakType.Add(GetConfig.Langs["CloaksValue"] + i);
                 }
             }
             else
@@ -1065,21 +1065,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.CLOAK_FEMALE.Count + 1; i++)
                 {
-                    cloakType.Add(Language.Langs["CloaksValue"] + i);
+                    cloakType.Add(GetConfig.Langs["CloaksValue"] + i);
                 }
             }
-            MenuListItem mListCloak = new MenuListItem(Language.Langs["Cloaks"], cloakType, 0, Language.Langs["CloaksDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCloak = new MenuListItem(GetConfig.Langs["Cloaks"], cloakType, 0, GetConfig.Langs["CloaksDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListCloak); // Lo añadimos al menu
 
             List<string> glovesType = new List<string>();
-            glovesType.Add(Language.Langs["NoGlovesValue"]);
+            glovesType.Add(GetConfig.Langs["NoGlovesValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.GLOVES_MALE.Count + 1; i++)
                 {
-                    glovesType.Add(Language.Langs["GlovesValue"] + i);
+                    glovesType.Add(GetConfig.Langs["GlovesValue"] + i);
                 }
             }
             else
@@ -1087,21 +1087,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.GLOVES_FEMALE.Count + 1; i++)
                 {
-                    glovesType.Add(Language.Langs["GlovesValue"] + i);
+                    glovesType.Add(GetConfig.Langs["GlovesValue"] + i);
                 }
             }
-            MenuListItem mListGloves = new MenuListItem(Language.Langs["Gloves"], glovesType, 0, Language.Langs["GlovesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListGloves = new MenuListItem(GetConfig.Langs["Gloves"], glovesType, 0, GetConfig.Langs["GlovesDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListGloves); // Lo añadimos al menu
 
             List<string> ringsRhType = new List<string>();
-            ringsRhType.Add(Language.Langs["NoRingsValue"]);
+            ringsRhType.Add(GetConfig.Langs["NoRingsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.RINGS_RH_MALE.Count + 1; i++)
                 {
-                    ringsRhType.Add(Language.Langs["RingsValue"] + i);
+                    ringsRhType.Add(GetConfig.Langs["RingsValue"] + i);
                 }
             }
             else
@@ -1109,21 +1109,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.RINGS_RH_FEMALE.Count + 1; i++)
                 {
-                    ringsRhType.Add(Language.Langs["RingsValue"] + i);
+                    ringsRhType.Add(GetConfig.Langs["RingsValue"] + i);
                 }
             }
-            MenuListItem mListRingsRhType = new MenuListItem(Language.Langs["RightRings"], ringsRhType, 0, Language.Langs["RightRingsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListRingsRhType = new MenuListItem(GetConfig.Langs["RightRings"], ringsRhType, 0, GetConfig.Langs["RightRingsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListRingsRhType); // Lo añadimos al menu
 
             List<string> ringsLhType = new List<string>();
-            ringsLhType.Add(Language.Langs["NoRingsValue"]);
+            ringsLhType.Add(GetConfig.Langs["NoRingsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.RINGS_LH_MALE.Count + 1; i++)
                 {
-                    ringsLhType.Add(Language.Langs["RingsValue"] + i);
+                    ringsLhType.Add(GetConfig.Langs["RingsValue"] + i);
                 }
             }
             else
@@ -1131,21 +1131,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.RINGS_LH_FEMALE.Count + 1; i++)
                 {
-                    ringsLhType.Add(Language.Langs["RingsValue"] + i);
+                    ringsLhType.Add(GetConfig.Langs["RingsValue"] + i);
                 }
             }
-            MenuListItem mListRingsLh = new MenuListItem(Language.Langs["LeftRings"], ringsLhType, 0, Language.Langs["LeftRingsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListRingsLh = new MenuListItem(GetConfig.Langs["LeftRings"], ringsLhType, 0, GetConfig.Langs["LeftRingsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListRingsLh); // Lo añadimos al menu
 
             List<string> braceletsType = new List<string>();
-            braceletsType.Add(Language.Langs["NoBraceletsValue"]);
+            braceletsType.Add(GetConfig.Langs["NoBraceletsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BRACELETS_MALE.Count + 1; i++)
                 {
-                    braceletsType.Add(Language.Langs["BraceletsValue"] + i);
+                    braceletsType.Add(GetConfig.Langs["BraceletsValue"] + i);
                 }
             }
             else
@@ -1153,21 +1153,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BRACELETS_FEMALE.Count + 1; i++)
                 {
-                    braceletsType.Add(Language.Langs["BraceletsValue"] + i);
+                    braceletsType.Add(GetConfig.Langs["BraceletsValue"] + i);
                 }
             }
-            MenuListItem mListbracelets = new MenuListItem(Language.Langs["Bracelets"], braceletsType, 0, Language.Langs["BraceletsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListbracelets = new MenuListItem(GetConfig.Langs["Bracelets"], braceletsType, 0, GetConfig.Langs["BraceletsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListbracelets); // Lo añadimos al menu
 
             List<string> gunbeltType = new List<string>();
-            gunbeltType.Add(Language.Langs["NoHolstersValue"]);
+            gunbeltType.Add(GetConfig.Langs["NoHolstersValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.GUNBELT_MALE.Count + 1; i++)
                 {
-                    gunbeltType.Add(Language.Langs["HolstersValue"] + i);
+                    gunbeltType.Add(GetConfig.Langs["HolstersValue"] + i);
                 }
             }
             else
@@ -1175,22 +1175,22 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.GUNBELT_FEMALE.Count + 1; i++)
                 {
-                    gunbeltType.Add(Language.Langs["HolstersValue"] + i);
+                    gunbeltType.Add(GetConfig.Langs["HolstersValue"] + i);
                 }
             }
-            MenuListItem mListGunbelt = new MenuListItem(Language.Langs["PrimaryHolsters"], gunbeltType, 0, Language.Langs["PrimaryHolstersDesc"]); // Añadimos la lista al boton
+            MenuListItem mListGunbelt = new MenuListItem(GetConfig.Langs["PrimaryHolsters"], gunbeltType, 0, GetConfig.Langs["PrimaryHolstersDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListGunbelt); // Lo añadimos al menu
 
 
             List<string> beltType = new List<string>();
-            beltType.Add(Language.Langs["NoBeltsValue"]);
+            beltType.Add(GetConfig.Langs["NoBeltsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BELT_MALE.Count + 1; i++)
                 {
-                    beltType.Add(Language.Langs["BeltsValue"] + i);
+                    beltType.Add(GetConfig.Langs["BeltsValue"] + i);
                 }
             }
             else
@@ -1198,21 +1198,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BELT_FEMALE.Count + 1; i++)
                 {
-                    beltType.Add(Language.Langs["BeltsValue"] + i);
+                    beltType.Add(GetConfig.Langs["BeltsValue"] + i);
                 }
             }
-            MenuListItem mListBelt = new MenuListItem(Language.Langs["Belts"], beltType, 0, Language.Langs["BeltsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBelt = new MenuListItem(GetConfig.Langs["Belts"], beltType, 0, GetConfig.Langs["BeltsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListBelt); // Lo añadimos al menu
 
             List<string> buckleType = new List<string>();
-            buckleType.Add(Language.Langs["NoBucklesValue"]);
+            buckleType.Add(GetConfig.Langs["NoBucklesValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BUCKLE_MALE.Count + 1; i++)
                 {
-                    buckleType.Add(Language.Langs["BucklesValue"] + i);
+                    buckleType.Add(GetConfig.Langs["BucklesValue"] + i);
                 }
             }
             else
@@ -1220,21 +1220,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BUCKLE_FEMALE.Count + 1; i++)
                 {
-                    buckleType.Add(Language.Langs["BucklesValue"] + i);
+                    buckleType.Add(GetConfig.Langs["BucklesValue"] + i);
                 }
             }
-            MenuListItem mListBuckle = new MenuListItem(Language.Langs["Buckles"], buckleType, 0, Language.Langs["BucklesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBuckle = new MenuListItem(GetConfig.Langs["Buckles"], buckleType, 0, GetConfig.Langs["BucklesDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListBuckle); // Lo añadimos al menu
 
             List<string> holstersSType = new List<string>();
-            holstersSType.Add(Language.Langs["NoHolstersValue"]);
+            holstersSType.Add(GetConfig.Langs["NoHolstersValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.HOLSTERS_S_MALE.Count + 1; i++)
                 {
-                    holstersSType.Add(Language.Langs["HolstersValue"] + i);
+                    holstersSType.Add(GetConfig.Langs["HolstersValue"] + i);
                 }
             }
             else
@@ -1242,21 +1242,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.HOLSTERS_S_FEMALE.Count + 1; i++)
                 {
-                    holstersSType.Add(Language.Langs["HolstersValue"] + i);
+                    holstersSType.Add(GetConfig.Langs["HolstersValue"] + i);
                 }
             }
-            MenuListItem mListSHolsters = new MenuListItem(Language.Langs["SecondaryHolsters"], holstersSType, 0, Language.Langs["SecondaryHolstersDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSHolsters = new MenuListItem(GetConfig.Langs["SecondaryHolsters"], holstersSType, 0, GetConfig.Langs["SecondaryHolstersDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListSHolsters); // Lo añadimos al menu
 
             List<string> pantsType = new List<string>();
-            pantsType.Add(Language.Langs["NoPantsValue"]);
+            pantsType.Add(GetConfig.Langs["NoPantsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.PANTS_MALE.Count + 1; i++)
                 {
-                    pantsType.Add(Language.Langs["PantsValue"] + i);
+                    pantsType.Add(GetConfig.Langs["PantsValue"] + i);
                 }
             }
             else
@@ -1264,14 +1264,14 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.PANTS_FEMALE.Count + 1; i++)
                 {
-                    pantsType.Add(Language.Langs["PantsValue"] + i);
+                    pantsType.Add(GetConfig.Langs["PantsValue"] + i);
                 }
             }
-            MenuListItem mListPants = new MenuListItem(Language.Langs["Pants"], pantsType, 0, Language.Langs["PantsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListPants = new MenuListItem(GetConfig.Langs["Pants"], pantsType, 0, GetConfig.Langs["PantsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListPants); // Lo añadimos al menu
 
             List<string> skirtsType = new List<string>();
-            skirtsType.Add(Language.Langs["NoSkirtsValue"]);
+            skirtsType.Add(GetConfig.Langs["NoSkirtsValue"]);
 
             if (model == "mp_male")
             {
@@ -1281,21 +1281,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SKIRTS_FEMALE.Count + 1; i++)
                 {
-                    skirtsType.Add(Language.Langs["SkirtsValue"] + i);
+                    skirtsType.Add(GetConfig.Langs["SkirtsValue"] + i);
                 }
             }
-            MenuListItem mListSkirts = new MenuListItem(Language.Langs["Skirts"], skirtsType, 0, Language.Langs["SkirtsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSkirts = new MenuListItem(GetConfig.Langs["Skirts"], skirtsType, 0, GetConfig.Langs["SkirtsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListSkirts); // Lo añadimos al menu
 
             List<string> chapsType = new List<string>();
-            chapsType.Add(Language.Langs["NoChapsValue"]);
+            chapsType.Add(GetConfig.Langs["NoChapsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.CHAPS_MALE.Count + 1; i++)
                 {
-                    chapsType.Add(Language.Langs["ChapsValue"] + i);
+                    chapsType.Add(GetConfig.Langs["ChapsValue"] + i);
                 }
             }
             else
@@ -1303,21 +1303,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.CHAPS_FEMALE.Count + 1; i++)
                 {
-                    chapsType.Add(Language.Langs["ChapsValue"] + i);
+                    chapsType.Add(GetConfig.Langs["ChapsValue"] + i);
                 }
             }
-            MenuListItem mListChaps = new MenuListItem(Language.Langs["Chaps"], chapsType, 0, Language.Langs["ChapsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListChaps = new MenuListItem(GetConfig.Langs["Chaps"], chapsType, 0, GetConfig.Langs["ChapsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListChaps); // Lo añadimos al menu
 
             List<string> bootsType = new List<string>();
-            bootsType.Add(Language.Langs["NoBootsValue"]);
+            bootsType.Add(GetConfig.Langs["NoBootsValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BOOTS_MALE.Count + 1; i++)
                 {
-                    bootsType.Add(Language.Langs["BootsValue"] + i);
+                    bootsType.Add(GetConfig.Langs["BootsValue"] + i);
                 }
             }
             else
@@ -1325,21 +1325,21 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BOOTS_FEMALE.Count + 1; i++)
                 {
-                    bootsType.Add(Language.Langs["BootsValue"] + i);
+                    bootsType.Add(GetConfig.Langs["BootsValue"] + i);
                 }
             }
-            MenuListItem mListBoots = new MenuListItem(Language.Langs["Boots"], bootsType, 0, Language.Langs["BootsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBoots = new MenuListItem(GetConfig.Langs["Boots"], bootsType, 0, GetConfig.Langs["BootsDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListBoots); // Lo añadimos al menu
 
             List<string> spursType = new List<string>();
-            spursType.Add(Language.Langs["NoSpursValue"]);
+            spursType.Add(GetConfig.Langs["NoSpursValue"]);
 
             if (model == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.SPURS_MALE.Count + 1; i++)
                 {
-                    spursType.Add(Language.Langs["SpursValue"] + i);
+                    spursType.Add(GetConfig.Langs["SpursValue"] + i);
                 }
             }
             else
@@ -1347,14 +1347,14 @@ namespace vorpcore_cl
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SPURS_FEMALE.Count + 1; i++)
                 {
-                    spursType.Add(Language.Langs["SpursValue"] + i);
+                    spursType.Add(GetConfig.Langs["SpursValue"] + i);
                 }
             }
-            MenuListItem mListSpurs = new MenuListItem(Language.Langs["Spurs"], spursType, 0, Language.Langs["SpursDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSpurs = new MenuListItem(GetConfig.Langs["Spurs"], spursType, 0, GetConfig.Langs["SpursDesc"]); // Añadimos la lista al boton
             mdu.AddMenuItem(mListSpurs); // Lo añadimos al menu
 
             //Terminamos y confirmamos
-            mdu.AddMenuItem(new MenuItem(Language.Langs["Finish"], Language.Langs["FinishDesc"])
+            mdu.AddMenuItem(new MenuItem(GetConfig.Langs["Finish"], GetConfig.Langs["FinishDesc"])
             {
                 Enabled = true,
                 LeftIcon = MenuItem.Icon.TICK
@@ -1558,12 +1558,12 @@ namespace vorpcore_cl
 
         private async Task SaveChanges()
         {
-            TriggerEvent("vorpinputs:getInput", Language.Langs["ButtonInputName"], Language.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
+            TriggerEvent("vorpinputs:getInput", GetConfig.Langs["ButtonInputName"], GetConfig.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
             {
                 string result = cb;
                 await Delay(1000);
                 if (result.Length < 3) {
-                    TriggerEvent("vorp:Tip", Language.Langs["PlaceHolderInputName"], 3000); // from client side
+                    TriggerEvent("vorp:Tip", GetConfig.Langs["PlaceHolderInputName"], 3000); // from client side
                     SaveChanges();
                 }
                 else
@@ -1770,7 +1770,7 @@ namespace vorpcore_cl
 
             if (isSelectSexActive)
             {
-                await DrawTxt(Language.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                await DrawTxt(GetConfig.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
             }
 
             if (isInCharCreation) //Fix Run Ped

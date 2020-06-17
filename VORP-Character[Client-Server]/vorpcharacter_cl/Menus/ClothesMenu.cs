@@ -11,7 +11,7 @@ namespace vorpcharacter_cl.Menus
 {
     class ClothesMenu
     {
-        private static Menu clothesMenu = new Menu(Language.Langs["TitleClothesMenu"], Language.Langs["SubTitleClothesMenu"]);
+        private static Menu clothesMenu = new Menu(GetConfig.Langs["TitleClothesMenu"], GetConfig.Langs["SubTitleClothesMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {

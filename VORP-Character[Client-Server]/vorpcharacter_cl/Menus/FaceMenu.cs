@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace vorpcharacter_cl.Menus
 {
     class FaceMenu
     {
-        private static Menu faceMenu = new Menu(Language.Langs["TitleFaceMenu"], Language.Langs["SubTitleFaceMenu"]);
+        private static Menu faceMenu = new Menu(GetConfig.Langs["TitleFaceMenu"], GetConfig.Langs["SubTitleFaceMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {
@@ -22,16 +23,7 @@ namespace vorpcharacter_cl.Menus
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            //Weapons Buy Menu
-            //MenuController.AddSubmenu(mainMenu, BuyMenu.GetMenu());
 
-            //MenuItem subMenuBuyBtn = new MenuItem(GetConfig.Langs["MenuMainButtonBuyWeapons"], " ")
-            //{
-            //    RightIcon = MenuItem.Icon.ARROW_RIGHT
-            //};
-
-            //mainMenu.AddMenuItem(subMenuBuyBtn);
-            //MenuController.BindMenuItem(mainMenu, BuyMenu.GetMenu(), subMenuBuyBtn);
 
 
 

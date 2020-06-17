@@ -22,6 +22,7 @@
   "TitleImportMenu": "Importar Skin",
   "SubTitleImportMenu": "Si has jugado en otro servidor que use VORP Core podras importar tu skin.",
 
+  "BodyColorValues": "Color #", // Las opciones de cada apartado
   "TypeValues": "Tipo #", // Las opciones de cada apartado
   "BeardValue": "Barba #", // Las opciones del apartado de la barba
   "HairValue": "Pelo #", // Las opciones del apartado del pelo
@@ -29,6 +30,7 @@
   "WaistValue": "Cintura #", // Las opciones del apartado de la cintura
   "NoExistValue": "No hay", // La opción que da cuando no hay opciones en algún apartado
 
+  "BodyColor": "Color del cuerpo",
   "FaceSize": "Tamaño de la cara",
   "EyebrowHeight": "Altura de las cejas",
   "EyebrowWidth": "Ancho de las cejas",
@@ -75,6 +77,7 @@
   "Confirm": "Confirmar", // Confirma las opciones y pasa al siguiente Menú
 
   //Descripciones de los apartados del Menú del cuerpo
+  "BodyColorDesc": "Elije el color del cuerpo",
   "FaceSizeDesc": "Elige el tamaño de la cara",
   "EyebrowHeightDesc": "Elige la altura de las cejas",
   "EyebrowWidthDesc": "Elige el ancho de las cejas",

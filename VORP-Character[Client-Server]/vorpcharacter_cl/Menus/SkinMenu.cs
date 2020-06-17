@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace vorpcharacter_cl.Menus
 {
     class SkinMenu
     {
-        private static Menu skinMenu = new Menu(Language.Langs["TitleSkinMenu"], Language.Langs["SubTitleSkinMenu"]);
+        private static Menu skinMenu = new Menu(GetConfig.Langs["TitleSkinMenu"], GetConfig.Langs["SubTitleSkinMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {
@@ -22,18 +23,42 @@ namespace vorpcharacter_cl.Menus
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            //Weapons Buy Menu
-            //MenuController.AddSubmenu(mainMenu, BuyMenu.GetMenu());
+            if (vorpcore_cl.CreatePlayer.model_selected == "mp_male") // Male
+            {
+                //Body Colors
+                List<string> bodyValues = new List<string>();
+                for (int i = 1; i <= GetConfig.Config["Male"].Count(); i++)
+                {
+                    bodyValues.Add(GetConfig.Langs["BodyColorValues"] + i);
+                }
 
-            //MenuItem subMenuBuyBtn = new MenuItem(GetConfig.Langs["MenuMainButtonBuyWeapons"], " ")
-            //{
-            //    RightIcon = MenuItem.Icon.ARROW_RIGHT
-            //};
+                MenuListItem btnSelectorBody = new MenuListItem(GetConfig.Langs["BodyColor"], bodyValues, 0, GetConfig.Langs["BodyColorDesc"]); // Añadimos la lista al boton
+                skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
 
-            //mainMenu.AddMenuItem(subMenuBuyBtn);
-            //MenuController.BindMenuItem(mainMenu, BuyMenu.GetMenu(), subMenuBuyBtn);
+                //Faces
+                List<string> faceValues = new List<string>();
+                for (int i = 1; i <= GetConfig.Config["Male"][0]["Faces"].Count(); i++)
+                {
+                    bodyValues.Add(GetConfig.Langs["BodyColorValues"] + i);
+                }
 
+                MenuListItem btnSelectorFace = new MenuListItem(GetConfig.Langs["BodyColor"], bodyValues, 0, GetConfig.Langs["BodyColorDesc"]); // Añadimos la lista al boton
+                skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
+            }
+            else //Female
+            {
+                //Body Colors
+                List<string> bodyValues = new List<string>();
+                for (int i = 1; i <= GetConfig.Config["Female"].Count(); i++)
+                {
+                    bodyValues.Add(GetConfig.Langs["BodyColorValues"] + i);
+                }
 
+                MenuListItem btnSelectorBody = new MenuListItem(GetConfig.Langs["BodyColor"], bodyValues, 0, GetConfig.Langs["BodyColorDesc"]); // Añadimos la lista al boton
+                skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
+            }
+
+            
 
             skinMenu.OnMenuOpen += (_menu) => {
 

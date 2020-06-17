@@ -11,7 +11,7 @@ namespace vorpcharacter_cl.Menus
 {
     class ImportMenu
     {
-        private static Menu importMenu = new Menu(Language.Langs["TitleImportMenu"], Language.Langs["SubTitleImportMenu"]);
+        private static Menu importMenu = new Menu(GetConfig.Langs["TitleImportMenu"], GetConfig.Langs["SubTitleImportMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {

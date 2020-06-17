@@ -20,11 +20,8 @@ namespace vorpcharacter_sv
         {
             EventHandlers["vorpcharacter:SaveSkinDB"] += new Action<Player, object, object, string>(SaveSkinDB);
             EventHandlers["vorpcharacter:getPlayerSkin"] += new Action<Player>(getPlayerSkin);
-            EventHandlers[$"{API.GetCurrentResourceName()}:getLanguage"] += new Action<Player>(getLanguage);
             /*CallBack*/
             EventHandlers["vorpcharacter:getPlayerClothes"] += new Action<int, dynamic>(getPlayerClothes);
-
-            LoadConfigAnfLang();
 
             EventHandlers["vorpcharacter:CommandCreate"] += new Action<Player, int>(StartCreation);
         }
@@ -87,35 +84,6 @@ namespace vorpcharacter_sv
                 }
 
             }));
-        }
-
-        private void LoadConfigAnfLang()
-        {
-
-            if (File.Exists($"{resourcePath}/Config.json"))
-            {
-                string configstring = File.ReadAllText($"{resourcePath}/Config.json", Encoding.UTF8);
-                Config = JsonConvert.DeserializeObject<Dictionary<string, string>>(configstring);
-                if (File.Exists($"{resourcePath}/{Config["defaultlang"]}.json"))
-                {
-                    string langstring = File.ReadAllText($"{resourcePath}/{Config["defaultlang"]}.json", Encoding.UTF8);
-                    Langs = JsonConvert.DeserializeObject<Dictionary<string, string>>(langstring);
-                    Debug.WriteLine($"{API.GetCurrentResourceName()}: Language {Config["defaultlang"]}.json loaded!");
-                }
-                else
-                {
-                    Debug.WriteLine($"{API.GetCurrentResourceName()}: {Config["defaultlang"]}.json Not Found");
-                }
-            }
-            else
-            {
-                Debug.WriteLine($"{API.GetCurrentResourceName()}: Config.json Not Found");
-            }
-        }
-
-        private void getLanguage([FromSource]Player source)
-        {
-            source.TriggerEvent($"{API.GetCurrentResourceName()}:SendDefaultLang", Config, Langs);
         }
 
         private void getPlayerSkin([FromSource]Player source)

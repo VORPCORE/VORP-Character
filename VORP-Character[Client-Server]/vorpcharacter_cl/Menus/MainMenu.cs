@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace vorpcharacter_cl.Menus
 {
     class MainMenu
     {
-        private static Menu mainMenu = new Menu(Language.Langs["TitleMainMenu"], Language.Langs["SubTitleMainMenu"]);
+        private static Menu mainMenu = new Menu(GetConfig.Langs["TitleMainMenu"], GetConfig.Langs["SubTitleMainMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {
@@ -26,7 +27,7 @@ namespace vorpcharacter_cl.Menus
             //ImportMenu
             MenuController.AddSubmenu(mainMenu, ImportMenu.GetMenu());
 
-            MenuItem subMenuImportBtn = new MenuItem(Language.Langs["TitleImportMenu"], Language.Langs["SubTitleImportMenu"])
+            MenuItem subMenuImportBtn = new MenuItem(GetConfig.Langs["TitleImportMenu"], GetConfig.Langs["SubTitleImportMenu"])
             {
                 RightIcon = MenuItem.Icon.STAR
             };
@@ -37,7 +38,7 @@ namespace vorpcharacter_cl.Menus
             //SkinMenu
             MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
 
-            MenuItem subMenuSkinBtn = new MenuItem(Language.Langs["TitleSkinMenu"], Language.Langs["SubTitleSkinMenu"])
+            MenuItem subMenuSkinBtn = new MenuItem(GetConfig.Langs["TitleSkinMenu"], GetConfig.Langs["SubTitleSkinMenu"])
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -48,7 +49,7 @@ namespace vorpcharacter_cl.Menus
             //FaceMenu
             MenuController.AddSubmenu(mainMenu, FaceMenu.GetMenu());
 
-            MenuItem subMenuFaceBtn = new MenuItem(Language.Langs["TitleFaceMenu"], Language.Langs["SubTitleFaceMenu"])
+            MenuItem subMenuFaceBtn = new MenuItem(GetConfig.Langs["TitleFaceMenu"], GetConfig.Langs["SubTitleFaceMenu"])
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -59,7 +60,7 @@ namespace vorpcharacter_cl.Menus
             //ClothesMenu
             MenuController.AddSubmenu(mainMenu, ClothesMenu.GetMenu());
 
-            MenuItem subMenuClothesBtn = new MenuItem(Language.Langs["TitleClothesMenu"], Language.Langs["SubTitleClothesMenu"])
+            MenuItem subMenuClothesBtn = new MenuItem(GetConfig.Langs["TitleClothesMenu"], GetConfig.Langs["SubTitleClothesMenu"])
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -68,7 +69,7 @@ namespace vorpcharacter_cl.Menus
             MenuController.BindMenuItem(mainMenu, ClothesMenu.GetMenu(), subMenuClothesBtn);
 
             //Finish Button
-            MenuItem FinishBtn = new MenuItem(Language.Langs["FinishBtnMainMenu"], Language.Langs["SubFinishBtnMainMenu"])
+            MenuItem FinishBtn = new MenuItem(GetConfig.Langs["FinishBtnMainMenu"], GetConfig.Langs["SubFinishBtnMainMenu"])
             {
                 RightIcon = MenuItem.Icon.TICK
             };
