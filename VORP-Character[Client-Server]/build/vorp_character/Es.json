@@ -1,208 +1,241 @@
 ﻿{
-    "PressRightOrLeft": "Presiona [<-] o [->] para seleccionar el sexo",
-    //Input Name 
-    "PlaceHolderInputName": "Escribe un nombre y apellido para tu personaje",
-    "ButtonInputName": "Confirmar",
-    "InputError": "Debes ponerte un nombre con mínimo 3 caracteres",
-    //Cuerpo
-    "TitleMenuBody": "Editor de Personaje", // Título del Menú
-    "SubTitleMenuBody": "Edita tu personaje", // Descripción del Menú
+  "PressRightOrLeft": "Presiona [<-] o [->] para seleccionar el sexo",
 
-    "TypeValues": "Tipo #", // Las opciones de cada apartado
-    "BeardValue": "Barba #", // Las opciones del apartado de la barba
-    "HairValue": "Pelo #", // Las opciones del apartado del pelo
-    "BodySizeValue": "Cuerpo #", // Las opciones del apartado del cuerpo
-    "WaistValue": "Cintura #", // Las opciones del apartado de la cintura
-    "NoExistValue": "No hay", // La opción que da cuando no hay opciones en algún apartado
+  "PressGuide": "Rotar <-[A] [D]-> | Camaras [W] o [S]",
 
-    "FaceSize": "Tamaño de la cara",
-    "EyebrowHeight": "Altura de las cejas",
-    "EyebrowWidth": "Ancho de las cejas",
-    "EyebrowDepth": "Profundidad de las cejas",
-    "EarsHeight": "Altura de las orejas",
-    "EarsAngle": "Inclinación de las orejas",
-    "EarsSize": "Tamaño de las orejas",
-    "EarsLobeSize": "Tamaño del lóbulo",
-    "EyelidsHeight": "Altura de los párpados",
-    "EyelidsWidth": "Ancho de los párpados",
-    "EyeDepth": "Profundidad de los ojos",
-    "EyeAngle": "Inclinación de los ojos",
-    "EyeSeparation": "Separación de los ojos",
-    "EyeHeight": "Altura de los ojos",
-    "NoseWidth": "Ancho de la nariz",
-    "NoseSize": "Tamaño de la nariz",
-    "NoseHeight": "Altura de la nariz",
-    "NoseAngle": "Inclinación de la nariz",
-    "NoseCurvature": "Curvatura de la nariz",
-    "NostrilsSeparation": "Separación de los orificios nasales",
-    "CheekbonesHeight": "Altura de los pómulos",
-    "CheekbonesWidth": "Ancho de los pómulos",
-    "CheekbonesDepth": "Profundidad de los pómulos",
-    "MouthWidth": "Ancho de la boca",
-    "MouthDepth": "Profundidad de la boca",
-    "MouthDeviation": "Desviación de la boca",
-    "MouthHeight": "Altura de la boca",
-    "UpperLipHeight": "Altura del labio superior",
-    "UpperLipWidth": "Ancho del labio superior",
-    "UpperLipDepth": "Profundidad del labio superior",
-    "LowerLipHeight": "Altura del labio inferior",
-    "LowerLipWidth": "Ancho del labio inferior",
-    "LowerLipDepth": "Profundidad del labio inferior",
-    "MandibleHeight": "Altura de la mandíbula",
-    "MandibleWidth": "Ancho de la mandíbula",
-    "MandibleDepth": "Profundidad de la mandíbula",
-    "ChinHeight": "Altura de la barbilla",
-    "ChinWidth": "Ancho de la barbilla",
-    "ChinDepth": "Profundidad de la barbilla",
-    "BeardType": "Tipo de barba",
-    "HairType": "Tipo de pelo",
-    "BodyType": "Forma del cuerpo",
-    "WaistType": "Tipo de cintura",
-    "Confirm": "Confirmar", // Confirma las opciones y pasa al siguiente Menú
+  //Input Name 
+  "PlaceHolderInputName": "Escribe un nombre y apellido para tu personaje",
+  "ButtonInputName": "Confirmar",
+  "InputError": "Debes ponerte un nombre con mínimo 3 caracteres",
+  //Cuerpo
+  "TitleMainMenu": "Editor de Personaje",
+  "SubTitleMainMenu": "Edita tu personaje",
+  "FinishBtnMainMenu": "Finalizar y Guardar",
+  "SubFinishBtnMainMenu": "Terminar la creación del personaje.",
 
-    //Descripciones de los apartados del Menú del cuerpo
-    "FaceSizeDesc": "Elige el tamaño de la cara",
-    "EyebrowHeightDesc": "Elige la altura de las cejas",
-    "EyebrowWidthDesc": "Elige el ancho de las cejas",
-    "EyebrowDepthDesc": "Elige la profundidad de las cejas",
-    "EarsHeightDesc": "Elige la altura de las orejas",
-    "EarsAngleDesc": "Elige la inclinación de las orejas",
-    "EarsSizeDesc": "Elige el tamaño de las orejas",
-    "EarsLobeSizeDesc": "Elige el tamaño del lobulo de las orejas",
-    "EyelidsHeightDesc": "Elige la altura de los párpados",
-    "EyelidsWidthDesc": "Elige el ancho de los párpados",
-    "EyeDepthDesc": "Elige la profundidad de los ojos",
-    "EyeAngleDesc": "Elige la inclinación de los ojos",
-    "EyeSeparationDesc": "Elige la separación de los ojos",
-    "EyeHeightDesc": "Elige la altura de los ojos",
-    "NoseWidthDesc": "Elige el ancho de la nariz",
-    "NoseSizeDesc": "Elige el tamaño de la nariz",
-    "NoseHeigthDesc": "Elige la altura de la nariz",
-    "NoseAngleDesc": "Elige la inclinación de la nariz",
-    "NoseCurvatureDesc": "Elige la curvatura de la nariz",
-    "NostrilsSeparationDesc": "Elige la separación de los orificios nasales",
-    "CheekbonesHeightDesc": "Elige la altura de los pómulos",
-    "CheekbonesWidthDesc": "Elige el ancho de los pómulos",
-    "CheekbonesDepthDesc": "Elige la profundidad de los pómulos",
-    "MouthWidthDesc": "Elige el ancho de la boca",
-    "MouthDepthDesc": "Elige la profundidad de la boca",
-    "MouthDeviationDesc": "Elige la desviación de la boca",
-    "MouthHeightDesc": "Elige la altura de la boca",
-    "UpperLipHeightDesc": "Elige la altura del labio superior",
-    "UpperLipWidthDesc": "Elige el ancho del labio superior",
-    "UpperLipDepthDesc": "Elige la profundidad del labio superior",
-    "LowerLipHeightDesc": "Elige la altura del labio inferior",
-    "LowerLipWidthDesc": "Elige el ancho del labio inferior",
-    "LowerLipDepthDesc": "Elige la profundidad del labio inferior",
-    "MandibleHeightDesc": "Elige la altura de la mandíbula",
-    "MandibleWidthDesc": "Elige el ancho de la mandíbula",
-    "MandibleDepthDesc": "Elige la profundidad de la mandíbula",
-    "ChinHeightDesc": "Elige la altura de la barbílla",
-    "ChinWidthDesc": "Elige el ancho de la barbílla",
-    "ChinDepthDesc": "Elige la profundidad de la barbílla",
-    "BeardTypeDesc": "Elige la barba",
-    "HairTypeDesc": "Elige el pelo",
-    "BodyTypeDesc": "Elige la forma del cuerpo",
-    "WaistTypeDesc": "Elige la cintura",
-    "ConfirmDesc": "Si tienes todo listo, es hora de vestirse, no podrás volver atrás así que asegurate de tener todo bien elegido.",
+  "TitleClothesMenu": "Vestidor",
+  "SubTitleClothesMenu": "Viste tu personaje",
 
-    //Ropa
-    "TitleMenuClothes": "Vestidor", // Título del Menú
-    "SubTitleMenuClothes": "Viste a tu personaje", // Descripción del Menú
+  "TitleFaceMenu": "Editar cara",
+  "SubTitleFaceMenu": "Edita la cara del personaje",
 
-    "HatsValue": "Sombrero #", // Las opciones del apartado de los sombreros
-    "GlassesValue": "Anteojos #", // Las opciones del apartado de los anteojos
-    "NeckwearValue": "Prenda #", // Las opciones del apartado de las prendas para el cuello
-    "TiesValue": "Corbata #", // Las opciones del apartado de las corbatas
-    "ShirtsValue": "Camisa #", // Las opciones del apartado de las camisas
-    "SuspendersValue": "Tirantes #", // Las opciones del apartado de los tirantes
-    "VestsValue": "Chaleco #", // Las opciones del apartado de los chalecos
-    "CoatsValue": "Abrigo #", // Las opciones del apartado de los abrigos
-    "PonchosValue": "Poncho #", // Las opciones del apartado de los ponchos
-    "CloaksValue": "Capa #", // Las opciones del apartado de las capas
-    "GlovesValue": "Guantes #", // Las opciones del apartado de los guantes
-    "RingsValue": "Anillo #", // Las opciones del apartado de los anillos
-    "BraceletsValue": "Pulsera #", // Las opciones del apartado de las pulseras
-    "HolstersValue": "Cartuchera #", // Las opciones del apartado de las cartucheras
-    "BeltsValue": "Cinturón #", // Las opciones del apartado de los cinturones
-    "BucklesValue": "Hebilla #", // Las opciones del apartado de las hebillas
-    "PantsValue": "Pantalón #", // Las opciones del apartado de los pantalones
-    "SkirtsValue": "Falda #", // Las opciones del apartado de las faldas
-    "ChapsValue": "Zahones #", // Las opciones del apartado de los zahones
-    "BootsValue": "Botas #", // Las opciones del apartado de las botas
-    "SpursValue": "Espuelas #", // Las opciones del apartado de las espuelas
-    "NoHatsValue": "Sin Sombrero", // La opción que da cuando no hay opciones
-    "NoGlassesValue": "Sin Anteojos", // La opción que da cuando no hay opciones
-    "NoNeckwearValue": "Cuello al descubierto", // La opción que da cuando no hay opciones
-    "NoTiesValue": "Sin Corbata", // La opción que da cuando no hay opciones
-    "NoShirtsValue": "Sin Camisa", // La opción que da cuando no hay opciones
-    "NoSuspendersValue": "Sin Tirantes", // La opción que da cuando no hay opciones
-    "NoVestsValue": "Sin Chaleco", // La opción que da cuando no hay opciones
-    "NoCoatsValue": "Sin Abrigo", // La opción que da cuando no hay opciones
-    "NoPonchosValue": "Sin Poncho", // La opción que da cuando no hay opciones
-    "NoCloaksValue": "Sin Capa", // La opción que da cuando no hay opciones
-    "NoGlovesValue": "Sin Guantes", // La opción que da cuando no hay opciones
-    "NoRingsValue": "Sin Anillo", // La opción que da cuando no hay opciones
-    "NoBraceletsValue": "Sin Pulsera", // La opción que da cuando no hay opciones
-    "NoHolstersValue": "Sin Cartuchera", // La opción que da cuando no hay opciones
-    "NoBeltsValue": "Sin Cinturón", // La opción que da cuando no hay opciones
-    "NoBucklesValue": "Sin Hebilla", // La opción que da cuando no hay opciones
-    "NoPantsValue": "Sin Pantalón", // La opción que da cuando no hay opciones
-    "NoSkirtsValue": "Sin Falda", // La opción que da cuando no hay opciones
-    "NoChapsValue": "Sin Zahones", // La opción que da cuando no hay opciones
-    "NoBootsValue": "Sin Botas", // La opción que da cuando no hay opciones
-    "NoSpursValue": "Sin Espuelas", // La opción que da cuando no hay opciones
+  "TitleSkinMenu": "Editar piel",
+  "SubTitleSkinMenu": "Dale rasgos a tu personaje",
 
-    "Hats": "Sombreros",
-    "Glasses": "Anteojos",
-    "Neckwear": "Prendas para el cuello",
-    "Ties": "Corbatas",
-    "Shirts": "Camisas",
-    "Suspenders": "Tirantes",
-    "Vests": "Chalecos",
-    "Coats": "Abrigos",
-    "Ponchos": "Ponchos",
-    "Cloaks": "Capas",
-    "Gloves": "Guantes",
-    "RightRings": "Anillos de la mano derecha",
-    "LeftRings": "Anillos de la mano izquierda",
-    "Bracelets": "Pulseras",
-    "PrimaryHolsters": "Cartucheras principales",
-    "Belts": "Cinturones",
-    "Buckles": "Hebillas",
-    "SecondaryHolsters": "Cartucheras secundarias",
-    "Pants": "Pantalones",
-    "Skirts": "Faldas",
-    "Chaps": "Zahones",
-    "Boots": "Botas",
-    "Spurs": "Espuelas",
+  "TitleImportMenu": "Importar Skin",
+  "SubTitleImportMenu": "Si has jugado en otro servidor que use VORP Core podras importar tu skin.",
 
-    "Finish": "Vestir Personaje", // Confirma las opciones del Menú
+  "LegsValues": "Piernas #",
+  "TorsoValues": "Pecho #",
+  "FaceValues": "Cara #",
+  "MaskValue": "Mascara #",
+  "BodyColorValues": "Color #", // Las opciones de cada apartado
+  "TypeValues": "Tipo #", // Las opciones de cada apartado
+  "BeardValue": "Barba #", // Las opciones del apartado de la barba
+  "HairValue": "Pelo #", // Las opciones del apartado del pelo
+  "BodySizeValue": "Cuerpo #", // Las opciones del apartado del cuerpo
+  "WaistValue": "Cintura #", // Las opciones del apartado de la cintura
+  "NoExistValue": "No hay", // La opción que da cuando no hay opciones en algún apartado
 
-    //Descripciones de los apartados del Menú de la ropa
-    "HatsDesc": "Elige el sombrero",
-    "GlassesDesc": "Elige los anteojos",
-    "NeckwearDesc": "Elige la prenda para el cuello",
-    "TiesDesc": "Elige la corbata",
-    "ShirtsDesc": "Elige la camisa",
-    "SuspendersDesc": "Elige los tirantes",
-    "VestsDesc": "Elige el chaleco",
-    "CoatsDesc": "Elige el abrigo",
-    "PonchosDesc": "Elige el poncho",
-    "CloaksDesc": "Elige la capa",
-    "GlovesDesc": "Elige los guantes",
-    "RightRingsDesc": "Elige los anillos de la mano derecha",
-    "LeftRingsDesc": "Elige los anillos de la mano izquierda",
-    "BraceletsDesc": "Elige la pulsera",
-    "PrimaryHolstersDesc": "Elige la cartuchera principal",
-    "BeltsDesc": "Elige el cinturón",
-    "BucklesDesc": "Elige la hebilla",
-    "SecondaryHolstersDesc": "Elige la cartuchera secundaria",
-    "PantsDesc": "Elige el pantalón",
-    "SkirtsDesc": "Elige la falda",
-    "ChapsDesc": "Elige los zahones",
-    "BootsDesc": "Elige las botas",
-    "SpursDesc": "Elige las espuelas",
-    "FinishDesc": "Asegurate de tener todo bien elegido, luego tendrás que ir a una tienda de ropa para cambiarte la ropa.",
-    "TipFinal": "Bienvenido a VORP, esperamos que tu estancia aquí sea de lo más entretenida, por favor recuerda no saltar del globo y disfrutar de las vista antes de rolear."
+  "LegsType": "Tipo de piernas",
+  "TorsoType": "Tipo de pecho",
+  "FaceType": "Tipo de cara",
+  "BodyColor": "Color del cuerpo",
+  "FaceSize": "Tamaño de la cara",
+  "EyebrowHeight": "Altura de las cejas",
+  "EyebrowWidth": "Ancho de las cejas",
+  "EyebrowDepth": "Profundidad de las cejas",
+  "EarsHeight": "Altura de las orejas",
+  "EarsAngle": "Inclinación de las orejas",
+  "EarsSize": "Tamaño de las orejas",
+  "EarsLobeSize": "Tamaño del lóbulo",
+  "EyelidsHeight": "Altura de los párpados",
+  "EyelidsWidth": "Ancho de los párpados",
+  "EyeDepth": "Profundidad de los ojos",
+  "EyeAngle": "Inclinación de los ojos",
+  "EyeSeparation": "Separación de los ojos",
+  "EyeHeight": "Altura de los ojos",
+  "NoseWidth": "Ancho de la nariz",
+  "NoseSize": "Tamaño de la nariz",
+  "NoseHeight": "Altura de la nariz",
+  "NoseAngle": "Inclinación de la nariz",
+  "NoseCurvature": "Curvatura de la nariz",
+  "NostrilsSeparation": "Separación de los orificios nasales",
+  "CheekbonesHeight": "Altura de los pómulos",
+  "CheekbonesWidth": "Ancho de los pómulos",
+  "CheekbonesDepth": "Profundidad de los pómulos",
+  "MouthWidth": "Ancho de la boca",
+  "MouthDepth": "Profundidad de la boca",
+  "MouthDeviation": "Desviación de la boca",
+  "MouthHeight": "Altura de la boca",
+  "UpperLipHeight": "Altura del labio superior",
+  "UpperLipWidth": "Ancho del labio superior",
+  "UpperLipDepth": "Profundidad del labio superior",
+  "LowerLipHeight": "Altura del labio inferior",
+  "LowerLipWidth": "Ancho del labio inferior",
+  "LowerLipDepth": "Profundidad del labio inferior",
+  "MandibleHeight": "Altura de la mandíbula",
+  "MandibleWidth": "Ancho de la mandíbula",
+  "MandibleDepth": "Profundidad de la mandíbula",
+  "ChinHeight": "Altura de la barbilla",
+  "ChinWidth": "Ancho de la barbilla",
+  "ChinDepth": "Profundidad de la barbilla",
+  "BeardType": "Tipo de barba",
+  "HairType": "Tipo de pelo",
+  "BodyType": "Forma del cuerpo",
+  "WaistType": "Tipo de cintura",
+  "Confirm": "Confirmar", // Confirma las opciones y pasa al siguiente Menú
+
+  //Descripciones de los apartados del Menú del cuerpo
+  "LegsTypeDesc": "Elije el tipo de piernas",
+  "TorsoTypeDesc": "Elije el tipo pecho",
+  "FaceTypeDesc": "Elije el tipo de cara",
+  "BodyColorDesc": "Elije el color del cuerpo",
+  "FaceSizeDesc": "Elige el tamaño de la cara",
+  "EyebrowHeightDesc": "Elige la altura de las cejas",
+  "EyebrowWidthDesc": "Elige el ancho de las cejas",
+  "EyebrowDepthDesc": "Elige la profundidad de las cejas",
+  "EarsHeightDesc": "Elige la altura de las orejas",
+  "EarsAngleDesc": "Elige la inclinación de las orejas",
+  "EarsSizeDesc": "Elige el tamaño de las orejas",
+  "EarsLobeSizeDesc": "Elige el tamaño del lobulo de las orejas",
+  "EyelidsHeightDesc": "Elige la altura de los párpados",
+  "EyelidsWidthDesc": "Elige el ancho de los párpados",
+  "EyeDepthDesc": "Elige la profundidad de los ojos",
+  "EyeAngleDesc": "Elige la inclinación de los ojos",
+  "EyeSeparationDesc": "Elige la separación de los ojos",
+  "EyeHeightDesc": "Elige la altura de los ojos",
+  "NoseWidthDesc": "Elige el ancho de la nariz",
+  "NoseSizeDesc": "Elige el tamaño de la nariz",
+  "NoseHeigthDesc": "Elige la altura de la nariz",
+  "NoseAngleDesc": "Elige la inclinación de la nariz",
+  "NoseCurvatureDesc": "Elige la curvatura de la nariz",
+  "NostrilsSeparationDesc": "Elige la separación de los orificios nasales",
+  "CheekbonesHeightDesc": "Elige la altura de los pómulos",
+  "CheekbonesWidthDesc": "Elige el ancho de los pómulos",
+  "CheekbonesDepthDesc": "Elige la profundidad de los pómulos",
+  "MouthWidthDesc": "Elige el ancho de la boca",
+  "MouthDepthDesc": "Elige la profundidad de la boca",
+  "MouthDeviationDesc": "Elige la desviación de la boca",
+  "MouthHeightDesc": "Elige la altura de la boca",
+  "UpperLipHeightDesc": "Elige la altura del labio superior",
+  "UpperLipWidthDesc": "Elige el ancho del labio superior",
+  "UpperLipDepthDesc": "Elige la profundidad del labio superior",
+  "LowerLipHeightDesc": "Elige la altura del labio inferior",
+  "LowerLipWidthDesc": "Elige el ancho del labio inferior",
+  "LowerLipDepthDesc": "Elige la profundidad del labio inferior",
+  "MandibleHeightDesc": "Elige la altura de la mandíbula",
+  "MandibleWidthDesc": "Elige el ancho de la mandíbula",
+  "MandibleDepthDesc": "Elige la profundidad de la mandíbula",
+  "ChinHeightDesc": "Elige la altura de la barbílla",
+  "ChinWidthDesc": "Elige el ancho de la barbílla",
+  "ChinDepthDesc": "Elige la profundidad de la barbílla",
+  "BeardTypeDesc": "Elige la barba",
+  "HairTypeDesc": "Elige el pelo",
+  "BodyTypeDesc": "Elige la forma del cuerpo",
+  "WaistTypeDesc": "Elige la cintura",
+  "ConfirmDesc": "Si tienes todo listo, es hora de vestirse, no podrás volver atrás así que asegurate de tener todo bien elegido.",
+
+  //Ropa
+  "TitleMenuClothes": "Vestidor", // Título del Menú
+  "SubTitleMenuClothes": "Viste a tu personaje", // Descripción del Menú
+
+  "HatsValue": "Sombrero #", // Las opciones del apartado de los sombreros
+  "GlassesValue": "Anteojos #", // Las opciones del apartado de los anteojos
+  "NeckwearValue": "Prenda #", // Las opciones del apartado de las prendas para el cuello
+  "TiesValue": "Corbata #", // Las opciones del apartado de las corbatas
+  "ShirtsValue": "Camisa #", // Las opciones del apartado de las camisas
+  "SuspendersValue": "Tirantes #", // Las opciones del apartado de los tirantes
+  "VestsValue": "Chaleco #", // Las opciones del apartado de los chalecos
+  "CoatsValue": "Abrigo #", // Las opciones del apartado de los abrigos
+  "PonchosValue": "Poncho #", // Las opciones del apartado de los ponchos
+  "CloaksValue": "Capa #", // Las opciones del apartado de las capas
+  "GlovesValue": "Guantes #", // Las opciones del apartado de los guantes
+  "RingsValue": "Anillo #", // Las opciones del apartado de los anillos
+  "BraceletsValue": "Pulsera #", // Las opciones del apartado de las pulseras
+  "HolstersValue": "Cartuchera #", // Las opciones del apartado de las cartucheras
+  "BeltsValue": "Cinturón #", // Las opciones del apartado de los cinturones
+  "BucklesValue": "Hebilla #", // Las opciones del apartado de las hebillas
+  "PantsValue": "Pantalón #", // Las opciones del apartado de los pantalones
+  "SkirtsValue": "Falda #", // Las opciones del apartado de las faldas
+  "ChapsValue": "Zahones #", // Las opciones del apartado de los zahones
+  "BootsValue": "Botas #", // Las opciones del apartado de las botas
+  "SpursValue": "Espuelas #", // Las opciones del apartado de las espuelas
+  "NoHatsValue": "Sin Sombrero", // La opción que da cuando no hay opciones
+  "NoGlassesValue": "Sin Anteojos", // La opción que da cuando no hay opciones
+  "NoNeckwearValue": "Cuello al descubierto", // La opción que da cuando no hay opciones
+  "NoTiesValue": "Sin Corbata", // La opción que da cuando no hay opciones
+  "NoShirtsValue": "Sin Camisa", // La opción que da cuando no hay opciones
+  "NoSuspendersValue": "Sin Tirantes", // La opción que da cuando no hay opciones
+  "NoVestsValue": "Sin Chaleco", // La opción que da cuando no hay opciones
+  "NoCoatsValue": "Sin Abrigo", // La opción que da cuando no hay opciones
+  "NoPonchosValue": "Sin Poncho", // La opción que da cuando no hay opciones
+  "NoCloaksValue": "Sin Capa", // La opción que da cuando no hay opciones
+  "NoGlovesValue": "Sin Guantes", // La opción que da cuando no hay opciones
+  "NoRingsValue": "Sin Anillo", // La opción que da cuando no hay opciones
+  "NoBraceletsValue": "Sin Pulsera", // La opción que da cuando no hay opciones
+  "NoHolstersValue": "Sin Cartuchera", // La opción que da cuando no hay opciones
+  "NoBeltsValue": "Sin Cinturón", // La opción que da cuando no hay opciones
+  "NoBucklesValue": "Sin Hebilla", // La opción que da cuando no hay opciones
+  "NoPantsValue": "Sin Pantalón", // La opción que da cuando no hay opciones
+  "NoSkirtsValue": "Sin Falda", // La opción que da cuando no hay opciones
+  "NoChapsValue": "Sin Zahones", // La opción que da cuando no hay opciones
+  "NoBootsValue": "Sin Botas", // La opción que da cuando no hay opciones
+  "NoSpursValue": "Sin Espuelas", // La opción que da cuando no hay opciones
+  "NoMaskValue": "Sin Mascara", // La opción que da cuando no hay opciones
+
+  "Hats": "Sombreros",
+  "Glasses": "Anteojos",
+  "Masks": "Mascaras",
+  "Neckwear": "Prendas para el cuello",
+  "Ties": "Corbatas",
+  "Shirts": "Camisas",
+  "Suspenders": "Tirantes",
+  "Vests": "Chalecos",
+  "Coats": "Abrigos",
+  "Ponchos": "Ponchos",
+  "Cloaks": "Capas",
+  "Gloves": "Guantes",
+  "RightRings": "Anillos de la mano derecha",
+  "LeftRings": "Anillos de la mano izquierda",
+  "Bracelets": "Pulseras",
+  "PrimaryHolsters": "Cartucheras principales",
+  "Belts": "Cinturones",
+  "Buckles": "Hebillas",
+  "SecondaryHolsters": "Cartucheras secundarias",
+  "Pants": "Pantalones",
+  "Skirts": "Faldas",
+  "Chaps": "Zahones",
+  "Boots": "Botas",
+  "Spurs": "Espuelas",
+
+  "Finish": "Vestir Personaje", // Confirma las opciones del Menú
+
+  //Descripciones de los apartados del Menú de la ropa
+  "HatsDesc": "Elige el sombrero",
+  "GlassesDesc": "Elige los anteojos",
+  "MasksDesc": "Elije si deseas llevar mascara",
+  "NeckwearDesc": "Elige la prenda para el cuello",
+  "TiesDesc": "Elige la corbata",
+  "ShirtsDesc": "Elige la camisa",
+  "SuspendersDesc": "Elige los tirantes",
+  "VestsDesc": "Elige el chaleco",
+  "CoatsDesc": "Elige el abrigo",
+  "PonchosDesc": "Elige el poncho",
+  "CloaksDesc": "Elige la capa",
+  "GlovesDesc": "Elige los guantes",
+  "RightRingsDesc": "Elige los anillos de la mano derecha",
+  "LeftRingsDesc": "Elige los anillos de la mano izquierda",
+  "BraceletsDesc": "Elige la pulsera",
+  "PrimaryHolstersDesc": "Elige la cartuchera principal",
+  "BeltsDesc": "Elige el cinturón",
+  "BucklesDesc": "Elige la hebilla",
+  "SecondaryHolstersDesc": "Elige la cartuchera secundaria",
+  "PantsDesc": "Elige el pantalón",
+  "SkirtsDesc": "Elige la falda",
+  "ChapsDesc": "Elige los zahones",
+  "BootsDesc": "Elige las botas",
+  "SpursDesc": "Elige las espuelas",
+  "FinishDesc": "Asegurate de tener todo bien elegido, luego tendrás que ir a una tienda de ropa para cambiarte la ropa.",
+  "TipFinal": "Bienvenido a VORP, esperamos que tu estancia aquí sea de lo más entretenida, por favor recuerda no saltar del globo y disfrutar de las vista antes de rolear."
 }

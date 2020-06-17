@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
-using vorpcore_cl;
 
 namespace vorpcharacter_cl.Menus
 {
@@ -82,21 +81,27 @@ namespace vorpcharacter_cl.Menus
 
             mainMenu.OnMenuClose += (_menu) =>
             {
-
+                if (CreatePlayer.isInCharCreation)
+                {
+                    CreatePlayer.CloseSecureMenu();
+                }
             };
 
             mainMenu.OnItemSelect += (_menu, _item, _index) =>
             {
                 // Code in here would get executed whenever an item is pressed.
-                if (_index == 0)
+                if (_index == 4)
                 {
-                    //isDressUpPed = false;
-                    //SaveChanges();
-                    //mdu.CloseMenu();
+                    CreatePlayer.isInCharCreation = false;
+                    CreatePlayer.SaveChanges();
+                    mainMenu.CloseMenu();
                 }
             };
 
         }
+
+
+
         public static Menu GetMenu()
         {
             SetupMenu();

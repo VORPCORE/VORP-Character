@@ -15,3 +15,4 @@ E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CopyComplete
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\Config.json
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csprojAssemblyReference.cache
+E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\Es.json

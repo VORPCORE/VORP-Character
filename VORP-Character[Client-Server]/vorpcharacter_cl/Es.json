@@ -1,5 +1,8 @@
 ﻿{
   "PressRightOrLeft": "Presiona [<-] o [->] para seleccionar el sexo",
+
+  "PressGuide": "Rotar <-[A] [D]-> | Camaras [W] o [S]",
+
   //Input Name 
   "PlaceHolderInputName": "Escribe un nombre y apellido para tu personaje",
   "ButtonInputName": "Confirmar",
@@ -16,13 +19,16 @@
   "TitleFaceMenu": "Editar cara",
   "SubTitleFaceMenu": "Edita la cara del personaje",
 
-  "TitleSkinMenu": "Edita tu skin",
+  "TitleSkinMenu": "Editar piel",
   "SubTitleSkinMenu": "Dale rasgos a tu personaje",
 
   "TitleImportMenu": "Importar Skin",
   "SubTitleImportMenu": "Si has jugado en otro servidor que use VORP Core podras importar tu skin.",
 
+  "LegsValues": "Piernas #",
+  "TorsoValues": "Pecho #",
   "FaceValues": "Cara #",
+  "MaskValue": "Mascara #",
   "BodyColorValues": "Color #", // Las opciones de cada apartado
   "TypeValues": "Tipo #", // Las opciones de cada apartado
   "BeardValue": "Barba #", // Las opciones del apartado de la barba
@@ -31,6 +37,8 @@
   "WaistValue": "Cintura #", // Las opciones del apartado de la cintura
   "NoExistValue": "No hay", // La opción que da cuando no hay opciones en algún apartado
 
+  "LegsType": "Tipo de piernas",
+  "TorsoType": "Tipo de pecho",
   "FaceType": "Tipo de cara",
   "BodyColor": "Color del cuerpo",
   "FaceSize": "Tamaño de la cara",
@@ -79,6 +87,8 @@
   "Confirm": "Confirmar", // Confirma las opciones y pasa al siguiente Menú
 
   //Descripciones de los apartados del Menú del cuerpo
+  "LegsTypeDesc": "Elije el tipo de piernas",
+  "TorsoTypeDesc": "Elije el tipo pecho",
   "FaceTypeDesc": "Elije el tipo de cara",
   "BodyColorDesc": "Elije el color del cuerpo",
   "FaceSizeDesc": "Elige el tamaño de la cara",
@@ -172,9 +182,11 @@
   "NoChapsValue": "Sin Zahones", // La opción que da cuando no hay opciones
   "NoBootsValue": "Sin Botas", // La opción que da cuando no hay opciones
   "NoSpursValue": "Sin Espuelas", // La opción que da cuando no hay opciones
+  "NoMaskValue": "Sin Mascara", // La opción que da cuando no hay opciones
 
   "Hats": "Sombreros",
   "Glasses": "Anteojos",
+  "Masks": "Mascaras",
   "Neckwear": "Prendas para el cuello",
   "Ties": "Corbatas",
   "Shirts": "Camisas",
@@ -202,6 +214,7 @@
   //Descripciones de los apartados del Menú de la ropa
   "HatsDesc": "Elige el sombrero",
   "GlassesDesc": "Elige los anteojos",
+  "MasksDesc": "Elije si deseas llevar mascara",
   "NeckwearDesc": "Elige la prenda para el cuello",
   "TiesDesc": "Elige la corbata",
   "ShirtsDesc": "Elige la camisa",

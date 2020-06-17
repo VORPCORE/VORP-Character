@@ -9,31 +9,37 @@ using System.Text;
 using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
-namespace vorpcore_cl
+namespace vorpcharacter_cl
 {
     public class CreatePlayer : BaseScript
     {
         bool isSelectSexActive = false;
-        bool isDressUpPed = false;
-        bool isInCharCreation = false;
+        public static bool isInCharCreation = false;
         public static string model_selected;
         string model_f = "mp_female";
         string model_m = "mp_male";
         int PedFemale;
         int PedMale;
-        int Camera;
-        int Camera_Male;
-        int Camera_Female;
-        int Camera_Editor;
-        int Camera_DressUp;
-        float DressHeading = 359.9842f;
-        bool onKeyBoard = false;
+        static int Camera;
+        static int Camera_Male;
+        static int Camera_Female;
+        static int Camera_Editor;
+        static int Camera_FaceEditor;
+        static int Camera_Waist;
+        static int Camera_Legs;
+        static int Camera_Body;
+        static int Camera_Back;
+        float DressHeading = 93.2f;
 
         //Para guardar en DB
         static Dictionary<string, object> skinPlayer = new Dictionary<string, object>() {
             { "sex", "mp_male" },
 
-            { "Head", 0.0f },
+            { "HeadType", 0 },
+            { "BodyType", 0 },
+            { "LegsType", 0 },
+
+            { "HeadSize", 0.0f },
 
             { "EyeBrowH", 0.0f },
             { "EyeBrowW", 0.0f },
@@ -58,7 +64,7 @@ namespace vorpcore_cl
             { "NoseAng", 0.0f },
             { "NoseC", 0.0f },
             { "NoseDis", 0.0f },
-            
+
             { "CheekBonesH", 0.0f },
             { "CheekBonesW", 0.0f },
             { "CheekBonesD", 0.0f },
@@ -97,6 +103,7 @@ namespace vorpcore_cl
         static Dictionary<string, object> clothesPlayer = new Dictionary<string, object>() {
             { "Hat", -1 },
             { "EyeWear", -1 },
+            { "Mask", -1},
             { "NeckWear", -1 },
             { "NeckTies", -1 },
             { "Shirt", -1 },
@@ -120,12 +127,15 @@ namespace vorpcore_cl
             { "Spurs", -1 },
         };
 
+        public static int indexCamera = 1;
+
         public CreatePlayer()
         {
             EventHandlers["vorpcharacter:createPlayer"] += new Action(StartCreation);
 
             Tick += OnTick;
             Tick += OnTickAnimm;
+            Tick += OnTickCameras;
 
             API.RegisterCommand("createchar", new Action<int, List<object>, string>((source, args, raw) =>
             {
@@ -165,13 +175,6 @@ namespace vorpcore_cl
                 Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
             }), false);
 
-            API.RegisterCommand("reset", new Action<int, List<object>, string>((source, args, raw) =>
-            {
-                string comp = "0x" + args[0].ToString();
-                int compInt = Convert.ToInt32(comp, 16);
-                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), compInt, 0);
-                Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
-            }), false);
 
         }
 
@@ -180,10 +183,12 @@ namespace vorpcore_cl
             TriggerServerEvent("vorpcharacter:CommandCreate");
         }
 
+        //
+
         [Tick]
         private async Task InstancePlayer()
         {
-            if (isSelectSexActive || isDressUpPed || isInCharCreation)
+            if (isSelectSexActive || isInCharCreation)
             {
                 for (int i = 0; i < 255; i++)
                 {
@@ -200,7 +205,7 @@ namespace vorpcore_cl
 
                 }
             }
-            
+
             await Delay(3000);
         }
 
@@ -232,7 +237,7 @@ namespace vorpcore_cl
         public static int vehCreated = 0;
         public static int pedCreated = 0;
 
-        private async void StartAnim()
+        private static async void StartAnim()
         {
             uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
             Vector3 coords = new Vector3(-366.431f, 727.4282f, 220.3232f);
@@ -242,7 +247,7 @@ namespace vorpcore_cl
             Function.Call((Hash)0x283978A15512B2FE, vehCreated, true);
             //TaskWanderStandard
             Function.Call((Hash)0xBB9CE077274F6A1B, 10, 10);
-            
+
 
             uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
             Miscellanea.LoadModel(HashPed);
@@ -288,1229 +293,16 @@ namespace vorpcore_cl
 
         }
 
-        private async void StopCreation()
+        private static async void StopCreation()
         {
-            isSelectSexActive = false;
-            isDressUpPed = false;
             isInCharCreation = false;
             await DeleteAll();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="model"></param>
-        public void MenuCreateCharacter(string model)
-        {
-            MenuController.Menus.Clear();
-
-            skinPlayer["sex"] = model;
-
-            //Definimos el nombre y subtitlo del menu con un constructor
-            Menu mcc = new Menu(GetConfig.Langs["TitleMenuBody"], GetConfig.Langs["SubTitleMenuBody"]);
-            MenuController.AddMenu(mcc);
-            MenuController.MenuToggleKey = (Control)0;
-
-            //Tipo de tamaños del 1 al 10
-            List<string> sizeType = new List<string>();
-
-            for (float i = 1; i < 11; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-            {
-                sizeType.Add(GetConfig.Langs["TypeValues"] + i);
-            }
-
-            MenuListItem mListHead = new MenuListItem(GetConfig.Langs["FaceSize"], sizeType, 0, GetConfig.Langs["FaceSizeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListHead); // Lo añadimos al menu
-
-            //Altura cejas
-            MenuListItem mListEyeBrowH = new MenuListItem(GetConfig.Langs["EyebrowHeight"], sizeType, 0, GetConfig.Langs["EyebrowHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeBrowH); // Lo añadimos al menu
-            //Anchura cejas
-            MenuListItem mListEyeBrowW = new MenuListItem(GetConfig.Langs["EyebrowWidth"], sizeType, 0, GetConfig.Langs["EyebrowWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeBrowW); // Lo añadimos al menu
-            //Profundida cejas
-            MenuListItem mListEyeBrowD = new MenuListItem(GetConfig.Langs["EyebrowDepth"], sizeType, 0, GetConfig.Langs["EyebrowDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeBrowD); // Lo añadimos al menu
-
-            //Altura Orejas
-            MenuListItem mListEarsH = new MenuListItem(GetConfig.Langs["EarsHeight"], sizeType, 0, GetConfig.Langs["EarsHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEarsH); // Lo añadimos al menu
-            //Anchura Orejas
-            MenuListItem mListEarsW = new MenuListItem(GetConfig.Langs["EarsAngle"], sizeType, 0, GetConfig.Langs["EarsAngleDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEarsW); // Lo añadimos al menu
-            //Tamaño Orejas
-            MenuListItem mListEarsD = new MenuListItem(GetConfig.Langs["EarsSize"], sizeType, 0, GetConfig.Langs["EarsSizeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEarsD); // Lo añadimos al menu
-            //Tamaño Lobulo de la oreja
-            MenuListItem mListEarsL = new MenuListItem(GetConfig.Langs["EarsLobeSize"], sizeType, 0, GetConfig.Langs["EarsLobeSizeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEarsL); // Lo añadimos al menu
-
-            //Altura de los parpados
-            MenuListItem mListEyeLidH = new MenuListItem(GetConfig.Langs["EyelidsHeight"], sizeType, 0, GetConfig.Langs["EyelidsHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeLidH); // Lo añadimos al menu
-            //Ancho de los parpados
-            MenuListItem mListEyeLidW = new MenuListItem(GetConfig.Langs["EyelidsWidth"], sizeType, 0, GetConfig.Langs["EyelidsWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeLidW); // Lo añadimos al menu
-
-            //Profundida de los ojos
-            MenuListItem mListEyeD = new MenuListItem(GetConfig.Langs["EyeDepth"], sizeType, 0, GetConfig.Langs["EyeDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeD); // Lo añadimos al menu
-            //Angulo de los ojos
-            MenuListItem mListEyeAng = new MenuListItem(GetConfig.Langs["EyeAngle"], sizeType, 0, GetConfig.Langs["EyeAngleDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeAng); // Lo añadimos al menu
-            //Distancia de los ojos
-            MenuListItem mListEyeDis = new MenuListItem(GetConfig.Langs["EyeSeparation"], sizeType, 0, GetConfig.Langs["EyeSeparationDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeDis); // Lo añadimos al menu
-            //Altura de los ojos
-            MenuListItem mListEyeH = new MenuListItem(GetConfig.Langs["EyeHeight"], sizeType, 0, GetConfig.Langs["EyeHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListEyeH); // Lo añadimos al menu
-
-
-            MenuListItem mListNoseW = new MenuListItem(GetConfig.Langs["NoseWidth"], sizeType, 0, GetConfig.Langs["NoseWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListNoseW); // Lo añadimos al menu
-
-            MenuListItem mListNoseS = new MenuListItem(GetConfig.Langs["NoseSize"], sizeType, 0, GetConfig.Langs["NoseSizeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListNoseS); // Lo añadimos al menu
-
-            MenuListItem mListNoseH = new MenuListItem(GetConfig.Langs["NoseHeight"], sizeType, 0, GetConfig.Langs["NoseHeigthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListNoseH); // Lo añadimos al menu
-
-            MenuListItem mListNoseAng = new MenuListItem(GetConfig.Langs["NoseAngle"], sizeType, 0, GetConfig.Langs["NoseAngleDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListNoseAng); // Lo añadimos al menu
-
-            MenuListItem mListNoseC = new MenuListItem(GetConfig.Langs["NoseCurvature"], sizeType, 0, GetConfig.Langs["NoseCurvatureDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListNoseC); // Lo añadimos al menu
-
-            MenuListItem mListNoseDis = new MenuListItem(GetConfig.Langs["NostrilsSeparation"], sizeType, 0, GetConfig.Langs["NostrilsSeparationDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListNoseDis); // Lo añadimos al menu
-
-
-            MenuListItem mListCheekBonesH = new MenuListItem(GetConfig.Langs["CheekbonesHeight"], sizeType, 0, GetConfig.Langs["CheekbonesHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListCheekBonesH); // Lo añadimos al menu
-
-            MenuListItem mListCheekBonesW = new MenuListItem(GetConfig.Langs["CheekbonesWidth"], sizeType, 0, GetConfig.Langs["CheekbonesWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListCheekBonesW); // Lo añadimos al menu
-
-            MenuListItem mListCheekBonesD = new MenuListItem(GetConfig.Langs["CheekbonesDepth"], sizeType, 0, GetConfig.Langs["CheekbonesDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListCheekBonesD); // Lo añadimos al menu
-
-
-            MenuListItem mListMouthW = new MenuListItem(GetConfig.Langs["MouthWidth"], sizeType, 0, GetConfig.Langs["MouthWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListMouthW); // Lo añadimos al menu
-
-            MenuListItem mListMouthD = new MenuListItem(GetConfig.Langs["MouthDepth"], sizeType, 0, GetConfig.Langs["MouthDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListMouthD); // Lo añadimos al menu
-
-            MenuListItem mListMouthX = new MenuListItem(GetConfig.Langs["MouthDeviation"], sizeType, 0, GetConfig.Langs["MouthDeviationDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListMouthX); // Lo añadimos al menu
-
-            MenuListItem mListMouthY = new MenuListItem(GetConfig.Langs["MouthHeight"], sizeType, 0, GetConfig.Langs["MouthHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListMouthY); // Lo añadimos al menu
-
-
-            MenuListItem mListULiphH = new MenuListItem(GetConfig.Langs["UpperLipHeight"], sizeType, 0, GetConfig.Langs["UpperLipHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListULiphH); // Lo añadimos al menu
-            MenuListItem mListULiphW = new MenuListItem(GetConfig.Langs["UpperLipWidth"], sizeType, 0, GetConfig.Langs["UpperLipWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListULiphW); // Lo añadimos al menu
-            MenuListItem mListULiphD = new MenuListItem(GetConfig.Langs["UpperLipDepth"], sizeType, 0, GetConfig.Langs["UpperLipDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListULiphD); // Lo añadimos al menu
-            MenuListItem mListLLiphH = new MenuListItem(GetConfig.Langs["LowerLipHeight"], sizeType, 0, GetConfig.Langs["LowerLipHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListLLiphH); // Lo añadimos al menu
-            MenuListItem mListLLiphW = new MenuListItem(GetConfig.Langs["LowerLipWidth"], sizeType, 0, GetConfig.Langs["LowerLipWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListLLiphW); // Lo añadimos al menu
-            MenuListItem mListLLiphD = new MenuListItem(GetConfig.Langs["LowerLipDepth"], sizeType, 0, GetConfig.Langs["LowerLipDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListLLiphD); // Lo añadimos al menu
-
-
-            MenuListItem mListJawH = new MenuListItem(GetConfig.Langs["MandibleHeight"], sizeType, 0, GetConfig.Langs["MandibleHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListJawH); // Lo añadimos al menu
-
-            MenuListItem mListJawW = new MenuListItem(GetConfig.Langs["MandibleWidth"], sizeType, 0, GetConfig.Langs["MandibleWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListJawW); // Lo añadimos al menu
-
-            MenuListItem mListJawD = new MenuListItem(GetConfig.Langs["MandibleDepth"], sizeType, 0, GetConfig.Langs["MandibleDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListJawD); // Lo añadimos al menu
-
-
-            MenuListItem mListChinH = new MenuListItem(GetConfig.Langs["ChinHeight"], sizeType, 0, GetConfig.Langs["ChinHeightDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListChinH); // Lo añadimos al menu
-
-            MenuListItem mListChinW = new MenuListItem(GetConfig.Langs["ChinWidth"], sizeType, 0, GetConfig.Langs["ChinWidthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListChinW); // Lo añadimos al menu
-
-            MenuListItem mListChinD = new MenuListItem(GetConfig.Langs["ChinDepth"], sizeType, 0, GetConfig.Langs["ChinDepthDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListChinD); //Lo añadimos al menu
-            
-            List<string> beardType = new List<string>();
-
-            if (model == "mp_male")
-            {
-                //Barbas de Hombre
-                for (float i = 1; i < SkinsUtils.BEARD_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    beardType.Add(GetConfig.Langs["BeardValue"] + i);
-                }
-            }
-            else
-            {
-                    beardType.Add(GetConfig.Langs["NoExistValue"]);
-            }
-
-            MenuListItem mListBeard = new MenuListItem(GetConfig.Langs["BeardType"], beardType, 0, GetConfig.Langs["BeardTypeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListBeard); // Lo añadimos al menu
-
-
-            //List<string> mustacheType = new List<string>();
-
-            //if (model == "mp_male")
-            //{
-                //Dientes de Hombre
-            //    for (float i = 1; i < SkinsUtils.MUSTACHE_MALE.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-            //    {
-            //        mustacheType.Add("Bigote #" + i);
-            //    }
-            //}
-            //else
-            //{
-            //    mustacheType.Add("No Hay");
-           // }
-
-            //MenuListItem mListMustache = new MenuListItem("Tipo de Bigote", mustacheType, 0, "Elije el bigote de tu personaje"); // Añadimos la lista al boton
-            //mcc.AddMenuItem(mListMustache); // Lo añadimos al menu
-
-            List<string> hairType = new List<string>();
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.HAIR_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    hairType.Add(GetConfig.Langs["HairValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.HAIR_FEMALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    hairType.Add(GetConfig.Langs["HairValue"] + i);
-                }
-            }
-
-            MenuListItem mListHair = new MenuListItem(GetConfig.Langs["HairType"], hairType, 0, GetConfig.Langs["HairTypeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListHair); // Lo añadimos al menu
-
-            //Tipo de cuerpo
-            List<string> bodyType = new List<string>();
-
-            for(int i = 1; i < SkinsUtils.BODY_TYPES.Count +1 ; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-            {
-                bodyType.Add(GetConfig.Langs["BodySizeValue"] + i);
-            }
-
-            MenuListItem mListBody = new MenuListItem(GetConfig.Langs["BodyType"], bodyType, 0, GetConfig.Langs["BodyTypeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListBody); // Lo añadimos al menu
-
-            //Tipo de cuerpo
-            List<string> waistType = new List<string>();
-
-            for (int i = 1; i < SkinsUtils.WAIST_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-            {
-                waistType.Add(GetConfig.Langs["WaistValue"] + i);
-            }
-
-            MenuListItem mListWaist = new MenuListItem(GetConfig.Langs["WaistType"], waistType, 0, GetConfig.Langs["WaistTypeDesc"]); // Añadimos la lista al boton
-            mcc.AddMenuItem(mListWaist); // Lo añadimos al menu
-
-            //Terminamos y confirmamos
-            mcc.AddMenuItem(new MenuItem(GetConfig.Langs["Confirm"], GetConfig.Langs["ConfirmDesc"])
-            {
-                Enabled = true,
-                LeftIcon = MenuItem.Icon.TICK
-            });
-
-            mcc.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
-            {
-                // Code in here would get executed whenever the selected value of a list item changes (when left/right key is pressed).
-                Debug.WriteLine($"Cambios del menu: [{_menu}, {_listItem}, {_oldIndex}, {_newIndex}, {_itemIndex}]");
-                int pPID = API.PlayerPedId();
-                float _sizeValue = (float)_newIndex;
-                _sizeValue = _sizeValue / 10.0f;
-
-                switch (_itemIndex)
-                {
-                    case 0:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x84D6, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["Head"] = _sizeValue;
-                        break;
-                    case 1:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3303, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeBrowH"] = _sizeValue;
-                        break;
-                    case 2:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2FF9, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeBrowW"] = _sizeValue;
-                        break;
-                    case 3:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x4AD1, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeBrowD"] = _sizeValue;
-                        break;
-                    case 4:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC04F, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EarsH"] = _sizeValue;
-                        break;
-                    case 5:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB6CE, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EarsW"] = _sizeValue;
-                        break;
-                    case 6:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2844, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EarsD"] = _sizeValue;
-                        break;
-                    case 7:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xED30, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EarsL"] = _sizeValue;
-                        break;
-                    case 8:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8B2B, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeLidH"] = _sizeValue;
-                        break;
-                    case 9:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1B6B, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeLidW"] = _sizeValue;
-                        break;
-                    case 10:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEE44, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeD"] = _sizeValue;
-                        break;
-                    case 11:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xD266, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeAng"] = _sizeValue;
-                        break;
-                    case 12:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xA54E, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeDis"] = _sizeValue;
-                        break;
-                    case 13:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xDDFB, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["EyeH"] = _sizeValue;
-                        break;
-                    case 14:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6E7F, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["NoseW"] = _sizeValue;
-                        break;
-                    case 15:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3471, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["NoseS"] = _sizeValue;
-                        break;
-                    case 16:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x03F5, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["NoseH"] = _sizeValue;
-                        break;
-                    case 17:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x34B1, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["NoseAng"] = _sizeValue;
-                        break;
-                    case 18:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF156, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["NoseC"] = _sizeValue;
-                        break;
-                    case 19:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x561E, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["NoseDis"] = _sizeValue;
-                        break;
-                    case 20:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6A0B, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["CheekBonesH"] = _sizeValue;
-                        break;
-                    case 21:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xABCF, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["CheekBonesW"] = _sizeValue;
-                        break;
-                    case 22:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x358D, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["CheekBonesD"] = _sizeValue;
-                        break;
-                    case 23:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF065, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["MouthW"] = _sizeValue;
-                        break;
-                    case 24:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xAA69, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["MouthD"] = _sizeValue;
-                        break;
-                    case 25:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x7AC3, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["MouthX"] = _sizeValue;
-                        break;
-                    case 26:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x410D, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["MouthY"] = _sizeValue;
-                        break;
-                    case 27:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1A00, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["ULiphH"] = _sizeValue;
-                        break;
-                    case 28:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x91C1, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["ULiphW"] = _sizeValue;
-                        break;
-                    case 29:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC375, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["ULiphD"] = _sizeValue;
-                        break;
-                    case 30:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xBB4D, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["LLiphH"] = _sizeValue;
-                        break;
-                    case 31:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB0B0, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["LLiphW"] = _sizeValue;
-                        break;
-                    case 32:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x5D16, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["LLiphD"] = _sizeValue;
-                        break;
-                    case 33:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8D0A, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["JawH"] = _sizeValue;
-                        break;
-                    case 34:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEBAE, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["JawW"] = _sizeValue;
-                        break;
-                    case 35:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1DF6, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["JawD"] = _sizeValue;
-                        break;
-                    case 36:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3C0F, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["ChinH"] = _sizeValue;
-                        break;
-                    case 37:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC3B2, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["ChinW"] = _sizeValue;
-                        break;
-                    case 38:
-                        Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xE323, _sizeValue);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["ChinD"] = _sizeValue;
-                        break;
-                    case 39:
-                        if (model == "mp_male")
-                        {
-                            if (_newIndex == 0)
-                            {
-                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0x15D3C7F2, 0);
-                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0xB6B63737, 0);
-                                Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
-                                skinPlayer["Beard"] = -1;
-                            }
-                            else
-                            {
-                                Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.BEARD_MALE[_newIndex - 1], true, false, true);
-                                skinPlayer["Beard"] = SkinsUtils.BEARD_MALE[_newIndex - 1];
-                            }
-                        }
-                        else
-                        {
-                            //Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.TEETH_FEMALE[_newIndex], true, true, true);
-                        }
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        break;
-                    /**case 40:
-                        if (model == "mp_male")
-                        {
-                          
-                            //Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.MUSTACHE_MALE[_newIndex], true, true, true);
-                        }
-                        else
-                        {
-                            //Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.TEETH_FEMALE[_newIndex], true, true, true);
-                        }
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        break;*/
-                    case 40:
-                        if (model == "mp_male")
-                        {
-                            if (_newIndex == 0)
-                            {
-                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0x864B03AE, 0);
-                                Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
-                                skinPlayer["Hair"] = -1;
-                            }
-                            else
-                            {
-                                Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.HAIR_MALE[_newIndex - 1], true, true, true);
-                                skinPlayer["Hair"] = SkinsUtils.HAIR_MALE[_newIndex - 1];
-                            }
-
-                        }
-                        else
-                        {
-                            if (_newIndex == 0)
-                            {
-                                Function.Call((Hash)0xD710A5007C2AC539, pPID, 0x864B03AE, 0);
-                                Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
-                                skinPlayer["Hair"] = -1;
-                            }
-                            else
-                            {
-                                Function.Call((Hash)0xD3A7B003ED343FD9, pPID, SkinsUtils.HAIR_FEMALE[_newIndex - 1], true, true, true);
-                                skinPlayer["Hair"] = SkinsUtils.HAIR_FEMALE[_newIndex - 1];
-                            }
-                        }
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        break;
-                    case 41:
-                        Function.Call((Hash)0x1902C4CFCC5BE57C, pPID, SkinsUtils.BODY_TYPES[_newIndex]);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["Body"] = SkinsUtils.BODY_TYPES[_newIndex];
-                        break;
-                    case 42:
-                        Function.Call((Hash)0x1902C4CFCC5BE57C, pPID, SkinsUtils.WAIST_TYPES[_newIndex]);
-                        Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
-                        skinPlayer["Waist"] = SkinsUtils.WAIST_TYPES[_newIndex];
-                        break;
-                }
-            };
-
-            mcc.OnItemSelect += (_menu, _item, _index) =>
-            {
-                // Code in here would get executed whenever an item is pressed.
-                if (_index == 43)
-                {
-                    isInCharCreation = false;
-                    DressUp(model);
-                    mcc.CloseMenu();
-                }
-            };
-
-
-            mcc.OnMenuClose += (_menu) =>
-            {
-                // Code in here gets triggered whenever the menu is closed.
-                if (isInCharCreation)
-                {
-                    mcc.OpenMenu();
-                }
-
-            };
-
-            mcc.OpenMenu();
-        }
-        /// <summary>
-        /// Menu Vestidor
-        /// </summary>
-        /// <param name="model"></param>
-        public void MenuDressUpCharacter(string model, bool isCommand)
-        {
-            MenuController.Menus.Clear();
-
-            //Definimos el nombre y subtitlo del menu con un constructor
-            Menu mdu = new Menu(GetConfig.Langs["TitleMenuClothes"], GetConfig.Langs["SubTitleMenuClothes"]);
-            MenuController.AddMenu(mdu);
-            MenuController.MenuToggleKey = (Control)0;
-
-            List<string> hatType = new List<string>();
-            hatType.Add(GetConfig.Langs["NoHatsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.HATS_MALE.Count + 1; i++)
-                {
-                    hatType.Add(GetConfig.Langs["HatsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.HATS_FEMALE.Count + 1; i++)
-                {
-                    hatType.Add(GetConfig.Langs["HatsValue"] + i);
-                }
-            }
-            MenuListItem mListHats = new MenuListItem(GetConfig.Langs["Hats"], hatType, 0, GetConfig.Langs["HatsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListHats); // Lo añadimos al menu
-
-            List<string> eyeWearType = new List<string>();
-            eyeWearType.Add(GetConfig.Langs["NoGlassesValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.EYEWEAR_MALE.Count + 1; i++) 
-                {
-                    eyeWearType.Add(GetConfig.Langs["GlassesValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.EYEWEAR_FEMALE.Count + 1; i++) 
-                {
-                    eyeWearType.Add(GetConfig.Langs["GlassesValue"] + i);
-                }
-            }
-            MenuListItem mListEyeWear = new MenuListItem(GetConfig.Langs["Glasses"], eyeWearType, 0, GetConfig.Langs["GlassesDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListEyeWear); // Lo añadimos al menu
-
-            List<string> neckWearType = new List<string>();
-            neckWearType.Add(GetConfig.Langs["NoNeckwearValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.NECKWEAR_MALE.Count + 1; i++)
-                {
-                    neckWearType.Add(GetConfig.Langs["NeckwearValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.NECKWEAR_FEMALE.Count + 1; i++)
-                {
-                    neckWearType.Add(GetConfig.Langs["NeckwearValue"] + i);
-                }
-            }
-            MenuListItem mListNeckWear = new MenuListItem(GetConfig.Langs["Neckwear"], neckWearType, 0, GetConfig.Langs["NeckwearDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListNeckWear); // Lo añadimos al menu
-
-            List<string> neckTiesType = new List<string>();
-            neckTiesType.Add(GetConfig.Langs["NoTiesValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.NECKTIES_MALE.Count + 1; i++)
-                {
-                    neckTiesType.Add(GetConfig.Langs["TiesValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.NECKTIES_FEMALE.Count + 1; i++)
-                {
-                    neckTiesType.Add(GetConfig.Langs["TiesValue"] + i);
-                }
-            }
-            MenuListItem mListNeckTies = new MenuListItem(GetConfig.Langs["Ties"], neckTiesType, 0, GetConfig.Langs["TiesDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListNeckTies); // Lo añadimos al menu
-
-            List<string> shirtsType = new List<string>();
-            shirtsType.Add(GetConfig.Langs["NoShirtsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.SHIRTS_MALE.Count + 1; i++)
-                {
-                    shirtsType.Add(GetConfig.Langs["ShirtsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.SHIRTS_FEMALE.Count + 1; i++)
-                {
-                    shirtsType.Add(GetConfig.Langs["ShirtsValue"] + i);
-                }
-            }
-            MenuListItem mListShirts = new MenuListItem(GetConfig.Langs["Shirts"], shirtsType, 0, GetConfig.Langs["ShirtsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListShirts); // Lo añadimos al menu
-
-            List<string> suspendersType = new List<string>();
-            suspendersType.Add(GetConfig.Langs["NoSuspendersValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.SUSPENDERS_MALE.Count + 1; i++)
-                {
-                    suspendersType.Add(GetConfig.Langs["SuspendersValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.SUSPENDERS_FEMALE.Count + 1; i++)
-                {
-                    suspendersType.Add(GetConfig.Langs["SuspendersValue"] + i);
-                }
-            }
-            MenuListItem mListSuspenders = new MenuListItem(GetConfig.Langs["Suspenders"], suspendersType, 0, GetConfig.Langs["SuspendersDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListSuspenders); // Lo añadimos al menu
-
-
-            List<string> vestType = new List<string>();
-            vestType.Add(GetConfig.Langs["NoVestsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.VEST_MALE.Count + 1; i++)
-                {
-                    vestType.Add(GetConfig.Langs["VestsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.VEST_FEMALE.Count + 1; i++)
-                {
-                    vestType.Add(GetConfig.Langs["VestsValue"] + i);
-                }
-            }
-            MenuListItem mListVest = new MenuListItem(GetConfig.Langs["Vests"], vestType, 0, GetConfig.Langs["VestsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListVest); // Lo añadimos al menu
-
-            List<string> coatsType = new List<string>();
-            coatsType.Add(GetConfig.Langs["NoCoatsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.COATS_MALE.Count + 1; i++)
-                {
-                    coatsType.Add(GetConfig.Langs["CoatsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.COATS_FEMALE.Count + 1; i++)
-                {
-                    coatsType.Add(GetConfig.Langs["CoatsValue"] + i);
-                }
-            }
-            MenuListItem mListCoats = new MenuListItem(GetConfig.Langs["Coats"], coatsType, 0, GetConfig.Langs["CoatsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListCoats); // Lo añadimos al menu
-
-            List<string> ponchosType = new List<string>();
-            ponchosType.Add(GetConfig.Langs["NoPonchosValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.PONCHOS_MALE.Count + 1; i++)
-                {
-                    ponchosType.Add(GetConfig.Langs["PonchosValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.PONCHOS_FEMALE.Count + 1; i++)
-                {
-                    ponchosType.Add(GetConfig.Langs["PonchosValue"] + i);
-                }
-            }
-            MenuListItem mListPonchos = new MenuListItem(GetConfig.Langs["Ponchos"], ponchosType, 0, GetConfig.Langs["PonchosDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListPonchos); // Lo añadimos al menu
-
-            List<string> cloakType = new List<string>();
-            cloakType.Add(GetConfig.Langs["NoCloaksValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.CLOAK_MALE.Count + 1; i++)
-                {
-                    cloakType.Add(GetConfig.Langs["CloaksValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.CLOAK_FEMALE.Count + 1; i++)
-                {
-                    cloakType.Add(GetConfig.Langs["CloaksValue"] + i);
-                }
-            }
-            MenuListItem mListCloak = new MenuListItem(GetConfig.Langs["Cloaks"], cloakType, 0, GetConfig.Langs["CloaksDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListCloak); // Lo añadimos al menu
-
-            List<string> glovesType = new List<string>();
-            glovesType.Add(GetConfig.Langs["NoGlovesValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.GLOVES_MALE.Count + 1; i++)
-                {
-                    glovesType.Add(GetConfig.Langs["GlovesValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.GLOVES_FEMALE.Count + 1; i++)
-                {
-                    glovesType.Add(GetConfig.Langs["GlovesValue"] + i);
-                }
-            }
-            MenuListItem mListGloves = new MenuListItem(GetConfig.Langs["Gloves"], glovesType, 0, GetConfig.Langs["GlovesDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListGloves); // Lo añadimos al menu
-
-            List<string> ringsRhType = new List<string>();
-            ringsRhType.Add(GetConfig.Langs["NoRingsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.RINGS_RH_MALE.Count + 1; i++)
-                {
-                    ringsRhType.Add(GetConfig.Langs["RingsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.RINGS_RH_FEMALE.Count + 1; i++)
-                {
-                    ringsRhType.Add(GetConfig.Langs["RingsValue"] + i);
-                }
-            }
-            MenuListItem mListRingsRhType = new MenuListItem(GetConfig.Langs["RightRings"], ringsRhType, 0, GetConfig.Langs["RightRingsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListRingsRhType); // Lo añadimos al menu
-
-            List<string> ringsLhType = new List<string>();
-            ringsLhType.Add(GetConfig.Langs["NoRingsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.RINGS_LH_MALE.Count + 1; i++)
-                {
-                    ringsLhType.Add(GetConfig.Langs["RingsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.RINGS_LH_FEMALE.Count + 1; i++)
-                {
-                    ringsLhType.Add(GetConfig.Langs["RingsValue"] + i);
-                }
-            }
-            MenuListItem mListRingsLh = new MenuListItem(GetConfig.Langs["LeftRings"], ringsLhType, 0, GetConfig.Langs["LeftRingsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListRingsLh); // Lo añadimos al menu
-
-            List<string> braceletsType = new List<string>();
-            braceletsType.Add(GetConfig.Langs["NoBraceletsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.BRACELETS_MALE.Count + 1; i++)
-                {
-                    braceletsType.Add(GetConfig.Langs["BraceletsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.BRACELETS_FEMALE.Count + 1; i++)
-                {
-                    braceletsType.Add(GetConfig.Langs["BraceletsValue"] + i);
-                }
-            }
-            MenuListItem mListbracelets = new MenuListItem(GetConfig.Langs["Bracelets"], braceletsType, 0, GetConfig.Langs["BraceletsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListbracelets); // Lo añadimos al menu
-
-            List<string> gunbeltType = new List<string>();
-            gunbeltType.Add(GetConfig.Langs["NoHolstersValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.GUNBELT_MALE.Count + 1; i++)
-                {
-                    gunbeltType.Add(GetConfig.Langs["HolstersValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.GUNBELT_FEMALE.Count + 1; i++)
-                {
-                    gunbeltType.Add(GetConfig.Langs["HolstersValue"] + i);
-                }
-            }
-            MenuListItem mListGunbelt = new MenuListItem(GetConfig.Langs["PrimaryHolsters"], gunbeltType, 0, GetConfig.Langs["PrimaryHolstersDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListGunbelt); // Lo añadimos al menu
-
-
-            List<string> beltType = new List<string>();
-            beltType.Add(GetConfig.Langs["NoBeltsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.BELT_MALE.Count + 1; i++)
-                {
-                    beltType.Add(GetConfig.Langs["BeltsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.BELT_FEMALE.Count + 1; i++)
-                {
-                    beltType.Add(GetConfig.Langs["BeltsValue"] + i);
-                }
-            }
-            MenuListItem mListBelt = new MenuListItem(GetConfig.Langs["Belts"], beltType, 0, GetConfig.Langs["BeltsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListBelt); // Lo añadimos al menu
-
-            List<string> buckleType = new List<string>();
-            buckleType.Add(GetConfig.Langs["NoBucklesValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.BUCKLE_MALE.Count + 1; i++)
-                {
-                    buckleType.Add(GetConfig.Langs["BucklesValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.BUCKLE_FEMALE.Count + 1; i++)
-                {
-                    buckleType.Add(GetConfig.Langs["BucklesValue"] + i);
-                }
-            }
-            MenuListItem mListBuckle = new MenuListItem(GetConfig.Langs["Buckles"], buckleType, 0, GetConfig.Langs["BucklesDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListBuckle); // Lo añadimos al menu
-
-            List<string> holstersSType = new List<string>();
-            holstersSType.Add(GetConfig.Langs["NoHolstersValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.HOLSTERS_S_MALE.Count + 1; i++)
-                {
-                    holstersSType.Add(GetConfig.Langs["HolstersValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.HOLSTERS_S_FEMALE.Count + 1; i++)
-                {
-                    holstersSType.Add(GetConfig.Langs["HolstersValue"] + i);
-                }
-            }
-            MenuListItem mListSHolsters = new MenuListItem(GetConfig.Langs["SecondaryHolsters"], holstersSType, 0, GetConfig.Langs["SecondaryHolstersDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListSHolsters); // Lo añadimos al menu
-
-            List<string> pantsType = new List<string>();
-            pantsType.Add(GetConfig.Langs["NoPantsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.PANTS_MALE.Count + 1; i++)
-                {
-                    pantsType.Add(GetConfig.Langs["PantsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.PANTS_FEMALE.Count + 1; i++)
-                {
-                    pantsType.Add(GetConfig.Langs["PantsValue"] + i);
-                }
-            }
-            MenuListItem mListPants = new MenuListItem(GetConfig.Langs["Pants"], pantsType, 0, GetConfig.Langs["PantsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListPants); // Lo añadimos al menu
-
-            List<string> skirtsType = new List<string>();
-            skirtsType.Add(GetConfig.Langs["NoSkirtsValue"]);
-
-            if (model == "mp_male")
-            {
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.SKIRTS_FEMALE.Count + 1; i++)
-                {
-                    skirtsType.Add(GetConfig.Langs["SkirtsValue"] + i);
-                }
-            }
-            MenuListItem mListSkirts = new MenuListItem(GetConfig.Langs["Skirts"], skirtsType, 0, GetConfig.Langs["SkirtsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListSkirts); // Lo añadimos al menu
-
-            List<string> chapsType = new List<string>();
-            chapsType.Add(GetConfig.Langs["NoChapsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.CHAPS_MALE.Count + 1; i++)
-                {
-                    chapsType.Add(GetConfig.Langs["ChapsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.CHAPS_FEMALE.Count + 1; i++)
-                {
-                    chapsType.Add(GetConfig.Langs["ChapsValue"] + i);
-                }
-            }
-            MenuListItem mListChaps = new MenuListItem(GetConfig.Langs["Chaps"], chapsType, 0, GetConfig.Langs["ChapsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListChaps); // Lo añadimos al menu
-
-            List<string> bootsType = new List<string>();
-            bootsType.Add(GetConfig.Langs["NoBootsValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.BOOTS_MALE.Count + 1; i++)
-                {
-                    bootsType.Add(GetConfig.Langs["BootsValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.BOOTS_FEMALE.Count + 1; i++)
-                {
-                    bootsType.Add(GetConfig.Langs["BootsValue"] + i);
-                }
-            }
-            MenuListItem mListBoots = new MenuListItem(GetConfig.Langs["Boots"], bootsType, 0, GetConfig.Langs["BootsDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListBoots); // Lo añadimos al menu
-
-            List<string> spursType = new List<string>();
-            spursType.Add(GetConfig.Langs["NoSpursValue"]);
-
-            if (model == "mp_male")
-            {
-                //Cabellos de Hombre
-                for (float i = 1; i < SkinsUtils.SPURS_MALE.Count + 1; i++)
-                {
-                    spursType.Add(GetConfig.Langs["SpursValue"] + i);
-                }
-            }
-            else
-            {
-                //Cabellos de Mujer
-                for (float i = 1; i < SkinsUtils.SPURS_FEMALE.Count + 1; i++)
-                {
-                    spursType.Add(GetConfig.Langs["SpursValue"] + i);
-                }
-            }
-            MenuListItem mListSpurs = new MenuListItem(GetConfig.Langs["Spurs"], spursType, 0, GetConfig.Langs["SpursDesc"]); // Añadimos la lista al boton
-            mdu.AddMenuItem(mListSpurs); // Lo añadimos al menu
-
-            //Terminamos y confirmamos
-            mdu.AddMenuItem(new MenuItem(GetConfig.Langs["Finish"], GetConfig.Langs["FinishDesc"])
-            {
-                Enabled = true,
-                LeftIcon = MenuItem.Icon.TICK
-            });
-
-            mdu.OnIndexChange += (_menu, _oldItem, _newItem, _oldIndex, _newIndex) =>
-            {
-                if (_newIndex == 21 || _newIndex == 22) // botas spurs
-                {
-                    API.SetCamCoord(Camera_DressUp, -561.0254f, -3775.601f, 238.4716f);
-                    API.SetCamRot(Camera_DressUp, -42.500001f, 0.0f, -179.7251f, 0);
-                }else if((_newIndex > 13 && _newIndex < 21) || _newIndex == 10 ) // cintura y pantalones
-                {
-                    API.SetCamCoord(Camera_DressUp, -561.0295f, -3775.138f, 237.8114f); 
-                    API.SetCamRot(Camera_DressUp, 20.1059f, 0.0f, -177.3419f, 0);
-                }
-                else if (_newIndex == 12 || _newIndex == 13) // cintura y pantalones
-                {
-                    API.SetCamCoord(Camera_DressUp, -561.769f, -3776.043f, 238.42f);
-                    API.SetCamRot(Camera_DressUp, 4.749468f, 0.0f, -121.8509f, 0);
-                }
-                else if (_newIndex == 11) // cintura y pantalones
-                {
-                    API.SetCamCoord(Camera_DressUp, -560.1163f, -3776.413f, 238.2835f);
-                    API.SetCamRot(Camera_DressUp, 12.45644f, 0.0f, 95.26049f, 0);
-                }
-                else if (_newIndex == 23) // cintura y pantalones
-                {
-                    API.SetCamCoord(Camera_DressUp, -560.9759f, -3774.125f, 239.6413f);
-                    API.SetCamRot(Camera_DressUp, -22.19865f, 0.0f, 179.3026f, 0);
-                }
-                else
-                {
-                    API.SetCamCoord(Camera_DressUp, -560.7456f, -3775.021f, 239.3405f);
-                    API.SetCamRot(Camera_DressUp, -5.915717f, 0.0f, 179.2227f, 0);
-                }
-            };
-
-            mdu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
-            {
-                // Code in here would get executed whenever the selected value of a list item changes (when left/right key is pressed).
-                int pPID = API.PlayerPedId();
-                
-                switch (_itemIndex)
-                {
-                    // New System more simplificated
-                    case 0:
-                        SetPlayerComponent(model, _newIndex, 0x9925C067, "Hat", SkinsUtils.HATS_MALE, SkinsUtils.HATS_FEMALE);
-                        break;
-                    case 1:
-                        SetPlayerComponent(model, _newIndex, 0x5E47CA6, "EyeWear", SkinsUtils.EYEWEAR_MALE, SkinsUtils.EYEWEAR_FEMALE);                        
-                        break;
-                    case 2:
-                        SetPlayerComponent(model, _newIndex, 0x5FC29285, "NeckWear", SkinsUtils.NECKWEAR_MALE, SkinsUtils.NECKWEAR_FEMALE);
-                        break;
-                    case 3:
-                        SetPlayerComponent(model, _newIndex, 0x7A96FACA, "NeckTies", SkinsUtils.NECKTIES_MALE, SkinsUtils.NECKTIES_FEMALE);                      
-                        break;
-                    case 4:
-                        SetPlayerComponent(model, _newIndex, 0x2026C46D, "Shirt", SkinsUtils.SHIRTS_MALE, SkinsUtils.SHIRTS_FEMALE);
-                        break;
-                    case 5:
-                        SetPlayerComponent(model, _newIndex, 0x877A2CF7, "Suspender", SkinsUtils.SUSPENDERS_MALE, SkinsUtils.SUSPENDERS_FEMALE);
-                        break;
-                    case 6:
-                        SetPlayerComponent(model, _newIndex, 0x485EE834, "Vest", SkinsUtils.VEST_MALE, SkinsUtils.VEST_FEMALE);
-                        break;
-                    case 7:
-                        SetPlayerComponent(model, _newIndex, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
-                        break;
-                    case 8:
-                        SetPlayerComponent(model, _newIndex, 0xAF14310B, "Poncho", SkinsUtils.PONCHOS_MALE, SkinsUtils.PONCHOS_FEMALE);
-                        break;
-                    case 9:
-                        SetPlayerComponent(model, _newIndex, 0x3C1A74CD, "Cloak", SkinsUtils.CLOAK_MALE, SkinsUtils.CLOAK_FEMALE);
-                        break;
-                    case 10:
-                        SetPlayerComponent(model, _newIndex, 0xEABE0032, "Glove", SkinsUtils.GLOVES_MALE, SkinsUtils.GLOVES_FEMALE);
-                        break;
-                    case 11:
-                        SetPlayerComponent(model, _newIndex, 0x7A6BBD0B, "RingRh", SkinsUtils.RINGS_RH_MALE, SkinsUtils.RINGS_RH_FEMALE);
-                        break;
-                    case 12:
-                        SetPlayerComponent(model, _newIndex, 0xF16A1D23, "RingLh", SkinsUtils.RINGS_LH_MALE, SkinsUtils.RINGS_LH_FEMALE);
-                        break;
-                    case 13:
-                        SetPlayerComponent(model, _newIndex, 0x7BC10759, "Bracelet", SkinsUtils.BRACELETS_MALE, SkinsUtils.BRACELETS_FEMALE);
-                        break;
-                    case 14:
-                        SetPlayerComponent(model, _newIndex, 0x9B2C8B89, "Gunbelt", SkinsUtils.GUNBELT_MALE, SkinsUtils.GUNBELT_FEMALE);
-                        break;
-                    case 15:
-                        SetPlayerComponent(model, _newIndex, 0xA6D134C6, "Belt", SkinsUtils.BELT_MALE, SkinsUtils.BELT_FEMALE);
-                        break;
-                    case 16:
-                        SetPlayerComponent(model, _newIndex, 0xFAE9107F, "Buckle", SkinsUtils.BUCKLE_MALE, SkinsUtils.BUCKLE_FEMALE);
-                        break;
-                    case 17:
-                        SetPlayerComponent(model, _newIndex, 0xB6B6122D, "Holster", SkinsUtils.HOLSTERS_S_MALE, SkinsUtils.HOLSTERS_S_FEMALE);
-                        break;
-                    case 18:
-                        SetPlayerComponent(model, _newIndex, 0x1D4C528A, "Pant", SkinsUtils.PANTS_MALE, SkinsUtils.PANTS_FEMALE);
-                        break;
-                    case 19:
-                        SetPlayerComponent(model, _newIndex, 0xA0E3AB7F, "Skirt", SkinsUtils.SKIRTS_FEMALE, SkinsUtils.SKIRTS_FEMALE);
-                        break;
-                    case 20:
-                        SetPlayerComponent(model, _newIndex, 0x3107499B, "Chap", SkinsUtils.CHAPS_MALE, SkinsUtils.CHAPS_FEMALE);
-                        break;
-                    case 21:
-                        SetPlayerComponent(model, _newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
-                        break;
-                    case 22:
-                        SetPlayerComponent(model, _newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
-                        break;
-                }
-            };
-
-            mdu.OnItemSelect += (_menu, _item, _index) =>
-            {
-                // Code in here would get executed whenever an item is pressed.
-                if (_index == 23)
-                {
-                    isDressUpPed = false;
-                    SaveChanges();
-                    mdu.CloseMenu();
-                }
-            };
-
-            mdu.OnMenuClose += (_menu) =>
-            {
-                // Code in here gets triggered whenever the menu is closed.
-                if (isDressUpPed)
-                {
-                    mdu.OpenMenu();
-                }
-                
-            };
-
-
-            mdu.OpenMenu();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="_newIndex"></param>
-        /// <param name="category"></param>
-        /// <param name="idlist"></param>
-        /// <param name="male_components"></param>
-        /// <param name="female_components"></param>
-        private void SetPlayerComponent(string model, int _newIndex, uint category, string idlist, List<uint> male_components, List<uint> female_components)
+        public static void SetPlayerComponent(int _newIndex, uint category, string idlist, List<uint> male_components, List<uint> female_components)
         {
             int pPID = API.PlayerPedId();
-            if (model == "mp_male")
+            if (model_selected == "mp_male")
             {
                 if (_newIndex == 0)
                 {
@@ -1553,10 +345,249 @@ namespace vorpcore_cl
                     clothesPlayer[idlist] = female_components[_newIndex - 1];
                 }
             }
+            //Fix Hair
+            Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x864B03AE, 0);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["Hair"].ToString()), true, true, true);
+            //end
             Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
         }
+        public static void SetPlayerModelComponent(string hex, string skinP)
+        {
+            string comp = "0x" + hex;
+            int compInt = Convert.ToInt32(comp, 16);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), compInt, true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            skinPlayer[skinP] = compInt;
+        }
+        public static void SetPlayerModelListComps(string skinP, uint comp, uint category)
+        {
+            if (comp == 0)
+            {
+                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), category, 0);
+                skinPlayer[skinP] = -1;
+            }
+            else
+            {
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), comp, true, true, true);
+                skinPlayer[skinP] = comp;
+            }
 
-        private async Task SaveChanges()
+
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+        }
+        public static void SetPlayerBodyComponent(uint comp, string skinP)
+        {
+            Function.Call((Hash)0x1902C4CFCC5BE57C, API.PlayerPedId(), comp);
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            skinPlayer[skinP] = comp;
+        }
+
+        public static void SetPlayerFaceBlend(int item, int index)
+        {
+            int pPID = API.PlayerPedId();
+            float _sizeValue = (float)index;
+            _sizeValue = _sizeValue / 10.0f;
+
+            switch (item)
+            {
+                case 0:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x84D6, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["HeadSize"] = _sizeValue;
+                    break;
+                case 1:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3303, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeBrowH"] = _sizeValue;
+                    break;
+                case 2:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2FF9, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeBrowW"] = _sizeValue;
+                    break;
+                case 3:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x4AD1, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeBrowD"] = _sizeValue;
+                    break;
+                case 4:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC04F, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EarsH"] = _sizeValue;
+                    break;
+                case 5:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB6CE, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EarsW"] = _sizeValue;
+                    break;
+                case 6:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2844, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EarsD"] = _sizeValue;
+                    break;
+                case 7:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xED30, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EarsL"] = _sizeValue;
+                    break;
+                case 8:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8B2B, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeLidH"] = _sizeValue;
+                    break;
+                case 9:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1B6B, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeLidW"] = _sizeValue;
+                    break;
+                case 10:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEE44, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeD"] = _sizeValue;
+                    break;
+                case 11:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xD266, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeAng"] = _sizeValue;
+                    break;
+                case 12:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xA54E, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeDis"] = _sizeValue;
+                    break;
+                case 13:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xDDFB, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["EyeH"] = _sizeValue;
+                    break;
+                case 14:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6E7F, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["NoseW"] = _sizeValue;
+                    break;
+                case 15:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3471, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["NoseS"] = _sizeValue;
+                    break;
+                case 16:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x03F5, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["NoseH"] = _sizeValue;
+                    break;
+                case 17:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x34B1, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["NoseAng"] = _sizeValue;
+                    break;
+                case 18:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF156, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["NoseC"] = _sizeValue;
+                    break;
+                case 19:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x561E, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["NoseDis"] = _sizeValue;
+                    break;
+                case 20:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6A0B, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["CheekBonesH"] = _sizeValue;
+                    break;
+                case 21:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xABCF, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["CheekBonesW"] = _sizeValue;
+                    break;
+                case 22:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x358D, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["CheekBonesD"] = _sizeValue;
+                    break;
+                case 23:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF065, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["MouthW"] = _sizeValue;
+                    break;
+                case 24:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xAA69, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["MouthD"] = _sizeValue;
+                    break;
+                case 25:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x7AC3, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["MouthX"] = _sizeValue;
+                    break;
+                case 26:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x410D, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["MouthY"] = _sizeValue;
+                    break;
+                case 27:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1A00, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["ULiphH"] = _sizeValue;
+                    break;
+                case 28:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x91C1, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["ULiphW"] = _sizeValue;
+                    break;
+                case 29:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC375, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["ULiphD"] = _sizeValue;
+                    break;
+                case 30:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xBB4D, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["LLiphH"] = _sizeValue;
+                    break;
+                case 31:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB0B0, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["LLiphW"] = _sizeValue;
+                    break;
+                case 32:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x5D16, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["LLiphD"] = _sizeValue;
+                    break;
+                case 33:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8D0A, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["JawH"] = _sizeValue;
+                    break;
+                case 34:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEBAE, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["JawW"] = _sizeValue;
+                    break;
+                case 35:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1DF6, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["JawD"] = _sizeValue;
+                    break;
+                case 36:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3C0F, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["ChinH"] = _sizeValue;
+                    break;
+                case 37:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC3B2, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["ChinW"] = _sizeValue;
+                    break;
+                case 38:
+                    Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xE323, _sizeValue);
+                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+                    skinPlayer["ChinD"] = _sizeValue;
+                    break;
+            }
+        }
+        public static async Task SaveChanges()
         {
             TriggerEvent("vorpinputs:getInput", GetConfig.Langs["ButtonInputName"], GetConfig.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
             {
@@ -1577,7 +608,6 @@ namespace vorpcore_cl
 
         private async void StartCreation()
         {
-
             /*
              * Cargamos los modelos del mapa de creación del online de RDR2
              */
@@ -1607,7 +637,7 @@ namespace vorpcore_cl
             API.RenderScriptCams(true, true, 1000, true, true, 0);
 
             isSelectSexActive = true;
-                     
+
         }
 
         private async Task CreateCams()
@@ -1616,8 +646,11 @@ namespace vorpcore_cl
             Camera_Male = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.6671f, -3775.44f, 239.4266f, -9.622695f, 0.0f, -86.08074f, 45.00f, false, 0);
             Camera_Female = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.8455f, -3776.596f, 239.4435f, -13.41718f, 0.0f, -88.04576f, 45.00f, false, 0);
             Camera_Editor = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.1333f, -3780.923f, 239.4437f, -11.32719f, 0.0f, -90.96693f, 45.00f, false, 0);
-
-            Camera_DressUp = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.7456f, -3775.021f, 239.3405f, -5.915717f, 0.0f, 179.2227f, 45.00f, false, 0);
+            Camera_FaceEditor = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -558.9781f, -3780.955f, 239.186f, 6.591177f, 0.0f, -92.76723f, 40.00f, false, 0);
+            Camera_Waist = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.1779f, -3780.964f, 238.4654f, -0.6631846f, 0.0f, -91.76698f, 40.00f, false, 0);
+            Camera_Legs = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.2103f, -3781.039f, 238.4678f, -42.50001f, 0.0f, -89.2997f, 40.00f, false, 0);
+            Camera_Body = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.6195f, -3780.708f, 239.1954f, -15.75687f, 0.0f, -89.49976f, 40.00f, false, 0);
+            //Camera_Back = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -563.0956f, -3780.669f, 238.465f, 0.906957f, 0.0f, -89.36639f, 40.00f, false, 0);
 
             uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
             await Miscellanea.LoadModel(HashVeh);
@@ -1627,7 +660,7 @@ namespace vorpcore_cl
 
         }
 
-        private async Task DeleteAll()
+        private static async Task DeleteAll()
         {
             API.SetCamActive(Camera, false);
             API.DestroyCam(Camera, true);
@@ -1637,8 +670,16 @@ namespace vorpcore_cl
             API.DestroyCam(Camera_Female, true);
             API.SetCamActive(Camera_Editor, false);
             API.DestroyCam(Camera_Editor, true);
-            API.SetCamActive(Camera_DressUp, false);
-            API.DestroyCam(Camera_DressUp, true);
+            API.SetCamActive(Camera_FaceEditor, false);
+            API.DestroyCam(Camera_FaceEditor, true);
+            API.SetCamActive(Camera_Waist, false);
+            API.DestroyCam(Camera_Waist, true);
+            API.SetCamActive(Camera_Legs, false);
+            API.DestroyCam(Camera_Legs, true);
+            API.SetCamActive(Camera_Body, false);
+            API.DestroyCam(Camera_Body, true);
+            API.SetCamActive(Camera_Back, false);
+            API.DestroyCam(Camera_Back, true);
             API.RenderScriptCams(false, true, 5000, true, true, 0);
             API.FreezeEntityPosition(API.PlayerPedId(), false);
         }
@@ -1672,8 +713,12 @@ namespace vorpcore_cl
         }
         private async void CreationSexPed(string model, int camedit)
         {
+            model_selected = model;
+            Debug.WriteLine(model);
+            await Delay(200);
             int pID = API.PlayerId();
             int pPedID = API.PlayerPedId();
+            Menus.MainMenu.GetMenu();
             Miscellanea.TeleportToCoords(-558.3258f, -3781.111f, 237.60f, 93.2f);
             API.FreezeEntityPosition(pPedID, true);
             uint model_hash = (uint)API.GetHashKey(model);
@@ -1687,21 +732,92 @@ namespace vorpcore_cl
             API.DeletePed(ref PedFemale);
             API.DeletePed(ref PedMale);
             isInCharCreation = true;
-            MenuCreateCharacter(model);
+            Menus.MainMenu.GetMenu().OpenMenu();
+
+            //MenuCreateCharacter(model);
         }
 
-        private async void DressUp(string model)
+        public void SwapCameras(int index)
         {
-            int pPedID = API.PlayerPedId();
-            API.FreezeEntityPosition(pPedID, false);
-            Miscellanea.TeleportToCoords(-560.9953f, -3776.425f, 237.60f, DressHeading);
-            //API.FreezeEntityPosition(pPedID, true);
-            API.RenderScriptCams(false, true, 2000, true, true, 0);
-            await Delay(1000);
-            API.SetCamActive(Camera_DressUp, true);
-            API.RenderScriptCams(true, true, 1000, true, true, 0);
-            isDressUpPed = true;
-            MenuDressUpCharacter(model, false);
+            switch (index)
+            {
+                case 0:
+                    API.SetCamActive(Camera_Editor, true);
+                    API.SetCamActive(Camera_Body, false);
+                    API.SetCamActive(Camera_Back, false);
+                    API.RenderScriptCams(true, true, 200, true, true, 0);
+                    break;
+                case 1:
+                    API.SetCamActive(Camera_Body, true);
+                    API.SetCamActive(Camera_Editor, false);
+                    API.SetCamActive(Camera_FaceEditor, false);
+                    API.RenderScriptCams(true, true, 200, true, true, 0);
+                    break;
+                case 2:
+                    API.SetCamActive(Camera_FaceEditor, true);
+                    API.SetCamActive(Camera_Body, false);
+                    API.SetCamActive(Camera_Waist, false);
+                    API.RenderScriptCams(true, true, 200, true, true, 0);
+                    break;
+                case 3:
+                    API.SetCamActive(Camera_Waist, true);
+                    API.SetCamActive(Camera_FaceEditor, false);
+                    API.SetCamActive(Camera_Legs, false);
+                    API.RenderScriptCams(true, true, 200, true, true, 0);
+                    break;
+                case 4:
+                    API.SetCamActive(Camera_Legs, true);
+                    API.SetCamActive(Camera_Waist, false);
+                    API.SetCamActive(Camera_Back, false);
+                    API.RenderScriptCams(true, true, 200, true, true, 0);
+                    break;
+                case 5:
+                    API.SetCamActive(Camera_Back, true);
+                    API.SetCamActive(Camera_Legs, false);
+                    API.SetCamActive(Camera_Editor, false);
+                    API.RenderScriptCams(true, true, 200, true, true, 0);
+                    break;
+            }
+        }
+
+        private async Task OnTickCameras()
+        {
+            if (isInCharCreation)
+            {
+                
+                if (API.IsControlJustPressed(0, (uint)Controls.Keys.MoveUpOnly))
+                {
+                    indexCamera +=  1;
+                    if (indexCamera > 4)
+                    {
+                        indexCamera = 0;
+                    }
+
+                    SwapCameras(indexCamera);
+                }
+                if (API.IsControlJustPressed(0, (uint)Controls.Keys.MoveDownOnly))
+                {
+                    indexCamera -= 1;
+                    if (indexCamera < 0)
+                    {
+                        indexCamera = 4;
+                    }
+
+                    SwapCameras(indexCamera);
+                }
+                if (API.IsControlPressed(0, (uint)Controls.Keys.MoveLeftOnly))
+                {
+                    DressHeading += 1.0f;
+                    API.SetEntityHeading(API.PlayerPedId(), DressHeading);
+                    await Delay(0);
+                }
+                if (API.IsControlPressed(0, (uint)Controls.Keys.MoveRightOnly))
+                {
+                    DressHeading -= 1.0f;
+                    API.SetEntityHeading(API.PlayerPedId(), DressHeading);
+                    await Delay(0);
+                }
+            }
         }
 
         private async Task OnTick()
@@ -1775,36 +891,37 @@ namespace vorpcore_cl
 
             if (isInCharCreation) //Fix Run Ped
             {
+                await DrawTxt(GetConfig.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
                 API.FreezeEntityPosition(API.PlayerPedId(), true);
                 API.ClearPedTasks(API.PlayerPedId(), 1, 1);
-            }
-
-
-            if (isDressUpPed) //Feature Rotate Cam
-            {
-                API.FreezeEntityPosition(API.PlayerPedId(), true);
-                API.ClearPedTasks(API.PlayerPedId(), 1, 1);
-
-                if (API.IsControlPressed(2, (uint)Controls.Keys.MoveLeftOnly))
-                {
-                    DressHeading += 1.0f;
-                    API.SetEntityHeading(API.PlayerPedId(), DressHeading);
-                    Debug.WriteLine(DressHeading.ToString());
-                }
-                else if (API.IsControlPressed(2, (uint)Controls.Keys.MoveRightOnly))
-                {
-                    DressHeading -= 1.0f;
-                    API.SetEntityHeading(API.PlayerPedId(), DressHeading);
-                    Debug.WriteLine(DressHeading.ToString());
-                }
-              
-                await Delay(0);
-            }
-            else
-            {
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);
             }
 
+        }
+
+        public static uint ConvertValue(string s)
+        {
+            uint result;
+
+            if (uint.TryParse(s, out result))
+            {
+                return result;
+            }
+            else
+            {
+                int eresante = int.Parse(s);
+                result = (uint)eresante;
+                return result;
+            }
+        }
+
+        public static async Task CloseSecureMenu()
+        {
+            await Delay(200);
+            if (!MenuController.IsAnyMenuOpen())
+            {
+                Menus.MainMenu.GetMenu().OpenMenu();
+            }
         }
 
         public async Task DrawTxt(string text, float x, float y, float fontscale, float fontsize, int r, int g, int b, int alpha, bool textcentred, bool shadow)
