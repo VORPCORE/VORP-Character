@@ -28,7 +28,7 @@
   "LegsValues": "Piernas #",
   "TorsoValues": "Pecho #",
   "FaceValues": "Cara #",
-  "MaskValue": "Mascara #",
+  "MaskValue": "Máscara #",
   "BodyColorValues": "Color #", // Las opciones de cada apartado
   "TypeValues": "Tipo #", // Las opciones de cada apartado
   "BeardValue": "Barba #", // Las opciones del apartado de la barba
