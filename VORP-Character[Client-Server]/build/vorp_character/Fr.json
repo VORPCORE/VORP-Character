@@ -1,20 +1,46 @@
 {
   "PressRightOrLeft": "Appuyez [<-] ou [->] pour sélectionner votre sexe",
+  
+  "PressGuide": "Tourner <-[A] [D]-> | Caméra [W] o [S]",
+  
   //Nom d'entrée 
   "PlaceHolderInputName": "Écrivez le prénom et le nom de votre personnage",
   "ButtonInputName": "Confirmer",
   "InputError": "Vous devez avoir un nom de plus de 3 lettres",
   //Corps
-  "TitleMenuBody": "Éditeur de personnages", // Titre du Menu
-  "SubTitleMenuBody": "Éditez votre personnage", // Description du Menu
+  "TitleMainMenu": "Éditeur de personnages", 
+  "SubTitleMainMenu": "Éditez votre personnage",
+  "FinishBtnMainMenu": "Finition et sécurité",
+  "SubFinishBtnMainMenu": "Terminez la création du personnage.",
+  
+  "TitleClothesMenu": "Vestiaire",
+  "SubTitleClothesMenu": "Habillez votre personnage",
 
-  "TypeValues": "Type #", // Les options de chaque section
-  "BeardValue": "Barbe #", // Les options de la section barbe
-  "HairValue": "Cheveux #", // Les options de section de cheveux
-  "BodySizeValue": "Corps #", // Les options de section de corps
-  "WaistValue": "Taille #", // Les options de section de taille
-  "NoExistValue": "N'existe pas", // L'option qu'il donne quand il n'y a pas d'option
+  "TitleFaceMenu": "Personnaliser le visage",
+  "SubTitleFaceMenu": "Personnalisez le visage de vos personnages",
 
+  "TitleSkinMenu": "Personnaliser la peau",
+  "SubTitleSkinMenu": "Personnalisez le corps de votre personnage",
+
+  "TitleImportMenu": "Importer une peau",
+  "SubTitleImportMenu": "Si vous avez joué sur un autre serveur qui utilise VORP Core, vous pourrez importer votre skin.",
+
+  "LegsValues": "Jambes #",
+  "TorsoValues": "Torse #",
+  "FaceValues": "Visage #",
+  "MaskValue": "Masque #",
+  "BodyColorValues": "Couleur #",
+  "TypeValues": "Type #", 
+  "BeardValue": "Barbe #", 
+  "HairValue": "Cheveux #", 
+  "BodySizeValue": "Corps #",
+  "WaistValue": "Taille #",
+  "NoExistValue": "N'existe pas", 
+
+  "LegsType": "Type de jambes",
+  "TorsoType": "Type de torse",
+  "FaceType": "Type de visage",
+  "BodyColor": "Couleur du corps",
   "FaceSize": "Taille du visage",
   "EyebrowHeight": "Hauteur des sourcils",
   "EyebrowWidth": "Largeur des sourcils",
@@ -58,9 +84,13 @@
   "HairType": "Type de cheveux",
   "BodyType": "Forme du corps",
   "WaistType": "Type de taille",
-  "Confirm": "Confirmer", // Confirmez les options et passez au menu suivant
+  "Confirm": "Confirmer",
 
   //Descriptions des sections du menu du corps
+  "LegsTypeDesc": "Choisissez le type de jambes",
+  "TorsoTypeDesc": "Choisissez le type de torse",
+  "FaceTypeDesc": "Choisissez le type de visage",
+  "BodyColorDesc": "Choisissez la couleur de votre corps",
   "FaceSizeDesc": "Choisissez la taille du visage",
   "EyebrowHeightDesc": "Choisissez la hauteur des sourcils",
   "EyebrowWidthDesc": "Choisissez la largeur des sourcils",
@@ -104,8 +134,7 @@
   "HairTypeDesc": "Choisissez les cheveux",
   "BodyTypeDesc": "Choisissez la forme du corps",
   "WaistTypeDesc": "Choisissez la taille",
-  "ConfirmDesc": "Si vous avez tout prêt, il est temps de vous habiller, vous ne pourrez pas revenir en arrière alors assurez-vous d'avoir tout bien sélectionné",
-
+  "ConfirmDesc": "Il est temps de vous habiller, vous pourrez revenir dans cette section si vous voulez changer quelque chose",
 
   //Vêtements
   "TitleMenuClothes": "Dressing", // Titre du Menu
@@ -153,9 +182,11 @@
   "NoChapsValue": "Sans Chaps", // L'option qu'il donne lorsque vous ne portez pas de jambières
   "NoBootsValue": "Sans Bottes", // L'option qu'il donne lorsque vous ne portez pas de bottes
   "NoSpursValue": "Sans Éperons", // L'option qu'il donne lorsque vous ne portez pas d'éperons
+  "NoMaskValue": "Sans masque", // L'option qu'il donne lorsque vous ne portez pas de masque
 
   "Hats": "Chapeaux",
   "Glasses": "Lunettes",
+  "Masks": "Masque",
   "Neckwear": "Vêtements",
   "Ties": "Cravates",
   "Shirts": "Chemises",
@@ -183,6 +214,7 @@
   //Descriptions des sections du menu des vêtements
   "HatsDesc": "Choisissez le chapeau",
   "GlassesDesc": "Choisissez les verres",
+  "MasksDesc": "Choisissez le masque si vous voulez en porter un",
   "NeckwearDesc": "Choisissez les cravates",
   "TiesDesc": "Choisissez la cravate",
   "ShirtsDesc": "Choisissez la chemise",
