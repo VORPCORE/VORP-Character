@@ -84,7 +84,7 @@
   "HairType": "Tipo de pelo",
   "BodyType": "Forma del cuerpo",
   "WaistType": "Tipo de cintura",
-  "Confirm": "Confirmar", // Confirma las opciones y pasa al siguiente Menú
+  "Confirm": "Confirmar", 
 
   //Descripciones de los apartados del Menú del cuerpo
   "LegsTypeDesc": "Elije el tipo de piernas",
@@ -134,7 +134,7 @@
   "HairTypeDesc": "Elige el pelo",
   "BodyTypeDesc": "Elige la forma del cuerpo",
   "WaistTypeDesc": "Elige la cintura",
-  "ConfirmDesc": "Si tienes todo listo, es hora de vestirse, no podrás volver atrás así que asegurate de tener todo bien elegido.",
+  "ConfirmDesc": "Ahora toca vestir a tu personaje, podrás volver a este apartado si quieres cambiar algo",
 
   //Ropa
   "TitleMenuClothes": "Vestidor", // Título del Menú
@@ -237,5 +237,5 @@
   "BootsDesc": "Elige las botas",
   "SpursDesc": "Elige las espuelas",
   "FinishDesc": "Asegurate de haber elegido todo bien, luego tendrás que ir a una tienda de ropa para cambiarte la ropa.",
-  "TipFinal": "Bienvenido a VORP, esperamos que tu estancia aquí sea de lo más entretenida, por favor recuerda no saltar del globo y disfrutar de las vista antes de rolear."
+  "TipFinal": "Bienvenido a VORP, esperamos que tu estancia aquí sea de lo más entretenida, por favor recuerda no saltar del globo y disfruta de las vista antes de rolear."
 }
