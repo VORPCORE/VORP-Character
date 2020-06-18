@@ -1,29 +1,29 @@
-﻿{
-  "PressRightOrLeft": "Presiona [<-] o [->] para seleccionar el sexo",
+{
+  "PressRightOrLeft": "Pulsa [<-] o [->] para seleccionar el sexo",
 
-  "PressGuide": "Rotar <-[A] [D]-> | Camaras [W] o [S]",
+  "PressGuide": "Rotar <-[A] [D]-> | Cámaras [W] o [S]",
 
   //Input Name 
-  "PlaceHolderInputName": "Escribe un nombre y apellido para tu personaje",
+  "PlaceHolderInputName": "Escribe el nombre y apellido de tu personaje",
   "ButtonInputName": "Confirmar",
-  "InputError": "Debes ponerte un nombre con mínimo 3 caracteres",
+  "InputError": "Debes tener un nombre con un mínimo de 3 caracteres",
   //Cuerpo
   "TitleMainMenu": "Editor de Personaje",
   "SubTitleMainMenu": "Edita tu personaje",
   "FinishBtnMainMenu": "Finalizar y Guardar",
-  "SubFinishBtnMainMenu": "Terminar la creación del personaje.",
+  "SubFinishBtnMainMenu": "Terminar la creación de tu personaje.",
 
   "TitleClothesMenu": "Vestidor",
-  "SubTitleClothesMenu": "Viste tu personaje",
+  "SubTitleClothesMenu": "Viste a tu personaje",
 
   "TitleFaceMenu": "Editar cara",
-  "SubTitleFaceMenu": "Edita la cara del personaje",
+  "SubTitleFaceMenu": "Edita la cara de tu personaje",
 
   "TitleSkinMenu": "Editar piel",
-  "SubTitleSkinMenu": "Dale rasgos a tu personaje",
+  "SubTitleSkinMenu": "Edita el cuerpo de tu personaje",
 
   "TitleImportMenu": "Importar Skin",
-  "SubTitleImportMenu": "Si has jugado en otro servidor que use VORP Core podras importar tu skin.",
+  "SubTitleImportMenu": "Si has jugado en otro servidor que use VORP Core podrás importar tu skin.",
 
   "LegsValues": "Piernas #",
   "TorsoValues": "Pecho #",
@@ -182,7 +182,7 @@
   "NoChapsValue": "Sin Zahones", // La opción que da cuando no hay opciones
   "NoBootsValue": "Sin Botas", // La opción que da cuando no hay opciones
   "NoSpursValue": "Sin Espuelas", // La opción que da cuando no hay opciones
-  "NoMaskValue": "Sin Mascara", // La opción que da cuando no hay opciones
+  "NoMaskValue": "Sin Máscara", // La opción que da cuando no hay opciones
 
   "Hats": "Sombreros",
   "Glasses": "Anteojos",
@@ -236,6 +236,6 @@
   "ChapsDesc": "Elige los zahones",
   "BootsDesc": "Elige las botas",
   "SpursDesc": "Elige las espuelas",
-  "FinishDesc": "Asegurate de tener todo bien elegido, luego tendrás que ir a una tienda de ropa para cambiarte la ropa.",
+  "FinishDesc": "Asegurate de haber elegido todo bien, luego tendrás que ir a una tienda de ropa para cambiarte la ropa.",
   "TipFinal": "Bienvenido a VORP, esperamos que tu estancia aquí sea de lo más entretenida, por favor recuerda no saltar del globo y disfrutar de las vista antes de rolear."
 }
