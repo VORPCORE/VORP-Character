@@ -54,7 +54,14 @@ namespace vorpcharacter_cl
             int pPedID = API.PlayerPedId();
 
             //LoadSkin
-            Function.Call((Hash)0x5653AB26C82938CF, pPedID, 0x84D6, float.Parse(skin["Head"]));
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skin["HeadType"]), true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skin["BodyType"]), true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skin["LegsType"]), true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+
+            Function.Call((Hash)0x5653AB26C82938CF, pPedID, 0x84D6, float.Parse(skin["HeadSize"]));
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
             await Delay(100);
             
@@ -271,6 +278,7 @@ namespace vorpcharacter_cl
             
             SetPlayerComponent(skin["sex"], 0x9925C067, "Hat", cloths);
             SetPlayerComponent(skin["sex"], 0x5E47CA6, "EyeWear", cloths);
+            SetPlayerComponent(skin["sex"], 0x7505EF42, "Mask", cloths);
             SetPlayerComponent(skin["sex"], 0x5FC29285, "NeckWear", cloths);
             SetPlayerComponent(skin["sex"], 0x7A96FACA, "NeckTies", cloths);
             SetPlayerComponent(skin["sex"], 0x2026C46D, "Shirt", cloths);
@@ -340,11 +348,10 @@ namespace vorpcharacter_cl
 
         private async Task IsLoaded()
         {
-            await Delay(2000);
-            while (!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId()))
+            await Delay(3000);
+            if(!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId()))
             {
                 Debug.WriteLine("Not Loaded");
-                await Delay(1000);
             }
         }
 
