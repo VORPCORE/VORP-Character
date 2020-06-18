@@ -23,17 +23,6 @@ namespace vorpcharacter_cl.Menus
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            //ImportMenu
-            MenuController.AddSubmenu(mainMenu, ImportMenu.GetMenu());
-
-            MenuItem subMenuImportBtn = new MenuItem(GetConfig.Langs["TitleImportMenu"], GetConfig.Langs["SubTitleImportMenu"])
-            {
-                RightIcon = MenuItem.Icon.STAR
-            };
-
-            mainMenu.AddMenuItem(subMenuImportBtn);
-            MenuController.BindMenuItem(mainMenu, ImportMenu.GetMenu(), subMenuImportBtn);
-
             //SkinMenu
             MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
 
@@ -90,7 +79,7 @@ namespace vorpcharacter_cl.Menus
             mainMenu.OnItemSelect += (_menu, _item, _index) =>
             {
                 // Code in here would get executed whenever an item is pressed.
-                if (_index == 4)
+                if (_index == 3)
                 {
                     CreatePlayer.isInCharCreation = false;
                     CreatePlayer.SaveChanges();

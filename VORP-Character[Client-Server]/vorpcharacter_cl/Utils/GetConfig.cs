@@ -18,6 +18,7 @@ namespace vorpcharacter_cl.Utils
     public class GetConfig : BaseScript
     {
         public static JObject Config = new JObject();
+        public static JArray CharactArray = new JArray();
         public static Dictionary<string, string> Langs = new Dictionary<string, string>();
 
         public GetConfig()

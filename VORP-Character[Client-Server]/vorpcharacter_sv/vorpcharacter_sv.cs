@@ -1,10 +1,14 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,8 +16,6 @@ namespace vorpcharacter_sv
 {
     public class vorpcharacter_sv : BaseScript
     {
-        public static Dictionary<string, string> Config = new Dictionary<string, string>();
-        public static Dictionary<string, string> Langs = new Dictionary<string, string>();
         public static string resourcePath = $"{API.GetResourcePath(API.GetCurrentResourceName())}";
 
         public vorpcharacter_sv()
@@ -133,17 +135,19 @@ namespace vorpcharacter_sv
                 {
                     Exports["ghmattimysql"].execute("UPDATE characters SET firstname=?, lastname=?, skinPlayer=?, compPlayer=? WHERE identifier=?", new object[] { firstname, lastname, skinPlayer, componentsPlayer, sid });
                 }
+
             }));
+
         }
 
         private async Task SetStartMoney(int source, Player player)
         {
             await Delay(5000);
-            TriggerEvent("vorp:addMoney", source, 0, int.Parse(Config["StartingMoney"].ToString()));
+            TriggerEvent("vorp:addMoney", source, 0, int.Parse(LoadConfig.Config["StartingMoney"].ToString()));
             await Delay(100);
-            TriggerEvent("vorp:addMoney", source, 1, int.Parse(Config["StartingGold"].ToString()));
+            TriggerEvent("vorp:addMoney", source, 1, int.Parse(LoadConfig.Config["StartingGold"].ToString()));
             await Delay(100);
-            TriggerEvent("vorp:addMoney", source, 2, int.Parse(Config["StartingRol"].ToString()));
+            TriggerEvent("vorp:addMoney", source, 2, int.Parse(LoadConfig.Config["StartingRol"].ToString()));
             await Delay(500);
             TriggerEvent("vorp:firstSpawn", source);
             player.TriggerEvent("vorp:firstSpawn");

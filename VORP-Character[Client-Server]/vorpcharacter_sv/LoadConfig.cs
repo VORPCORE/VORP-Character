@@ -51,7 +51,7 @@ namespace vorpcharacter_sv
             isConfigLoaded = true;
         }
 
-        private void getConfig([FromSource]Player source)
+        private async void getConfig([FromSource]Player source)
         {
             source.TriggerEvent($"{API.GetCurrentResourceName()}:SendConfig", ConfigString, Langs);
         }
