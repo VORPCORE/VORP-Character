@@ -162,13 +162,6 @@ namespace vorpcharacter_cl
 
         }
 
-        private void CheckCreation()
-        {
-            TriggerServerEvent("vorpcharacter:CommandCreate");
-        }
-
-        //
-
         [Tick]
         private async Task InstancePlayer()
         {
@@ -224,7 +217,7 @@ namespace vorpcharacter_cl
         private static async void StartAnim()
         {
             uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
-            Vector3 coords = new Vector3(-366.431f, 727.4282f, 220.3232f);
+            Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), 220.3232f);
             Miscellanea.LoadModel(HashVeh);
             vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, true, true, true, true);
             //Spawn

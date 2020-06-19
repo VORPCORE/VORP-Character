@@ -1,6 +1,8 @@
 {
   "defaultlang": "Es", // set your language in Languages.json file
 
+  "StartingCoords": [ -366.431, 727.4282 ], //X, Y
+
   //StartingMoney
   "StartingMoney": 0,
   "StartingGold": 0,
@@ -20,7 +22,7 @@
     },
     { // Blanco medio
       "Heads": [ "158CB7F2", "36739C03", "48133466", "4E11220E", "68C7CDA8", "6DF5043C", "6EF1C97C", "771A7EE9", "7B035098" ],
-      "Body": [ "465F719A", "6D582255", "8CC97681", "B0D24F3F"],
+      "Body": [ "465F719A", "6D582255", "8CC97681", "B0D24F3F" ],
       "Legs": [ "47FE9FC0", "64F9856B", "B0F62B29", "ACAE409" ]
     },
     { // Negro medio
