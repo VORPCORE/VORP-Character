@@ -33,7 +33,7 @@ namespace vorpcharacter_cl
 
         //Para guardar en DB
         static Dictionary<string, object> skinPlayer = new Dictionary<string, object>() {
-            { "sex", "mp_male" },
+            { "sex", "none" },
 
             { "HeadType", 0 }, 
             { "BodyType", 0 },
@@ -158,8 +158,6 @@ namespace vorpcharacter_cl
                 }
 
             }), false);
-
-
         }
 
         [Tick]
@@ -697,6 +695,7 @@ namespace vorpcharacter_cl
         private async void CreationSexPed(string model, int camedit)
         {
             model_selected = model;
+            skinPlayer["sex"] = model;
             Debug.WriteLine(model);
             await Delay(200);
             int pID = API.PlayerId();
