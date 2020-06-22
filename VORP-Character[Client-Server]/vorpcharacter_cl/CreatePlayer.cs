@@ -136,7 +136,7 @@ namespace vorpcharacter_cl
             Tick += OnTick;
             Tick += OnTickAnimm;
             Tick += OnTickCameras;
-
+            
             API.RegisterCommand("createchar", new Action<int, List<object>, string>((source, args, raw) =>
             {
                 if (args[0] == null)
