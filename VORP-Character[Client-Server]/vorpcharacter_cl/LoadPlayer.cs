@@ -261,7 +261,7 @@ namespace vorpcharacter_cl
             await Delay(100);
             
 
-            Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, ConvertValue(skin["Beard"]), true, false, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, ConvertValue(skin["Beard"]), true, true, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
             await Delay(100);
                         
