@@ -323,6 +323,7 @@ namespace vorpcharacter_cl
             //Fix Hair
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x864B03AE, 0);
             Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["Hair"].ToString()), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["Beard"].ToString()), true, true, true);
             //end
             Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
         }
