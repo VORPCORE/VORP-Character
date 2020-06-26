@@ -9463,6 +9463,8 @@ namespace vorpcharacter_cl.Utils
                 { "eyewear_female", EYEWEAR_FEMALE},
                 { "neckwear_male", NECKWEAR_MALE},
                 { "neckwear_female", NECKWEAR_FEMALE},
+                { "mask_male", MASK_MALE},
+                { "mask_female", MASK_FEMALE},
                 { "neckties_male", NECKTIES_MALE},
                 { "neckties_female", NECKTIES_FEMALE},
                 { "shirts_male", SHIRTS_MALE},
