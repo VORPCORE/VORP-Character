@@ -17,6 +17,9 @@ namespace vorpcharacter_cl
             EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<ExpandoObject, ExpandoObject>(loadPlayerSkin);
         }
 
+        Dictionary<string, string> cache_skin = new Dictionary<string, string>();
+        Dictionary<string, uint> cache_cloths = new Dictionary<string, uint>();
+
         private async void loadPlayerSkin(ExpandoObject sskin, ExpandoObject scloth)
         {
             
@@ -36,6 +39,8 @@ namespace vorpcharacter_cl
 
             await Delay(2000);
 
+            cache_skin = skin;
+            cache_cloths = cloths;
 
             await LoadAllComps(skin, cloths);
 
@@ -48,8 +53,9 @@ namespace vorpcharacter_cl
 
             uint model_hash = (uint)API.GetHashKey(skin["sex"]);
             await Utils.Miscellanea.LoadModel(model_hash);
-            
+            await Delay(100);
             Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
             await Delay(1000);
             int pPedID = API.PlayerPedId();
 
@@ -273,7 +279,7 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0x1902C4CFCC5BE57C, pPedID, ConvertValue(skin["Waist"]));
 
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
-            await Delay(1000);
+            await Delay(500);
             
             
             SetPlayerComponent(skin["sex"], 0x9925C067, "Hat", cloths);
@@ -348,10 +354,12 @@ namespace vorpcharacter_cl
 
         private async Task IsLoaded()
         {
-            await Delay(3000);
-            if(!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId()))
+            await Delay(1500);
+            bool loaded = Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId());
+            if (!loaded)
             {
                 Debug.WriteLine("Not Loaded");
+                LoadAllComps(cache_skin, cache_cloths);
             }
         }
 

@@ -15,7 +15,6 @@ files {
   'Es.json',
   'MenuAPI.dll',
   'Newtonsoft.Json.dll',
-  'RestSharp.dll',
 }
 
 ui_page 'html/index.html'
