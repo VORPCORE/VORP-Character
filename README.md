@@ -1,10 +1,8 @@
 # VORP-Character
-🤠Character Creation for VORP CORE
-
-[Youtube Video](https://www.youtube.com/watch?v=Se8qX1ZE_YM&feature=youtu.be)
+🤠Character Creation for VORP Core
 
 ## Requirements
-- [VORP-CORE](https://github.com/VORPCORE/VORP-Core)
+- [VORP-CORE](https://github.com/VORPCORE/VORP-Core/releases)
 
 ## How to install
 * [Download the lastest version of VORP Character](https://github.com/VORPCORE/VORP-Character/releases)
@@ -14,4 +12,4 @@
 * Now you are ready!
 
 ## Wiki
-[Wiki VORP Character](https://forum.vorpcore.com/d/8-api-vorp-character)
+[Wiki VORP Character](http://docs.vorpcore.com:3000/vorp-character)
