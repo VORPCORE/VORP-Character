@@ -2,7 +2,7 @@
 🤠Character Creation for VORP Core
 
 ## Requirements
-- [VORP-CORE](https://github.com/VORPCORE/VORP-Core/releases)
+- [VORP-Core](https://github.com/VORPCORE/VORP-Core/releases)
 - [VORP-Inputs](https://github.com/VORPCORE/VORP-Inputs/releases)
 
 ## How to install
