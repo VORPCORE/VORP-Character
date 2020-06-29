@@ -9,7 +9,7 @@
 * [Download the lastest version of VORP Character](https://github.com/VORPCORE/VORP-Character/releases)
 * Copy and paste ```vorp_character``` folder to ```resources/vorp_character```
 * Add ```ensure vorp_character``` to your ```server.cfg``` file
-* To change the language go to ```resources/vorp_character``` and change the default language
+* To change the language go to ```resources/vorp_character/Config``` and change the default language
 * Now you are ready!
 
 ## Wiki
