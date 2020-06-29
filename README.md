@@ -3,6 +3,7 @@
 
 ## Requirements
 - [VORP-CORE](https://github.com/VORPCORE/VORP-Core/releases)
+- [VORP-Inputs](https://github.com/VORPCORE/VORP-Inputs/releases)
 
 ## How to install
 * [Download the lastest version of VORP Character](https://github.com/VORPCORE/VORP-Character/releases)
