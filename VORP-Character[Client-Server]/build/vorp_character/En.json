@@ -1,7 +1,7 @@
 {
   "PressRightOrLeft": "Press [<-] or [->] to select your gender",
 
-  "PressGuide": "Rotate <-[A] [D]-> | Cameras [W] o [S]",
+  "PressGuide": "Rotate <-[A] [D]-> | Cameras [W] or [S]",
 
   //Input Name 
   "PlaceHolderInputName": "Write the first name and last name of your character",
