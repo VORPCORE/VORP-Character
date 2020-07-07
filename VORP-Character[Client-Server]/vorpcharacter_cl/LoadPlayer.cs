@@ -15,6 +15,13 @@ namespace vorpcharacter_cl
         {
             EventHandlers["playerSpawned"] += new Action<object>(callToSetOutFit);
             EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<ExpandoObject, ExpandoObject>(loadPlayerSkin);
+
+            Tick += SetScale;
+
+            API.RegisterCommand("reloadcloths", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                LoadAllComps(cache_skin, cache_cloths);
+            }), false);
         }
 
         Dictionary<string, string> cache_skin = new Dictionary<string, string>();
@@ -46,6 +53,20 @@ namespace vorpcharacter_cl
 
         }
 
+        [Tick]
+        public async Task SetScale()
+        {
+            await Delay(5000);
+            if (!cache_skin.ContainsKey("Scale"))
+            {
+                return;
+            }else if (float.Parse(cache_skin["Scale"]) == 1.0f)
+            {
+                return;
+            }
+
+            await CreatePlayer.changeScale(float.Parse(cache_skin["Scale"]));
+        }
 
         public async Task LoadAllComps(Dictionary<string, string> skin, Dictionary<string, uint> cloths)
         {
@@ -58,6 +79,27 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
             await Delay(1000);
             int pPedID = API.PlayerPedId();
+
+            //PreLoad TextureFace
+            if (skin["sex"].ToString().Equals("mp_male"))
+            {
+                CreatePlayer.texture_types["albedo"] = int.Parse(skin["albedo"]);
+                CreatePlayer.texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
+                CreatePlayer.texture_types["material"] = 0x7FC5B1E1;
+                CreatePlayer.texture_types["color_type"] = 1;
+                CreatePlayer.texture_types["texture_opacity"] = 1.0f;
+                CreatePlayer.texture_types["unk_arg"] = 0;
+            }
+            else
+            {
+                CreatePlayer.texture_types["albedo"] = int.Parse(skin["albedo"]);
+                CreatePlayer.texture_types["normal"] = API.GetHashKey("head_fr1_mp_002_nm");
+                CreatePlayer.texture_types["material"] = 0x7FC5B1E1;
+                CreatePlayer.texture_types["color_type"] = 1;
+                CreatePlayer.texture_types["texture_opacity"] = 1.0f;
+                CreatePlayer.texture_types["unk_arg"] = 0;
+            }
+            //End
 
             //LoadSkin
             Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skin["HeadType"]), true, true, true);
@@ -261,15 +303,13 @@ namespace vorpcharacter_cl
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
             await Delay(100);
 
+            Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, ConvertValue(skin["Eyes"]), true, true, true);
+            await Delay(100);
 
             Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, ConvertValue(skin["Hair"]), true, true, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
             await Delay(100);
             
-
-            Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, ConvertValue(skin["Beard"]), true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
-            await Delay(100);
                         
             Function.Call((Hash)0x1902C4CFCC5BE57C, pPedID, ConvertValue(skin["Body"]));
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
@@ -313,8 +353,30 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false); // this fix Hair not appears
 
+            //Load Face Texture
+            CreatePlayer.toggleOverlayChange("eyebrows", int.Parse(skin["eyebrows_visibility"]), int.Parse(skin["eyebrows_tx_id"]), 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("scars", int.Parse(skin["scars_visibility"]), int.Parse(skin["scars_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("spots", int.Parse(skin["spots_visibility"]), int.Parse(skin["spots_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("disc", int.Parse(skin["disc_visibility"]), int.Parse(skin["disc_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("complex", int.Parse(skin["complex_visibility"]), int.Parse(skin["complex_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("acne", int.Parse(skin["acne_visibility"]), int.Parse(skin["acne_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("ageing", int.Parse(skin["ageing_visibility"]), int.Parse(skin["ageing_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("freckles", int.Parse(skin["freckles_visibility"]), int.Parse(skin["freckles_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("moles", int.Parse(skin["moles_visibility"]), int.Parse(skin["moles_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("grime", int.Parse(skin["grime_visibility"]), int.Parse(skin["grime_tx_id"]), 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("lipsticks", int.Parse(skin["lipsticks_visibility"]), int.Parse(skin["lipsticks_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["lipsticks_palette_id"]), int.Parse(skin["lipsticks_palette_color_primary"]), 0, 0, 0, 1.0f);
+            CreatePlayer.toggleOverlayChange("shadows", int.Parse(skin["shadows_visibility"]), int.Parse(skin["shadows_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["shadows_palette_id"]), int.Parse(skin["shadows_palette_color_primary"]), 0, 0, 0, 1.0f);
+            
+            await Delay(5000);
+            Function.Call((Hash)0x59BD177A1A48600A, pPedID, 0xF8016BCA);
+            Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, ConvertValue(skin["Beard"]), true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
+
             IsLoaded();
         }
+
+
+
 
         public uint ConvertValue(string s)
         {

@@ -1,9 +1,11 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using MenuAPI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +34,7 @@ namespace vorpcharacter_cl
         float DressHeading = 93.2f;
 
         //Para guardar en DB
-        static Dictionary<string, object> skinPlayer = new Dictionary<string, object>() {
+        public static Dictionary<string, object> skinPlayer = new Dictionary<string, object>() {
             { "sex", "none" },
 
             { "HeadType", 0 }, 
@@ -97,10 +99,55 @@ namespace vorpcharacter_cl
             { "Body", 0 },
 
             { "Waist", 0 },
+
+            { "Eyes", 0 },
+
+            { "Scale", 1.0f },
+
+            //New DB
+            { "eyebrows_visibility", 0 },
+            { "eyebrows_tx_id", 0 },
+
+            { "scars_visibility", 0 },
+            { "scars_tx_id", 0 },
+
+            { "spots_visibility", 0 },
+            { "spots_tx_id", 0 },
+
+            { "disc_visibility", 0 },
+            { "disc_tx_id", 0 },
+
+            { "complex_visibility", 0 },
+            { "complex_tx_id", 0 },
+
+            { "acne_visibility", 0 },
+            { "acne_tx_id", 0 },
+
+            { "ageing_visibility", 0 },
+            { "ageing_tx_id", 0 },
+
+            { "freckles_visibility", 0 },
+            { "freckles_tx_id", 0 },
+
+            { "moles_visibility", 0 },
+            { "moles_tx_id", 0 },
+
+            { "grime_visibility", 0 },
+            { "grime_tx_id", 0 },
+
+            { "lipsticks_visibility", 0 },
+            { "lipsticks_tx_id", 0 },
+            { "lipsticks_palette_id", 0 },
+            { "lipsticks_palette_color_primary", 0 },
+
+            { "shadows_visibility", 0 },
+            { "shadows_tx_id", 0 },
+            { "shadows_palette_id", 0 },
+            { "shadows_palette_color_primary", 0 },
         };
 
         //Para guardar en DB
-        static Dictionary<string, object> clothesPlayer = new Dictionary<string, object>() {
+        public static Dictionary<string, object> clothesPlayer = new Dictionary<string, object>() {
             { "Hat", -1 },
             { "EyeWear", -1 },
             { "Mask", -1},
@@ -136,7 +183,7 @@ namespace vorpcharacter_cl
             Tick += OnTick;
             Tick += OnTickAnimm;
             Tick += OnTickCameras;
-            
+
             API.RegisterCommand("createchar", new Action<int, List<object>, string>((source, args, raw) =>
             {
                 if (args[0] == null)
@@ -158,6 +205,114 @@ namespace vorpcharacter_cl
                 }
 
             }), false);
+        }
+
+
+        public static int textureId = -1;
+        public static float overlay_opacity = 1.0f;
+        public static bool is_overlay_change_active = false;
+
+        public static Dictionary<string, dynamic> texture_types = new Dictionary<string, dynamic>();
+
+        public static void toggleOverlayChange(string name, int visibility, int tx_id, int tx_normal, int tx_material, int tx_color_type, float tx_opacity, int tx_unk, int palette_id, int palette_color_primary, int palette_color_secondary, int palette_color_tertiary, int var, float opacity)
+        {
+            for (int i = 0; i < SkinsUtils.overlay_all_layers.Count(); i++)
+            {
+                if (SkinsUtils.overlay_all_layers[i]["name"].ToString().Equals(name))
+                {
+
+                    skinPlayer[$"{name}_visibility"] = visibility;
+                    skinPlayer[$"{name}_tx_id"] = tx_id;
+
+                    if (name.Contains("shadows") || name.Contains("lipsticks"))
+                    {
+                        skinPlayer[$"{name}_palette_id"] = palette_id;
+                        skinPlayer[$"{name}_palette_color_primary"] = palette_color_primary;
+                    }
+
+                    SkinsUtils.overlay_all_layers[i]["visibility"] = visibility;
+                    if (visibility != 0)
+                    {
+                        SkinsUtils.overlay_all_layers[i]["tx_normal"] = tx_normal;
+                        SkinsUtils.overlay_all_layers[i]["tx_material"] = tx_material;
+                        SkinsUtils.overlay_all_layers[i]["tx_color_type"] = tx_color_type;
+                        SkinsUtils.overlay_all_layers[i]["tx_opacity"] = tx_opacity;
+                        SkinsUtils.overlay_all_layers[i]["tx_unk"] = tx_unk;
+                        if (tx_color_type == 0)
+                        {
+                            SkinsUtils.overlay_all_layers[i]["palette"] = SkinsUtils.COLOR_PALETTES[palette_id];
+                            SkinsUtils.overlay_all_layers[i]["palette_color_primary"] = palette_color_primary;
+                            SkinsUtils.overlay_all_layers[i]["palette_color_secondary"] = palette_color_secondary;
+                            SkinsUtils.overlay_all_layers[i]["palette_color_tertiary"] = palette_color_tertiary;
+                        }
+                        if (name.Equals("shadows") || name.Equals("eyeliners") || name.Equals("lipsticks"))
+                        {
+                            SkinsUtils.overlay_all_layers[i]["var"] = var;
+                            SkinsUtils.overlay_all_layers[i]["tx_id"] = (int)SkinsUtils.overlays_info[name][0]["id"];
+                        }
+                        else
+                        {
+                            SkinsUtils.overlay_all_layers[i]["var"] = 0;
+                            SkinsUtils.overlay_all_layers[i]["tx_id"] = (int)SkinsUtils.overlays_info[name][tx_id]["id"];
+                        }
+                        SkinsUtils.overlay_all_layers[i]["opacity"] = opacity;
+                    }
+                }
+            }
+            changeOverlays();
+        }
+
+        public static async Task changeOverlays()
+        {
+
+            int ped = API.PlayerPedId();
+            if (textureId != -1)
+            {
+                Function.Call((Hash)0xB63B9178D0F58D82, textureId);
+                Function.Call((Hash)0x6BEFAA907B076859, textureId);
+            }
+
+            textureId = Function.Call<int>((Hash)0xC5E7204F322E49EB, texture_types["albedo"], texture_types["normal"], texture_types["material"]);
+            
+
+            foreach (Dictionary<string, dynamic> layer in SkinsUtils.overlay_all_layers)
+            {
+                if (layer["visibility"] != 0)
+                {
+                    int overlay_id = Function.Call<int>((Hash)0x86BB5FF45F193A02, textureId, layer["tx_id"], layer["tx_normal"], layer["tx_material"], layer["tx_color_type"], layer["tx_opacity"], layer["tx_unk"]);
+                    if (layer["tx_color_type"] == 0)
+                    {
+                        Function.Call((Hash)0x1ED8588524AC9BE1, textureId, overlay_id, layer["palette"]);
+                        Function.Call((Hash)0x2DF59FFE6FFD6044, textureId, overlay_id, layer["palette_color_primary"], layer["palette_color_secondary"], layer["palette_color_tertiary"]);
+                    }
+                    Function.Call((Hash)0x3329AAE2882FC8E4, textureId, overlay_id, layer["var"]);
+                    Function.Call((Hash)0x6C76BC24F8BB709A, textureId, overlay_id, layer["opacity"]);
+                }
+            }
+
+            while(!Function.Call<bool>((Hash)0x31DC8D3F216D8509, textureId))
+            {
+                await Delay(0);
+            }
+            
+            Function.Call<bool>((Hash)0x0B46E25761519058, ped, API.GetHashKey("heads"), textureId);
+            Function.Call<bool>((Hash)0x92DAABA2C1C10B0E, textureId);
+            Function.Call<bool>((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+        }
+
+        public static async Task changeScale(float scale)
+        {
+            skinPlayer["Scale"] = scale;
+            Function.Call((Hash)0x25ACFC650B65C538, API.PlayerPedId(), scale);
+        }
+
+        public static uint FromHex(string value)
+        {
+            if (value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
+                value = value.Substring(2);
+            }
+            return (uint)Int32.Parse(value, NumberStyles.HexNumber);
         }
 
         [Tick]
@@ -569,7 +724,10 @@ namespace vorpcharacter_cl
             {
                 string result = cb;
                 await Delay(1000);
-                if (result.Length < 3) {
+
+                string[] words = result.Trim().Split(' ');
+
+                if (result.Length < 3 || words.Count() < 2) {
                     TriggerEvent("vorp:Tip", GetConfig.Langs["PlaceHolderInputName"], 3000); // from client side
                     SaveChanges();
                 }
@@ -697,6 +855,30 @@ namespace vorpcharacter_cl
         {
             model_selected = model;
             skinPlayer["sex"] = model;
+            
+
+            if (model_selected == model_m)
+            {
+                skinPlayer["albedo"] = API.GetHashKey("mp_head_mr1_sc08_c0_000_ab");
+                texture_types["albedo"] = API.GetHashKey("mp_head_mr1_sc08_c0_000_ab");
+                texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
+                texture_types["material"] = 0x7FC5B1E1;
+                texture_types["color_type"] = 1;
+                texture_types["texture_opacity"] = 1.0f;
+                texture_types["unk_arg"] = 0;
+            }
+            else
+            {
+                skinPlayer["albedo"] = API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
+                texture_types["albedo"] = API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
+                texture_types["normal"] = API.GetHashKey("head_fr1_mp_002_nm");
+                texture_types["material"] = 0x7FC5B1E1;
+                texture_types["color_type"] = 1;
+                texture_types["texture_opacity"] = 1.0f;
+                texture_types["unk_arg"] = 0;
+            }
+
+
             Debug.WriteLine(model);
             await Delay(200);
             int pID = API.PlayerId();

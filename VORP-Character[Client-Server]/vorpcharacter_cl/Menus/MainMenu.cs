@@ -56,6 +56,19 @@ namespace vorpcharacter_cl.Menus
             mainMenu.AddMenuItem(subMenuClothesBtn);
             MenuController.BindMenuItem(mainMenu, ClothesMenu.GetMenu(), subMenuClothesBtn);
 
+            List<string> scaleValues = new List<string>();
+
+            foreach(float sc in Utils.SkinsUtils.SCALE_LIST)
+            {
+                scaleValues.Add(GetConfig.Langs["Scale"] + sc.ToString());
+            }
+
+            MenuListItem ScaleBtn = new MenuListItem(GetConfig.Langs["ScaleList"], scaleValues, 4, GetConfig.Langs["ScaleDesc"])
+            {
+                RightIcon = MenuItem.Icon.STAR
+            };
+            mainMenu.AddMenuItem(ScaleBtn);
+
             //Finish Button
             MenuItem FinishBtn = new MenuItem(GetConfig.Langs["FinishBtnMainMenu"], GetConfig.Langs["SubFinishBtnMainMenu"])
             {
@@ -64,8 +77,12 @@ namespace vorpcharacter_cl.Menus
             mainMenu.AddMenuItem(FinishBtn);
 
             //Events
-            mainMenu.OnMenuOpen += (_menu) => {
-                
+            mainMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
+            {
+                if (_itemIndex == 3)
+                {
+                    CreatePlayer.changeScale(SkinsUtils.SCALE_LIST[_newIndex]);
+                }
             };
 
             mainMenu.OnMenuClose += (_menu) =>
@@ -79,7 +96,7 @@ namespace vorpcharacter_cl.Menus
             mainMenu.OnItemSelect += (_menu, _item, _index) =>
             {
                 // Code in here would get executed whenever an item is pressed.
-                if (_index == 3)
+                if (_index == 4)
                 {
                     CreatePlayer.isInCharCreation = false;
                     CreatePlayer.SaveChanges();

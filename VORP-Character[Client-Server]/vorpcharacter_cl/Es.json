@@ -3,7 +3,81 @@
 
   "PressGuide": "Rotar <-[A] [D]-> | Cámaras [W] o [S]",
 
-  //Input Name 
+  //New Update
+
+  "Scale": "Altura #",
+  "ScaleList": "Altura personaje",
+  "ScaleDesc": "Ajusta la altura (recomendamos como ultima opción on las camaras no las veras)",
+
+  "EyeBrows": "Cejas #",
+  "EyeBrowsList": "Tipos de Cejas",
+  "EyeBrowsDesc": "Forma de las cejas",
+
+  "Scars": "Cicatriz #",
+  "ScarsList": "Tipos de Cicatrices",
+  "ScarsDesc": "Añade Cicatrices",
+
+  "Spots": "Mancha #",
+  "SpotsList": "Tipos de Manchas",
+  "SpotsDesc": "Manchas solares",
+
+  "Disc": "Petequias #",
+  "DiscList": "Tipos de Petequias",
+  "DiscDesc": "Manchas rojas de la cara (normalmente por la edad)",
+
+  "Complex": "Complexión #",
+  "ComplexList": "Tipos de Complexión",
+  "ComplexDesc": "Manchas de quemaduras del sol",
+
+  "Acne": "Acne #",
+  "AcneList": "Tipos de Acne",
+  "AcneDesc": "Añade Acne a la cara",
+
+  "Ageing": "Envejecimiento #",
+  "AgeingList": "Tipos de Envejecimiento",
+  "AgeingDesc": "Envejecimiento de la cara",
+
+  "Moles": "Lunares #",
+  "MolesList": "Tipos de Lunares",
+  "MolesDesc": "Añade Lunares",
+
+  "Freckles": "Pecas #",
+  "FrecklesList": "Tipos de Pecas",
+  "FrecklesDesc": "Añade pecas",
+
+  "Grimes": "Mugre #",
+  "GrimesList": "Tipos de Mugre",
+  "GrimesDesc": "Añade mugre o suciedad",
+
+  "Lipsticks": "Pintalabios #",
+  "LipsticksList": "Tipos de Pintalabios",
+  "LipsticksDesc": "Añade Maquillaje tanto hombre como mujer :)",
+
+  "LipsticksColors": "Color #",
+  "LipsticksColorsList": "Color de Pintalabios Base",
+  "LipsticksColorsDesc": "Añade Maquillaje tanto hombre como mujer :)",
+
+  "LipsticksPColors": "Color #",
+  "LipsticksPColorsList": "Color de Pintalabios Mezcla",
+  "LipsticksPColorsDesc": "Añade Maquillaje tanto hombre como mujer :)",
+
+  "Shadows": "Sombreado #",
+  "ShadowsList": "Tipos de Sombreado",
+  "ShadowsDesc": "Añade Maquillaje tanto hombre como mujer :)",
+
+  "ShadowsColors": "Color #",
+  "ShadowsColorsList": "Color de Sombreado Base",
+  "ShadowsColorsDesc": "Añade Maquillaje tanto hombre como mujer :)",
+
+  "ShadowsPColors": "Color #",
+  "ShadowsPColorsList": "Color de Sombreado Mezcla",
+  "ShadowsPColorsDesc": "Añade Maquillaje tanto hombre como mujer :)",
+
+  "Eyes": "Ojos #",
+  "EyesList": "Tipos de Ojos",
+  "EyesDesc": "Cambia el color de tus ojos",
+
+  //Input Name
   "PlaceHolderInputName": "Escribe el nombre y apellido de tu personaje",
   "ButtonInputName": "Confirmar",
   "InputError": "Debes tener un nombre con un mínimo 3 caracteres",
