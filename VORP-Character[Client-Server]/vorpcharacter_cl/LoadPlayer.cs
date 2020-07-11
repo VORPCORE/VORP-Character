@@ -376,8 +376,6 @@ namespace vorpcharacter_cl
         }
 
 
-
-
         public uint ConvertValue(string s)
         {
             uint result;
