@@ -24,8 +24,8 @@ namespace vorpcharacter_cl
             }), false);
         }
 
-        Dictionary<string, string> cache_skin = new Dictionary<string, string>();
-        Dictionary<string, uint> cache_cloths = new Dictionary<string, uint>();
+        public static Dictionary<string, string> cache_skin = new Dictionary<string, string>();
+        public static Dictionary<string, uint> cache_cloths = new Dictionary<string, uint>();
 
         private async void loadPlayerSkin(ExpandoObject sskin, ExpandoObject scloth)
         {
@@ -376,7 +376,7 @@ namespace vorpcharacter_cl
         }
 
 
-        public uint ConvertValue(string s)
+        public static uint ConvertValue(string s)
         {
             uint result;
 

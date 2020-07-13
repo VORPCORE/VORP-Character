@@ -36,6 +36,8 @@ namespace vorpcharacter_cl.Utils
                 Langs[l.Key] = l.Value.ToString();
             }
 
+            Commands.InitCommands();
+
         }
     }
 }
