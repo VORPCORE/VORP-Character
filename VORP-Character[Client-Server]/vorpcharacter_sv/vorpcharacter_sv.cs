@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,7 +24,10 @@ namespace vorpcharacter_sv
             EventHandlers["vorpcharacter:SaveSkinDB"] += new Action<Player, object, object, string>(SaveSkinDB);
             EventHandlers["vorpcharacter:getPlayerSkin"] += new Action<Player>(getPlayerSkin);
             /*CallBack*/
-            EventHandlers["vorpcharacter:getPlayerClothes"] += new Action<int, dynamic>(getPlayerClothes);
+            EventHandlers["vorpcharacter:getPlayerComps"] += new Action<int, dynamic>(getPlayerComps);
+
+            EventHandlers["vorpcharacter:setPlayerSkinChange"] += new Action<int, string>(setPlayerSkinChange);
+            EventHandlers["vorpcharacter:setPlayerCompChange"] += new Action<int, string>(setPlayerCompChange);
 
             EventHandlers["vorpcharacter:CommandCreate"] += new Action<Player, int>(StartCreation);
         }
@@ -54,7 +58,7 @@ namespace vorpcharacter_sv
             }));
         }
 
-        private void getPlayerClothes(int source, dynamic cb)
+        private void getPlayerComps(int source, dynamic cb)
         {
 
             PlayerList pl = new PlayerList();
@@ -83,6 +87,102 @@ namespace vorpcharacter_sv
                     comp.Add("skins", result[0].skinPlayer);
 
                     cb.Invoke(comp); //Enviamos los datos de vuelta
+                }
+
+            }));
+        }
+
+        private void setPlayerCompChange(int source, string compsValue)
+        {
+
+            PlayerList pl = new PlayerList();
+            Player p = pl[source];
+
+            if (p == null)
+            {
+                Debug.WriteLine("UserNotFound");
+                return;
+            }
+
+            string sid = "steam:" + p.Identifiers["steam"];
+
+            Exports["ghmattimysql"].execute("SELECT * FROM characters WHERE identifier = ?", new[] { sid }, new Action<dynamic>((result) =>
+            {
+                if (result.Count == 0)
+                {
+                    Debug.WriteLine("ERROR: User not found");
+                }
+                else
+                {
+                    string comp_string = result[0].compPlayer;
+                    string s_skin = result[0].skinPlayer;
+                    JObject comp = JObject.Parse(comp_string);
+
+                    JObject newcomps = JObject.Parse(compsValue);
+
+                    foreach (var nc in newcomps)
+                    {
+                        if (comp.ContainsKey(nc.Key))
+                        {
+                            comp[nc.Key] = ConvertValue(nc.Value.ToString());
+                        }
+                    }
+
+                    Exports["ghmattimysql"].execute("UPDATE characters SET compPlayer=? WHERE identifier=?", new object[] { comp.ToString(), sid });
+
+                    Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(comp.ToString());
+                    Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_skin);
+
+                    p.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
+
+                }
+
+            }));
+        }
+
+        private void setPlayerSkinChange(int source, string compsValue)
+        {
+
+            PlayerList pl = new PlayerList();
+            Player p = pl[source];
+
+            if (p == null)
+            {
+                Debug.WriteLine("UserNotFound");
+                return;
+            }
+
+            string sid = "steam:" + p.Identifiers["steam"];
+
+            Exports["ghmattimysql"].execute("SELECT * FROM characters WHERE identifier = ?", new[] { sid }, new Action<dynamic>((result) =>
+            {
+                if (result.Count == 0)
+                {
+                    Debug.WriteLine("ERROR: User not found");
+                }
+                else
+                {
+                    string skin_string = result[0].skinPlayer;
+                    string s_body = result[0].compPlayer;
+                    JObject skin = JObject.Parse(skin_string);
+
+                    JObject newcomps = JObject.Parse(compsValue);
+
+                    foreach (var nc in newcomps)
+                    {
+                        if (skin.ContainsKey(nc.Key))
+                        {
+                            skin[nc.Key] = ConvertValue(nc.Value.ToString());
+                        }
+                    }
+
+                    Exports["ghmattimysql"].execute("UPDATE characters SET skinPlayer=? WHERE identifier=?", new object[] { skin.ToString(), sid });
+
+                    Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skin.ToString());
+                    Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(s_body);
+
+                    p.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
+
                 }
 
             }));
@@ -152,6 +252,22 @@ namespace vorpcharacter_sv
             await Delay(500);
             TriggerEvent("vorp:firstSpawn", source);
             player.TriggerEvent("vorp:firstSpawn");
+        }
+
+        public static uint ConvertValue(string s)
+        {
+            uint result;
+
+            if (uint.TryParse(s, out result))
+            {
+                return result;
+            }
+            else
+            {
+                int interesante = int.Parse(s);
+                result = (uint)interesante;
+                return result;
+            }
         }
     }
 }

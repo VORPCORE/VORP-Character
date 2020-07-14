@@ -15,7 +15,9 @@ namespace vorpcharacter_cl
         {
             EventHandlers["playerSpawned"] += new Action<object>(callToSetOutFit);
             EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<ExpandoObject, ExpandoObject>(loadPlayerSkin);
-
+            EventHandlers["vorpcharacter:refreshPlayerSkin"] += new Action(RefreshPlayerSkin);
+            EventHandlers["vorpcharacter:getPlayerComps"] += new Action<CallbackDelegate>(getPlayerComps);
+            EventHandlers["vorpcharacter:reloadPlayerComps"] += new Action<ExpandoObject, ExpandoObject>(reloadPlayerComps);
             Tick += SetScale;
 
             API.RegisterCommand("reloadcloths", new Action<int, List<object>, string>((source, args, raw) =>
@@ -24,8 +26,38 @@ namespace vorpcharacter_cl
             }), false);
         }
 
+        private void reloadPlayerComps(ExpandoObject sskin, ExpandoObject scloth)
+        {
+            Dictionary<string, string> skin = new Dictionary<string, string>();
+
+            foreach (var s in sskin)
+            {
+                skin[s.Key] = s.Value.ToString();
+            }
+
+            Dictionary<string, uint> cloths = new Dictionary<string, uint>();
+
+            foreach (var s in scloth)
+            {
+                cloths[s.Key] = ConvertValue(s.Value.ToString());
+            }
+
+            cache_skin = skin;
+            cache_cloths = cloths;
+        }
+
         public static Dictionary<string, string> cache_skin = new Dictionary<string, string>();
         public static Dictionary<string, uint> cache_cloths = new Dictionary<string, uint>();
+
+        public void RefreshPlayerSkin()
+        {
+            LoadAllComps(cache_skin, cache_cloths);
+        }
+
+        public void getPlayerComps(CallbackDelegate cb)
+        {
+            cb.Invoke(cache_skin, cache_cloths);
+        }
 
         private async void loadPlayerSkin(ExpandoObject sskin, ExpandoObject scloth)
         {
