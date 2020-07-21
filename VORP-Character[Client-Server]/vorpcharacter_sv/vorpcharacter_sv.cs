@@ -228,7 +228,7 @@ namespace vorpcharacter_sv
             {
                 if (result.Count == 0)
                 {
-                    Exports["ghmattimysql"].execute("INSERT INTO characters (`identifier`, `firstname`, `lastname`, `skinPlayer`, `compPlayer`) VALUES (?, ?, ?, ?, ?)", new object[] { sid, firstname, lastname, skinPlayer, componentsPlayer });
+                    Exports["ghmattimysql"].execute("INSERT INTO characters (`identifier`, `group`, `firstname`, `lastname`, `skinPlayer`, `compPlayer`) VALUES (?, ?, ?, ?, ?, ?)", new object[] { sid, "user", firstname, lastname, skinPlayer, componentsPlayer });
                     SetStartMoney(int.Parse(source.Handle), source);
                     TriggerEvent("vorp:UpdateCharacter", sid, firstname, lastname);
                 }

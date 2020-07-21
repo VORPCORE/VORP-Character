@@ -316,30 +316,6 @@ namespace vorpcharacter_cl
         }
 
         [Tick]
-        private async Task InstancePlayer()
-        {
-            if (isSelectSexActive || isInCharCreation)
-            {
-                for (int i = 0; i < 255; i++)
-                {
-                    if (API.NetworkIsPlayerActive(i))
-                    {
-                        if (API.GetPlayerPed(i) != API.PlayerPedId())
-                        {
-                            API.SetEntityAlpha(API.GetPlayerPed(i), 0, false);
-                            API.SetEntityNoCollisionEntity(API.PlayerPedId(), API.GetPlayerPed(i), false);
-                            await Delay(1);
-                        }
-
-                    }
-
-                }
-            }
-
-            await Delay(3000);
-        }
-
-        [Tick]
         private async Task OnTickAnimm()
         {
             if (pedCreated != 0)
@@ -359,6 +335,7 @@ namespace vorpcharacter_cl
                     API.DeletePed(ref pedCreated);
                     API.DeleteVehicle(ref vehCreated);
                     pedCreated = 0;
+                    TriggerEvent("vorp:setInstancePlayer", false);
                 }
             }
             await Delay(1);
@@ -372,7 +349,7 @@ namespace vorpcharacter_cl
             uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
             Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), 220.3232f);
             Miscellanea.LoadModel(HashVeh);
-            vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, true, true, true, true);
+            vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, false, true, true, true);
             //Spawn
             Function.Call((Hash)0x283978A15512B2FE, vehCreated, true);
             //TaskWanderStandard
@@ -406,20 +383,6 @@ namespace vorpcharacter_cl
             API.SetRelationshipBetweenGroups(1, HashPed, (uint)API.GetHashKey("PLAYER"));
 
             TriggerEvent("vorp:Tip", GetConfig.Langs["TipFinal"], 15000);
-
-            for (int i = 0; i < 255; i++)
-            {
-                if (API.NetworkIsPlayerActive(i))
-                {
-                    if (API.GetPlayerPed(i) != API.PlayerPedId())
-                    {
-                        API.SetEntityAlpha(API.GetPlayerPed(i), 255, false);
-                        API.SetEntityNoCollisionEntity(API.PlayerPedId(), API.GetPlayerPed(i), true);
-                    }
-
-                }
-
-            }
 
         }
 
@@ -849,6 +812,8 @@ namespace vorpcharacter_cl
              */
             API.FreezeEntityPosition(PedFemale, true);
             API.FreezeEntityPosition(PedMale, true);
+
+            TriggerEvent("vorp:setInstancePlayer", true);
 
         }
         private async void CreationSexPed(string model, int camedit)
