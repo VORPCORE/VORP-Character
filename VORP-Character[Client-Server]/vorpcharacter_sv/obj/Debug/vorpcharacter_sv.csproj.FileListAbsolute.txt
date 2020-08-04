@@ -9,3 +9,9 @@ E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csprojAssemblyReference.cache
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.dll
 E:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.pdb
+D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_sv.net.dll
+D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_sv.net.pdb
+D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csprojAssemblyReference.cache
+D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csproj.CoreCompileInputs.cache
+D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.dll
+D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.pdb

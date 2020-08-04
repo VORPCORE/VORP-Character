@@ -22,7 +22,10 @@ namespace vorpcharacter_cl
 
             API.RegisterCommand("reloadcloths", new Action<int, List<object>, string>((source, args, raw) =>
             {
-                LoadAllComps(cache_skin, cache_cloths);
+                if (!API.IsPlayerDead(API.PlayerId())) // Fixed Revive
+                {
+                    LoadAllComps(cache_skin, cache_cloths);
+                }
             }), false);
         }
 
