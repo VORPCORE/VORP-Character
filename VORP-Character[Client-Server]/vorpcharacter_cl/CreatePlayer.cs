@@ -843,8 +843,6 @@ namespace vorpcharacter_cl
                 texture_types["unk_arg"] = 0;
             }
 
-
-            Debug.WriteLine(model);
             await Delay(200);
             int pID = API.PlayerId();
             int pPedID = API.PlayerPedId();
@@ -998,13 +996,11 @@ namespace vorpcharacter_cl
                 
                 if (API.IsCamActive(Camera_Male))
                 {
-                    Debug.WriteLine("Hombre");
                     CreationSexPed(model_m, Camera_Male);
                     isSelectSexActive = false;
                 }
                 else if (API.IsCamActive(Camera_Female))
                 {
-                    Debug.WriteLine("Mujer");
                     CreationSexPed(model_f, Camera_Female);
                     isSelectSexActive = false;
                 }

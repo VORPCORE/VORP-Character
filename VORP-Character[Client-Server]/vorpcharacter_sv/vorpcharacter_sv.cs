@@ -37,7 +37,6 @@ namespace vorpcharacter_sv
             int _source = int.Parse(source.Handle);
             TriggerEvent("vorp:getCharacter", _source, new Action<dynamic>((user) =>
             {
-                Debug.WriteLine(user.group);
                 if(user.group == "admin")
                 {
                     if (target == -1)
@@ -76,7 +75,7 @@ namespace vorpcharacter_sv
             {
                 if (result.Count == 0)
                 {
-                    Debug.WriteLine("ERROR: User not found");
+                    Debug.WriteLine("WARNING: User not found");
                 }
                 else
                 {
@@ -100,7 +99,6 @@ namespace vorpcharacter_sv
 
             if (p == null)
             {
-                Debug.WriteLine("UserNotFound");
                 return;
             }
 
@@ -110,7 +108,7 @@ namespace vorpcharacter_sv
             {
                 if (result.Count == 0)
                 {
-                    Debug.WriteLine("ERROR: User not found");
+                    Debug.WriteLine("WARNING: User not found");
                 }
                 else
                 {
@@ -148,7 +146,6 @@ namespace vorpcharacter_sv
 
             if (p == null)
             {
-                Debug.WriteLine("UserNotFound");
                 return;
             }
 
@@ -158,7 +155,7 @@ namespace vorpcharacter_sv
             {
                 if (result.Count == 0)
                 {
-                    Debug.WriteLine("ERROR: User not found");
+                    Debug.WriteLine("WARNING: User not found");
                 }
                 else
                 {
@@ -196,7 +193,7 @@ namespace vorpcharacter_sv
             {
                 if (result.Count == 0)
                 {
-                    Debug.WriteLine("Character: Usuario no registrado");
+                    Debug.WriteLine("Character: User not registered -> Starting Character Creation");
                 }
                 else
                 {
