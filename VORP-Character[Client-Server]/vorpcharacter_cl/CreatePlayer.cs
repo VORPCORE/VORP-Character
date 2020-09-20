@@ -370,7 +370,6 @@ namespace vorpcharacter_cl
             //API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
             //API.SetEntityHeading(API.PlayerPedId(), 0);
 
-            await Delay(1000);
             //SetPedIntoVehicle
             Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
 
@@ -811,7 +810,7 @@ namespace vorpcharacter_cl
             TriggerEvent("vorp:setInstancePlayer", true);
 
         }
-        private async Task CreationSexPed(string model, int camedit)
+        private async void CreationSexPed(string model, int camedit)
         {
             model_selected = model;
             skinPlayer["sex"] = model;
@@ -990,12 +989,12 @@ namespace vorpcharacter_cl
                 
                 if (API.IsCamActive(Camera_Male))
                 {
-                    CreationSexPed(model_m, Camera_Male).Wait();
+                    CreationSexPed(model_m, Camera_Male);
                     isSelectSexActive = false;
                 }
                 else if (API.IsCamActive(Camera_Female))
                 {
-                    CreationSexPed(model_f, Camera_Female).Wait();
+                    CreationSexPed(model_f, Camera_Female);
                     isSelectSexActive = false;
                 }
                 else
