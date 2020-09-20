@@ -14,14 +14,14 @@ namespace vorpcharacter_cl.Utils
          * LoadModel | "int hash" is a hash key from model
          * Wait for Model hash Load in cache
          */
-        public static async Task<bool> LoadModel(uint hash)
+       /* public static async Task<bool> LoadModel(uint hash)
         {
-            if(Function.Call<bool>(Hash.IS_MODEL_VALID, hash))
+            if(API.IsModelValid( hash))
             {
-                Function.Call(Hash.REQUEST_MODEL, hash);
-                while(!Function.Call<bool>(Hash.HAS_MODEL_LOADED, hash))
+                API.RequestModel( hash, true);
+                while(!API.HasModelLoaded( hash))
                 {
-                    await BaseScript.Delay(100);
+                    await BaseScript.Delay(200);
                 }
                 return true;
             }
@@ -29,6 +29,60 @@ namespace vorpcharacter_cl.Utils
             {
                 Debug.WriteLine($"Model {hash} is not valid!");
                 return false;
+            }
+        }*/
+
+        public static async Task<uint> GetHash(string model)
+        {
+            uint hash = (uint)API.GetHashKey(model);
+            if (API.IsModelValid(hash))
+            {
+                API.RequestModel(hash, true);
+                while (!API.HasModelLoaded(hash) || !API.HasCollisionForModelLoaded(hash) )
+                {
+                    await BaseScript.Delay(200);
+                }
+                
+            }
+            else
+            {
+                Debug.WriteLine($"Model {model} is not valid!");                
+            }
+            return hash;
+        }
+        public static async Task<uint> GetHash(int hash)
+        {
+            if (API.IsModelValid((uint)hash))
+            {
+                API.RequestModel((uint)hash, true);
+                while (!API.HasModelLoaded((uint)hash))
+                {
+                    await BaseScript.Delay(200);
+                }
+                return (uint)hash;
+            }
+            else
+            {
+                Debug.WriteLine($"Model {hash} is not valid!");
+                return (uint)hash;
+            }
+        }
+
+        public static async Task<uint> GetHash(uint hash)
+        {
+            if (API.IsModelValid((uint)hash))
+            {
+                API.RequestModel((uint)hash, true);
+                while (!API.HasModelLoaded((uint)hash))
+                {
+                    await BaseScript.Delay(200);
+                }
+                return (uint)hash;
+            }
+            else
+            {
+                Debug.WriteLine($"Model {hash} is not valid!");
+                return (uint)hash;
             }
         }
 

@@ -25,3 +25,21 @@ D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\
 D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CopyComplete
 D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.dll
 D:\VORP-Repos\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.pdb
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\Config.json
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\Es.json
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.dll
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.pdb
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csprojAssemblyReference.cache
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CoreCompileInputs.cache
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CopyComplete
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.dll
+C:\Users\Bozoweed\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.pdb
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\Config.json
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\Es.json
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.dll
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.pdb
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csprojAssemblyReference.cache
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CoreCompileInputs.cache
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CopyComplete
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.dll
+C:\Users\Bozoweed\Desktop\redem pour nerio\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.pdb

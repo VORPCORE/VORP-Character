@@ -346,9 +346,9 @@ namespace vorpcharacter_cl
 
         private static async void StartAnim()
         {
-            uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
+            uint HashVeh = await Miscellanea.GetHash("hotAirBalloon01");
             Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), 220.3232f);
-            Miscellanea.LoadModel(HashVeh);
+           
             vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, false, true, true, true);
             //Spawn
             Function.Call((Hash)0x283978A15512B2FE, vehCreated, true);
@@ -356,8 +356,7 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0xBB9CE077274F6A1B, 10, 10);
 
 
-            uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
-            Miscellanea.LoadModel(HashPed);
+            uint HashPed = await Miscellanea.GetHash("CS_balloonoperator");
             pedCreated = API.CreatePed(HashPed, coords.X + 1, coords.Y, coords.Z, 0.0f, false, true, true, true);
             //Spawn
             Function.Call((Hash)0x283978A15512B2FE, pedCreated, true);
@@ -755,11 +754,9 @@ namespace vorpcharacter_cl
             Camera_Body = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.6195f, -3780.708f, 239.1954f, -15.75687f, 0.0f, -89.49976f, 40.00f, false, 0);
             //Camera_Back = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -563.0956f, -3780.669f, 238.465f, 0.906957f, 0.0f, -89.36639f, 40.00f, false, 0);
 
-            uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
-            await Miscellanea.LoadModel(HashVeh);
+            uint HashVeh = await Miscellanea.GetHash("hotAirBalloon01");
 
-            uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
-            await Miscellanea.LoadModel(HashPed);
+            uint HashPed = await Miscellanea.GetHash("CS_balloonoperator");
 
         }
 
@@ -790,13 +787,11 @@ namespace vorpcharacter_cl
         private async Task CreationSelectPeds()
         {
 
-            uint hash_f = (uint)API.GetHashKey(model_f);
-            uint hash_m = (uint)API.GetHashKey(model_m);
+            uint hash_f = await Miscellanea.GetHash(model_f);
+            uint hash_m = await Miscellanea.GetHash(model_m);
             /*
              * Esperamos a que cargen los modelos en cache
              */
-            await Miscellanea.LoadModel(hash_f);
-            await Miscellanea.LoadModel(hash_m);
             /*
              * Creamos los modelos en el sitio de creacion
              */
@@ -816,7 +811,7 @@ namespace vorpcharacter_cl
             TriggerEvent("vorp:setInstancePlayer", true);
 
         }
-        private async void CreationSexPed(string model, int camedit)
+        private async Task CreationSexPed(string model, int camedit)
         {
             model_selected = model;
             skinPlayer["sex"] = model;
@@ -849,8 +844,7 @@ namespace vorpcharacter_cl
             Menus.MainMenu.GetMenu();
             Miscellanea.TeleportToCoords(-558.3258f, -3781.111f, 237.60f, 93.2f);
             API.FreezeEntityPosition(pPedID, true);
-            uint model_hash = (uint)API.GetHashKey(model);
-            await Miscellanea.LoadModel(model_hash);
+            uint model_hash = await Miscellanea.GetHash(model);
             Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
             Function.Call((Hash)0x283978A15512B2FE, pPedID, true);
             API.RenderScriptCams(false, true, 3000, true, true, 0);
@@ -996,12 +990,12 @@ namespace vorpcharacter_cl
                 
                 if (API.IsCamActive(Camera_Male))
                 {
-                    CreationSexPed(model_m, Camera_Male);
+                    CreationSexPed(model_m, Camera_Male).Wait();
                     isSelectSexActive = false;
                 }
                 else if (API.IsCamActive(Camera_Female))
                 {
-                    CreationSexPed(model_f, Camera_Female);
+                    CreationSexPed(model_f, Camera_Female).Wait();
                     isSelectSexActive = false;
                 }
                 else
@@ -1012,12 +1006,12 @@ namespace vorpcharacter_cl
 
             if (isSelectSexActive)
             {
-                await DrawTxt(GetConfig.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                DrawTxt(GetConfig.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
             }
 
             if (isInCharCreation) //Fix Run Ped
             {
-                await DrawTxt(GetConfig.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                DrawTxt(GetConfig.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
                 API.FreezeEntityPosition(API.PlayerPedId(), true);
                 API.ClearPedTasks(API.PlayerPedId(), 1, 1);
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);
@@ -1041,16 +1035,15 @@ namespace vorpcharacter_cl
             }
         }
 
-        public static async Task CloseSecureMenu()
+        public static void  CloseSecureMenu()
         {
-            await Delay(200);
             if (!MenuController.IsAnyMenuOpen())
             {
                 Menus.MainMenu.GetMenu().OpenMenu();
             }
         }
 
-        public async Task DrawTxt(string text, float x, float y, float fontscale, float fontsize, int r, int g, int b, int alpha, bool textcentred, bool shadow)
+        public void DrawTxt(string text, float x, float y, float fontscale, float fontsize, int r, int g, int b, int alpha, bool textcentred, bool shadow)
         {
             long str = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", text);
             Function.Call(Hash.SET_TEXT_SCALE, fontscale, fontsize);
