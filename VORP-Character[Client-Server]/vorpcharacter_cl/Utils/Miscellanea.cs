@@ -46,44 +46,10 @@ namespace vorpcharacter_cl.Utils
             }
             else
             {
+                API.RequestModel(hash, true);
                 Debug.WriteLine($"Model {model} is not valid!");                
             }
             return hash;
-        }
-        public static async Task<uint> GetHash(int hash)
-        {
-            if (API.IsModelValid((uint)hash))
-            {
-                API.RequestModel((uint)hash, true);
-                while (!API.HasModelLoaded((uint)hash))
-                {
-                    await BaseScript.Delay(200);
-                }
-                return (uint)hash;
-            }
-            else
-            {
-                Debug.WriteLine($"Model {hash} is not valid!");
-                return (uint)hash;
-            }
-        }
-
-        public static async Task<uint> GetHash(uint hash)
-        {
-            if (API.IsModelValid((uint)hash))
-            {
-                API.RequestModel((uint)hash, true);
-                while (!API.HasModelLoaded((uint)hash))
-                {
-                    await BaseScript.Delay(200);
-                }
-                return (uint)hash;
-            }
-            else
-            {
-                Debug.WriteLine($"Model {hash} is not valid!");
-                return (uint)hash;
-            }
         }
 
         public static void TeleportToCoords(float x, float y, float z, float heading = 0.0f)

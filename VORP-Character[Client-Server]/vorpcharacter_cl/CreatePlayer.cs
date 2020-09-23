@@ -451,6 +451,8 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
             skinPlayer[skinP] = compInt;
         }
+       
+
         public static void SetPlayerModelListComps(string skinP, uint comp, uint category)
         {
             if (comp == 0)
@@ -467,12 +469,27 @@ namespace vorpcharacter_cl
 
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
         }
+
+        public static void SetPlayerDebugModelListComps(int ped, uint comp, uint category)
+        {
+            if (comp == 0)
+            {
+                Function.Call((Hash)0xD710A5007C2AC539, ped, category, 0);
+            }
+            else
+            {
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp, true, true, true);
+            }
+
+        }
+
         public static void SetPlayerBodyComponent(uint comp, string skinP)
         {
             Function.Call((Hash)0x1902C4CFCC5BE57C, API.PlayerPedId(), comp);
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
             skinPlayer[skinP] = comp;
         }
+      
 
         public static void SetPlayerFaceBlend(int item, int index)
         {
@@ -783,11 +800,44 @@ namespace vorpcharacter_cl
             API.FreezeEntityPosition(API.PlayerPedId(), false);
         }
 
+        public static void ApplyDefaultSkin(int ped)
+        {
+            if (API.IsPedMale(ped))
+            {
+                string body = "0x" + GetConfig.Config["Male"][0]["Heads"][0].ToString();
+                int body_int = Convert.ToInt32(body, 16);
+                string Head = "0x" + GetConfig.Config["Male"][0]["Body"][0].ToString();
+                int HeadInt = Convert.ToInt32(Head, 16);
+                string Legs = "0x" + GetConfig.Config["Male"][0]["Legs"][0].ToString();
+                int LegsInt = Convert.ToInt32(Legs, 16);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_MALE.ElementAt(0), true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, body_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, HeadInt, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, LegsInt, true, true, true);
+                Function.Call((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+            }
+            else
+            {
+                string body = "0x" + GetConfig.Config["Female"][0]["Heads"][0].ToString();
+                int body_int = Convert.ToInt32(body, 16);
+                string Head = "0x" + GetConfig.Config["Female"][0]["Body"][0].ToString();
+                int HeadInt = Convert.ToInt32(Head, 16);
+                string Legs = "0x" + GetConfig.Config["Female"][0]["Legs"][0].ToString();
+                int LegsInt = Convert.ToInt32(Legs, 16);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_FEMALE.ElementAt(0), true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, body_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, HeadInt, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, LegsInt, true, true, true);
+                Function.Call((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+            }
+        }
+
         private async Task CreationSelectPeds()
         {
 
             uint hash_f = await Miscellanea.GetHash(model_f);
             uint hash_m = await Miscellanea.GetHash(model_m);
+            await Miscellanea.GetHash("mp_head_fr1_sc08_c0_000_ab");
             /*
              * Esperamos a que cargen los modelos en cache
              */
@@ -799,14 +849,26 @@ namespace vorpcharacter_cl
             /*
              * Necesitan un radom Outfit ya que no se por que no salen si no
              */
+            while(!(API.DoesEntityExist(PedFemale) && API.DoesEntityExist(PedMale))){
+                await Delay(100);
+            }
+            while (!(Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, PedFemale) && Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, PedMale)))
+            {
+                await Delay(100);
+            }
             Function.Call((Hash)0x283978A15512B2FE, PedFemale, true);
-            Function.Call((Hash)0x283978A15512B2FE, PedMale, true);
+
+            //female fix need to set default 
+             ApplyDefaultSkin(PedFemale);
+            //male fix need to set default 
+            ApplyDefaultSkin(PedMale);
+            await Delay(10);
+           
             /*
              * Congelamos las Peds
              */
             API.FreezeEntityPosition(PedFemale, true);
             API.FreezeEntityPosition(PedMale, true);
-
             TriggerEvent("vorp:setInstancePlayer", true);
 
         }
@@ -814,28 +876,6 @@ namespace vorpcharacter_cl
         {
             model_selected = model;
             skinPlayer["sex"] = model;
-            
-
-            if (model_selected == model_m)
-            {
-                skinPlayer["albedo"] = API.GetHashKey("mp_head_mr1_sc08_c0_000_ab");
-                texture_types["albedo"] = API.GetHashKey("mp_head_mr1_sc08_c0_000_ab");
-                texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
-                texture_types["material"] = 0x7FC5B1E1;
-                texture_types["color_type"] = 1;
-                texture_types["texture_opacity"] = 1.0f;
-                texture_types["unk_arg"] = 0;
-            }
-            else
-            {
-                skinPlayer["albedo"] = API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
-                texture_types["albedo"] = API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
-                texture_types["normal"] = API.GetHashKey("head_fr1_mp_002_nm");
-                texture_types["material"] = 0x7FC5B1E1;
-                texture_types["color_type"] = 1;
-                texture_types["texture_opacity"] = 1.0f;
-                texture_types["unk_arg"] = 0;
-            }
 
             await Delay(200);
             int pID = API.PlayerId();
@@ -844,8 +884,42 @@ namespace vorpcharacter_cl
             Miscellanea.TeleportToCoords(-558.3258f, -3781.111f, 237.60f, 93.2f);
             API.FreezeEntityPosition(pPedID, true);
             uint model_hash = await Miscellanea.GetHash(model);
+            if (model_selected == model_m)
+            {
+
+                //SetPlayerDebugBodyComponent(PedMale, (uint)SkinsUtils.WAIST_TYPES.ElementAt(0));
+
+                skinPlayer["albedo"] = await Miscellanea.GetHash("mp_head_mr1_sc08_c0_000_ab");
+                texture_types["albedo"] = await Miscellanea.GetHash("mp_head_mr1_sc08_c0_000_ab");
+                texture_types["normal"] = await Miscellanea.GetHash("mp_head_mr1_000_nm");
+                texture_types["material"] = 0x7FC5B1E1;
+                texture_types["color_type"] = 1;
+                texture_types["texture_opacity"] = 1.0f;
+                texture_types["unk_arg"] = 0;
+            }
+            else
+            {
+
+                skinPlayer["albedo"] = await Miscellanea.GetHash("mp_head_fr1_sc08_c0_000_ab");
+                texture_types["albedo"] = await Miscellanea.GetHash("mp_head_fr1_sc08_c0_000_ab");
+                texture_types["normal"] = await Miscellanea.GetHash("head_fr1_mp_002_nm");
+                texture_types["material"] = 0x7FC5B1E1;
+                texture_types["color_type"] = 1;
+                texture_types["texture_opacity"] = 1.0f;
+                texture_types["unk_arg"] = 0;
+            }
             Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
             Function.Call((Hash)0x283978A15512B2FE, pPedID, true);
+            while (!API.DoesEntityExist(API.PlayerPedId()))
+            {
+                await Delay(100);
+            }
+            while (!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId()))
+            {
+                await Delay(100);
+            }
+            ApplyDefaultSkin(API.PlayerPedId());
+          
             API.RenderScriptCams(false, true, 3000, true, true, 0);
             await Delay(2500);
             API.SetCamActive(Camera_Editor, true);

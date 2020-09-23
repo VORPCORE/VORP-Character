@@ -12,6 +12,7 @@ namespace vorpcharacter_cl
 {
     public class LoadPlayer : BaseScript
     {
+       private static bool firstSpawn = true;
         public LoadPlayer()
         {
             EventHandlers["playerSpawned"] += new Action<object>(callToSetOutFit);
@@ -103,7 +104,42 @@ namespace vorpcharacter_cl
 
         public async Task LoadAllComps(Dictionary<string, string> skin, Dictionary<string, uint> cloths)
         {
-            
+            if (firstSpawn)
+            {
+                firstSpawn = false;
+                int cam = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 621.67f, 374.08f, 873.24f, 300.00f, 0.00f, 0.00f, 100.00f, false, 0);
+                Vector3 coords = API.GetEntityCoords(API.PlayerPedId(), true, true);
+                API.PointCamAtCoord(cam, coords.X, coords.Y, coords.Z + 200);
+                API.SetCamActive(cam, true);
+                API.RenderScriptCams(true, false, 1, true, true, 0);
+
+                API.DoScreenFadeIn(500);
+
+                await Delay(500);
+
+
+                int cam3 = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords.X, coords.Y, coords.Z + 200, 300.00f, 0.00f, 0.00f, 100.00f, false, 0);
+                API.PointCamAtCoord(cam3, coords.X, coords.Y, coords.Z + 200);
+                API.SetCamActiveWithInterp(cam3, cam, 4000, 0, 0);
+                await Delay(4000);
+
+
+                int cam2 = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords.X, coords.Y, coords.Z + 200, 300.00f, 0.00f, 0.00f, 100.00f, false, 0);
+
+                API.PointCamAtCoord(cam2, coords.X, coords.Y, coords.Z + 2);
+
+                API.SetCamActiveWithInterp(cam2, cam3, 1700, 0, 0);
+                await Delay(1700);
+                API.RenderScriptCams(false, true, 1500, true, true, 0);
+
+                await Delay(1500);
+                API.SetCamActive(cam, false);
+                API.DestroyCam(cam, true);
+
+                API.DestroyCam(cam2, true);
+
+                API.DestroyCam(cam3, true);
+            }
             int pID = API.PlayerId();
 
             uint model_hash = await Utils.Miscellanea.GetHash(skin["sex"]);
@@ -118,6 +154,7 @@ namespace vorpcharacter_cl
             //PreLoad TextureFace
             if (skin["sex"] == "mp_male")
             {
+               
                 CreatePlayer.texture_types["albedo"] = int.Parse(skin["albedo"]);
                 CreatePlayer.texture_types["normal"] = await Utils.Miscellanea.GetHash("mp_head_mr1_000_nm");
                 CreatePlayer.texture_types["material"] = 0x7FC5B1E1;
@@ -127,6 +164,7 @@ namespace vorpcharacter_cl
             }
             else
             {
+                
                 CreatePlayer.texture_types["albedo"] = int.Parse(skin["albedo"]);
                 CreatePlayer.texture_types["normal"] = await Utils.Miscellanea.GetHash("head_fr1_mp_002_nm");
                 CreatePlayer.texture_types["material"] = 0x7FC5B1E1;
@@ -135,7 +173,7 @@ namespace vorpcharacter_cl
                 CreatePlayer.texture_types["unk_arg"] = 0;
             }
             //End
-
+            CreatePlayer.ApplyDefaultSkin(API.PlayerPedId());
             //LoadSkin
             Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skin["HeadType"]), true, true, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
@@ -430,45 +468,10 @@ namespace vorpcharacter_cl
 
         private async void callToSetOutFit(object spawnInfo)
         {
-            API.DoScreenFadeOut(1);
+           
             while ( API.GetIsLoadingScreenActive())            
-            await Delay(500);
-            if (!CreatePlayer.isInCharCreation)
-            {
-                int cam = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 621.67f, 374.08f, 873.24f, 300.00f, 0.00f, 0.00f, 100.00f, false, 0);
-                Vector3 coords = API.GetEntityCoords(API.PlayerPedId(), true, true);
-                API.PointCamAtCoord(cam, coords.X, coords.Y, coords.Z + 200);
-                API.SetCamActive(cam, true);
-                API.RenderScriptCams(true, false, 1, true, true, 0);
-
-                API.DoScreenFadeIn(500);
-
                 await Delay(500);
-
-
-                int cam3 = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords.X, coords.Y, coords.Z + 200, 300.00f, 0.00f, 0.00f, 100.00f, false, 0);
-                API.PointCamAtCoord(cam3, coords.X, coords.Y, coords.Z + 200);
-                API.SetCamActiveWithInterp(cam3, cam, 4000, 0, 0);
-                await Delay(4000);
-
-
-                int cam2 = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords.X, coords.Y, coords.Z + 200, 300.00f, 0.00f, 0.00f, 100.00f, false, 0);
-
-                API.PointCamAtCoord(cam2, coords.X, coords.Y, coords.Z + 2);
-
-                API.SetCamActiveWithInterp(cam2, cam3, 1700, 0, 0);
-                await Delay(1700);
-                API.RenderScriptCams(false, true, 1500, true, true, 0);
-
-                await Delay(1500);
-                API.SetCamActive(cam, false);
-                API.DestroyCam(cam, true);
-
-                API.DestroyCam(cam2, true);
-
-                API.DestroyCam(cam3, true);
-                TriggerServerEvent("vorpcharacter:getPlayerSkin");
-            }
+            TriggerServerEvent("vorpcharacter:getPlayerSkin");
         }
 
 

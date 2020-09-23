@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="CitizenFX.CoreClient, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\VORP-Banks-master\VORP-Banks-master\CitizenFX.CoreClient.dll</HintPath>
+      <HintPath>..\..\..\CitizenFX.CoreClient.dll</HintPath>
     </Reference>
     <Reference Include="MenuAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
