@@ -736,8 +736,13 @@ namespace vorpcharacter_cl
              * Esperamos un tiempo a que pueda cargar los modelos y el tiempo
              */
 
+
             API.SetCamActive(Camera, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
+
+            await Delay(3000);
+            TriggerEvent("vorp_trailer:play");
+            await Delay(84000);
 
             isSelectSexActive = true;
 
@@ -813,9 +818,36 @@ namespace vorpcharacter_cl
             API.FreezeEntityPosition(PedFemale, true);
             API.FreezeEntityPosition(PedMale, true);
 
+            ApplyDefaultSkinCanaryEdition();
+
             TriggerEvent("vorp:setInstancePlayer", true);
 
         }
+
+        public async void ApplyDefaultSkinCanaryEdition()
+        {
+            string comp_body_male = "0x" + GetConfig.Config["Male"][0]["Heads"][0].ToString();
+            int comp_body_male_int = Convert.ToInt32(comp_body_male, 16);
+            string comp_heads_male = "0x" + GetConfig.Config["Male"][0]["Body"][0].ToString();
+            int comp_heads_male_int = Convert.ToInt32(comp_heads_male, 16);
+
+            string comp_body_female = "0x" + GetConfig.Config["Female"][0]["Heads"][0].ToString();
+            int comp_body_female_int = Convert.ToInt32(comp_body_female, 16);
+            string comp_heads_female = "0x" + GetConfig.Config["Female"][0]["Body"][0].ToString();
+            int comp_heads_female_int = Convert.ToInt32(comp_heads_female, 16);
+
+
+            Function.Call((Hash)0xD3A7B003ED343FD9, PedMale, SkinsUtils.EYES_MALE.ElementAt(0), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, PedMale, comp_heads_male_int, true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, PedMale, comp_body_male_int, true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, PedMale, 0, 1, 1, 1, false);
+
+            Function.Call((Hash)0xD3A7B003ED343FD9, PedFemale, SkinsUtils.EYES_FEMALE.ElementAt(0), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, PedFemale, comp_heads_female_int, true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, PedFemale, comp_body_female_int, true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, PedFemale, 0, 1, 1, 1, false);
+        }
+
         private async void CreationSexPed(string model, int camedit)
         {
             model_selected = model;
@@ -853,6 +885,40 @@ namespace vorpcharacter_cl
             await Miscellanea.LoadModel(model_hash);
             Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
             Function.Call((Hash)0x283978A15512B2FE, pPedID, true);
+
+            //Fix Canary Version
+            if (model_selected == model_m)
+            {
+                string comp_body_male = "0x" + GetConfig.Config["Male"][0]["Heads"][0].ToString();
+                int comp_body_male_int = Convert.ToInt32(comp_body_male, 16);
+                string comp_heads_male = "0x" + GetConfig.Config["Male"][0]["Body"][0].ToString();
+                int comp_heads_male_int = Convert.ToInt32(comp_heads_male, 16);
+
+                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_heads_male_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_body_male_int, true, true, true);
+
+                skinPlayer["HeadType"] = comp_heads_male_int;
+                skinPlayer["BodyType"] = comp_body_male_int;
+                SetPlayerModelListComps("Eyes", SkinsUtils.EYES_MALE.ElementAt(0), 0x864B03AE);
+                Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
+            }
+            else
+            {
+                string comp_body_female = "0x" + GetConfig.Config["Female"][0]["Heads"][0].ToString();
+                int comp_body_female_int = Convert.ToInt32(comp_body_female, 16);
+                string comp_heads_female = "0x" + GetConfig.Config["Female"][0]["Body"][0].ToString();
+                int comp_heads_female_int = Convert.ToInt32(comp_heads_female, 16);
+
+                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_heads_female_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_body_female_int, true, true, true);
+
+                skinPlayer["HeadType"] = comp_heads_female_int;
+                skinPlayer["BodyType"] = comp_body_female_int;
+                SetPlayerModelListComps("Eyes", SkinsUtils.EYES_FEMALE.ElementAt(0), 0x864B03AE);
+
+                Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
+            }
+
             API.RenderScriptCams(false, true, 3000, true, true, 0);
             await Delay(2500);
             API.SetCamActive(Camera_Editor, true);
