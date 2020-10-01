@@ -1,10 +1,8 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using MenuAPI;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -13,15 +11,22 @@ using vorpcharacter_cl.Utils;
 
 namespace vorpcharacter_cl
 {
-    public class CreatePlayer : BaseScript
+    public class CreateCharacter : BaseScript
     {
-        bool isSelectSexActive = false;
+
+        public CreateCharacter()
+        {
+            EventHandlers["vorpcharacter:createCharacter"] += new Action(StartCreationOfCharacter);
+        }
+
+        //vars Scene
+        static bool isSelectSexActive = false;
         public static bool isInCharCreation = false;
         public static string model_selected;
-        string model_f = "mp_female";
-        string model_m = "mp_male";
-        int PedFemale;
-        int PedMale;
+        static string model_f = "mp_female";
+        static string model_m = "mp_male";
+        static int PedFemale;
+        static int PedMale;
         static int Camera;
         static int Camera_Male;
         static int Camera_Female;
@@ -31,13 +36,107 @@ namespace vorpcharacter_cl
         static int Camera_Legs;
         static int Camera_Body;
         static int Camera_Back;
-        float DressHeading = 93.2f;
+        static float DressHeading = 93.2f;
+        public static int indexCamera = 1;
 
-        //Para guardar en DB
+        public static int textureId = -1;
+        public static float overlay_opacity = 1.0f;
+        public static bool is_overlay_change_active = false;
+
+        public static Dictionary<string, dynamic> texture_types = new Dictionary<string, dynamic>();
+
+        public static void toggleOverlayChange(string name, int visibility, int tx_id, int tx_normal, int tx_material, int tx_color_type, float tx_opacity, int tx_unk, int palette_id, int palette_color_primary, int palette_color_secondary, int palette_color_tertiary, int var, float opacity)
+        {
+            for (int i = 0; i < SkinsUtils.overlay_all_layers.Count(); i++)
+            {
+                if (SkinsUtils.overlay_all_layers[i]["name"].ToString().Equals(name))
+                {
+
+                    skinPlayer[$"{name}_visibility"] = visibility;
+                    skinPlayer[$"{name}_tx_id"] = tx_id;
+
+                    if (name.Contains("shadows") || name.Contains("lipsticks"))
+                    {
+                        skinPlayer[$"{name}_palette_id"] = palette_id;
+                        skinPlayer[$"{name}_palette_color_primary"] = palette_color_primary;
+                    }
+
+                    SkinsUtils.overlay_all_layers[i]["visibility"] = visibility;
+                    if (visibility != 0)
+                    {
+                        SkinsUtils.overlay_all_layers[i]["tx_normal"] = tx_normal;
+                        SkinsUtils.overlay_all_layers[i]["tx_material"] = tx_material;
+                        SkinsUtils.overlay_all_layers[i]["tx_color_type"] = tx_color_type;
+                        SkinsUtils.overlay_all_layers[i]["tx_opacity"] = tx_opacity;
+                        SkinsUtils.overlay_all_layers[i]["tx_unk"] = tx_unk;
+                        if (tx_color_type == 0)
+                        {
+                            SkinsUtils.overlay_all_layers[i]["palette"] = SkinsUtils.COLOR_PALETTES[palette_id];
+                            SkinsUtils.overlay_all_layers[i]["palette_color_primary"] = palette_color_primary;
+                            SkinsUtils.overlay_all_layers[i]["palette_color_secondary"] = palette_color_secondary;
+                            SkinsUtils.overlay_all_layers[i]["palette_color_tertiary"] = palette_color_tertiary;
+                        }
+                        if (name.Equals("shadows") || name.Equals("eyeliners") || name.Equals("lipsticks"))
+                        {
+                            SkinsUtils.overlay_all_layers[i]["var"] = var;
+                            SkinsUtils.overlay_all_layers[i]["tx_id"] = (int)SkinsUtils.overlays_info[name][0]["id"];
+                        }
+                        else
+                        {
+                            SkinsUtils.overlay_all_layers[i]["var"] = 0;
+                            SkinsUtils.overlay_all_layers[i]["tx_id"] = (int)SkinsUtils.overlays_info[name][tx_id]["id"];
+                        }
+                        SkinsUtils.overlay_all_layers[i]["opacity"] = opacity;
+                    }
+                }
+            }
+            changeOverlays();
+        }
+
+        public static async Task changeOverlays()
+        {
+
+            int ped = API.PlayerPedId();
+            if (textureId != -1)
+            {
+                Function.Call((Hash)0xB63B9178D0F58D82, textureId);
+                Function.Call((Hash)0x6BEFAA907B076859, textureId);
+            }
+
+            textureId = Function.Call<int>((Hash)0xC5E7204F322E49EB, texture_types["albedo"], texture_types["normal"], texture_types["material"]);
+
+
+            foreach (Dictionary<string, dynamic> layer in SkinsUtils.overlay_all_layers)
+            {
+                if (layer["visibility"] != 0)
+                {
+                    int overlay_id = Function.Call<int>((Hash)0x86BB5FF45F193A02, textureId, layer["tx_id"], layer["tx_normal"], layer["tx_material"], layer["tx_color_type"], layer["tx_opacity"], layer["tx_unk"]);
+                    if (layer["tx_color_type"] == 0)
+                    {
+                        Function.Call((Hash)0x1ED8588524AC9BE1, textureId, overlay_id, layer["palette"]);
+                        Function.Call((Hash)0x2DF59FFE6FFD6044, textureId, overlay_id, layer["palette_color_primary"], layer["palette_color_secondary"], layer["palette_color_tertiary"]);
+                    }
+                    Function.Call((Hash)0x3329AAE2882FC8E4, textureId, overlay_id, layer["var"]);
+                    Function.Call((Hash)0x6C76BC24F8BB709A, textureId, overlay_id, layer["opacity"]);
+                }
+            }
+
+            while (!Function.Call<bool>((Hash)0x31DC8D3F216D8509, textureId))
+            {
+                await Delay(0);
+            }
+
+            Function.Call<bool>((Hash)0x0B46E25761519058, ped, API.GetHashKey("heads"), textureId);
+            Function.Call<bool>((Hash)0x92DAABA2C1C10B0E, textureId);
+            Function.Call<bool>((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+        }
+        //vars scene end
+
+        //vars to database
         public static Dictionary<string, object> skinPlayer = new Dictionary<string, object>() {
             { "sex", "none" },
 
-            { "HeadType", 0 }, 
+            { "HeadType", 0 },
             { "BodyType", 0 },
             { "LegsType", 0 },
 
@@ -146,7 +245,6 @@ namespace vorpcharacter_cl
             { "shadows_palette_color_primary", 0 },
         };
 
-        //Para guardar en DB
         public static Dictionary<string, object> clothesPlayer = new Dictionary<string, object>() {
             { "Hat", -1 },
             { "EyeWear", -1 },
@@ -172,224 +270,14 @@ namespace vorpcharacter_cl
             { "Chap", -1 },
             { "Boots", -1 },
             { "Spurs", -1 },
+            { "CoatClosed", -1 }
         };
-
-        public static int indexCamera = 1;
-
-        public CreatePlayer()
-        {
-            EventHandlers["vorpcharacter:createPlayer"] += new Action(StartCreation);
-
-            Tick += OnTick;
-            Tick += OnTickAnimm;
-            Tick += OnTickCameras;
-
-            API.RegisterCommand("createchar", new Action<int, List<object>, string>((source, args, raw) =>
-            {
-                if (args[0] == null)
-                {
-                    TriggerServerEvent("vorpcharacter:CommandCreate", -1);
-                }
-                else
-                {
-                    int target;
-                    if (int.TryParse(args[0].ToString(), out target))
-                    {
-                        TriggerServerEvent("vorpcharacter:CommandCreate", target);
-                    }
-                    else
-                    {
-                        TriggerEvent("vorp:Tip", "Please use sintax: [/createchar id] id is a number.", 5000);
-                    }
-
-                }
-
-            }), false);
-        }
-
-
-        public static int textureId = -1;
-        public static float overlay_opacity = 1.0f;
-        public static bool is_overlay_change_active = false;
-
-        public static Dictionary<string, dynamic> texture_types = new Dictionary<string, dynamic>();
-
-        public static void toggleOverlayChange(string name, int visibility, int tx_id, int tx_normal, int tx_material, int tx_color_type, float tx_opacity, int tx_unk, int palette_id, int palette_color_primary, int palette_color_secondary, int palette_color_tertiary, int var, float opacity)
-        {
-            for (int i = 0; i < SkinsUtils.overlay_all_layers.Count(); i++)
-            {
-                if (SkinsUtils.overlay_all_layers[i]["name"].ToString().Equals(name))
-                {
-
-                    skinPlayer[$"{name}_visibility"] = visibility;
-                    skinPlayer[$"{name}_tx_id"] = tx_id;
-
-                    if (name.Contains("shadows") || name.Contains("lipsticks"))
-                    {
-                        skinPlayer[$"{name}_palette_id"] = palette_id;
-                        skinPlayer[$"{name}_palette_color_primary"] = palette_color_primary;
-                    }
-
-                    SkinsUtils.overlay_all_layers[i]["visibility"] = visibility;
-                    if (visibility != 0)
-                    {
-                        SkinsUtils.overlay_all_layers[i]["tx_normal"] = tx_normal;
-                        SkinsUtils.overlay_all_layers[i]["tx_material"] = tx_material;
-                        SkinsUtils.overlay_all_layers[i]["tx_color_type"] = tx_color_type;
-                        SkinsUtils.overlay_all_layers[i]["tx_opacity"] = tx_opacity;
-                        SkinsUtils.overlay_all_layers[i]["tx_unk"] = tx_unk;
-                        if (tx_color_type == 0)
-                        {
-                            SkinsUtils.overlay_all_layers[i]["palette"] = SkinsUtils.COLOR_PALETTES[palette_id];
-                            SkinsUtils.overlay_all_layers[i]["palette_color_primary"] = palette_color_primary;
-                            SkinsUtils.overlay_all_layers[i]["palette_color_secondary"] = palette_color_secondary;
-                            SkinsUtils.overlay_all_layers[i]["palette_color_tertiary"] = palette_color_tertiary;
-                        }
-                        if (name.Equals("shadows") || name.Equals("eyeliners") || name.Equals("lipsticks"))
-                        {
-                            SkinsUtils.overlay_all_layers[i]["var"] = var;
-                            SkinsUtils.overlay_all_layers[i]["tx_id"] = (int)SkinsUtils.overlays_info[name][0]["id"];
-                        }
-                        else
-                        {
-                            SkinsUtils.overlay_all_layers[i]["var"] = 0;
-                            SkinsUtils.overlay_all_layers[i]["tx_id"] = (int)SkinsUtils.overlays_info[name][tx_id]["id"];
-                        }
-                        SkinsUtils.overlay_all_layers[i]["opacity"] = opacity;
-                    }
-                }
-            }
-            changeOverlays();
-        }
-
-        public static async Task changeOverlays()
-        {
-
-            int ped = API.PlayerPedId();
-            if (textureId != -1)
-            {
-                Function.Call((Hash)0xB63B9178D0F58D82, textureId);
-                Function.Call((Hash)0x6BEFAA907B076859, textureId);
-            }
-
-            textureId = Function.Call<int>((Hash)0xC5E7204F322E49EB, texture_types["albedo"], texture_types["normal"], texture_types["material"]);
-            
-
-            foreach (Dictionary<string, dynamic> layer in SkinsUtils.overlay_all_layers)
-            {
-                if (layer["visibility"] != 0)
-                {
-                    int overlay_id = Function.Call<int>((Hash)0x86BB5FF45F193A02, textureId, layer["tx_id"], layer["tx_normal"], layer["tx_material"], layer["tx_color_type"], layer["tx_opacity"], layer["tx_unk"]);
-                    if (layer["tx_color_type"] == 0)
-                    {
-                        Function.Call((Hash)0x1ED8588524AC9BE1, textureId, overlay_id, layer["palette"]);
-                        Function.Call((Hash)0x2DF59FFE6FFD6044, textureId, overlay_id, layer["palette_color_primary"], layer["palette_color_secondary"], layer["palette_color_tertiary"]);
-                    }
-                    Function.Call((Hash)0x3329AAE2882FC8E4, textureId, overlay_id, layer["var"]);
-                    Function.Call((Hash)0x6C76BC24F8BB709A, textureId, overlay_id, layer["opacity"]);
-                }
-            }
-
-            while(!Function.Call<bool>((Hash)0x31DC8D3F216D8509, textureId))
-            {
-                await Delay(0);
-            }
-            
-            Function.Call<bool>((Hash)0x0B46E25761519058, ped, API.GetHashKey("heads"), textureId);
-            Function.Call<bool>((Hash)0x92DAABA2C1C10B0E, textureId);
-            Function.Call<bool>((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
-        }
+        //end
 
         public static async Task changeScale(float scale)
         {
             skinPlayer["Scale"] = scale;
             Function.Call((Hash)0x25ACFC650B65C538, API.PlayerPedId(), scale);
-        }
-
-        public static uint FromHex(string value)
-        {
-            if (value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-            {
-                value = value.Substring(2);
-            }
-            return (uint)Int32.Parse(value, NumberStyles.HexNumber);
-        }
-
-        [Tick]
-        private async Task OnTickAnimm()
-        {
-            if (pedCreated != 0)
-            {
-                //SetPedIntoVehicle 0x0D3B5BAEA08F63E9 
-                Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
-
-            }
-
-            if (pedCreated != 0)
-            {
-                float above = Function.Call<float>((Hash)0x0D3B5BAEA08F63E9, API.PlayerPedId());
-
-                if (above < 1.0f)
-                {
-                    API.FreezeEntityPosition(pedCreated, false);
-                    API.DeletePed(ref pedCreated);
-                    API.DeleteVehicle(ref vehCreated);
-                    pedCreated = 0;
-                    TriggerEvent("vorp:setInstancePlayer", false);
-                }
-            }
-            await Delay(1);
-        }
-
-        public static int vehCreated = 0;
-        public static int pedCreated = 0;
-
-        private static async void StartAnim()
-        {
-            uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
-            Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), 220.3232f);
-            Miscellanea.LoadModel(HashVeh);
-            vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, false, true, true, true);
-            //Spawn
-            Function.Call((Hash)0x283978A15512B2FE, vehCreated, true);
-            //TaskWanderStandard
-            Function.Call((Hash)0xBB9CE077274F6A1B, 10, 10);
-
-
-            uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
-            Miscellanea.LoadModel(HashPed);
-            pedCreated = API.CreatePed(HashPed, coords.X + 1, coords.Y, coords.Z, 0.0f, false, true, true, true);
-            //Spawn
-            Function.Call((Hash)0x283978A15512B2FE, pedCreated, true);
-
-            Function.Call((Hash)0xF75B0D629E1C063D, API.PlayerPedId(), vehCreated, -1, false);
-
-
-            API.TaskLeaveVehicle(API.PlayerPedId(), vehCreated, 0, 0);
-
-
-            //API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
-            //API.SetEntityHeading(API.PlayerPedId(), 0);
-
-            await Delay(1000);
-            //SetPedIntoVehicle
-            Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
-
-            API.SetEntityAsMissionEntity(pedCreated, true, true);
-            API.SetEntityAsMissionEntity(pedCreated, true, true);
-
-            API.FreezeEntityPosition(pedCreated, true);
-
-            API.SetRelationshipBetweenGroups(1, HashPed, (uint)API.GetHashKey("PLAYER"));
-
-            TriggerEvent("vorp:Tip", GetConfig.Langs["TipFinal"], 15000);
-
-        }
-
-        private static async void StopCreation()
-        {
-            isInCharCreation = false;
-            await DeleteAll();
         }
 
         public static void SetPlayerComponent(int _newIndex, uint category, string idlist, List<uint> male_components, List<uint> female_components)
@@ -412,12 +300,14 @@ namespace vorpcharacter_cl
                 else
                 {
                     //Coats is a really shit
-                    if (category == 0xE06D30CE) {
+                    if (category == 0xE06D30CE)
+                    {
                         Function.Call((Hash)0xD710A5007C2AC539, pPID, 0x662AC34, 0);
                         Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
                     }
                     //end
                     Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
+                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, male_components[_newIndex - 1], true, false, false);
                     Function.Call((Hash)0xD3A7B003ED343FD9, pPID, male_components[_newIndex - 1], true, true, false);
                     clothesPlayer[idlist] = male_components[_newIndex - 1];
                 }
@@ -434,6 +324,7 @@ namespace vorpcharacter_cl
                 {
                     //Miscellanea.LoadModel(male_components[_newIndex - 1]);
                     Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
+                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, female_components[_newIndex - 1], true, false, true);
                     Function.Call((Hash)0xD3A7B003ED343FD9, pPID, female_components[_newIndex - 1], true, true, true);
                     clothesPlayer[idlist] = female_components[_newIndex - 1];
                 }
@@ -442,6 +333,11 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x864B03AE, 0);
             Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["Hair"].ToString()), true, true, true);
             Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["Beard"].ToString()), true, true, true);
+
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["HeadType"].ToString()), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["BodyType"].ToString()), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["LegsType"].ToString()), true, true, true);
+
             //end
             Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
         }
@@ -681,36 +577,72 @@ namespace vorpcharacter_cl
                     break;
             }
         }
-        public static async Task SaveChanges()
+
+        public static async Task CloseSecureMenu()
         {
-            TriggerEvent("vorpinputs:getInput", GetConfig.Langs["ButtonInputName"], GetConfig.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
+            await Delay(200);
+            if (!MenuController.IsAnyMenuOpen())
             {
-                string result = cb;
-                await Delay(1000);
+                Menus.MainMenu.GetMenu().OpenMenu();
+            }
+        }
 
-                string[] words = result.Trim().Split(' ');
+        public static uint ConvertValue(string s)
+        {
+            uint result;
 
-                if (result.Length < 3 || words.Count() < 2) {
-                    TriggerEvent("vorp:Tip", GetConfig.Langs["PlaceHolderInputName"], 3000); // from client side
-                    SaveChanges();
-                }
-                else
+            if (uint.TryParse(s, out result))
+            {
+                return result;
+            }
+            else
+            {
+                int eresante = int.Parse(s);
+                result = (uint)eresante;
+                return result;
+            }
+        }
+
+        public static uint FromHex(string value)
+        {
+            if (value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
+                value = value.Substring(2);
+            }
+            return (uint)Int32.Parse(value, NumberStyles.HexNumber);
+        }
+
+        [Tick]
+        private async Task OnTickAnimm()
+        {
+            if (pedCreated != 0)
+            {
+                //SetPedIntoVehicle 0x0D3B5BAEA08F63E9 
+                Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
+
+            }
+
+            if (pedCreated != 0)
+            {
+                float above = Function.Call<float>((Hash)0x0D3B5BAEA08F63E9, API.PlayerPedId());
+
+                if (above < 1.0f)
                 {
-                    TriggerServerEvent("vorpcharacter:SaveSkinDB", skinPlayer, clothesPlayer, result);
-                    SaveLocalChanges(result.ToLower());
-                    StopCreation();
-                    StartAnim();
+                    API.FreezeEntityPosition(pedCreated, false);
+                    API.DeletePed(ref pedCreated);
+                    API.DeleteVehicle(ref vehCreated);
+                    pedCreated = 0;
+                    TriggerEvent("vorp:setInstancePlayer", false);
                 }
-            }));
+            }
+            await Delay(1);
         }
 
-        public async static Task SaveLocalChanges(string name)
+        public async void StartCreationOfCharacter()
         {
-
-        }
-
-        private async void StartCreation()
-        {
+            Tick += OnTick;
+            Tick += OnTickAnimm;
+            Tick += OnTickCameras;
             /*
              * Cargamos los modelos del mapa de creación del online de RDR2
              */
@@ -736,19 +668,130 @@ namespace vorpcharacter_cl
              * Esperamos un tiempo a que pueda cargar los modelos y el tiempo
              */
 
-
             API.SetCamActive(Camera, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
-
-            await Delay(3000);
-            TriggerEvent("vorp_trailer:play");
-            await Delay(84000);
 
             isSelectSexActive = true;
 
         }
 
-        private async Task CreateCams()
+        public static async Task SaveChanges()
+        {
+            TriggerEvent("vorpinputs:getInput", GetConfig.Langs["ButtonInputName"], GetConfig.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
+            {
+                string result = cb;
+                await Delay(1000);
+
+                string[] words = result.Trim().Split(' ');
+
+                if (result.Length < 3 || words.Count() < 2)
+                {
+                    TriggerEvent("vorp:Tip", GetConfig.Langs["PlaceHolderInputName"], 3000); // from client side
+                    SaveChanges();
+                }
+                else
+                {
+                    TriggerServerEvent("vorp_SaveNewCharacter", skinPlayer, clothesPlayer, result);
+                    //SaveLocalChanges(result.ToLower());
+                    StopCreation();
+                    StartAnim();
+                }
+            }));
+        }
+
+        public static int vehCreated = 0;
+        public static int pedCreated = 0;
+
+        private static async void StartAnim()
+        {
+            TriggerEvent("vorp:initNewCharacter");
+            uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
+            Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), 220.3232f);
+            Miscellanea.LoadModel(HashVeh);
+            vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, false, true, true, true);
+            //Spawn
+            Function.Call((Hash)0x283978A15512B2FE, vehCreated, true);
+            //TaskWanderStandard
+            Function.Call((Hash)0xBB9CE077274F6A1B, 10, 10);
+
+
+            uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
+            Miscellanea.LoadModel(HashPed);
+            pedCreated = API.CreatePed(HashPed, coords.X + 1, coords.Y, coords.Z, 0.0f, false, true, true, true);
+            //Spawn
+            Function.Call((Hash)0x283978A15512B2FE, pedCreated, true);
+
+            Function.Call((Hash)0xF75B0D629E1C063D, API.PlayerPedId(), vehCreated, -1, false);
+
+
+            API.TaskLeaveVehicle(API.PlayerPedId(), vehCreated, 0, 0);
+
+
+            //API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
+            //API.SetEntityHeading(API.PlayerPedId(), 0);
+
+            await Delay(1000);
+            //SetPedIntoVehicle
+            Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
+
+            API.SetEntityAsMissionEntity(pedCreated, true, true);
+            API.SetEntityAsMissionEntity(pedCreated, true, true);
+
+            API.FreezeEntityPosition(pedCreated, true);
+
+            API.SetRelationshipBetweenGroups(1, HashPed, (uint)API.GetHashKey("PLAYER"));
+
+            TriggerEvent("vorp:Tip", GetConfig.Langs["TipFinal"], 15000);
+
+        }
+
+        public static async void ApplyDefaultSkinCanaryEdition(int ped)
+        {
+            if (API.IsPedMale(ped))
+            {
+                string comp_body_male = "0x" + GetConfig.Config["Male"][0]["Body"][0].ToString();
+                int comp_body_male_int = Convert.ToInt32(comp_body_male, 16);
+                string comp_heads_male = "0x" + GetConfig.Config["Male"][0]["Heads"][0].ToString();
+                int comp_heads_male_int = Convert.ToInt32(comp_heads_male, 16);
+                string comp_legs_male = "0x" + GetConfig.Config["Male"][0]["Legs"][0].ToString();
+                int comp_legs_male_int = Convert.ToInt32(comp_legs_male, 16);
+
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_MALE.ElementAt(0), true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_heads_male_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_body_male_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_legs_male_int, true, true, true);
+
+                Function.Call((Hash)0xD710A5007C2AC539, ped, 0x3F1F01E5, 0);
+
+                Function.Call((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+            }
+            else
+            {
+                string comp_body_female = "0x" + GetConfig.Config["Female"][0]["Body"][0].ToString();
+                int comp_body_female_int = Convert.ToInt32(comp_body_female, 16);
+                string comp_heads_female = "0x" + GetConfig.Config["Female"][0]["Heads"][0].ToString();
+                int comp_heads_female_int = Convert.ToInt32(comp_heads_female, 16);
+                string comp_legs_female = "0x" + GetConfig.Config["Female"][0]["Legs"][0].ToString();
+                int comp_legs_female_int = Convert.ToInt32(comp_legs_female, 16);
+
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_FEMALE.ElementAt(0), true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_heads_female_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_body_female_int, true, true, true);
+                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_legs_female_int, true, true, true);
+
+                Function.Call((Hash)0xD710A5007C2AC539, ped, 0x3F1F01E5, 0);
+
+                Function.Call((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+            }
+        }
+
+        private static async void StopCreation()
+        {
+            isInCharCreation = false;
+            await DeleteAll();
+        }
+
+        private static async Task CreateCams()
         {
             Camera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.83f, -3776.33f, 239.58f, -13.56231f, 0.00f, -91.93626f, 45.00f, false, 0);
             Camera_Male = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.6671f, -3775.44f, 239.4266f, -9.622695f, 0.0f, -86.08074f, 45.00f, false, 0);
@@ -792,7 +835,7 @@ namespace vorpcharacter_cl
             API.FreezeEntityPosition(API.PlayerPedId(), false);
         }
 
-        private async Task CreationSelectPeds()
+        private static async Task CreationSelectPeds()
         {
 
             uint hash_f = (uint)API.GetHashKey(model_f);
@@ -818,41 +861,17 @@ namespace vorpcharacter_cl
             API.FreezeEntityPosition(PedFemale, true);
             API.FreezeEntityPosition(PedMale, true);
 
-            ApplyDefaultSkinCanaryEdition();
+            ApplyDefaultSkinCanaryEdition(PedFemale);
+            ApplyDefaultSkinCanaryEdition(PedMale);
 
             TriggerEvent("vorp:setInstancePlayer", true);
 
         }
-
-        public async void ApplyDefaultSkinCanaryEdition()
-        {
-            string comp_body_male = "0x" + GetConfig.Config["Male"][0]["Heads"][0].ToString();
-            int comp_body_male_int = Convert.ToInt32(comp_body_male, 16);
-            string comp_heads_male = "0x" + GetConfig.Config["Male"][0]["Body"][0].ToString();
-            int comp_heads_male_int = Convert.ToInt32(comp_heads_male, 16);
-
-            string comp_body_female = "0x" + GetConfig.Config["Female"][0]["Heads"][0].ToString();
-            int comp_body_female_int = Convert.ToInt32(comp_body_female, 16);
-            string comp_heads_female = "0x" + GetConfig.Config["Female"][0]["Body"][0].ToString();
-            int comp_heads_female_int = Convert.ToInt32(comp_heads_female, 16);
-
-
-            Function.Call((Hash)0xD3A7B003ED343FD9, PedMale, SkinsUtils.EYES_MALE.ElementAt(0), true, true, true);
-            Function.Call((Hash)0xD3A7B003ED343FD9, PedMale, comp_heads_male_int, true, true, true);
-            Function.Call((Hash)0xD3A7B003ED343FD9, PedMale, comp_body_male_int, true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, PedMale, 0, 1, 1, 1, false);
-
-            Function.Call((Hash)0xD3A7B003ED343FD9, PedFemale, SkinsUtils.EYES_FEMALE.ElementAt(0), true, true, true);
-            Function.Call((Hash)0xD3A7B003ED343FD9, PedFemale, comp_heads_female_int, true, true, true);
-            Function.Call((Hash)0xD3A7B003ED343FD9, PedFemale, comp_body_female_int, true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, PedFemale, 0, 1, 1, 1, false);
-        }
-
         private async void CreationSexPed(string model, int camedit)
         {
             model_selected = model;
             skinPlayer["sex"] = model;
-            
+
 
             if (model_selected == model_m)
             {
@@ -874,7 +893,6 @@ namespace vorpcharacter_cl
                 texture_types["texture_opacity"] = 1.0f;
                 texture_types["unk_arg"] = 0;
             }
-
             await Delay(200);
             int pID = API.PlayerId();
             int pPedID = API.PlayerPedId();
@@ -885,42 +903,9 @@ namespace vorpcharacter_cl
             await Miscellanea.LoadModel(model_hash);
             Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
             Function.Call((Hash)0x283978A15512B2FE, pPedID, true);
-
-            //Fix Canary Version
-            if (model_selected == model_m)
-            {
-                string comp_body_male = "0x" + GetConfig.Config["Male"][0]["Heads"][0].ToString();
-                int comp_body_male_int = Convert.ToInt32(comp_body_male, 16);
-                string comp_heads_male = "0x" + GetConfig.Config["Male"][0]["Body"][0].ToString();
-                int comp_heads_male_int = Convert.ToInt32(comp_heads_male, 16);
-
-                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_heads_male_int, true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_body_male_int, true, true, true);
-
-                skinPlayer["HeadType"] = comp_heads_male_int;
-                skinPlayer["BodyType"] = comp_body_male_int;
-                SetPlayerModelListComps("Eyes", SkinsUtils.EYES_MALE.ElementAt(0), 0x864B03AE);
-                Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
-            }
-            else
-            {
-                string comp_body_female = "0x" + GetConfig.Config["Female"][0]["Heads"][0].ToString();
-                int comp_body_female_int = Convert.ToInt32(comp_body_female, 16);
-                string comp_heads_female = "0x" + GetConfig.Config["Female"][0]["Body"][0].ToString();
-                int comp_heads_female_int = Convert.ToInt32(comp_heads_female, 16);
-
-                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_heads_female_int, true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, comp_body_female_int, true, true, true);
-
-                skinPlayer["HeadType"] = comp_heads_female_int;
-                skinPlayer["BodyType"] = comp_body_female_int;
-                SetPlayerModelListComps("Eyes", SkinsUtils.EYES_FEMALE.ElementAt(0), 0x864B03AE);
-
-                Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
-            }
-
             API.RenderScriptCams(false, true, 3000, true, true, 0);
             await Delay(2500);
+            ApplyDefaultSkinCanaryEdition(API.PlayerPedId());
             API.SetCamActive(Camera_Editor, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
             API.DeletePed(ref PedFemale);
@@ -970,6 +955,7 @@ namespace vorpcharacter_cl
                     API.SetCamActive(Camera_Legs, false);
                     API.SetCamActive(Camera_Editor, false);
                     API.RenderScriptCams(true, true, 200, true, true, 0);
+                    ApplyDefaultSkinCanaryEdition(API.PlayerPedId());
                     break;
             }
         }
@@ -978,10 +964,10 @@ namespace vorpcharacter_cl
         {
             if (isInCharCreation)
             {
-                
+
                 if (API.IsControlJustPressed(0, (uint)Controls.Keys.MoveUpOnly))
                 {
-                    indexCamera +=  1;
+                    indexCamera += 1;
                     if (indexCamera > 4)
                     {
                         indexCamera = 0;
@@ -1016,7 +1002,8 @@ namespace vorpcharacter_cl
 
         private async Task OnTick()
         {
-            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendRight) && isSelectSexActive) {
+            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendRight) && isSelectSexActive)
+            {
 
                 if (API.IsCamActive(Camera))
                 {
@@ -1059,7 +1046,7 @@ namespace vorpcharacter_cl
 
             if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendAccept) && isSelectSexActive)
             {
-                
+
                 if (API.IsCamActive(Camera_Male))
                 {
                     CreationSexPed(model_m, Camera_Male);
@@ -1078,53 +1065,17 @@ namespace vorpcharacter_cl
 
             if (isSelectSexActive)
             {
-                await DrawTxt(GetConfig.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
             }
 
             if (isInCharCreation) //Fix Run Ped
             {
-                await DrawTxt(GetConfig.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
                 API.FreezeEntityPosition(API.PlayerPedId(), true);
                 API.ClearPedTasks(API.PlayerPedId(), 1, 1);
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);
             }
 
-        }
-
-        public static uint ConvertValue(string s)
-        {
-            uint result;
-
-            if (uint.TryParse(s, out result))
-            {
-                return result;
-            }
-            else
-            {
-                int eresante = int.Parse(s);
-                result = (uint)eresante;
-                return result;
-            }
-        }
-
-        public static async Task CloseSecureMenu()
-        {
-            await Delay(200);
-            if (!MenuController.IsAnyMenuOpen())
-            {
-                Menus.MainMenu.GetMenu().OpenMenu();
-            }
-        }
-
-        public async Task DrawTxt(string text, float x, float y, float fontscale, float fontsize, int r, int g, int b, int alpha, bool textcentred, bool shadow)
-        {
-            long str = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", text);
-            Function.Call(Hash.SET_TEXT_SCALE, fontscale, fontsize);
-            Function.Call(Hash._SET_TEXT_COLOR, r, g, b, alpha);
-            Function.Call(Hash.SET_TEXT_CENTRE, textcentred);
-            if (shadow) { Function.Call(Hash.SET_TEXT_DROPSHADOW, 1, 0, 0, 255); }
-            Function.Call(Hash.SET_TEXT_FONT_FOR_CURRENT_COMMAND, 1);
-            Function.Call(Hash._DISPLAY_TEXT, str, x, y);
         }
     }
 }

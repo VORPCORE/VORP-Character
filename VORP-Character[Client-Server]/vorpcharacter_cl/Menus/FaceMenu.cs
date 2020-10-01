@@ -166,7 +166,7 @@ namespace vorpcharacter_cl.Menus
 
             faceMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
             {
-                CreatePlayer.SetPlayerFaceBlend(_itemIndex, _newIndex);
+                CreateCharacter.SetPlayerFaceBlend(_itemIndex, _newIndex);
             };
 
         }

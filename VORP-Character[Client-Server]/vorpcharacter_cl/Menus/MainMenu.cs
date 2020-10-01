@@ -81,15 +81,15 @@ namespace vorpcharacter_cl.Menus
             {
                 if (_itemIndex == 3)
                 {
-                    CreatePlayer.changeScale(SkinsUtils.SCALE_LIST[_newIndex]);
+                    CreateCharacter.changeScale(SkinsUtils.SCALE_LIST[_newIndex]);
                 }
             };
 
             mainMenu.OnMenuClose += (_menu) =>
             {
-                if (CreatePlayer.isInCharCreation)
+                if (CreateCharacter.isInCharCreation)
                 {
-                    CreatePlayer.CloseSecureMenu();
+                    CreateCharacter.CloseSecureMenu();
                 }
             };
 
@@ -98,8 +98,8 @@ namespace vorpcharacter_cl.Menus
                 // Code in here would get executed whenever an item is pressed.
                 if (_index == 4)
                 {
-                    CreatePlayer.isInCharCreation = false;
-                    CreatePlayer.SaveChanges();
+                    CreateCharacter.isInCharCreation = false;
+                    CreateCharacter.SaveChanges();
                     mainMenu.CloseMenu();
                 }
             };

@@ -4,6 +4,11 @@
   "PressGuide": "Rotar <-[A] [D]-> | Cámaras [W] o [S]",
 
   //New Update
+  "CreateNewChar": "Crear nuevo",
+  "DeleteChar": "Eliminar",
+  "MoneyTag": "Dinero",
+  "CharactersFull": "No puedes crear más personajes.",
+  "PressSelectInfo": "Cambiar personaje <- o -> | Seleccionar Personaje [ENTER]",
 
   "CommandHat": "sombrero",
   "CommandEyeWear": "gafas",
@@ -291,6 +296,7 @@
   "Suspenders": "Tirantes",
   "Vests": "Chalecos",
   "Coats": "Abrigos",
+  "CoatsClosed": "Abrigos Cerrados",
   "Ponchos": "Ponchos",
   "Cloaks": "Capas",
   "Gloves": "Guantes",

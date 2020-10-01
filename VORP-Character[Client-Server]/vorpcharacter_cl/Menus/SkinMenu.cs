@@ -46,7 +46,7 @@ namespace vorpcharacter_cl.Menus
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            if (CreatePlayer.model_selected == "mp_male") // Male
+            if (CreateCharacter.model_selected == "mp_male") // Male
             {
                 //Body Colors
                 List<string> bodyValues = new List<string>();
@@ -606,7 +606,7 @@ namespace vorpcharacter_cl.Menus
                 switch (_itemIndex)
                 {
                     case 0:
-                        if (CreatePlayer.model_selected == "mp_male") // Male
+                        if (CreateCharacter.model_selected == "mp_male") // Male
                         {
                             UpdateLists(_newIndex, "Male");
                         }
@@ -616,225 +616,225 @@ namespace vorpcharacter_cl.Menus
                         }
                         break;
                     case 1:
-                        if (CreatePlayer.model_selected == "mp_male") // Male
+                        if (CreateCharacter.model_selected == "mp_male") // Male
                         {
-                            CreatePlayer.SetPlayerModelComponent(GetConfig.Config["Male"][btnSelectorBody.ListIndex]["Heads"][_newIndex].ToString(), "HeadType");
+                            CreateCharacter.SetPlayerModelComponent(GetConfig.Config["Male"][btnSelectorBody.ListIndex]["Heads"][_newIndex].ToString(), "HeadType");
                             ReloadTextures();
                         }
                         else
                         {
-                            CreatePlayer.SetPlayerModelComponent(GetConfig.Config["Female"][btnSelectorBody.ListIndex]["Heads"][_newIndex].ToString(), "HeadType");
+                            CreateCharacter.SetPlayerModelComponent(GetConfig.Config["Female"][btnSelectorBody.ListIndex]["Heads"][_newIndex].ToString(), "HeadType");
                             ReloadTextures();
                         }
                         break;
                     case 2:
-                        if (CreatePlayer.model_selected == "mp_male") // Male
+                        if (CreateCharacter.model_selected == "mp_male") // Male
                         {
-                            CreatePlayer.SetPlayerModelComponent(GetConfig.Config["Male"][btnSelectorBody.ListIndex]["Body"][_newIndex].ToString(), "BodyType");
+                            CreateCharacter.SetPlayerModelComponent(GetConfig.Config["Male"][btnSelectorBody.ListIndex]["Body"][_newIndex].ToString(), "BodyType");
                         }
                         else
                         {
-                            CreatePlayer.SetPlayerModelComponent(GetConfig.Config["Female"][btnSelectorBody.ListIndex]["Body"][_newIndex].ToString(), "BodyType");
+                            CreateCharacter.SetPlayerModelComponent(GetConfig.Config["Female"][btnSelectorBody.ListIndex]["Body"][_newIndex].ToString(), "BodyType");
                         }
                         break;
                     case 3:
-                        CreatePlayer.SetPlayerBodyComponent((uint)SkinsUtils.BODY_TYPES.ElementAt(_newIndex), "Body");
+                        CreateCharacter.SetPlayerBodyComponent((uint)SkinsUtils.BODY_TYPES.ElementAt(_newIndex), "Body");
                         break;
                     case 4:
-                        CreatePlayer.SetPlayerBodyComponent((uint)SkinsUtils.WAIST_TYPES.ElementAt(_newIndex), "Waist");
+                        CreateCharacter.SetPlayerBodyComponent((uint)SkinsUtils.WAIST_TYPES.ElementAt(_newIndex), "Waist");
                         break;
                     case 5:
-                        if (CreatePlayer.model_selected == "mp_male") // Male 
+                        if (CreateCharacter.model_selected == "mp_male") // Male 
                         {
-                            CreatePlayer.SetPlayerModelComponent(GetConfig.Config["Male"][btnSelectorBody.ListIndex]["Legs"][_newIndex].ToString(), "LegsType");
+                            CreateCharacter.SetPlayerModelComponent(GetConfig.Config["Male"][btnSelectorBody.ListIndex]["Legs"][_newIndex].ToString(), "LegsType");
                         }
                         else
                         {
-                            CreatePlayer.SetPlayerModelComponent(GetConfig.Config["Female"][btnSelectorBody.ListIndex]["Legs"][_newIndex].ToString(), "LegsType");
+                            CreateCharacter.SetPlayerModelComponent(GetConfig.Config["Female"][btnSelectorBody.ListIndex]["Legs"][_newIndex].ToString(), "LegsType");
                         }
                         break;
                     case 6:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.SetPlayerModelListComps("Hair", 0, 0x864B03AE);
+                            CreateCharacter.SetPlayerModelListComps("Hair", 0, 0x864B03AE);
                         }
-                        else if (CreatePlayer.model_selected == "mp_male")
+                        else if (CreateCharacter.model_selected == "mp_male")
                         {
-                            CreatePlayer.SetPlayerModelListComps("Hair", SkinsUtils.HAIR_MALE.ElementAt(_newIndex - 1), 0x864B03AE);
+                            CreateCharacter.SetPlayerModelListComps("Hair", SkinsUtils.HAIR_MALE.ElementAt(_newIndex - 1), 0x864B03AE);
                         }
                         else
                         {
-                            CreatePlayer.SetPlayerModelListComps("Hair", SkinsUtils.HAIR_FEMALE.ElementAt(_newIndex - 1), 0x864B03AE);
+                            CreateCharacter.SetPlayerModelListComps("Hair", SkinsUtils.HAIR_FEMALE.ElementAt(_newIndex - 1), 0x864B03AE);
                         }
                         break;
                     case 7:
-                        if (CreatePlayer.model_selected == "mp_male")
+                        if (CreateCharacter.model_selected == "mp_male")
                         {
-                            CreatePlayer.SetPlayerModelListComps("Eyes", SkinsUtils.EYES_MALE.ElementAt(_newIndex), 0x864B03AE);
+                            CreateCharacter.SetPlayerModelListComps("Eyes", SkinsUtils.EYES_MALE.ElementAt(_newIndex), 0x864B03AE);
                         }
                         else
                         {
-                            CreatePlayer.SetPlayerModelListComps("Eyes", SkinsUtils.EYES_FEMALE.ElementAt(_newIndex), 0x864B03AE);
+                            CreateCharacter.SetPlayerModelListComps("Eyes", SkinsUtils.EYES_FEMALE.ElementAt(_newIndex), 0x864B03AE);
                         }
                         break;
                     case 8:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.SetPlayerModelListComps("Beard", 0, 0xF8016BCA);
+                            CreateCharacter.SetPlayerModelListComps("Beard", 0, 0xF8016BCA);
                         }
-                        else if (CreatePlayer.model_selected == "mp_male")
+                        else if (CreateCharacter.model_selected == "mp_male")
                         {
-                            CreatePlayer.SetPlayerModelListComps("Beard", SkinsUtils.BEARD_MALE.ElementAt(_newIndex - 1), 0xF8016BCA);
+                            CreateCharacter.SetPlayerModelListComps("Beard", SkinsUtils.BEARD_MALE.ElementAt(_newIndex - 1), 0xF8016BCA);
                         }
                         break;
                     case 9:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("eyebrows", 0, _newIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("eyebrows", 0, _newIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("eyebrows", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("eyebrows", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 10:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("scars", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("scars", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("scars", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("scars", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 11:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("spots", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("spots", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("spots", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("spots", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 12:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("disc", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("disc", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("disc", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("disc", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 13:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("complex", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("complex", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("complex", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("complex", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 14:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("acne", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("acne", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("acne", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("acne", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 15:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("ageing", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("ageing", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("ageing", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("ageing", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 16:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("moles", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("moles", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("moles", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("moles", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 17:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("freckles", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("freckles", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("freckles", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("freckles", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 18:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("grime", 0, _newIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("grime", 0, _newIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("grime", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("grime", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 19:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("lipsticks", 0, _newIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("lipsticks", 0, _newIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("lipsticks", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("lipsticks", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 20:
                         if (btnSelectorLipsticks.ListIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, _newIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, _newIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, _newIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, _newIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 21:
                         if (btnSelectorLipsticks.ListIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 22:
                         if (_newIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("shadows", 0, _newIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorShadowsPColor.ListIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("shadows", 0, _newIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorShadowsPColor.ListIndex, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("shadows", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorShadowsPColor.ListIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("shadows", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorShadowsPColor.ListIndex, 0, 0, 0, 1.0f);
                         }
                         break;
                     case 23:
                         if (btnSelectorShadows.ListIndex == 0)
                         {
-                            CreatePlayer.toggleOverlayChange("shadows", 0, btnSelectorShadows.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("shadows", 0, btnSelectorShadows.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
                         }
                         else
                         {
-                            CreatePlayer.toggleOverlayChange("shadows", 1, btnSelectorShadows.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
+                            CreateCharacter.toggleOverlayChange("shadows", 1, btnSelectorShadows.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
                         }
                         break;
                 }
@@ -851,99 +851,99 @@ namespace vorpcharacter_cl.Menus
 
             if (btnSelectoreyeBrows.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("eyebrows", 0, btnSelectoreyeBrows.ListIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("eyebrows", 0, btnSelectoreyeBrows.ListIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("eyebrows", 1, btnSelectoreyeBrows.ListIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("eyebrows", 1, btnSelectoreyeBrows.ListIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorScars.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("scars", 0, btnSelectorScars.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("scars", 0, btnSelectorScars.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("scars", 1, btnSelectorScars.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("scars", 1, btnSelectorScars.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorSpots.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("spots", 0, btnSelectorSpots.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("spots", 0, btnSelectorSpots.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("spots", 1, btnSelectorSpots.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("spots", 1, btnSelectorSpots.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorDisc.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("disc", 0, btnSelectorDisc.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("disc", 0, btnSelectorDisc.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("disc", 1, btnSelectorDisc.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("disc", 1, btnSelectorDisc.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorComplex.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("complex", 0, btnSelectorComplex.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("complex", 0, btnSelectorComplex.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("complex", 1, btnSelectorComplex.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("complex", 1, btnSelectorComplex.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorAcne.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("acne", 0, btnSelectorAcne.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("acne", 0, btnSelectorAcne.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("acne", 1, btnSelectorAcne.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("acne", 1, btnSelectorAcne.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorAgeing.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("ageing", 0, btnSelectorAgeing.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("ageing", 0, btnSelectorAgeing.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("ageing", 1, btnSelectorAgeing.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("ageing", 1, btnSelectorAgeing.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorMoles.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("moles", 0, btnSelectorMoles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("moles", 0, btnSelectorMoles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("moles", 1, btnSelectorMoles.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("moles", 1, btnSelectorMoles.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorFreckles.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("freckles", 0, btnSelectorFreckles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("freckles", 0, btnSelectorFreckles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("freckles", 1, btnSelectorFreckles.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("freckles", 1, btnSelectorFreckles.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorGrime.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("grime", 0, btnSelectorGrime.ListIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("grime", 0, btnSelectorGrime.ListIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("grime", 1, btnSelectorGrime.ListIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("grime", 1, btnSelectorGrime.ListIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
             }
             if (btnSelectorLipsticks.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
             }
             if (btnSelectorShadows.ListIndex == 0)
             {
-                CreatePlayer.toggleOverlayChange("shadows", 0, btnSelectorShadows.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("shadows", 0, btnSelectorShadows.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
             }
             else
             {
-                CreatePlayer.toggleOverlayChange("shadows", 1, btnSelectorShadows.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
+                CreateCharacter.toggleOverlayChange("shadows", 1, btnSelectorShadows.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
             }
         }
 
@@ -977,12 +977,12 @@ namespace vorpcharacter_cl.Menus
             }
             btnSelectorLegs.ListIndex = 0;
 
-            CreatePlayer.SetPlayerModelComponent(GetConfig.Config[sex][index]["Heads"][0].ToString(), "HeadType");
-            CreatePlayer.SetPlayerModelComponent(GetConfig.Config[sex][index]["Body"][0].ToString(), "BodyType");
-            CreatePlayer.SetPlayerModelComponent(GetConfig.Config[sex][index]["Legs"][0].ToString(), "LegsType");
+            CreateCharacter.SetPlayerModelComponent(GetConfig.Config[sex][index]["Heads"][0].ToString(), "HeadType");
+            CreateCharacter.SetPlayerModelComponent(GetConfig.Config[sex][index]["Body"][0].ToString(), "BodyType");
+            CreateCharacter.SetPlayerModelComponent(GetConfig.Config[sex][index]["Legs"][0].ToString(), "LegsType");
 
-            CreatePlayer.texture_types["albedo"] = API.GetHashKey(GetConfig.Config[sex][index]["HeadTexture"].ToString());
-            CreatePlayer.skinPlayer["albedo"] = API.GetHashKey(GetConfig.Config[sex][index]["HeadTexture"].ToString());
+            CreateCharacter.texture_types["albedo"] = API.GetHashKey(GetConfig.Config[sex][index]["HeadTexture"].ToString());
+            CreateCharacter.skinPlayer["albedo"] = API.GetHashKey(GetConfig.Config[sex][index]["HeadTexture"].ToString());
             ReloadTextures();
         } 
     }

@@ -16,10 +16,10 @@ namespace vorpcharacter_cl.Utils
          */
         public static async Task<bool> LoadModel(uint hash)
         {
-            if(Function.Call<bool>(Hash.IS_MODEL_VALID, hash))
+            if (Function.Call<bool>(Hash.IS_MODEL_VALID, hash))
             {
                 Function.Call(Hash.REQUEST_MODEL, hash);
-                while(!Function.Call<bool>(Hash.HAS_MODEL_LOADED, hash))
+                while (!Function.Call<bool>(Hash.HAS_MODEL_LOADED, hash))
                 {
                     await BaseScript.Delay(100);
                 }
@@ -39,6 +39,15 @@ namespace vorpcharacter_cl.Utils
             API.SetEntityHeading(playerPedId, heading);
         }
 
-
+        public static async Task DrawTxt(string text, float x, float y, float fontscale, float fontsize, int r, int g, int b, int alpha, bool textcentred, bool shadow)
+        {
+            long str = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", text);
+            Function.Call(Hash.SET_TEXT_SCALE, fontscale, fontsize);
+            Function.Call(Hash._SET_TEXT_COLOR, r, g, b, alpha);
+            Function.Call(Hash.SET_TEXT_CENTRE, textcentred);
+            if (shadow) { Function.Call(Hash.SET_TEXT_DROPSHADOW, 1, 0, 0, 255); }
+            Function.Call(Hash.SET_TEXT_FONT_FOR_CURRENT_COMMAND, 1);
+            Function.Call(Hash._DISPLAY_TEXT, str, x, y);
+        }
     }
 }

@@ -12,9 +12,6 @@ server_scripts {
 
 files {
   'Config.json',
-  'Es.json',
   'MenuAPI.dll',
   'Newtonsoft.Json.dll',
 }
-
-ui_page 'html/index.html'

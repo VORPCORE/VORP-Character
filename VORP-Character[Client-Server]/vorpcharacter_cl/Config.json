@@ -3,11 +3,6 @@
 
   "StartingCoords": [ -366.431, 727.4282 ], //X, Y
 
-  //StartingMoney
-  "StartingMoney": 0,
-  "StartingGold": 0,
-  "StartingRol": 0,
-
   // DO NOT TOUCH THIS
   "Male": [
     { // Blanco claro

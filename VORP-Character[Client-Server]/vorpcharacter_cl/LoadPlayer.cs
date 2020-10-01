@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -13,8 +14,7 @@ namespace vorpcharacter_cl
     {
         public LoadPlayer()
         {
-            EventHandlers["playerSpawned"] += new Action<object>(callToSetOutFit);
-            EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<ExpandoObject, ExpandoObject>(loadPlayerSkin);
+            EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<string, string>(loadPlayerSkin);
             EventHandlers["vorpcharacter:refreshPlayerSkin"] += new Action(RefreshPlayerSkin);
             EventHandlers["vorpcharacter:getPlayerComps"] += new Action<CallbackDelegate>(getPlayerComps);
             EventHandlers["vorpcharacter:reloadPlayerComps"] += new Action<ExpandoObject, ExpandoObject>(reloadPlayerComps);
@@ -25,8 +25,9 @@ namespace vorpcharacter_cl
                 if (!API.IsPlayerDead(API.PlayerId())) // Fixed Revive
                 {
                     LoadAllComps(cache_skin, cache_cloths);
-                }
+                } 
             }), false);
+
         }
 
         private void reloadPlayerComps(ExpandoObject sskin, ExpandoObject scloth)
@@ -62,19 +63,21 @@ namespace vorpcharacter_cl
             cb.Invoke(cache_skin, cache_cloths);
         }
 
-        private async void loadPlayerSkin(ExpandoObject sskin, ExpandoObject scloth)
+        private async void loadPlayerSkin(string s_skin, string s_cloths)
         {
-            
+            JObject jSkin = JObject.Parse(s_skin);
+            JObject jCloth = JObject.Parse(s_cloths);
+
             Dictionary<string, string> skin = new Dictionary<string, string>();
 
-            foreach (var s in sskin)
+            foreach (var s in jSkin)
             {
                 skin[s.Key] = s.Value.ToString();
             }
 
             Dictionary<string, uint> cloths = new Dictionary<string, uint>();
 
-            foreach (var s in scloth)
+            foreach (var s in jCloth)
             {
                 cloths[s.Key] = ConvertValue(s.Value.ToString());
             }
@@ -95,12 +98,13 @@ namespace vorpcharacter_cl
             if (!cache_skin.ContainsKey("Scale"))
             {
                 return;
-            }else if (float.Parse(cache_skin["Scale"]) == 1.0f)
+            }
+            else if (float.Parse(cache_skin["Scale"]) == 1.0f)
             {
                 return;
             }
 
-            await CreatePlayer.changeScale(float.Parse(cache_skin["Scale"]));
+            await CreateCharacter.changeScale(float.Parse(cache_skin["Scale"]));
         }
 
         public async Task LoadAllComps(Dictionary<string, string> skin, Dictionary<string, uint> cloths)
@@ -109,33 +113,33 @@ namespace vorpcharacter_cl
 
             uint model_hash = (uint)API.GetHashKey(skin["sex"]);
             await Utils.Miscellanea.LoadModel(model_hash);
-            await Delay(100);
+            await Delay(250);
             Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
-            await Delay(1000);
+            await Delay(2000);
             int pPedID = API.PlayerPedId();
 
             //PreLoad TextureFace
             if (skin["sex"].ToString().Equals("mp_male"))
             {
-                CreatePlayer.texture_types["albedo"] = int.Parse(skin["albedo"]);
-                CreatePlayer.texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
-                CreatePlayer.texture_types["material"] = 0x7FC5B1E1;
-                CreatePlayer.texture_types["color_type"] = 1;
-                CreatePlayer.texture_types["texture_opacity"] = 1.0f;
-                CreatePlayer.texture_types["unk_arg"] = 0;
+                CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
+                CreateCharacter.texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
+                CreateCharacter.texture_types["material"] = 0x7FC5B1E1;
+                CreateCharacter.texture_types["color_type"] = 1;
+                CreateCharacter.texture_types["texture_opacity"] = 1.0f;
+                CreateCharacter.texture_types["unk_arg"] = 0;
             }
             else
             {
-                CreatePlayer.texture_types["albedo"] = int.Parse(skin["albedo"]);
-                CreatePlayer.texture_types["normal"] = API.GetHashKey("head_fr1_mp_002_nm");
-                CreatePlayer.texture_types["material"] = 0x7FC5B1E1;
-                CreatePlayer.texture_types["color_type"] = 1;
-                CreatePlayer.texture_types["texture_opacity"] = 1.0f;
-                CreatePlayer.texture_types["unk_arg"] = 0;
+                CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
+                CreateCharacter.texture_types["normal"] = API.GetHashKey("head_fr1_mp_002_nm");
+                CreateCharacter.texture_types["material"] = 0x7FC5B1E1;
+                CreateCharacter.texture_types["color_type"] = 1;
+                CreateCharacter.texture_types["texture_opacity"] = 1.0f;
+                CreateCharacter.texture_types["unk_arg"] = 0;
             }
             //End
-
+            CreateCharacter.ApplyDefaultSkinCanaryEdition(API.PlayerPedId());
             //LoadSkin
             Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skin["HeadType"]), true, true, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
@@ -366,6 +370,7 @@ namespace vorpcharacter_cl
             SetPlayerComponent(skin["sex"], 0x877A2CF7, "Suspender", cloths);
             SetPlayerComponent(skin["sex"], 0x485EE834, "Vest", cloths);
             SetPlayerComponent(skin["sex"], 0xE06D30CE, "Coat", cloths);
+            SetPlayerComponent(skin["sex"], 0x0662AC34, "CoatClosed", cloths);
             SetPlayerComponent(skin["sex"], 0xAF14310B, "Poncho", cloths);
             SetPlayerComponent(skin["sex"], 0x3C1A74CD, "Cloak", cloths);
             SetPlayerComponent(skin["sex"], 0xEABE0032, "Glove", cloths);
@@ -390,18 +395,18 @@ namespace vorpcharacter_cl
 
             //Load Face Texture
             await Delay(500);
-            CreatePlayer.toggleOverlayChange("eyebrows", int.Parse(skin["eyebrows_visibility"]), int.Parse(skin["eyebrows_tx_id"]), 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("scars", int.Parse(skin["scars_visibility"]), int.Parse(skin["scars_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("spots", int.Parse(skin["spots_visibility"]), int.Parse(skin["spots_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("disc", int.Parse(skin["disc_visibility"]), int.Parse(skin["disc_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("complex", int.Parse(skin["complex_visibility"]), int.Parse(skin["complex_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("acne", int.Parse(skin["acne_visibility"]), int.Parse(skin["acne_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("ageing", int.Parse(skin["ageing_visibility"]), int.Parse(skin["ageing_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("freckles", int.Parse(skin["freckles_visibility"]), int.Parse(skin["freckles_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("moles", int.Parse(skin["moles_visibility"]), int.Parse(skin["moles_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("grime", int.Parse(skin["grime_visibility"]), int.Parse(skin["grime_tx_id"]), 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("lipsticks", int.Parse(skin["lipsticks_visibility"]), int.Parse(skin["lipsticks_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["lipsticks_palette_id"]), int.Parse(skin["lipsticks_palette_color_primary"]), 0, 0, 0, 1.0f);
-            CreatePlayer.toggleOverlayChange("shadows", int.Parse(skin["shadows_visibility"]), int.Parse(skin["shadows_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["shadows_palette_id"]), int.Parse(skin["shadows_palette_color_primary"]), 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("eyebrows", int.Parse(skin["eyebrows_visibility"]), int.Parse(skin["eyebrows_tx_id"]), 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("scars", int.Parse(skin["scars_visibility"]), int.Parse(skin["scars_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("spots", int.Parse(skin["spots_visibility"]), int.Parse(skin["spots_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("disc", int.Parse(skin["disc_visibility"]), int.Parse(skin["disc_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("complex", int.Parse(skin["complex_visibility"]), int.Parse(skin["complex_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("acne", int.Parse(skin["acne_visibility"]), int.Parse(skin["acne_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("ageing", int.Parse(skin["ageing_visibility"]), int.Parse(skin["ageing_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("freckles", int.Parse(skin["freckles_visibility"]), int.Parse(skin["freckles_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("moles", int.Parse(skin["moles_visibility"]), int.Parse(skin["moles_tx_id"]), 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("grime", int.Parse(skin["grime_visibility"]), int.Parse(skin["grime_tx_id"]), 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("lipsticks", int.Parse(skin["lipsticks_visibility"]), int.Parse(skin["lipsticks_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["lipsticks_palette_id"]), int.Parse(skin["lipsticks_palette_color_primary"]), 0, 0, 0, 1.0f);
+            CreateCharacter.toggleOverlayChange("shadows", int.Parse(skin["shadows_visibility"]), int.Parse(skin["shadows_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["shadows_palette_id"]), int.Parse(skin["shadows_palette_color_primary"]), 0, 0, 0, 1.0f);
             
             await Delay(4000);
             Function.Call((Hash)0x59BD177A1A48600A, pPedID, 0xF8016BCA);
@@ -428,7 +433,7 @@ namespace vorpcharacter_cl
             }
         }
 
-        private void SetPlayerComponent(string model, uint category, string component, Dictionary<string, uint> cloths)
+        public static void SetPlayerComponent(string model, uint category, string component, Dictionary<string, uint> cloths)
         {
             int pPID = API.PlayerPedId();
             if (model == "mp_male")
@@ -436,13 +441,15 @@ namespace vorpcharacter_cl
                 if(cloths[component] != -1)
                 {
                     Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
+                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, cloths[component], true, false, false);
                     Function.Call((Hash)0xD3A7B003ED343FD9, pPID, cloths[component], true, true, false);
                 }
             }
             else
             {
                     Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
-                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, cloths[component], true, true, true);                
+                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, cloths[component], true, false, true);
+                    Function.Call((Hash)0xD3A7B003ED343FD9, pPID, cloths[component], true, true, true);
             }
 
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
@@ -457,13 +464,6 @@ namespace vorpcharacter_cl
                 LoadAllComps(cache_skin, cache_cloths);
             }
         }
-
-        private void callToSetOutFit(object spawnInfo)
-        {
-            TriggerServerEvent("vorpcharacter:getPlayerSkin");
-        }
-
-
 
     }
 }
