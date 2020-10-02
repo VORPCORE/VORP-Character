@@ -33,6 +33,8 @@ namespace vorpcharacter_cl
             }
 
             IsLoaded = true;
+
+            Utils.Commands.InitCommands();
         }
     }
 }
