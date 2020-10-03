@@ -391,7 +391,6 @@ namespace vorpcharacter_cl
             SetPlayerComponent(skin["sex"], 0x18729F39, "Spurs", cloths);
 
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
-            //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false); // this fix Hair not appears
 
             //Load Face Texture
             await Delay(500);
