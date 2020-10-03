@@ -22,7 +22,7 @@ namespace vorpcharacter_cl
         dynamic myChars = null;
         private static bool isInCharacterSelector = false;
         private int tagId = 0;
-        private static bool swappingChar = false; 
+        private static bool swappingChar = true; 
 
         public SelectCharacter()
         {
