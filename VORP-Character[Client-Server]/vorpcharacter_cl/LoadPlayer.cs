@@ -109,6 +109,7 @@ namespace vorpcharacter_cl
 
         public async Task LoadAllComps(Dictionary<string, string> skin, Dictionary<string, uint> cloths)
         {
+            int pHealth = Function.Call<int>((Hash)0x36731AC041289BB1, API.PlayerPedId(), 0);
             int pID = API.PlayerId();
 
             uint model_hash = (uint)API.GetHashKey(skin["sex"]);
@@ -411,6 +412,8 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0x59BD177A1A48600A, pPedID, 0xF8016BCA);
             Function.Call((Hash)0xD3A7B003ED343FD9, pPedID, ConvertValue(skin["Beard"]), true, true, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
+
+            Function.Call((Hash)0xC6258F41D86676E0, pPedID, 0, pHealth);
 
             IsLoaded();
         }
