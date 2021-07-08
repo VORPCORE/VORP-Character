@@ -114,7 +114,7 @@
   //Body
   "TitleMainMenu": "Character Editor",
   "SubTitleMainMenu": "Customize your character",
-  "FinishBtnMainMenu": "Finish and Safe",
+  "FinishBtnMainMenu": "Finish and Save",
   "SubFinishBtnMainMenu": "Finish character creation.",
 
   "TitleClothesMenu": "Dressing room",
