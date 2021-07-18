@@ -1,0 +1,21 @@
+if you are updating from the old public vorp characters and u want to keep all your players characters. run the runme script once on server start while no one is online then remove it
+
+
+
+example for creating an item that opens up the character creator menu : 
+
+Citizen.CreateThread(function()
+    Citizen.Wait(500)
+    VorpInv.RegisterUsableItem("secondchance", function(data)
+        VorpInv.subItem(data.source, "secondchance", 1)
+        TriggerEvent("vorpcharactercreator:secondchance")
+    end)
+end)
+
+RegisterServerEvent("vorpcharactercreator:secondchance")
+AddEventHandler("vorpcharactercreator:secondchance", function(animation)
+    local _source = source
+    local Character = VorpCore.getUser(_source).getUsedCharacter
+    local charidentifier = Character.charIdentifier
+    TriggerClientEvent("vorpcharacter:secondchance",_source,charidentifier,Character)
+end)

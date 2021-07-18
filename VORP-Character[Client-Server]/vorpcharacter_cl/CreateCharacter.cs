@@ -17,15 +17,19 @@ namespace vorpcharacter_cl
         public CreateCharacter()
         {
             EventHandlers["vorpcharacter:createCharacter"] += new Action(StartCreationOfCharacter);
+            EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic,dynamic>(StartCreationOfCharacter2);
         }
-
+    
         //vars Scene
         static bool isSelectSexActive = false;
+        static bool secondchance = false;
         public static bool isInCharCreation = false;
         public static string model_selected;
         static string model_f = "mp_female";
         static string model_m = "mp_male";
         static int PedFemale;
+        static int charidx;
+        static dynamic usedcha;
         static int PedMale;
         static int Camera;
         static int Camera_Male;
@@ -270,6 +274,11 @@ namespace vorpcharacter_cl
             { "Chap", -1 },
             { "Boots", -1 },
             { "Spurs", -1 },
+            { "Spats", -1 },
+            { "Gauntlets", -1 },
+            { "Loadouts", -1 },
+            { "Accessories", -1 },
+            { "Satchels", -1 },
             { "CoatClosed", -1 }
         };
         //end
@@ -372,12 +381,23 @@ namespace vorpcharacter_cl
             skinPlayer[skinP] = comp;
         }
 
-        public static void SetPlayerFaceBlend(int item, int index)
+        public static void SetPlayerFaceBlend(int item, int index) //find me
         {
             int pPID = API.PlayerPedId();
             float _sizeValue = (float)index;
-            _sizeValue = _sizeValue / 10.0f;
 
+              if (_sizeValue > 10)
+            {
+                _sizeValue = -1 * _sizeValue;
+            }
+            else if (10 > _sizeValue)
+            {
+                _sizeValue = _sizeValue;
+            }
+            else{
+                _sizeValue = 0;
+            }    
+            _sizeValue = _sizeValue / 10.0f;
             switch (item)
             {
                 case 0:
@@ -612,68 +632,60 @@ namespace vorpcharacter_cl
             return (uint)Int32.Parse(value, NumberStyles.HexNumber);
         }
 
-        [Tick]
-        private async Task OnTickAnimm()
-        {
-            if (pedCreated != 0)
-            {
-                //SetPedIntoVehicle 0x0D3B5BAEA08F63E9 
-                Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
-
-            }
-
-            if (pedCreated != 0)
-            {
-                float above = Function.Call<float>((Hash)0x0D3B5BAEA08F63E9, API.PlayerPedId());
-
-                if (above < 1.0f)
-                {
-                    API.FreezeEntityPosition(pedCreated, false);
-                    API.DeletePed(ref pedCreated);
-                    API.DeleteVehicle(ref vehCreated);
-                    pedCreated = 0;
-                    TriggerEvent("vorp:setInstancePlayer", false);
-                }
-            }
-            await Delay(1);
-        }
+        
 
         public async void StartCreationOfCharacter()
         {
             Tick += OnTick;
-            Tick += OnTickAnimm;
+            
             Tick += OnTickCameras;
-            /*
-             * Cargamos los modelos del mapa de creación del online de RDR2
-             */
             Function.Call(Hash._REQUEST_IMAP, 183712523);
             Function.Call(Hash._REQUEST_IMAP, -1699673416);
             Function.Call(Hash._REQUEST_IMAP, 1679934574);
-            /*
-             * Cambiamos el tiempo para que se vea de mañana
-             */
             Function.Call(Hash.SET_CLOCK_TIME, 12, 00, 0);
             API.SetClockTime(12, 00, 00);
 
             Miscellanea.TeleportToCoords(-563.1345f, -3775.811f, 237.60f);
-            /*
-             * Cargammos las Peds en el sitio
-             */
             await CreationSelectPeds();
-            /*
-             * Creamos las camaras para movernos de sala con ella y la activamos
-             */
             await CreateCams();
-            /*
-             * Esperamos un tiempo a que pueda cargar los modelos y el tiempo
-             */
+
 
             API.SetCamActive(Camera, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
 
             isSelectSexActive = true;
+            secondchance = false;
 
         }
+
+        public async void StartCreationOfCharacter2(dynamic charsid,dynamic charxx)
+        {
+            API.DoScreenFadeOut(500);
+
+            Tick += OnTick;
+            charidx = charsid;
+            usedcha = charxx;
+            Tick += OnTickCameras;
+            Function.Call(Hash._REQUEST_IMAP, 183712523);
+            Function.Call(Hash._REQUEST_IMAP, -1699673416);
+            Function.Call(Hash._REQUEST_IMAP, 1679934574);
+            Function.Call(Hash.SET_CLOCK_TIME, 12, 00, 0);
+            API.SetClockTime(12, 00, 00);
+
+            Miscellanea.TeleportToCoords(-563.1345f, -3775.811f, 237.60f);
+            await CreationSelectPeds();
+            await CreateCams();
+
+
+            API.SetCamActive(Camera, true);
+            API.RenderScriptCams(true, true, 1000, true, true, 0);
+
+            isSelectSexActive = true;
+            secondchance = true;
+            API.DoScreenFadeIn(500);
+
+        }
+
 
         public static async Task SaveChanges()
         {
@@ -691,58 +703,42 @@ namespace vorpcharacter_cl
                 }
                 else
                 {
-                    TriggerServerEvent("vorp_SaveNewCharacter", skinPlayer, clothesPlayer, result);
-                    //SaveLocalChanges(result.ToLower());
-                    StopCreation();
-                    StartAnim();
+                    if (secondchance)
+                    {
+                        TriggerServerEvent("vorp_updateexisting", skinPlayer, clothesPlayer, result,charidx,usedcha);
+                        StopCreation();
+                        StartAnim();
+                    }
+                    else
+                    {
+                        TriggerServerEvent("vorp_SaveNewCharacter", skinPlayer, clothesPlayer, result);
+                        StopCreation();
+                        StartAnim();
+                    }
+                    
                 }
             }));
         }
 
-        public static int vehCreated = 0;
-        public static int pedCreated = 0;
+       
 
         private static async void StartAnim()
         {
             TriggerEvent("vorp:initNewCharacter");
-            uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
-            Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), 220.3232f);
-            Miscellanea.LoadModel(HashVeh);
-            vehCreated = API.CreateVehicle(HashVeh, coords.X + 1, coords.Y, coords.Z, 0, false, true, true, true);
-            //Spawn
-            Function.Call((Hash)0x283978A15512B2FE, vehCreated, true);
-            //TaskWanderStandard
-            Function.Call((Hash)0xBB9CE077274F6A1B, 10, 10);
+            Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), GetConfig.Config["StartingCoords"][2].ToObject<float>());
 
+            API.DoScreenFadeOut(500);
+            API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
+            API.SetEntityHeading(API.PlayerPedId(), GetConfig.Config["Heading"][0].ToObject<float>());
+            await Delay(3000);
 
-            uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
-            Miscellanea.LoadModel(HashPed);
-            pedCreated = API.CreatePed(HashPed, coords.X + 1, coords.Y, coords.Z, 0.0f, false, true, true, true);
-            //Spawn
-            Function.Call((Hash)0x283978A15512B2FE, pedCreated, true);
+            TriggerEvent("vorp:setInstancePlayer", false);
 
-            Function.Call((Hash)0xF75B0D629E1C063D, API.PlayerPedId(), vehCreated, -1, false);
+            API.DoScreenFadeIn(500);
 
+            await Delay(3000);
 
-            API.TaskLeaveVehicle(API.PlayerPedId(), vehCreated, 0, 0);
-
-
-            //API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
-            //API.SetEntityHeading(API.PlayerPedId(), 0);
-
-            await Delay(1000);
-            //SetPedIntoVehicle
-            Function.Call((Hash)0xF75B0D629E1C063D, pedCreated, vehCreated, -1, false);
-
-            API.SetEntityAsMissionEntity(pedCreated, true, true);
-            API.SetEntityAsMissionEntity(pedCreated, true, true);
-
-            API.FreezeEntityPosition(pedCreated, true);
-
-            API.SetRelationshipBetweenGroups(1, HashPed, (uint)API.GetHashKey("PLAYER"));
-
-            TriggerEvent("vorp:Tip", GetConfig.Langs["TipFinal"], 15000);
-
+            TriggerEvent("vorp:TipBottom", GetConfig.Langs["TipFinal"], 15000);
         }
 
         public static async void ApplyDefaultSkinCanaryEdition(int ped)

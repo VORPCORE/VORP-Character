@@ -35,6 +35,12 @@ namespace vorpcharacter_cl.Utils
             API.RegisterCommand(GetConfig.Langs["CommandSpurs"], new Action(Spurs), false);
             API.RegisterCommand(GetConfig.Langs["CommandUndress"], new Action(Undress), false);
             API.RegisterCommand(GetConfig.Langs["CommandDress"], new Action(Dress), false);
+            API.RegisterCommand(GetConfig.Langs["CommandSpats"], new Action(Spats), false);
+            API.RegisterCommand(GetConfig.Langs["CommandGauntlets"], new Action(Gauntlets), false);
+            API.RegisterCommand(GetConfig.Langs["CommandLoadouts"], new Action(Loadouts), false);
+            API.RegisterCommand(GetConfig.Langs["CommandAccessories"], new Action(Accessories), false);
+            API.RegisterCommand(GetConfig.Langs["CommandSatchels"], new Action(Satchels), false);
+
         }
 
         private static void Hat()
@@ -333,6 +339,66 @@ namespace vorpcharacter_cl.Utils
             }
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }
+        private static void Spats()
+        {
+            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x514ADCEA))
+            {
+                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x514ADCEA, 0);
+            }
+            else
+            {
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spats"].ToString()), true, true, false);
+            }
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
+        }
+        private static void Gauntlets()
+        {
+            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x91CE9B20))
+            {
+                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x91CE9B20, 0);
+            }
+            else
+            {
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gauntlets"].ToString()), true, true, false);
+            }
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
+        }
+        private static void Loadouts()
+        {
+            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x83887E88))
+            {
+                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x83887E88, 0);
+            }
+            else
+            {
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Loadouts"].ToString()), true, true, false);
+            }
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
+        }
+        private static void Accessories()
+        {
+            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x79D7DF96))
+            {
+                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x79D7DF96, 0);
+            }
+            else
+            {
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
+            }
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
+        }
+        private static void Satchels()
+        {
+            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, API.PlayerPedId(), 0x94504D26))
+            {
+                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x94504D26, 0);
+            }
+            else
+            {
+                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
+            }
+            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
+        }
 
         private static async void Undress()
         {
@@ -360,6 +426,11 @@ namespace vorpcharacter_cl.Utils
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x3107499B, 0);
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x777EC6EF, 0);
             Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x18729F39, 0);
+            Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x514ADCEA, 0);
+            Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x91CE9B20, 0);
+            Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x83887E88, 0);
+            Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x79D7DF96, 0);
+            Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x94504D26, 0);
             await Delay(100);
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, 0);
         }

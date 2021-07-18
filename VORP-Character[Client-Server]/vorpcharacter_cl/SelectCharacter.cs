@@ -122,7 +122,7 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0x839BFD7D7E49FE09, tagId);
             API.DeletePed(ref ppid);
             await LoadNpcComps(json_skin, json_components);
-            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, ppid, $"{GetConfig.Langs["MoneyTag"]}: ~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money + "~COLOR_WHITE~$", false, false, "", 0);
+            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, ppid, $"{GetConfig.Langs["MoneyTag"]}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money, false, false, "", 0);
             Function.Call((Hash)0xA0D7CE5F83259663, tagId, myChars[selectedChar].firstname + " " + myChars[selectedChar].lastname);
             Function.Call((Hash)0x5F57522BC1EB9D9D, tagId, 0);
             await Delay(500);
@@ -168,7 +168,7 @@ namespace vorpcharacter_cl
             while (isInCharacterSelector)
             {
                 API.DrawLightWithRange(1696.17f, 1508.474f, 147.85f, 255, 255, 255, 8.0f, 250.0f);
-                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressSelectInfo"], 0.5f, 0.95f, 0.75f, 0.70f, 255, 255, 255, 255, true, false);
+                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressSelectInfo"], 0.5f, 0.90f, 0.75f, 0.70f, 255, 255, 255, 255, true, false);
                 await Delay(0);
             }
         }
@@ -566,6 +566,11 @@ namespace vorpcharacter_cl
             SetPlayerComponent(skin["sex"], 0x3107499B, "Chap", cloths);
             SetPlayerComponent(skin["sex"], 0x777EC6EF, "Boots", cloths);
             SetPlayerComponent(skin["sex"], 0x18729F39, "Spurs", cloths);
+            SetPlayerComponent(skin["sex"], 0x514ADCEA, "Spats", cloths);
+            SetPlayerComponent(skin["sex"], 0x91CE9B20, "Gauntlets", cloths);
+            SetPlayerComponent(skin["sex"], 0x83887E88, "Loadouts", cloths);
+            SetPlayerComponent(skin["sex"], 0x79D7DF96, "Accessories", cloths);
+            SetPlayerComponent(skin["sex"], 0x94504D26, "Satchels", cloths);
 
             Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false); // this fix Hair not appears

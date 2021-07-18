@@ -31,6 +31,7 @@ namespace vorpcharacter_sv
             EventHandlers["vorp_SpawnUniqueCharacter"] += new Action<int>(SpawnUniqueCharacter);
             //Event for save the new character
             EventHandlers["vorp_SaveNewCharacter"] += new Action<Player, dynamic, dynamic, string>(SaveNewCharacter);
+            EventHandlers["vorp_updateexisting"] += new Action<Player, dynamic, dynamic, string,dynamic,dynamic>(SaveNewCharacter2);
             //Event for delete the character
             EventHandlers["vorp_DeleteCharacter"] += new Action<Player,int>(DeleteCharacter);
 
@@ -131,6 +132,39 @@ namespace vorpcharacter_sv
                 await Delay(2000);
                 source.TriggerEvent("vorp_NewCharacter");
                 TriggerEvent("vorp_NewCharacter", int.Parse(source.Handle));
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        private async void SaveNewCharacter2([FromSource] Player source, dynamic skin, dynamic components, string name, dynamic charidx, dynamic charx)
+        {
+            string sid = ("steam:" + source.Identifiers["steam"]);
+
+            string[] divider = name.Split(' ');
+
+            string firstname = divider[0];
+            string lastname = divider[1];
+            string skinPlayer = JsonConvert.SerializeObject(skin);
+            string compsPlayer = JsonConvert.SerializeObject(components);
+
+            dynamic CorePlayer = CORE.getUser(int.Parse(source.Handle));
+            dynamic UserCharacter = charidx;
+            
+            try
+            {
+                Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
+                Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
+                //charx.setFirstname(firstname.ToString());
+                //charx.setLastname(lastname.ToString());
+                Exports["ghmattimysql"].execute("UPDATE characters SET `firstname` = ? , `lastname` = ?, `skinPlayer` = ?, `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ? ", new object[] { firstname,lastname,skinPlayer,compsPlayer, sid,UserCharacter });
+                source.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
+                await Delay(2000);
+                //source.TriggerEvent("vorp_NewCharacter");
+                //TriggerEvent("vorp_NewCharacter", int.Parse(source.Handle));
+            
             }
             catch(Exception e)
             {

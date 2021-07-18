@@ -41,8 +41,8 @@ namespace vorpcharacter_cl.Menus
                     hatType.Add(GetConfig.Langs["HatsValue"] + i);
                 }
             }
-            MenuListItem mListHats = new MenuListItem(GetConfig.Langs["Hats"], hatType, 0, GetConfig.Langs["HatsDesc"]); // Añadimos la lista al boton
-            clothesMenu.AddMenuItem(mListHats); // Lo añadimos al menu
+            MenuListItem mListHats = new MenuListItem(GetConfig.Langs["Hats"], hatType, 0, GetConfig.Langs["HatsDesc"]);
+            clothesMenu.AddMenuItem(mListHats);
 
             List<string> eyeWearType = new List<string>();
             eyeWearType.Add(GetConfig.Langs["NoGlassesValue"]);
@@ -570,6 +570,106 @@ namespace vorpcharacter_cl.Menus
             clothesMenu.AddMenuItem(mListSpurs); // Lo añadimos al menu
 
 
+            List<string> spatsType = new List<string>();
+            spatsType.Add(GetConfig.Langs["NoSpatsValue"]);
+
+            if (CreateCharacter.model_selected == "mp_male")
+            {
+                for (float i = 1; i < SkinsUtils.SPATS_MALE.Count + 1; i++)
+                {
+                    spatsType.Add(GetConfig.Langs["SpatsValue"] + i);
+                }
+            }
+            else
+            {
+                for (float i = 1; i < SkinsUtils.SPATS_FEMALE.Count + 1; i++)
+                {
+                    spatsType.Add(GetConfig.Langs["SpatsValue"] + i);
+                }
+            }
+            MenuListItem mListSpats = new MenuListItem(GetConfig.Langs["Spats"], spatsType, 0, GetConfig.Langs["SpatsDesc"]);
+            clothesMenu.AddMenuItem(mListSpats);
+
+            List<string> gauntletsType = new List<string>();
+            gauntletsType.Add(GetConfig.Langs["NoGauntletsValue"]);
+
+            if (CreateCharacter.model_selected == "mp_male")
+            {
+                for (float i = 1; i < SkinsUtils.GAUNTLETS_MALE.Count + 1; i++)
+                {
+                    gauntletsType.Add(GetConfig.Langs["GauntletsValue"] + i);
+                }
+            }
+            else
+            {
+                for (float i = 1; i < SkinsUtils.GAUNTLETS_FEMALE.Count + 1; i++)
+                {
+                    gauntletsType.Add(GetConfig.Langs["GauntletsValue"] + i);
+                }
+            }
+            MenuListItem mListGauntlets = new MenuListItem(GetConfig.Langs["Gauntlets"], gauntletsType, 0, GetConfig.Langs["GauntletsDesc"]);
+            clothesMenu.AddMenuItem(mListGauntlets);
+
+            List<string> loadoutsType = new List<string>();
+            loadoutsType.Add(GetConfig.Langs["NoLoadoutsValue"]);
+
+            if (CreateCharacter.model_selected == "mp_male")
+            {
+                for (float i = 1; i < SkinsUtils.LOADOUTS_MALE.Count + 1; i++)
+                {
+                    loadoutsType.Add(GetConfig.Langs["LoadoutsValue"] + i);
+                }
+            }
+            else
+            {
+                for (float i = 1; i < SkinsUtils.LOADOUTS_FEMALE.Count + 1; i++)
+                {
+                    loadoutsType.Add(GetConfig.Langs["LoadoutsValue"] + i);
+                }
+            }
+            MenuListItem mListLoadouts = new MenuListItem(GetConfig.Langs["Loadouts"], loadoutsType, 0, GetConfig.Langs["LoadoutsDesc"]);
+            clothesMenu.AddMenuItem(mListLoadouts);
+
+            List<string> accessoriesType = new List<string>();
+            accessoriesType.Add(GetConfig.Langs["NoAccessoriesValue"]);
+
+            if (CreateCharacter.model_selected == "mp_male")
+            {
+                for (float i = 1; i < SkinsUtils.ACCESSORIES_MALE.Count + 1; i++)
+                {
+                    accessoriesType.Add(GetConfig.Langs["AccessoriesValue"] + i);
+                }
+            }
+            else
+            {
+                for (float i = 1; i < SkinsUtils.ACCESSORIES_FEMALE.Count + 1; i++)
+                {
+                    accessoriesType.Add(GetConfig.Langs["AccessoriesValue"] + i);
+                }
+            }
+            MenuListItem mListAccessories = new MenuListItem(GetConfig.Langs["Accessories"], accessoriesType, 0, GetConfig.Langs["AccessoriesDesc"]);
+            clothesMenu.AddMenuItem(mListAccessories);
+
+            List<string> satchelsType = new List<string>();
+            satchelsType.Add(GetConfig.Langs["NoSatchelsValue"]);
+
+            if (CreateCharacter.model_selected == "mp_male")
+            {
+                for (float i = 1; i < SkinsUtils.SATCHELS_MALE.Count + 1; i++)
+                {
+                    satchelsType.Add(GetConfig.Langs["SatchelsValue"] + i);
+                }
+            }
+            else
+            {
+                for (float i = 1; i < SkinsUtils.SATCHELS_FEMALE.Count + 1; i++)
+                {
+                    satchelsType.Add(GetConfig.Langs["SatchelsValue"] + i);
+                }
+            }
+            MenuListItem mListSatchels = new MenuListItem(GetConfig.Langs["Satchels"], satchelsType, 0, GetConfig.Langs["SatchelsDesc"]);
+            clothesMenu.AddMenuItem(mListSatchels);
+
             clothesMenu.OnMenuOpen += (_menu) => {
 
             };
@@ -659,8 +759,27 @@ namespace vorpcharacter_cl.Menus
                     case 23:
                         CreateCharacter.SetPlayerComponent(_newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
                         break;
-                    case 24:
+                   case 24:
+                        CreateCharacter.SetPlayerComponent(0, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
+                        mListSpats.ListIndex = 0;
                         CreateCharacter.SetPlayerComponent(_newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
+                        break;
+                    case 25:
+                        CreateCharacter.SetPlayerComponent(0, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
+                        mListSpurs.ListIndex = 0;
+                        CreateCharacter.SetPlayerComponent(_newIndex, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
+                        break;
+                    case 26:
+                        CreateCharacter.SetPlayerComponent(_newIndex, 0x91CE9B20, "Gauntlets", SkinsUtils.GAUNTLETS_MALE, SkinsUtils.GAUNTLETS_FEMALE);
+                        break;
+                    case 27:
+                        CreateCharacter.SetPlayerComponent(_newIndex, 0x83887E88, "Loadouts", SkinsUtils.LOADOUTS_MALE, SkinsUtils.LOADOUTS_FEMALE);
+                        break;
+                    case 28:
+                        CreateCharacter.SetPlayerComponent(_newIndex, 0x79D7DF96, "Accessories", SkinsUtils.ACCESSORIES_MALE, SkinsUtils.ACCESSORIES_FEMALE);
+                        break;
+                    case 29:
+                        CreateCharacter.SetPlayerComponent(_newIndex, 0x94504D26, "Satchels", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
                         break;
                 }
             };

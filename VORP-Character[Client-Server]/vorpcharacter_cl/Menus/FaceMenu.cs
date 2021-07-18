@@ -26,7 +26,7 @@ namespace vorpcharacter_cl.Menus
             //Tipo de tamaños del 1 al 10
             List<string> sizeType = new List<string>();
 
-            for (float i = 1; i < 11; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
+            for (float i = 1; i < 21; i++) //find me
             {
                 sizeType.Add(GetConfig.Langs["TypeValues"] + i);
             }

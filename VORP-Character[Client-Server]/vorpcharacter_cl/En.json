@@ -3,7 +3,6 @@
 
   "PressGuide": "Rotate <-[A] [D]-> | Cameras [W] or [S]",
 
-  //New Update
   "CreateNewChar": "Create New",
   "DeleteChar": "Delete",
   "MoneyTag": "Money",
@@ -32,17 +31,16 @@
   "CommandBoots": "boots",
   "CommandSpurs": "spurs",
   "CommandSpats": "spats",
-  "CommandGauntlets": "gauntlets",
-  "CommandLoadouts": "loadouts",
-  "CommandAccessories": "accessories",
-  "CommandSatchels": "satchels",
-  "CommandGunbeltAccs": "gunbeltaccs",
+  "CommandGauntlets": "gaunts",
+  "CommandLoadouts": "loados",
+  "CommandAccessories": "accs",
+  "CommandSatchels": "satch",
   "CommandUndress": "undress",
   "CommandDress": "dress",
 
-  "Scale": "Height #",
-  "ScaleList": "Character Height",
-  "ScaleDesc": "Adjust the height (we recommend choosing this as your final option or you will not be able to see the cameras well)",
+  "Scale": "Scale #",
+  "ScaleList": "Character height",
+  "ScaleDesc": "Adjust the height (we recommend as a last resort where the cameras will not see them)",
 
   "EyeBrows": "Eyebrows #",
   "EyeBrowsList": "Type of Eyebrows",
@@ -112,15 +110,13 @@
   "EyesList": "Types of Eyes",
   "EyesDesc": "Change the eye color",
 
-  //Input Name 
-  "PlaceHolderInputName": "Write the first name and last name of your character",
+  "PlaceHolderInputName": "First Name and Last Name of your character",
   "ButtonInputName": "Confirm",
   "InputError": "You must have a name longer than 3 letters",
 
-  //Body
   "TitleMainMenu": "Character Editor",
   "SubTitleMainMenu": "Customize your character",
-  "FinishBtnMainMenu": "Finish and Safe",
+  "FinishBtnMainMenu": "Finish and Save",
   "SubFinishBtnMainMenu": "Finish character creation.",
 
   "TitleClothesMenu": "Dressing room",
@@ -196,7 +192,6 @@
   "WaistType": "Type of waist",
   "Confirm": "Confirm",
 
-  ///Descriptions of the body Menu sections
   "LegsTypeDesc": "Choose the type of legs",
   "TorsoTypeDesc": "Choose the type of torso",
   "FaceTypeDesc": "Choose the type of face",
@@ -246,65 +241,62 @@
   "WaistTypeDesc": "Choose the waist",
   "ConfirmDesc": "Time to dress up, you will be able to return to this section if you want to change something",
 
-  //Ropa
-  "TitleMenuClothes": "Dressing room", // Menu Tittle
-  "SubTitleMenuClothes": "Dress up your character", // Menu Description
+  "TitleMenuClothes": "Dressing room",
+  "SubTitleMenuClothes": "Dress up your character",
 
-  "HatsValue": "Hat #", // The options of the hats section
-  "GlassesValue": "Glasses #", // The options of the glasses section
-  "NeckwearValue": "Garment #", // The options of the neckwear section
-  "TiesValue": "Tie #", // The options of the ties section
-  "ShirtsValue": "Shirt #", // The options of the shirts section
-  "SuspendersValue": "Suspenders #", // The options of the suspenders section
-  "VestsValue": "Vest #", // The options of the vests section
-  "CoatsValue": "Coat #", // The options of the coats section
-  "PonchosValue": "Poncho #", // The options of the ponchos section
-  "CloaksValue": "Cap #", // The options of the cloaks section
-  "GlovesValue": "Gloves #", // The options of the gloves section
-  "RingsValue": "Ring #", // The options of the rings section
-  "BraceletsValue": "Bracelet #", // The options of the bracelets section
-  "HolstersValue": "Holster #", // The options of the holsters section
-  "BeltsValue": "Belt #", // The options of the belts section
-  "BucklesValue": "Buckle #", // The options of the buckles section
-  "PantsValue": "Pants #", // The options of the pants section
-  "SkirtsValue": "Falda #", // The options of the skirts section
-  "ChapsValue": "Chaps #", // The options of the chaps section
-  "BootsValue": "Boots #", // The options of the boots section
-  "SpursValue": "Spurs #", // The options of the spurs section
+  "HatsValue": "Hat #",
+  "GlassesValue": "Glasses #",
+  "NeckwearValue": "Garment #",
+  "TiesValue": "Tie #",
+  "ShirtsValue": "Shirt #",
+  "SuspendersValue": "Suspenders #",
+  "VestsValue": "Vest #",
+  "CoatsValue": "Coat #",
+  "PonchosValue": "Poncho #",
+  "CloaksValue": "Cloak #",
+  "GlovesValue": "Gloves #",
+  "RingsValue": "Ring #",
+  "BraceletsValue": "Bracelet #",
+  "HolstersValue": "Holster #",
+  "BeltsValue": "Belt #",
+  "BucklesValue": "Buckle #",
+  "PantsValue": "Pants #",
+  "SkirtsValue": "Falda #",
+  "ChapsValue": "Chaps #",
+  "BootsValue": "Boots #",
+  "SpursValue": "Spurs #",
   "SpatsValue": "Spats #",
   "GauntletsValue": "Gauntlets #",
   "LoadoutsValue": "Loadouts #",
   "AccessoriesValue": "Accessories #",
-  "SatchelsValue": "Satchels #",
-  "GunbeltAccsValue": "Gunbelt Accessories #",
-  "NoHatsValue": "Without a Hat", // The option it gives when you do not wear a hat
-  "NoGlassesValue": "Without Glasses", // The option it gives when you do not wear glasses
-  "NoNeckwearValue": "Without Neckwear", // The option it gives when you do not wear neckwear
-  "NoTiesValue": "Without a Tie", // The option it gives when you do not wear a tie
-  "NoShirtsValue": "Without a Shirt", // The option it gives when you do not wear a shirt
-  "NoSuspendersValue": "Without Suspenders", // The option it gives when you do not wear suspenders
-  "NoVestsValue": "Without a Vest", // The option it gives when you do not wear a vest
-  "NoCoatsValue": "Without a Coat", // The option it gives when you do not wear a coat
-  "NoPonchosValue": "Without a Poncho", // The option it gives when you do not wear a poncho
-  "NoCloaksValue": "Without a Cloak", // The option it gives when you do not wear a cloak
-  "NoGlovesValue": "Without Gloves", // The option it gives when you do not wear gloves
-  "NoRingsValue": "Without a Ring", // The option it gives when you do not wear a ring
-  "NoBraceletsValue": "Without a Bracelet", // The option it gives when you do not wear a bracelet
-  "NoHolstersValue": "Without a Holster", // The option it gives when you do not wear a holster
-  "NoBeltsValue": "Without a Belt", // The option it gives when you do not wear a belt
-  "NoBucklesValue": "Without a Buckle", // The option it gives when you do not wear a buckle
-  "NoPantsValue": "Without Pants", // The option it gives when you do not wear pants
-  "NoSkirtsValue": "Without a Skirt", // The option it gives when you do not wear a skirt
-  "NoChapsValue": "Without Chaps", // The option it gives when you do not wear chaps
-  "NoBootsValue": "Without Boots", // The option it gives when you do not wear boots
-  "NoSpursValue": "Without Spurs", // The option it gives when you do not wear spurs
+  "SatchelsValue": "Satchel #",
+  "NoHatsValue": "Without a Hat",
+  "NoGlassesValue": "Without Glasses",
+  "NoNeckwearValue": "Without Neckwear",
+  "NoTiesValue": "Without a Tie",
+  "NoShirtsValue": "Without a Shirt",
+  "NoSuspendersValue": "Without Suspenders",
+  "NoVestsValue": "Without a Vest",
+  "NoCoatsValue": "Without a Coat",
+  "NoPonchosValue": "Without a Poncho",
+  "NoCloaksValue": "Without a Cloak",
+  "NoGlovesValue": "Without Gloves",
+  "NoRingsValue": "Without a Ring",
+  "NoBraceletsValue": "Without a Bracelet",
+  "NoHolstersValue": "Without a Holster",
+  "NoBeltsValue": "Without a Belt",
+  "NoBucklesValue": "Without a Buckle",
+  "NoPantsValue": "Without Pants",
+  "NoSkirtsValue": "Without a Skirt",
+  "NoChapsValue": "Without Chaps",
+  "NoBootsValue": "Without Boots",
+  "NoSpursValue": "Without Spurs",
+  "NoMaskValue": "Without Face Mask",
   "NoSpatsValue": "Without Spats",
   "NoGauntletsValue": "Without Gauntlets",
   "NoLoadoutsValue": "Without Loadouts",
   "NoAccessoriesValue": "Without Accessories",
-  "NoSatchelsValue": "Without Satchels",
-  "NoGunbeltAccsValue": "Without Gunbelt Accs",
-  "NoMaskValue": "Without Face Mask", // The option it gives when you do not wear a face mask
+  "NoSatchelsValue": "Without Satchel",
 
   "Hats": "Hats",
   "Glasses": "Glasses",
@@ -336,11 +328,9 @@
   "Loadouts": "Loadouts",
   "Accessories": "Accessories",
   "Satchels": "Satchels",
-  "GunbeltAccs": "Gunbelt Accessories",
 
-  "Finish": "Dress up character", // Confirms the options of the Menu
+  "Finish": "Dress up character",
 
-  // Descriptions of the Clothing Menu
   "HatsDesc": "Choose the hat",
   "GlassesDesc": "Choose the glasses",
   "MasksDesc": "Choose the mask if you want to wear one",
@@ -370,7 +360,6 @@
   "LoadoutsDesc": "Choose the loadouts",
   "AccessoriesDesc": "Choose the accessories",
   "SatchelsDesc": "Choose the satchels",
-  "GunbeltAccsDesc": "Choose the gunbelt accessories",
   "FinishDesc": "Make sure you have everything chosen as you want, you will have to go to a clothing store in order to change your clothes",
-  "TipFinal": "Welcome to sarsaparilla RP, we hope that your stay is the most entertaining."
+  "TipFinal": "Welcome to High Noon RP, we hope that your stay is the most entertaining. If you need knowledge, find the Wise Old Man."
 }

@@ -20,7 +20,7 @@ namespace vorpcharacter_cl
             EventHandlers["vorpcharacter:reloadPlayerComps"] += new Action<ExpandoObject, ExpandoObject>(reloadPlayerComps);
             Tick += SetScale;
 
-            API.RegisterCommand("reloadcloths", new Action<int, List<object>, string>((source, args, raw) =>
+            API.RegisterCommand("rc", new Action<int, List<object>, string>((source, args, raw) =>
             {
                 if (!API.IsPlayerDead(API.PlayerId())) // Fixed Revive
                 {
@@ -119,7 +119,7 @@ namespace vorpcharacter_cl
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
             await Delay(2000);
             int pPedID = API.PlayerPedId();
-
+            TriggerServerEvent("syn_walkanim:getwalk");
             //PreLoad TextureFace
             if (skin["sex"].ToString().Equals("mp_male"))
             {
@@ -390,6 +390,11 @@ namespace vorpcharacter_cl
             SetPlayerComponent(skin["sex"], 0x3107499B, "Chap", cloths);
             SetPlayerComponent(skin["sex"], 0x777EC6EF, "Boots", cloths);
             SetPlayerComponent(skin["sex"], 0x18729F39, "Spurs", cloths);
+            SetPlayerComponent(skin["sex"], 0x514ADCEA, "Spats", cloths);
+            SetPlayerComponent(skin["sex"], 0x91CE9B20, "Gauntlets", cloths);
+            SetPlayerComponent(skin["sex"], 0x83887E88, "Loadouts", cloths);
+            SetPlayerComponent(skin["sex"], 0x79D7DF96, "Accessories", cloths);
+            SetPlayerComponent(skin["sex"], 0x94504D26, "Satchels", cloths);
 
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
 
