@@ -13030,6 +13030,7 @@ namespace vorpcharacter_cl.Utils
 
         public static List<float> SCALE_LIST = new List<float>()
         {
+            0.75f,
             0.80f,
             0.85f,
             0.90f,
@@ -13039,8 +13040,6 @@ namespace vorpcharacter_cl.Utils
             1.1f,
             1.2f,
             1.3f,
-            1.4f,
-            1.5f,
         };
 
         public static Dictionary<string, List<Dictionary<string, dynamic>>> overlays_info = new Dictionary<string, List<Dictionary<string, dynamic>>>()
