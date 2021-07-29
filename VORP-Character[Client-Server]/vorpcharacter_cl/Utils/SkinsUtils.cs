@@ -27,6 +27,8 @@ namespace vorpcharacter_cl.Utils
             }
         }
 
+       
+
         public static List<uint> HATS_MALE = new List<uint>()
         {
             0x00483DA7,
@@ -10594,6 +10596,52 @@ namespace vorpcharacter_cl.Utils
            0x7E2D016B,
            0xFCAF241B,
         };
+         public static List<uint> GUNBELTACCS_MALE = new List<uint>()
+        {
+            0x102CB403,
+            0x1D2911AF,
+            0x3A514BFF,
+            0x489AE892,
+            0x67032566,
+            0x926DFC3B,
+            0xB1E57776,
+            0xB81303D1,
+            0xC2F0198F,
+            0xCD682E7B,
+            0xE83BA7D5,
+            0xF4BCFD28,
+            0xB1AEA29A,
+            0xCFF7DF2C,
+            0x27330DA1,
+            0x34F8A92C,
+            0xFBB436A4,
+            0x0972D221,
+            0xE6FF36CB,
+
+        };
+
+        public static List<uint> GUNBELTACCS_FEMALE = new List<uint>()
+        {
+            0x3A8E3217,
+            0x402D4AB2,
+            0x4F6BE92F,
+            0x687F1B55,
+            0x79A1BD9A,
+            0x7D3844C7,
+            0xBA05B108,
+            0xC3CA51DE,
+            0xCE30D95E,
+            0xDBEAF4D2,
+            0xE56B87D3,
+            0xF331235E,
+            0xDC687EFA,
+            0x6A211A6D,
+            0x28269685,
+            0x364F32D6,
+            0x8C75DF22,
+            0x9AD37BDD,
+            0x60583652,
+        }; 
 
         public static List<uint> CHAPS_MALE = new List<uint>()
         {
@@ -13039,7 +13087,6 @@ namespace vorpcharacter_cl.Utils
             1.05f,
             1.1f,
             1.2f,
-            1.3f,
         };
 
         public static Dictionary<string, List<Dictionary<string, dynamic>>> overlays_info = new Dictionary<string, List<Dictionary<string, dynamic>>>()

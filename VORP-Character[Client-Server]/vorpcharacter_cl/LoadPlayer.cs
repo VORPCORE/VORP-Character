@@ -395,6 +395,7 @@ namespace vorpcharacter_cl
             SetPlayerComponent(skin["sex"], 0x83887E88, "Loadouts", cloths);
             SetPlayerComponent(skin["sex"], 0x79D7DF96, "Accessories", cloths);
             SetPlayerComponent(skin["sex"], 0x94504D26, "Satchels", cloths);
+            SetPlayerComponent(skin["sex"], 0xF1542D11, "GunbeltAccs", cloths);
 
             Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false);
 

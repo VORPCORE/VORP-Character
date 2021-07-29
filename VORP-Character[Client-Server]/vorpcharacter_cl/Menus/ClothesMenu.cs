@@ -590,6 +590,26 @@ namespace vorpcharacter_cl.Menus
             MenuListItem mListSpats = new MenuListItem(GetConfig.Langs["Spats"], spatsType, 0, GetConfig.Langs["SpatsDesc"]);
             clothesMenu.AddMenuItem(mListSpats);
 
+            List<string> gunbeltaccsType = new List<string>();
+            gunbeltaccsType.Add(GetConfig.Langs["NoGunbeltAccsValue"]);
+
+            if (CreateCharacter.model_selected == "mp_male")
+            {
+                for (float i = 1; i < SkinsUtils.GUNBELTACCS_MALE.Count + 1; i++)
+                {
+                    gunbeltaccsType.Add(GetConfig.Langs["GunbeltAccsValue"] + i);
+                }
+            }
+            else
+            {
+                for (float i = 1; i < SkinsUtils.GUNBELTACCS_FEMALE.Count + 1; i++)
+                {
+                    gunbeltaccsType.Add(GetConfig.Langs["GunbeltAccsValue"] + i);
+                }
+            }
+            MenuListItem mListGunbeltAccs = new MenuListItem(GetConfig.Langs["GunbeltAccs"], gunbeltaccsType, 0, GetConfig.Langs["GunbeltAccsDesc"]);
+            clothesMenu.AddMenuItem(mListGunbeltAccs);
+
             List<string> gauntletsType = new List<string>();
             gauntletsType.Add(GetConfig.Langs["NoGauntletsValue"]);
 
@@ -781,6 +801,9 @@ namespace vorpcharacter_cl.Menus
                     case 29:
                         CreateCharacter.SetPlayerComponent(_newIndex, 0x94504D26, "Satchels", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
                         break;
+                    case 30:
+                        CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
+                    break;
                 }
             };
 
