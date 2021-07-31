@@ -275,6 +275,7 @@ namespace vorpcharacter_cl
             { "Boots", -1 },
             { "Spurs", -1 },
             { "Spats", -1 },
+            { "GunbeltAccs", -1 },
             { "Gauntlets", -1 },
             { "Loadouts", -1 },
             { "Accessories", -1 },
