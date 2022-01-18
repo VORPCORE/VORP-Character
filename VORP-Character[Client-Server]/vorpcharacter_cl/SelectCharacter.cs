@@ -3,8 +3,6 @@ using CitizenFX.Core.Native;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
@@ -22,7 +20,7 @@ namespace vorpcharacter_cl
         dynamic myChars = null;
         private static bool isInCharacterSelector = false;
         private int tagId = 0;
-        private static bool swappingChar = true; 
+        private static bool swappingChar = true;
 
         public SelectCharacter()
         {
@@ -149,7 +147,7 @@ namespace vorpcharacter_cl
             API.SetClockTime(12, 00, 00);
 
             API.SetEntityCoords(API.PlayerPedId(), 1687.03f, 1507.06f, 145.60f, false, false, false, false);
-            
+
             myChars = myCharacters;
 
             mainCamera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 1693.301f, 1507.959f, 148.84f, -13.82f, 0f, -84.67f, 50.00f, false, 0);
@@ -309,7 +307,7 @@ namespace vorpcharacter_cl
 
                 await Delay(0);
             }
-            
+
         }
 
         public async Task LoadNpcComps(string skin_json, string cloths_json)

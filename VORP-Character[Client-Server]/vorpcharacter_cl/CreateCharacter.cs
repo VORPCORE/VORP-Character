@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
@@ -17,9 +16,9 @@ namespace vorpcharacter_cl
         public CreateCharacter()
         {
             EventHandlers["vorpcharacter:createCharacter"] += new Action(StartCreationOfCharacter);
-            EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic,dynamic>(StartCreationOfCharacter2);
+            EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic, dynamic>(StartCreationOfCharacter2);
         }
-    
+
         //vars Scene
         static bool isSelectSexActive = false;
         static bool secondchance = false;
@@ -387,7 +386,7 @@ namespace vorpcharacter_cl
             int pPID = API.PlayerPedId();
             float _sizeValue = (float)index;
 
-              if (_sizeValue > 10)
+            if (_sizeValue > 10)
             {
                 _sizeValue = -1 * _sizeValue;
             }
@@ -395,9 +394,10 @@ namespace vorpcharacter_cl
             {
                 _sizeValue = _sizeValue;
             }
-            else{
+            else
+            {
                 _sizeValue = 0;
-            }    
+            }
             _sizeValue = _sizeValue / 10.0f;
             switch (item)
             {
@@ -633,12 +633,12 @@ namespace vorpcharacter_cl
             return (uint)Int32.Parse(value, NumberStyles.HexNumber);
         }
 
-        
+
 
         public async void StartCreationOfCharacter()
         {
             Tick += OnTick;
-            
+
             Tick += OnTickCameras;
             Function.Call(Hash._REQUEST_IMAP, 183712523);
             Function.Call(Hash._REQUEST_IMAP, -1699673416);
@@ -659,7 +659,7 @@ namespace vorpcharacter_cl
 
         }
 
-        public async void StartCreationOfCharacter2(dynamic charsid,dynamic charxx)
+        public async void StartCreationOfCharacter2(dynamic charsid, dynamic charxx)
         {
             API.DoScreenFadeOut(500);
 
@@ -706,7 +706,7 @@ namespace vorpcharacter_cl
                 {
                     if (secondchance)
                     {
-                        TriggerServerEvent("vorp_updateexisting", skinPlayer, clothesPlayer, result,charidx,usedcha);
+                        TriggerServerEvent("vorp_updateexisting", skinPlayer, clothesPlayer, result, charidx, usedcha);
                         StopCreation();
                         StartAnim();
                     }
@@ -716,12 +716,12 @@ namespace vorpcharacter_cl
                         StopCreation();
                         StartAnim();
                     }
-                    
+
                 }
             }));
         }
 
-       
+
 
         private static async void StartAnim()
         {

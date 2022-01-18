@@ -1,12 +1,8 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using MenuAPI;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
 namespace vorpcharacter_cl.Menus
@@ -109,7 +105,7 @@ namespace vorpcharacter_cl.Menus
 
                 btnSelectorLegs = new MenuListItem(GetConfig.Langs["LegsType"], legsValues, 0, GetConfig.Langs["LegsTypeDesc"]); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLegs); // Lo añadimos al menu
-                
+
                 //Hair
                 List<string> hairValues = new List<string>();
 
@@ -592,7 +588,8 @@ namespace vorpcharacter_cl.Menus
             }
 
 
-            skinMenu.OnMenuOpen += (_menu) => {
+            skinMenu.OnMenuOpen += (_menu) =>
+            {
 
             };
 
@@ -847,7 +844,8 @@ namespace vorpcharacter_cl.Menus
             return skinMenu;
         }
 
-        private static void ReloadTextures() {
+        private static void ReloadTextures()
+        {
 
             if (btnSelectoreyeBrows.ListIndex == 0)
             {
@@ -984,6 +982,6 @@ namespace vorpcharacter_cl.Menus
             CreateCharacter.texture_types["albedo"] = API.GetHashKey(GetConfig.Config[sex][index]["HeadTexture"].ToString());
             CreateCharacter.skinPlayer["albedo"] = API.GetHashKey(GetConfig.Config[sex][index]["HeadTexture"].ToString());
             ReloadTextures();
-        } 
+        }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
 namespace vorpcharacter_cl.Menus
@@ -690,7 +686,8 @@ namespace vorpcharacter_cl.Menus
             MenuListItem mListSatchels = new MenuListItem(GetConfig.Langs["Satchels"], satchelsType, 0, GetConfig.Langs["SatchelsDesc"]);
             clothesMenu.AddMenuItem(mListSatchels);
 
-            clothesMenu.OnMenuOpen += (_menu) => {
+            clothesMenu.OnMenuOpen += (_menu) =>
+            {
 
             };
 
@@ -779,7 +776,7 @@ namespace vorpcharacter_cl.Menus
                     case 23:
                         CreateCharacter.SetPlayerComponent(_newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
                         break;
-                   case 24:
+                    case 24:
                         CreateCharacter.SetPlayerComponent(0, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
                         mListSpats.ListIndex = 0;
                         CreateCharacter.SetPlayerComponent(_newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
@@ -803,7 +800,7 @@ namespace vorpcharacter_cl.Menus
                         break;
                     case 30:
                         CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
-                    break;
+                        break;
                 }
             };
 

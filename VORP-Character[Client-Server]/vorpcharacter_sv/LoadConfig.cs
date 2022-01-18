@@ -5,9 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace vorpcharacter_sv
 {
@@ -17,16 +15,16 @@ namespace vorpcharacter_sv
         public static string ConfigString;
         public static Dictionary<string, string> Langs = new Dictionary<string, string>();
         public static string resourcePath = $"{API.GetResourcePath(API.GetCurrentResourceName())}";
-        
+
         public static bool isConfigLoaded = false;
-        
+
         public LoadConfig()
         {
             EventHandlers[$"{API.GetCurrentResourceName()}:getConfig"] += new Action<Player>(getConfig);
-        
+
             LoadConfigAndLang();
         }
-        
+
         private void LoadConfigAndLang()
         {
             if (File.Exists($"{resourcePath}/Config.json"))
@@ -40,7 +38,7 @@ namespace vorpcharacter_sv
                     Debug.WriteLine($"{API.GetCurrentResourceName()}: Language {Config["defaultlang"]}.json loaded!");
                 }
                 else
-                {    
+                {
                     Debug.WriteLine($"{API.GetCurrentResourceName()}: {Config["defaultlang"]}.json Not Found");
                 }
             }
@@ -50,8 +48,8 @@ namespace vorpcharacter_sv
             }
             isConfigLoaded = true;
         }
-        
-        private async void getConfig([FromSource]Player source)
+
+        private async void getConfig([FromSource] Player source)
         {
             source.TriggerEvent($"{API.GetCurrentResourceName()}:SendConfig", ConfigString, Langs);
         }

@@ -1,11 +1,6 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using vorpcharacter_cl.Utils;
 
 namespace vorpcharacter_cl.Menus
@@ -58,7 +53,7 @@ namespace vorpcharacter_cl.Menus
 
             List<string> scaleValues = new List<string>();
 
-            foreach(float sc in Utils.SkinsUtils.SCALE_LIST)
+            foreach (float sc in Utils.SkinsUtils.SCALE_LIST)
             {
                 scaleValues.Add(GetConfig.Langs["Scale"] + sc.ToString());
             }

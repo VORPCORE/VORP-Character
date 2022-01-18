@@ -1,12 +1,6 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using vorpcharacter_cl.Utils;
 
 namespace vorpcharacter_cl.Menus
 {
@@ -155,7 +149,8 @@ namespace vorpcharacter_cl.Menus
 
 
 
-            faceMenu.OnMenuOpen += (_menu) => {
+            faceMenu.OnMenuOpen += (_menu) =>
+            {
 
             };
 

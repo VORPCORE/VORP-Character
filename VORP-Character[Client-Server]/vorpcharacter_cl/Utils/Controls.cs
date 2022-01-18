@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace vorpcharacter_cl.Utils
+﻿namespace vorpcharacter_cl.Utils
 {
     public static class Controls
     {

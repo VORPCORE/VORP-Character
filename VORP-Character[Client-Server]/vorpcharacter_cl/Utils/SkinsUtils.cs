@@ -1,10 +1,6 @@
-﻿using System;
+﻿using CitizenFX.Core;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
 
 namespace vorpcharacter_cl.Utils
 {
@@ -27,7 +23,7 @@ namespace vorpcharacter_cl.Utils
             }
         }
 
-       
+
 
         public static List<uint> HATS_MALE = new List<uint>()
         {
@@ -10596,7 +10592,7 @@ namespace vorpcharacter_cl.Utils
            0x7E2D016B,
            0xFCAF241B,
         };
-         public static List<uint> GUNBELTACCS_MALE = new List<uint>()
+        public static List<uint> GUNBELTACCS_MALE = new List<uint>()
         {
             0x102CB403,
             0x1D2911AF,
@@ -10641,7 +10637,7 @@ namespace vorpcharacter_cl.Utils
             0x8C75DF22,
             0x9AD37BDD,
             0x60583652,
-        }; 
+        };
 
         public static List<uint> CHAPS_MALE = new List<uint>()
         {

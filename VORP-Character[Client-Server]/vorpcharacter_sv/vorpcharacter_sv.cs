@@ -4,14 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace vorpcharacter_sv
 {
@@ -31,9 +23,9 @@ namespace vorpcharacter_sv
             EventHandlers["vorp_SpawnUniqueCharacter"] += new Action<int>(SpawnUniqueCharacter);
             //Event for save the new character
             EventHandlers["vorp_SaveNewCharacter"] += new Action<Player, dynamic, dynamic, string>(SaveNewCharacter);
-            EventHandlers["vorp_updateexisting"] += new Action<Player, dynamic, dynamic, string,dynamic,dynamic>(SaveNewCharacter2);
+            EventHandlers["vorp_updateexisting"] += new Action<Player, dynamic, dynamic, string, dynamic, dynamic>(SaveNewCharacter2);
             //Event for delete the character
-            EventHandlers["vorp_DeleteCharacter"] += new Action<Player,int>(DeleteCharacter);
+            EventHandlers["vorp_DeleteCharacter"] += new Action<Player, int>(DeleteCharacter);
 
             EventHandlers["vorp_CharSelectedCharacter"] += new Action<Player, int>(SelectCharacter);
 
@@ -43,14 +35,15 @@ namespace vorpcharacter_sv
             EventHandlers["vorpcharacter:getPlayerSkin"] += new Action<Player>(getPlayerSkin);
 
             //GetCore Event
-            TriggerEvent("getCore",new Action<dynamic>((dic) =>
-            {
-                CORE = dic;
-                MaxCharacters = (int) CORE.maxCharacters;
-                CORE.addRpcCallback("vorp_characters:getMaxCharacters", new Action<int, CallbackDelegate, dynamic>((source,cb,args) => {
-                    cb(MaxCharacters);
-                }));
-            }));
+            TriggerEvent("getCore", new Action<dynamic>((dic) =>
+             {
+                 CORE = dic;
+                 MaxCharacters = (int)CORE.maxCharacters;
+                 CORE.addRpcCallback("vorp_characters:getMaxCharacters", new Action<int, CallbackDelegate, dynamic>((source, cb, args) =>
+                 {
+                     cb(MaxCharacters);
+                 }));
+             }));
 
             API.RegisterCommand("createcharacter", new Action<int, List<object>, string>((source, args, rawCommand) =>
             {
@@ -96,21 +89,21 @@ namespace vorpcharacter_sv
             p.TriggerEvent("vorpcharacter:spawnUniqueCharacter", UserCharacters);
         }
 
-        private void SelectCharacter([FromSource]Player source, int charid)
+        private void SelectCharacter([FromSource] Player source, int charid)
         {
             dynamic CoreUser = CORE.getUser(int.Parse(source.Handle));
-            if(charid != null)
+            if (charid != null)
             {
                 CoreUser.setUsedCharacter(charid);
             }
         }
 
-        private void DeleteCharacter([FromSource]Player source,int charid)
+        private void DeleteCharacter([FromSource] Player source, int charid)
         {
             dynamic CoreUser = CORE.getUser(int.Parse(source.Handle));
             CoreUser.removeCharacter(charid);
         }
-        
+
         private async void SaveNewCharacter([FromSource] Player source, dynamic skin, dynamic components, string name)
         {
             string sid = ("steam:" + source.Identifiers["steam"]);
@@ -133,7 +126,7 @@ namespace vorpcharacter_sv
                 source.TriggerEvent("vorp_NewCharacter");
                 TriggerEvent("vorp_NewCharacter", int.Parse(source.Handle));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
@@ -152,21 +145,21 @@ namespace vorpcharacter_sv
 
             dynamic CorePlayer = CORE.getUser(int.Parse(source.Handle));
             dynamic UserCharacter = charidx;
-            
+
             try
             {
                 Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
                 Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
                 //charx.setFirstname(firstname.ToString());
                 //charx.setLastname(lastname.ToString());
-                Exports["ghmattimysql"].execute("UPDATE characters SET `firstname` = ? , `lastname` = ?, `skinPlayer` = ?, `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ? ", new object[] { firstname,lastname,skinPlayer,compsPlayer, sid,UserCharacter });
+                Exports["ghmattimysql"].execute("UPDATE characters SET `firstname` = ? , `lastname` = ?, `skinPlayer` = ?, `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ? ", new object[] { firstname, lastname, skinPlayer, compsPlayer, sid, UserCharacter });
                 source.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
                 await Delay(2000);
                 //source.TriggerEvent("vorp_NewCharacter");
                 //TriggerEvent("vorp_NewCharacter", int.Parse(source.Handle));
-            
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
@@ -219,7 +212,7 @@ namespace vorpcharacter_sv
             dynamic UserCharacter = CORE.getUser(source).getUsedCharacter;
 
             string sid = "steam:" + p.Identifiers["steam"];
-        
+
             string comp_string = UserCharacter.comps;
             string s_skin = UserCharacter.skin;
 
@@ -257,7 +250,7 @@ namespace vorpcharacter_sv
             dynamic UserCharacter = CORE.getUser(source).getUsedCharacter;
 
             string sid = "steam:" + p.Identifiers["steam"];
-        
+
             string skin_string = UserCharacter.skin;
             string s_body = UserCharacter.comps;
 
@@ -295,7 +288,7 @@ namespace vorpcharacter_sv
 
             dynamic UserCharacter = CORE.getUser(source).getUsedCharacter;
             string sid = "steam:" + p.Identifiers["steam"];
-           
+
             Dictionary<string, string> comp = new Dictionary<string, string>();
 
             comp.Add("cloths", UserCharacter.comps);
