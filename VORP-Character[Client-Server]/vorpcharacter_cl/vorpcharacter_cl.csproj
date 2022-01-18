@@ -32,7 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CitizenFX.Core">
-      <HintPath>..\..\..\vorp api refences\Client\CitizenFX.Core.dll</HintPath>
+      <HintPath>..\dependancies\RedM\CitizenFX.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MenuAPI">
       <HintPath>..\..\..\vorp api refences\MenuAPI.dll</HintPath>
