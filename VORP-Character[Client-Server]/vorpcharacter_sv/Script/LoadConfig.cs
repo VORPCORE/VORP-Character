@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace VorpCharacter
+namespace VorpCharacter.Script
 {
-    class LoadConfig : BaseScript
+    internal class LoadConfig : BaseScript
     {
         public static JObject Config = new JObject();
         public static string ConfigString;

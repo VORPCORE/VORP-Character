@@ -5,15 +5,15 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace VorpCharacter
+namespace VorpCharacter.Script
 {
-    public class VorpCharacter : BaseScript
+    internal class VorpCharacterAPI : BaseScript
     {
         public static string resourcePath = $"{API.GetResourcePath(API.GetCurrentResourceName())}";
         public static dynamic CORE;
         public static int MaxCharacters;
 
-        public VorpCharacter()
+        public VorpCharacterAPI()
         {
             //Event for create new character 
             EventHandlers["vorp_CreateNewCharacter"] += new Action<int>(CreateNewCharacter);
