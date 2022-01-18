@@ -35,8 +35,8 @@
       <HintPath>..\dependancies\RedM\CitizenFX.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MenuAPI">
-      <HintPath>..\..\..\vorp api refences\MenuAPI.dll</HintPath>
+    <Reference Include="MenuAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MenuAPI.RedM.3.2.2\lib\net452\MenuAPI.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\vorp api refences\Newtonsoft.Json.dll</HintPath>
