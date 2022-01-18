@@ -15,6 +15,7 @@ namespace VorpCharacter
         public static PluginManager Instance { get; private set; }
         public static PlayerList PlayerList;
         public static dynamic CORE;
+        public static int MAX_ALLOWED_CHARACTERS;
 
         public EventHandlerDictionary EventRegistry => EventHandlers;
         public ExportDictionary ExportRegistry => Exports;
@@ -62,6 +63,11 @@ namespace VorpCharacter
             {
                 Logger.Success($"VORP Core Setup");
                 CORE = dic;
+                MAX_ALLOWED_CHARACTERS = (int)CORE.maxCharacters;
+                CORE.addRpcCallback("vorp_characters:getMaxCharacters", new Action<int, CallbackDelegate, dynamic>((source, cb, args) =>
+                {
+                    cb(MAX_ALLOWED_CHARACTERS);
+                }));
             }));
 
             RegisterScript(_config);
