@@ -8,3 +8,5 @@
 /VORP-Character\[Client-Server\]/build/vorp_character/*.pdb
 /VORP-Character\[Client-Server\]/.vs
 /VORP-Character\[Client-Server\]/.idea
+VORP-Character[Client-Server]/build/vorp_character/CitizenFX.Core.xml
+VORP-Character[Client-Server]/build/vorp_character/CitizenFX.Core.dll
