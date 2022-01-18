@@ -22,7 +22,7 @@ namespace VorpCharacter
         string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
 
         readonly LoadConfig _config = new LoadConfig();
-        readonly VorpCharacterAPI _vorpCharacterAPI = new VorpCharacterAPI();
+        readonly CharacterApi _vorpCharacterAPI = new CharacterApi();
 
         public PluginManager()
         {

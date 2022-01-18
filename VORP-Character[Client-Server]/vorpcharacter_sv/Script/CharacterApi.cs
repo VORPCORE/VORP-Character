@@ -9,9 +9,9 @@ using VorpCharacter.Extensions;
 
 namespace VorpCharacter.Script
 {
-    internal class VorpCharacterAPI : BaseScript
+    internal class CharacterApi : BaseScript
     {
-        public VorpCharacterAPI()
+        public CharacterApi()
         {
             //Event for create new character 
             EventHandlers["vorp_CreateNewCharacter"] += new Action<int>(CreateNewCharacter);
