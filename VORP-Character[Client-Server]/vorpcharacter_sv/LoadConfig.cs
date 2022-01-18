@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace vorpcharacter_sv
+namespace VorpCharacter
 {
     class LoadConfig : BaseScript
     {
