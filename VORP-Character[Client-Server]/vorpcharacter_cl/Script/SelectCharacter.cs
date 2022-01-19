@@ -84,7 +84,7 @@ namespace VorpCharacter.Script
             //Left
             CreatePrompt = API.PromptRegisterBegin();
             Function.Call((Hash)0xB5352B7494A08258, CreatePrompt, 0x9959A6F0);
-            long str_previous = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", GetConfig.Langs["CreateNewChar"]);
+            long str_previous = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", PluginManager.Langs["CreateNewChar"]);
             Function.Call((Hash)0x5DD02A8318420DD7, CreatePrompt, str_previous);
             API.PromptSetEnabled(CreatePrompt, 0);
             API.PromptSetVisible(CreatePrompt, 0);
@@ -94,7 +94,7 @@ namespace VorpCharacter.Script
             //Enter
             DeletePrompt = API.PromptRegisterBegin();
             Function.Call((Hash)0xB5352B7494A08258, DeletePrompt, 0x156F7119);
-            long str_select = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", GetConfig.Langs["DeleteChar"]);
+            long str_select = Function.Call<long>(Hash._CREATE_VAR_STRING, 10, "LITERAL_STRING", PluginManager.Langs["DeleteChar"]);
             Function.Call((Hash)0x5DD02A8318420DD7, DeletePrompt, str_select);
             API.PromptSetEnabled(DeletePrompt, 0);
             API.PromptSetVisible(DeletePrompt, 0);
@@ -120,7 +120,7 @@ namespace VorpCharacter.Script
             Function.Call((Hash)0x839BFD7D7E49FE09, tagId);
             API.DeletePed(ref ppid);
             await LoadNpcComps(json_skin, json_components);
-            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, ppid, $"{GetConfig.Langs["MoneyTag"]}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money, false, false, "", 0);
+            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, ppid, $"{PluginManager.Langs["MoneyTag"]}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money, false, false, "", 0);
             Function.Call((Hash)0xA0D7CE5F83259663, tagId, myChars[selectedChar].firstname + " " + myChars[selectedChar].lastname);
             Function.Call((Hash)0x5F57522BC1EB9D9D, tagId, 0);
             await Delay(500);
@@ -166,7 +166,7 @@ namespace VorpCharacter.Script
             while (isInCharacterSelector)
             {
                 API.DrawLightWithRange(1696.17f, 1508.474f, 147.85f, 255, 255, 255, 8.0f, 250.0f);
-                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressSelectInfo"], 0.5f, 0.90f, 0.75f, 0.70f, 255, 255, 255, 255, true, false);
+                await Utils.Miscellanea.DrawTxt(PluginManager.Langs["PressSelectInfo"], 0.5f, 0.90f, 0.75f, 0.70f, 255, 255, 255, 255, true, false);
                 await Delay(0);
             }
         }
@@ -268,7 +268,7 @@ namespace VorpCharacter.Script
                     }
                     else
                     {
-                        PluginManager.CORE.displayRightTip(GetConfig.Langs["CharactersFull"], 4000);
+                        PluginManager.CORE.displayRightTip(PluginManager.Langs["CharactersFull"], 4000);
                         await Delay(1000);
                     }
                 }

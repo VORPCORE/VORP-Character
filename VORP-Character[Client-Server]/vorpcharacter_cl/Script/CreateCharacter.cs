@@ -7,6 +7,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using VorpCharacter.Enums;
+using VorpCharacter.Extensions;
+using VorpCharacter.Model;
 using VorpCharacter.Utils;
 
 namespace VorpCharacter.Script
@@ -693,7 +695,7 @@ namespace VorpCharacter.Script
 
         public static async Task SaveChanges()
         {
-            TriggerEvent("vorpinputs:getInput", GetConfig.Langs["ButtonInputName"], GetConfig.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
+            TriggerEvent("vorpinputs:getInput", PluginManager.Langs["ButtonInputName"], PluginManager.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
             {
                 string result = cb;
                 await Delay(1000);
@@ -702,7 +704,7 @@ namespace VorpCharacter.Script
 
                 if (result.Length < 3 || words.Count() < 2)
                 {
-                    TriggerEvent("vorp:Tip", GetConfig.Langs["PlaceHolderInputName"], 3000); // from client side
+                    TriggerEvent("vorp:Tip", PluginManager.Langs["PlaceHolderInputName"], 3000); // from client side
                     SaveChanges();
                 }
                 else
@@ -729,11 +731,13 @@ namespace VorpCharacter.Script
         private static async void StartAnim()
         {
             TriggerEvent("vorp:initNewCharacter");
-            Vector3 coords = new Vector3(GetConfig.Config["StartingCoords"][0].ToObject<float>(), GetConfig.Config["StartingCoords"][1].ToObject<float>(), GetConfig.Config["StartingCoords"][2].ToObject<float>());
+            Position position = PluginManager.Config.StartingCoords;
+            Vector3 coords = position.AsVector();
+            float heading = position.H;
 
             API.DoScreenFadeOut(500);
             API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
-            API.SetEntityHeading(API.PlayerPedId(), GetConfig.Config["Heading"][0].ToObject<float>());
+            API.SetEntityHeading(API.PlayerPedId(), heading);
             await Delay(3000);
 
             TriggerEvent("vorp:setInstancePlayer", false);
@@ -742,18 +746,18 @@ namespace VorpCharacter.Script
 
             await Delay(3000);
 
-            TriggerEvent("vorp:TipBottom", GetConfig.Langs["TipFinal"], 15000);
+            TriggerEvent("vorp:TipBottom", PluginManager.Langs["TipFinal"], 15000);
         }
 
         public static async void ApplyDefaultSkinCanaryEdition(int ped)
         {
             if (API.IsPedMale(ped))
             {
-                string comp_body_male = "0x" + GetConfig.Config["Male"][0]["Body"][0].ToString();
+                string comp_body_male = "0x" + PluginManager.Config.Male[0].Body[0].ToString();
                 int comp_body_male_int = Convert.ToInt32(comp_body_male, 16);
-                string comp_heads_male = "0x" + GetConfig.Config["Male"][0]["Heads"][0].ToString();
+                string comp_heads_male = "0x" + PluginManager.Config.Male[0].Heads[0].ToString();
                 int comp_heads_male_int = Convert.ToInt32(comp_heads_male, 16);
-                string comp_legs_male = "0x" + GetConfig.Config["Male"][0]["Legs"][0].ToString();
+                string comp_legs_male = "0x" + PluginManager.Config.Male[0].Legs[0].ToString();
                 int comp_legs_male_int = Convert.ToInt32(comp_legs_male, 16);
 
                 Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_MALE.ElementAt(0), true, true, true);
@@ -767,11 +771,11 @@ namespace VorpCharacter.Script
             }
             else
             {
-                string comp_body_female = "0x" + GetConfig.Config["Female"][0]["Body"][0].ToString();
+                string comp_body_female = "0x" + PluginManager.Config.Female[0].Body[0].ToString();
                 int comp_body_female_int = Convert.ToInt32(comp_body_female, 16);
-                string comp_heads_female = "0x" + GetConfig.Config["Female"][0]["Heads"][0].ToString();
+                string comp_heads_female = "0x" + PluginManager.Config.Female[0].Heads[0].ToString();
                 int comp_heads_female_int = Convert.ToInt32(comp_heads_female, 16);
-                string comp_legs_female = "0x" + GetConfig.Config["Female"][0]["Legs"][0].ToString();
+                string comp_legs_female = "0x" + PluginManager.Config.Female[0].Legs[0].ToString();
                 int comp_legs_female_int = Convert.ToInt32(comp_legs_female, 16);
 
                 Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_FEMALE.ElementAt(0), true, true, true);
@@ -1065,12 +1069,12 @@ namespace VorpCharacter.Script
 
             if (isSelectSexActive)
             {
-                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                await Utils.Miscellanea.DrawTxt(PluginManager.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
             }
 
             if (isInCharCreation) //Fix Run Ped
             {
-                await Utils.Miscellanea.DrawTxt(GetConfig.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                await Utils.Miscellanea.DrawTxt(PluginManager.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
                 API.FreezeEntityPosition(API.PlayerPedId(), true);
                 API.ClearPedTasks(API.PlayerPedId(), 1, 1);
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);

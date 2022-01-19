@@ -9,35 +9,35 @@ namespace VorpCharacter.Utils
     {
         public static void InitCommands()
         {
-            API.RegisterCommand(GetConfig.Langs["CommandHat"], new Action(Hat), false);
-            API.RegisterCommand(GetConfig.Langs["CommandEyeWear"], new Action(EyeWear), false);
-            API.RegisterCommand(GetConfig.Langs["CommandMask"], new Action(Mask), false);
-            API.RegisterCommand(GetConfig.Langs["CommandNeckWear"], new Action(NeckWear), false);
-            API.RegisterCommand(GetConfig.Langs["CommandNeckTies"], new Action(NeckTies), false);
-            API.RegisterCommand(GetConfig.Langs["CommandShirt"], new Action(Shirt), false);
-            API.RegisterCommand(GetConfig.Langs["CommandSuspender"], new Action(Suspender), false);
-            API.RegisterCommand(GetConfig.Langs["CommandVest"], new Action(Vest), false);
-            API.RegisterCommand(GetConfig.Langs["CommandCoat"], new Action(Coat), false);
-            API.RegisterCommand(GetConfig.Langs["CommandPoncho"], new Action(Poncho), false);
-            API.RegisterCommand(GetConfig.Langs["CommandCloak"], new Action(Cloak), false);
-            API.RegisterCommand(GetConfig.Langs["CommandGlove"], new Action(Glove), false);
-            API.RegisterCommand(GetConfig.Langs["CommandRings"], new Action(Rings), false);
-            API.RegisterCommand(GetConfig.Langs["CommandBracelet"], new Action(Bracelet), false);
-            API.RegisterCommand(GetConfig.Langs["CommandBelt"], new Action(Belt), false);
-            API.RegisterCommand(GetConfig.Langs["CommandBuckle"], new Action(Buckle), false);
-            API.RegisterCommand(GetConfig.Langs["CommandPant"], new Action(Pant), false);
-            API.RegisterCommand(GetConfig.Langs["CommandSkirt"], new Action(Skirt), false);
-            API.RegisterCommand(GetConfig.Langs["CommandChap"], new Action(Chap), false);
-            API.RegisterCommand(GetConfig.Langs["CommandBoots"], new Action(Boots), false);
-            API.RegisterCommand(GetConfig.Langs["CommandSpurs"], new Action(Spurs), false);
-            API.RegisterCommand(GetConfig.Langs["CommandUndress"], new Action(Undress), false);
-            API.RegisterCommand(GetConfig.Langs["CommandDress"], new Action(Dress), false);
-            API.RegisterCommand(GetConfig.Langs["CommandSpats"], new Action(Spats), false);
-            API.RegisterCommand(GetConfig.Langs["CommandGunbeltAccs"], new Action(GunbeltAccs), false);
-            API.RegisterCommand(GetConfig.Langs["CommandGauntlets"], new Action(Gauntlets), false);
-            API.RegisterCommand(GetConfig.Langs["CommandLoadouts"], new Action(Loadouts), false);
-            API.RegisterCommand(GetConfig.Langs["CommandAccessories"], new Action(Accessories), false);
-            API.RegisterCommand(GetConfig.Langs["CommandSatchels"], new Action(Satchels), false);
+            API.RegisterCommand(PluginManager.Langs["CommandHat"], new Action(Hat), false);
+            API.RegisterCommand(PluginManager.Langs["CommandEyeWear"], new Action(EyeWear), false);
+            API.RegisterCommand(PluginManager.Langs["CommandMask"], new Action(Mask), false);
+            API.RegisterCommand(PluginManager.Langs["CommandNeckWear"], new Action(NeckWear), false);
+            API.RegisterCommand(PluginManager.Langs["CommandNeckTies"], new Action(NeckTies), false);
+            API.RegisterCommand(PluginManager.Langs["CommandShirt"], new Action(Shirt), false);
+            API.RegisterCommand(PluginManager.Langs["CommandSuspender"], new Action(Suspender), false);
+            API.RegisterCommand(PluginManager.Langs["CommandVest"], new Action(Vest), false);
+            API.RegisterCommand(PluginManager.Langs["CommandCoat"], new Action(Coat), false);
+            API.RegisterCommand(PluginManager.Langs["CommandPoncho"], new Action(Poncho), false);
+            API.RegisterCommand(PluginManager.Langs["CommandCloak"], new Action(Cloak), false);
+            API.RegisterCommand(PluginManager.Langs["CommandGlove"], new Action(Glove), false);
+            API.RegisterCommand(PluginManager.Langs["CommandRings"], new Action(Rings), false);
+            API.RegisterCommand(PluginManager.Langs["CommandBracelet"], new Action(Bracelet), false);
+            API.RegisterCommand(PluginManager.Langs["CommandBelt"], new Action(Belt), false);
+            API.RegisterCommand(PluginManager.Langs["CommandBuckle"], new Action(Buckle), false);
+            API.RegisterCommand(PluginManager.Langs["CommandPant"], new Action(Pant), false);
+            API.RegisterCommand(PluginManager.Langs["CommandSkirt"], new Action(Skirt), false);
+            API.RegisterCommand(PluginManager.Langs["CommandChap"], new Action(Chap), false);
+            API.RegisterCommand(PluginManager.Langs["CommandBoots"], new Action(Boots), false);
+            API.RegisterCommand(PluginManager.Langs["CommandSpurs"], new Action(Spurs), false);
+            API.RegisterCommand(PluginManager.Langs["CommandUndress"], new Action(Undress), false);
+            API.RegisterCommand(PluginManager.Langs["CommandDress"], new Action(Dress), false);
+            API.RegisterCommand(PluginManager.Langs["CommandSpats"], new Action(Spats), false);
+            API.RegisterCommand(PluginManager.Langs["CommandGunbeltAccs"], new Action(GunbeltAccs), false);
+            API.RegisterCommand(PluginManager.Langs["CommandGauntlets"], new Action(Gauntlets), false);
+            API.RegisterCommand(PluginManager.Langs["CommandLoadouts"], new Action(Loadouts), false);
+            API.RegisterCommand(PluginManager.Langs["CommandAccessories"], new Action(Accessories), false);
+            API.RegisterCommand(PluginManager.Langs["CommandSatchels"], new Action(Satchels), false);
 
         }
 

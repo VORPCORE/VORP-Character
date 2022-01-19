@@ -21,7 +21,6 @@ namespace VorpCharacter
         public ExportDictionary ExportRegistry => Exports;
         string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
 
-        readonly LoadConfig _config = new LoadConfig();
         readonly CharacterApi _vorpCharacterAPI = new CharacterApi();
 
         public PluginManager()
@@ -70,7 +69,6 @@ namespace VorpCharacter
                 }));
             }));
 
-            RegisterScript(_config);
             RegisterScript(_vorpCharacterAPI);
 
             AddEvents();
@@ -102,7 +100,6 @@ namespace VorpCharacter
 
                 Logger.Info($"Stopping VORP Character");
 
-                UnregisterScript(_config);
                 UnregisterScript(_vorpCharacterAPI);
             }));
         }

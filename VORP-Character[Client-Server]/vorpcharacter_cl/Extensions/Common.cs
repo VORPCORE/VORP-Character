@@ -1,4 +1,5 @@
-﻿using VorpCharacter.Model;
+﻿using CitizenFX.Core;
+using VorpCharacter.Model;
 
 namespace VorpCharacter.Extensions
 {
@@ -7,5 +8,6 @@ namespace VorpCharacter.Extensions
         public static dynamic GetCoreUser(this VorpPlayer player) => PluginManager.CORE.getUser(player.Handle);
         public static dynamic GetCoreUserCharacter(this VorpPlayer player) => player.GetCoreUser().getUsedCharacter;
         public static dynamic GetCoreUserCharacters(this VorpPlayer player) => player.GetCoreUser().getUserCharacters;
+        public static Vector3 AsVector(this Position position) => new Vector3(position.X, position.Y, position.Z);
     }
 }

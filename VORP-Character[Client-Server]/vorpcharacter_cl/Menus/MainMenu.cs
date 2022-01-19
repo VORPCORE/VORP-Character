@@ -8,7 +8,7 @@ namespace VorpCharacter.Menus
 {
     class MainMenu
     {
-        private static Menu mainMenu = new Menu(GetConfig.Langs["TitleMainMenu"], GetConfig.Langs["SubTitleMainMenu"]);
+        private static Menu mainMenu = new Menu(PluginManager.Langs["TitleMainMenu"], PluginManager.Langs["SubTitleMainMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {
@@ -22,7 +22,7 @@ namespace VorpCharacter.Menus
             //SkinMenu
             MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
 
-            MenuItem subMenuSkinBtn = new MenuItem(GetConfig.Langs["TitleSkinMenu"], GetConfig.Langs["SubTitleSkinMenu"])
+            MenuItem subMenuSkinBtn = new MenuItem(PluginManager.Langs["TitleSkinMenu"], PluginManager.Langs["SubTitleSkinMenu"])
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -33,7 +33,7 @@ namespace VorpCharacter.Menus
             //FaceMenu
             MenuController.AddSubmenu(mainMenu, FaceMenu.GetMenu());
 
-            MenuItem subMenuFaceBtn = new MenuItem(GetConfig.Langs["TitleFaceMenu"], GetConfig.Langs["SubTitleFaceMenu"])
+            MenuItem subMenuFaceBtn = new MenuItem(PluginManager.Langs["TitleFaceMenu"], PluginManager.Langs["SubTitleFaceMenu"])
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -44,7 +44,7 @@ namespace VorpCharacter.Menus
             //ClothesMenu
             MenuController.AddSubmenu(mainMenu, ClothesMenu.GetMenu());
 
-            MenuItem subMenuClothesBtn = new MenuItem(GetConfig.Langs["TitleClothesMenu"], GetConfig.Langs["SubTitleClothesMenu"])
+            MenuItem subMenuClothesBtn = new MenuItem(PluginManager.Langs["TitleClothesMenu"], PluginManager.Langs["SubTitleClothesMenu"])
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -56,17 +56,17 @@ namespace VorpCharacter.Menus
 
             foreach (float sc in Utils.SkinsUtils.SCALE_LIST)
             {
-                scaleValues.Add(GetConfig.Langs["Scale"] + sc.ToString());
+                scaleValues.Add(PluginManager.Langs["Scale"] + sc.ToString());
             }
 
-            MenuListItem ScaleBtn = new MenuListItem(GetConfig.Langs["ScaleList"], scaleValues, 4, GetConfig.Langs["ScaleDesc"])
+            MenuListItem ScaleBtn = new MenuListItem(PluginManager.Langs["ScaleList"], scaleValues, 4, PluginManager.Langs["ScaleDesc"])
             {
                 RightIcon = MenuItem.Icon.STAR
             };
             mainMenu.AddMenuItem(ScaleBtn);
 
             //Finish Button
-            MenuItem FinishBtn = new MenuItem(GetConfig.Langs["FinishBtnMainMenu"], GetConfig.Langs["SubFinishBtnMainMenu"])
+            MenuItem FinishBtn = new MenuItem(PluginManager.Langs["FinishBtnMainMenu"], PluginManager.Langs["SubFinishBtnMainMenu"])
             {
                 RightIcon = MenuItem.Icon.TICK
             };

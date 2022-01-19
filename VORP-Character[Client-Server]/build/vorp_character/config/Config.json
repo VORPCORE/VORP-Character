@@ -1,13 +1,11 @@
 {
   "defaultlang": "En",
-  "StartingCoords": [
-    -179.71,
-    634.19,
-    114.089
-  ],
-  "Heading": [
-    55.416
-  ],
+  "StartingCoords": {
+    "X": -179.71,
+    "Y": 634.19,
+    "Z": 114.089,
+    "H": 55.416
+  },
   "Male": [
     {
       "Heads": [

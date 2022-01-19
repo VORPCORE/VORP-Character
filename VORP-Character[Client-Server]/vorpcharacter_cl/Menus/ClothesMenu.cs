@@ -8,7 +8,7 @@ namespace VorpCharacter.Menus
 {
     class ClothesMenu
     {
-        private static Menu clothesMenu = new Menu(GetConfig.Langs["TitleClothesMenu"], GetConfig.Langs["SubTitleClothesMenu"]);
+        private static Menu clothesMenu = new Menu(PluginManager.Langs["TitleClothesMenu"], PluginManager.Langs["SubTitleClothesMenu"]);
         private static bool setupDone = false;
         private static void SetupMenu()
         {
@@ -20,14 +20,14 @@ namespace VorpCharacter.Menus
             MenuController.MenuToggleKey = (Control)0;
 
             List<string> hatType = new List<string>();
-            hatType.Add(GetConfig.Langs["NoHatsValue"]);
+            hatType.Add(PluginManager.Langs["NoHatsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.HATS_MALE.Count + 1; i++)
                 {
-                    hatType.Add(GetConfig.Langs["HatsValue"] + i);
+                    hatType.Add(PluginManager.Langs["HatsValue"] + i);
                 }
             }
             else
@@ -35,21 +35,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.HATS_FEMALE.Count + 1; i++)
                 {
-                    hatType.Add(GetConfig.Langs["HatsValue"] + i);
+                    hatType.Add(PluginManager.Langs["HatsValue"] + i);
                 }
             }
-            MenuListItem mListHats = new MenuListItem(GetConfig.Langs["Hats"], hatType, 0, GetConfig.Langs["HatsDesc"]);
+            MenuListItem mListHats = new MenuListItem(PluginManager.Langs["Hats"], hatType, 0, PluginManager.Langs["HatsDesc"]);
             clothesMenu.AddMenuItem(mListHats);
 
             List<string> eyeWearType = new List<string>();
-            eyeWearType.Add(GetConfig.Langs["NoGlassesValue"]);
+            eyeWearType.Add(PluginManager.Langs["NoGlassesValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.EYEWEAR_MALE.Count + 1; i++)
                 {
-                    eyeWearType.Add(GetConfig.Langs["GlassesValue"] + i);
+                    eyeWearType.Add(PluginManager.Langs["GlassesValue"] + i);
                 }
             }
             else
@@ -57,21 +57,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.EYEWEAR_FEMALE.Count + 1; i++)
                 {
-                    eyeWearType.Add(GetConfig.Langs["GlassesValue"] + i);
+                    eyeWearType.Add(PluginManager.Langs["GlassesValue"] + i);
                 }
             }
-            MenuListItem mListEyeWear = new MenuListItem(GetConfig.Langs["Glasses"], eyeWearType, 0, GetConfig.Langs["GlassesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListEyeWear = new MenuListItem(PluginManager.Langs["Glasses"], eyeWearType, 0, PluginManager.Langs["GlassesDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListEyeWear); // Lo añadimos al menu
 
             List<string> maskType = new List<string>();
-            maskType.Add(GetConfig.Langs["NoMaskValue"]);
+            maskType.Add(PluginManager.Langs["NoMaskValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.MASK_MALE.Count + 1; i++)
                 {
-                    maskType.Add(GetConfig.Langs["MaskValue"] + i);
+                    maskType.Add(PluginManager.Langs["MaskValue"] + i);
                 }
             }
             else
@@ -79,21 +79,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.MASK_FEMALE.Count + 1; i++)
                 {
-                    maskType.Add(GetConfig.Langs["MaskValue"] + i);
+                    maskType.Add(PluginManager.Langs["MaskValue"] + i);
                 }
             }
-            MenuListItem mListMask = new MenuListItem(GetConfig.Langs["Masks"], maskType, 0, GetConfig.Langs["MasksDesc"]); // Añadimos la lista al boton
+            MenuListItem mListMask = new MenuListItem(PluginManager.Langs["Masks"], maskType, 0, PluginManager.Langs["MasksDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListMask); // Lo añadimos al menu
 
             List<string> neckWearType = new List<string>();
-            neckWearType.Add(GetConfig.Langs["NoNeckwearValue"]);
+            neckWearType.Add(PluginManager.Langs["NoNeckwearValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.NECKWEAR_MALE.Count + 1; i++)
                 {
-                    neckWearType.Add(GetConfig.Langs["NeckwearValue"] + i);
+                    neckWearType.Add(PluginManager.Langs["NeckwearValue"] + i);
                 }
             }
             else
@@ -101,21 +101,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.NECKWEAR_FEMALE.Count + 1; i++)
                 {
-                    neckWearType.Add(GetConfig.Langs["NeckwearValue"] + i);
+                    neckWearType.Add(PluginManager.Langs["NeckwearValue"] + i);
                 }
             }
-            MenuListItem mListNeckWear = new MenuListItem(GetConfig.Langs["Neckwear"], neckWearType, 0, GetConfig.Langs["NeckwearDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNeckWear = new MenuListItem(PluginManager.Langs["Neckwear"], neckWearType, 0, PluginManager.Langs["NeckwearDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListNeckWear); // Lo añadimos al menu
 
             List<string> neckTiesType = new List<string>();
-            neckTiesType.Add(GetConfig.Langs["NoTiesValue"]);
+            neckTiesType.Add(PluginManager.Langs["NoTiesValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.NECKTIES_MALE.Count + 1; i++)
                 {
-                    neckTiesType.Add(GetConfig.Langs["TiesValue"] + i);
+                    neckTiesType.Add(PluginManager.Langs["TiesValue"] + i);
                 }
             }
             else
@@ -123,21 +123,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.NECKTIES_FEMALE.Count + 1; i++)
                 {
-                    neckTiesType.Add(GetConfig.Langs["TiesValue"] + i);
+                    neckTiesType.Add(PluginManager.Langs["TiesValue"] + i);
                 }
             }
-            MenuListItem mListNeckTies = new MenuListItem(GetConfig.Langs["Ties"], neckTiesType, 0, GetConfig.Langs["TiesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListNeckTies = new MenuListItem(PluginManager.Langs["Ties"], neckTiesType, 0, PluginManager.Langs["TiesDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListNeckTies); // Lo añadimos al menu
 
             List<string> shirtsType = new List<string>();
-            shirtsType.Add(GetConfig.Langs["NoShirtsValue"]);
+            shirtsType.Add(PluginManager.Langs["NoShirtsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.SHIRTS_MALE.Count + 1; i++)
                 {
-                    shirtsType.Add(GetConfig.Langs["ShirtsValue"] + i);
+                    shirtsType.Add(PluginManager.Langs["ShirtsValue"] + i);
                 }
             }
             else
@@ -145,21 +145,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SHIRTS_FEMALE.Count + 1; i++)
                 {
-                    shirtsType.Add(GetConfig.Langs["ShirtsValue"] + i);
+                    shirtsType.Add(PluginManager.Langs["ShirtsValue"] + i);
                 }
             }
-            MenuListItem mListShirts = new MenuListItem(GetConfig.Langs["Shirts"], shirtsType, 0, GetConfig.Langs["ShirtsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListShirts = new MenuListItem(PluginManager.Langs["Shirts"], shirtsType, 0, PluginManager.Langs["ShirtsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListShirts); // Lo añadimos al menu
 
             List<string> suspendersType = new List<string>();
-            suspendersType.Add(GetConfig.Langs["NoSuspendersValue"]);
+            suspendersType.Add(PluginManager.Langs["NoSuspendersValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.SUSPENDERS_MALE.Count + 1; i++)
                 {
-                    suspendersType.Add(GetConfig.Langs["SuspendersValue"] + i);
+                    suspendersType.Add(PluginManager.Langs["SuspendersValue"] + i);
                 }
             }
             else
@@ -167,22 +167,22 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SUSPENDERS_FEMALE.Count + 1; i++)
                 {
-                    suspendersType.Add(GetConfig.Langs["SuspendersValue"] + i);
+                    suspendersType.Add(PluginManager.Langs["SuspendersValue"] + i);
                 }
             }
-            MenuListItem mListSuspenders = new MenuListItem(GetConfig.Langs["Suspenders"], suspendersType, 0, GetConfig.Langs["SuspendersDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSuspenders = new MenuListItem(PluginManager.Langs["Suspenders"], suspendersType, 0, PluginManager.Langs["SuspendersDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSuspenders); // Lo añadimos al menu
 
 
             List<string> vestType = new List<string>();
-            vestType.Add(GetConfig.Langs["NoVestsValue"]);
+            vestType.Add(PluginManager.Langs["NoVestsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.VEST_MALE.Count + 1; i++)
                 {
-                    vestType.Add(GetConfig.Langs["VestsValue"] + i);
+                    vestType.Add(PluginManager.Langs["VestsValue"] + i);
                 }
             }
             else
@@ -190,21 +190,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.VEST_FEMALE.Count + 1; i++)
                 {
-                    vestType.Add(GetConfig.Langs["VestsValue"] + i);
+                    vestType.Add(PluginManager.Langs["VestsValue"] + i);
                 }
             }
-            MenuListItem mListVest = new MenuListItem(GetConfig.Langs["Vests"], vestType, 0, GetConfig.Langs["VestsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListVest = new MenuListItem(PluginManager.Langs["Vests"], vestType, 0, PluginManager.Langs["VestsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListVest); // Lo añadimos al menu
 
             List<string> coatsType = new List<string>();
-            coatsType.Add(GetConfig.Langs["NoCoatsValue"]);
+            coatsType.Add(PluginManager.Langs["NoCoatsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.COATS_MALE.Count + 1; i++)
                 {
-                    coatsType.Add(GetConfig.Langs["CoatsValue"] + i);
+                    coatsType.Add(PluginManager.Langs["CoatsValue"] + i);
                 }
             }
             else
@@ -212,21 +212,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.COATS_FEMALE.Count + 1; i++)
                 {
-                    coatsType.Add(GetConfig.Langs["CoatsValue"] + i);
+                    coatsType.Add(PluginManager.Langs["CoatsValue"] + i);
                 }
             }
-            MenuListItem mListCoats = new MenuListItem(GetConfig.Langs["Coats"], coatsType, 0, GetConfig.Langs["CoatsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCoats = new MenuListItem(PluginManager.Langs["Coats"], coatsType, 0, PluginManager.Langs["CoatsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCoats); // Lo añadimos al menu
 
             List<string> coatsClosedType = new List<string>();
-            coatsClosedType.Add(GetConfig.Langs["NoCoatsValue"]);
+            coatsClosedType.Add(PluginManager.Langs["NoCoatsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.COATS_CLOSED_MALE.Count + 1; i++)
                 {
-                    coatsClosedType.Add(GetConfig.Langs["CoatsValue"] + i);
+                    coatsClosedType.Add(PluginManager.Langs["CoatsValue"] + i);
                 }
             }
             else
@@ -234,21 +234,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.COATS_CLOSED_FEMALE.Count + 1; i++)
                 {
-                    coatsClosedType.Add(GetConfig.Langs["CoatsValue"] + i);
+                    coatsClosedType.Add(PluginManager.Langs["CoatsValue"] + i);
                 }
             }
-            MenuListItem mListCoatsClosed = new MenuListItem(GetConfig.Langs["CoatsClosed"], coatsClosedType, 0, GetConfig.Langs["CoatsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCoatsClosed = new MenuListItem(PluginManager.Langs["CoatsClosed"], coatsClosedType, 0, PluginManager.Langs["CoatsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCoatsClosed); // Lo añadimos al menu
 
             List<string> ponchosType = new List<string>();
-            ponchosType.Add(GetConfig.Langs["NoPonchosValue"]);
+            ponchosType.Add(PluginManager.Langs["NoPonchosValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.PONCHOS_MALE.Count + 1; i++)
                 {
-                    ponchosType.Add(GetConfig.Langs["PonchosValue"] + i);
+                    ponchosType.Add(PluginManager.Langs["PonchosValue"] + i);
                 }
             }
             else
@@ -256,21 +256,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.PONCHOS_FEMALE.Count + 1; i++)
                 {
-                    ponchosType.Add(GetConfig.Langs["PonchosValue"] + i);
+                    ponchosType.Add(PluginManager.Langs["PonchosValue"] + i);
                 }
             }
-            MenuListItem mListPonchos = new MenuListItem(GetConfig.Langs["Ponchos"], ponchosType, 0, GetConfig.Langs["PonchosDesc"]); // Añadimos la lista al boton
+            MenuListItem mListPonchos = new MenuListItem(PluginManager.Langs["Ponchos"], ponchosType, 0, PluginManager.Langs["PonchosDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListPonchos); // Lo añadimos al menu
 
             List<string> cloakType = new List<string>();
-            cloakType.Add(GetConfig.Langs["NoCloaksValue"]);
+            cloakType.Add(PluginManager.Langs["NoCloaksValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.CLOAK_MALE.Count + 1; i++)
                 {
-                    cloakType.Add(GetConfig.Langs["CloaksValue"] + i);
+                    cloakType.Add(PluginManager.Langs["CloaksValue"] + i);
                 }
             }
             else
@@ -278,21 +278,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.CLOAK_FEMALE.Count + 1; i++)
                 {
-                    cloakType.Add(GetConfig.Langs["CloaksValue"] + i);
+                    cloakType.Add(PluginManager.Langs["CloaksValue"] + i);
                 }
             }
-            MenuListItem mListCloak = new MenuListItem(GetConfig.Langs["Cloaks"], cloakType, 0, GetConfig.Langs["CloaksDesc"]); // Añadimos la lista al boton
+            MenuListItem mListCloak = new MenuListItem(PluginManager.Langs["Cloaks"], cloakType, 0, PluginManager.Langs["CloaksDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCloak); // Lo añadimos al menu
 
             List<string> glovesType = new List<string>();
-            glovesType.Add(GetConfig.Langs["NoGlovesValue"]);
+            glovesType.Add(PluginManager.Langs["NoGlovesValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.GLOVES_MALE.Count + 1; i++)
                 {
-                    glovesType.Add(GetConfig.Langs["GlovesValue"] + i);
+                    glovesType.Add(PluginManager.Langs["GlovesValue"] + i);
                 }
             }
             else
@@ -300,21 +300,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.GLOVES_FEMALE.Count + 1; i++)
                 {
-                    glovesType.Add(GetConfig.Langs["GlovesValue"] + i);
+                    glovesType.Add(PluginManager.Langs["GlovesValue"] + i);
                 }
             }
-            MenuListItem mListGloves = new MenuListItem(GetConfig.Langs["Gloves"], glovesType, 0, GetConfig.Langs["GlovesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListGloves = new MenuListItem(PluginManager.Langs["Gloves"], glovesType, 0, PluginManager.Langs["GlovesDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListGloves); // Lo añadimos al menu
 
             List<string> ringsRhType = new List<string>();
-            ringsRhType.Add(GetConfig.Langs["NoRingsValue"]);
+            ringsRhType.Add(PluginManager.Langs["NoRingsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.RINGS_RH_MALE.Count + 1; i++)
                 {
-                    ringsRhType.Add(GetConfig.Langs["RingsValue"] + i);
+                    ringsRhType.Add(PluginManager.Langs["RingsValue"] + i);
                 }
             }
             else
@@ -322,21 +322,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.RINGS_RH_FEMALE.Count + 1; i++)
                 {
-                    ringsRhType.Add(GetConfig.Langs["RingsValue"] + i);
+                    ringsRhType.Add(PluginManager.Langs["RingsValue"] + i);
                 }
             }
-            MenuListItem mListRingsRhType = new MenuListItem(GetConfig.Langs["RightRings"], ringsRhType, 0, GetConfig.Langs["RightRingsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListRingsRhType = new MenuListItem(PluginManager.Langs["RightRings"], ringsRhType, 0, PluginManager.Langs["RightRingsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListRingsRhType); // Lo añadimos al menu
 
             List<string> ringsLhType = new List<string>();
-            ringsLhType.Add(GetConfig.Langs["NoRingsValue"]);
+            ringsLhType.Add(PluginManager.Langs["NoRingsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.RINGS_LH_MALE.Count + 1; i++)
                 {
-                    ringsLhType.Add(GetConfig.Langs["RingsValue"] + i);
+                    ringsLhType.Add(PluginManager.Langs["RingsValue"] + i);
                 }
             }
             else
@@ -344,21 +344,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.RINGS_LH_FEMALE.Count + 1; i++)
                 {
-                    ringsLhType.Add(GetConfig.Langs["RingsValue"] + i);
+                    ringsLhType.Add(PluginManager.Langs["RingsValue"] + i);
                 }
             }
-            MenuListItem mListRingsLh = new MenuListItem(GetConfig.Langs["LeftRings"], ringsLhType, 0, GetConfig.Langs["LeftRingsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListRingsLh = new MenuListItem(PluginManager.Langs["LeftRings"], ringsLhType, 0, PluginManager.Langs["LeftRingsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListRingsLh); // Lo añadimos al menu
 
             List<string> braceletsType = new List<string>();
-            braceletsType.Add(GetConfig.Langs["NoBraceletsValue"]);
+            braceletsType.Add(PluginManager.Langs["NoBraceletsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BRACELETS_MALE.Count + 1; i++)
                 {
-                    braceletsType.Add(GetConfig.Langs["BraceletsValue"] + i);
+                    braceletsType.Add(PluginManager.Langs["BraceletsValue"] + i);
                 }
             }
             else
@@ -366,21 +366,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BRACELETS_FEMALE.Count + 1; i++)
                 {
-                    braceletsType.Add(GetConfig.Langs["BraceletsValue"] + i);
+                    braceletsType.Add(PluginManager.Langs["BraceletsValue"] + i);
                 }
             }
-            MenuListItem mListbracelets = new MenuListItem(GetConfig.Langs["Bracelets"], braceletsType, 0, GetConfig.Langs["BraceletsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListbracelets = new MenuListItem(PluginManager.Langs["Bracelets"], braceletsType, 0, PluginManager.Langs["BraceletsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListbracelets); // Lo añadimos al menu
 
             List<string> gunbeltType = new List<string>();
-            gunbeltType.Add(GetConfig.Langs["NoHolstersValue"]);
+            gunbeltType.Add(PluginManager.Langs["NoHolstersValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.GUNBELT_MALE.Count + 1; i++)
                 {
-                    gunbeltType.Add(GetConfig.Langs["HolstersValue"] + i);
+                    gunbeltType.Add(PluginManager.Langs["HolstersValue"] + i);
                 }
             }
             else
@@ -388,22 +388,22 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.GUNBELT_FEMALE.Count + 1; i++)
                 {
-                    gunbeltType.Add(GetConfig.Langs["HolstersValue"] + i);
+                    gunbeltType.Add(PluginManager.Langs["HolstersValue"] + i);
                 }
             }
-            MenuListItem mListGunbelt = new MenuListItem(GetConfig.Langs["PrimaryHolsters"], gunbeltType, 0, GetConfig.Langs["PrimaryHolstersDesc"]); // Añadimos la lista al boton
+            MenuListItem mListGunbelt = new MenuListItem(PluginManager.Langs["PrimaryHolsters"], gunbeltType, 0, PluginManager.Langs["PrimaryHolstersDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListGunbelt); // Lo añadimos al menu
 
 
             List<string> beltType = new List<string>();
-            beltType.Add(GetConfig.Langs["NoBeltsValue"]);
+            beltType.Add(PluginManager.Langs["NoBeltsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BELT_MALE.Count + 1; i++)
                 {
-                    beltType.Add(GetConfig.Langs["BeltsValue"] + i);
+                    beltType.Add(PluginManager.Langs["BeltsValue"] + i);
                 }
             }
             else
@@ -411,21 +411,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BELT_FEMALE.Count + 1; i++)
                 {
-                    beltType.Add(GetConfig.Langs["BeltsValue"] + i);
+                    beltType.Add(PluginManager.Langs["BeltsValue"] + i);
                 }
             }
-            MenuListItem mListBelt = new MenuListItem(GetConfig.Langs["Belts"], beltType, 0, GetConfig.Langs["BeltsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBelt = new MenuListItem(PluginManager.Langs["Belts"], beltType, 0, PluginManager.Langs["BeltsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBelt); // Lo añadimos al menu
 
             List<string> buckleType = new List<string>();
-            buckleType.Add(GetConfig.Langs["NoBucklesValue"]);
+            buckleType.Add(PluginManager.Langs["NoBucklesValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BUCKLE_MALE.Count + 1; i++)
                 {
-                    buckleType.Add(GetConfig.Langs["BucklesValue"] + i);
+                    buckleType.Add(PluginManager.Langs["BucklesValue"] + i);
                 }
             }
             else
@@ -433,21 +433,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BUCKLE_FEMALE.Count + 1; i++)
                 {
-                    buckleType.Add(GetConfig.Langs["BucklesValue"] + i);
+                    buckleType.Add(PluginManager.Langs["BucklesValue"] + i);
                 }
             }
-            MenuListItem mListBuckle = new MenuListItem(GetConfig.Langs["Buckles"], buckleType, 0, GetConfig.Langs["BucklesDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBuckle = new MenuListItem(PluginManager.Langs["Buckles"], buckleType, 0, PluginManager.Langs["BucklesDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBuckle); // Lo añadimos al menu
 
             List<string> holstersSType = new List<string>();
-            holstersSType.Add(GetConfig.Langs["NoHolstersValue"]);
+            holstersSType.Add(PluginManager.Langs["NoHolstersValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.HOLSTERS_S_MALE.Count + 1; i++)
                 {
-                    holstersSType.Add(GetConfig.Langs["HolstersValue"] + i);
+                    holstersSType.Add(PluginManager.Langs["HolstersValue"] + i);
                 }
             }
             else
@@ -455,21 +455,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.HOLSTERS_S_FEMALE.Count + 1; i++)
                 {
-                    holstersSType.Add(GetConfig.Langs["HolstersValue"] + i);
+                    holstersSType.Add(PluginManager.Langs["HolstersValue"] + i);
                 }
             }
-            MenuListItem mListSHolsters = new MenuListItem(GetConfig.Langs["SecondaryHolsters"], holstersSType, 0, GetConfig.Langs["SecondaryHolstersDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSHolsters = new MenuListItem(PluginManager.Langs["SecondaryHolsters"], holstersSType, 0, PluginManager.Langs["SecondaryHolstersDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSHolsters); // Lo añadimos al menu
 
             List<string> pantsType = new List<string>();
-            pantsType.Add(GetConfig.Langs["NoPantsValue"]);
+            pantsType.Add(PluginManager.Langs["NoPantsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.PANTS_MALE.Count + 1; i++)
                 {
-                    pantsType.Add(GetConfig.Langs["PantsValue"] + i);
+                    pantsType.Add(PluginManager.Langs["PantsValue"] + i);
                 }
             }
             else
@@ -477,14 +477,14 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.PANTS_FEMALE.Count + 1; i++)
                 {
-                    pantsType.Add(GetConfig.Langs["PantsValue"] + i);
+                    pantsType.Add(PluginManager.Langs["PantsValue"] + i);
                 }
             }
-            MenuListItem mListPants = new MenuListItem(GetConfig.Langs["Pants"], pantsType, 0, GetConfig.Langs["PantsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListPants = new MenuListItem(PluginManager.Langs["Pants"], pantsType, 0, PluginManager.Langs["PantsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListPants); // Lo añadimos al menu
 
             List<string> skirtsType = new List<string>();
-            skirtsType.Add(GetConfig.Langs["NoSkirtsValue"]);
+            skirtsType.Add(PluginManager.Langs["NoSkirtsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
@@ -494,21 +494,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SKIRTS_FEMALE.Count + 1; i++)
                 {
-                    skirtsType.Add(GetConfig.Langs["SkirtsValue"] + i);
+                    skirtsType.Add(PluginManager.Langs["SkirtsValue"] + i);
                 }
             }
-            MenuListItem mListSkirts = new MenuListItem(GetConfig.Langs["Skirts"], skirtsType, 0, GetConfig.Langs["SkirtsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSkirts = new MenuListItem(PluginManager.Langs["Skirts"], skirtsType, 0, PluginManager.Langs["SkirtsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSkirts); // Lo añadimos al menu
 
             List<string> chapsType = new List<string>();
-            chapsType.Add(GetConfig.Langs["NoChapsValue"]);
+            chapsType.Add(PluginManager.Langs["NoChapsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.CHAPS_MALE.Count + 1; i++)
                 {
-                    chapsType.Add(GetConfig.Langs["ChapsValue"] + i);
+                    chapsType.Add(PluginManager.Langs["ChapsValue"] + i);
                 }
             }
             else
@@ -516,21 +516,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.CHAPS_FEMALE.Count + 1; i++)
                 {
-                    chapsType.Add(GetConfig.Langs["ChapsValue"] + i);
+                    chapsType.Add(PluginManager.Langs["ChapsValue"] + i);
                 }
             }
-            MenuListItem mListChaps = new MenuListItem(GetConfig.Langs["Chaps"], chapsType, 0, GetConfig.Langs["ChapsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListChaps = new MenuListItem(PluginManager.Langs["Chaps"], chapsType, 0, PluginManager.Langs["ChapsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListChaps); // Lo añadimos al menu
 
             List<string> bootsType = new List<string>();
-            bootsType.Add(GetConfig.Langs["NoBootsValue"]);
+            bootsType.Add(PluginManager.Langs["NoBootsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.BOOTS_MALE.Count + 1; i++)
                 {
-                    bootsType.Add(GetConfig.Langs["BootsValue"] + i);
+                    bootsType.Add(PluginManager.Langs["BootsValue"] + i);
                 }
             }
             else
@@ -538,21 +538,21 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.BOOTS_FEMALE.Count + 1; i++)
                 {
-                    bootsType.Add(GetConfig.Langs["BootsValue"] + i);
+                    bootsType.Add(PluginManager.Langs["BootsValue"] + i);
                 }
             }
-            MenuListItem mListBoots = new MenuListItem(GetConfig.Langs["Boots"], bootsType, 0, GetConfig.Langs["BootsDesc"]); // Añadimos la lista al boton
+            MenuListItem mListBoots = new MenuListItem(PluginManager.Langs["Boots"], bootsType, 0, PluginManager.Langs["BootsDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBoots); // Lo añadimos al menu
 
             List<string> spursType = new List<string>();
-            spursType.Add(GetConfig.Langs["NoSpursValue"]);
+            spursType.Add(PluginManager.Langs["NoSpursValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 //Cabellos de Hombre
                 for (float i = 1; i < SkinsUtils.SPURS_MALE.Count + 1; i++)
                 {
-                    spursType.Add(GetConfig.Langs["SpursValue"] + i);
+                    spursType.Add(PluginManager.Langs["SpursValue"] + i);
                 }
             }
             else
@@ -560,131 +560,131 @@ namespace VorpCharacter.Menus
                 //Cabellos de Mujer
                 for (float i = 1; i < SkinsUtils.SPURS_FEMALE.Count + 1; i++)
                 {
-                    spursType.Add(GetConfig.Langs["SpursValue"] + i);
+                    spursType.Add(PluginManager.Langs["SpursValue"] + i);
                 }
             }
-            MenuListItem mListSpurs = new MenuListItem(GetConfig.Langs["Spurs"], spursType, 0, GetConfig.Langs["SpursDesc"]); // Añadimos la lista al boton
+            MenuListItem mListSpurs = new MenuListItem(PluginManager.Langs["Spurs"], spursType, 0, PluginManager.Langs["SpursDesc"]); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSpurs); // Lo añadimos al menu
 
 
             List<string> spatsType = new List<string>();
-            spatsType.Add(GetConfig.Langs["NoSpatsValue"]);
+            spatsType.Add(PluginManager.Langs["NoSpatsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 for (float i = 1; i < SkinsUtils.SPATS_MALE.Count + 1; i++)
                 {
-                    spatsType.Add(GetConfig.Langs["SpatsValue"] + i);
+                    spatsType.Add(PluginManager.Langs["SpatsValue"] + i);
                 }
             }
             else
             {
                 for (float i = 1; i < SkinsUtils.SPATS_FEMALE.Count + 1; i++)
                 {
-                    spatsType.Add(GetConfig.Langs["SpatsValue"] + i);
+                    spatsType.Add(PluginManager.Langs["SpatsValue"] + i);
                 }
             }
-            MenuListItem mListSpats = new MenuListItem(GetConfig.Langs["Spats"], spatsType, 0, GetConfig.Langs["SpatsDesc"]);
+            MenuListItem mListSpats = new MenuListItem(PluginManager.Langs["Spats"], spatsType, 0, PluginManager.Langs["SpatsDesc"]);
             clothesMenu.AddMenuItem(mListSpats);
 
             List<string> gunbeltaccsType = new List<string>();
-            gunbeltaccsType.Add(GetConfig.Langs["NoGunbeltAccsValue"]);
+            gunbeltaccsType.Add(PluginManager.Langs["NoGunbeltAccsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 for (float i = 1; i < SkinsUtils.GUNBELTACCS_MALE.Count + 1; i++)
                 {
-                    gunbeltaccsType.Add(GetConfig.Langs["GunbeltAccsValue"] + i);
+                    gunbeltaccsType.Add(PluginManager.Langs["GunbeltAccsValue"] + i);
                 }
             }
             else
             {
                 for (float i = 1; i < SkinsUtils.GUNBELTACCS_FEMALE.Count + 1; i++)
                 {
-                    gunbeltaccsType.Add(GetConfig.Langs["GunbeltAccsValue"] + i);
+                    gunbeltaccsType.Add(PluginManager.Langs["GunbeltAccsValue"] + i);
                 }
             }
-            MenuListItem mListGunbeltAccs = new MenuListItem(GetConfig.Langs["GunbeltAccs"], gunbeltaccsType, 0, GetConfig.Langs["GunbeltAccsDesc"]);
+            MenuListItem mListGunbeltAccs = new MenuListItem(PluginManager.Langs["GunbeltAccs"], gunbeltaccsType, 0, PluginManager.Langs["GunbeltAccsDesc"]);
             clothesMenu.AddMenuItem(mListGunbeltAccs);
 
             List<string> gauntletsType = new List<string>();
-            gauntletsType.Add(GetConfig.Langs["NoGauntletsValue"]);
+            gauntletsType.Add(PluginManager.Langs["NoGauntletsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 for (float i = 1; i < SkinsUtils.GAUNTLETS_MALE.Count + 1; i++)
                 {
-                    gauntletsType.Add(GetConfig.Langs["GauntletsValue"] + i);
+                    gauntletsType.Add(PluginManager.Langs["GauntletsValue"] + i);
                 }
             }
             else
             {
                 for (float i = 1; i < SkinsUtils.GAUNTLETS_FEMALE.Count + 1; i++)
                 {
-                    gauntletsType.Add(GetConfig.Langs["GauntletsValue"] + i);
+                    gauntletsType.Add(PluginManager.Langs["GauntletsValue"] + i);
                 }
             }
-            MenuListItem mListGauntlets = new MenuListItem(GetConfig.Langs["Gauntlets"], gauntletsType, 0, GetConfig.Langs["GauntletsDesc"]);
+            MenuListItem mListGauntlets = new MenuListItem(PluginManager.Langs["Gauntlets"], gauntletsType, 0, PluginManager.Langs["GauntletsDesc"]);
             clothesMenu.AddMenuItem(mListGauntlets);
 
             List<string> loadoutsType = new List<string>();
-            loadoutsType.Add(GetConfig.Langs["NoLoadoutsValue"]);
+            loadoutsType.Add(PluginManager.Langs["NoLoadoutsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 for (float i = 1; i < SkinsUtils.LOADOUTS_MALE.Count + 1; i++)
                 {
-                    loadoutsType.Add(GetConfig.Langs["LoadoutsValue"] + i);
+                    loadoutsType.Add(PluginManager.Langs["LoadoutsValue"] + i);
                 }
             }
             else
             {
                 for (float i = 1; i < SkinsUtils.LOADOUTS_FEMALE.Count + 1; i++)
                 {
-                    loadoutsType.Add(GetConfig.Langs["LoadoutsValue"] + i);
+                    loadoutsType.Add(PluginManager.Langs["LoadoutsValue"] + i);
                 }
             }
-            MenuListItem mListLoadouts = new MenuListItem(GetConfig.Langs["Loadouts"], loadoutsType, 0, GetConfig.Langs["LoadoutsDesc"]);
+            MenuListItem mListLoadouts = new MenuListItem(PluginManager.Langs["Loadouts"], loadoutsType, 0, PluginManager.Langs["LoadoutsDesc"]);
             clothesMenu.AddMenuItem(mListLoadouts);
 
             List<string> accessoriesType = new List<string>();
-            accessoriesType.Add(GetConfig.Langs["NoAccessoriesValue"]);
+            accessoriesType.Add(PluginManager.Langs["NoAccessoriesValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 for (float i = 1; i < SkinsUtils.ACCESSORIES_MALE.Count + 1; i++)
                 {
-                    accessoriesType.Add(GetConfig.Langs["AccessoriesValue"] + i);
+                    accessoriesType.Add(PluginManager.Langs["AccessoriesValue"] + i);
                 }
             }
             else
             {
                 for (float i = 1; i < SkinsUtils.ACCESSORIES_FEMALE.Count + 1; i++)
                 {
-                    accessoriesType.Add(GetConfig.Langs["AccessoriesValue"] + i);
+                    accessoriesType.Add(PluginManager.Langs["AccessoriesValue"] + i);
                 }
             }
-            MenuListItem mListAccessories = new MenuListItem(GetConfig.Langs["Accessories"], accessoriesType, 0, GetConfig.Langs["AccessoriesDesc"]);
+            MenuListItem mListAccessories = new MenuListItem(PluginManager.Langs["Accessories"], accessoriesType, 0, PluginManager.Langs["AccessoriesDesc"]);
             clothesMenu.AddMenuItem(mListAccessories);
 
             List<string> satchelsType = new List<string>();
-            satchelsType.Add(GetConfig.Langs["NoSatchelsValue"]);
+            satchelsType.Add(PluginManager.Langs["NoSatchelsValue"]);
 
             if (CreateCharacter.model_selected == "mp_male")
             {
                 for (float i = 1; i < SkinsUtils.SATCHELS_MALE.Count + 1; i++)
                 {
-                    satchelsType.Add(GetConfig.Langs["SatchelsValue"] + i);
+                    satchelsType.Add(PluginManager.Langs["SatchelsValue"] + i);
                 }
             }
             else
             {
                 for (float i = 1; i < SkinsUtils.SATCHELS_FEMALE.Count + 1; i++)
                 {
-                    satchelsType.Add(GetConfig.Langs["SatchelsValue"] + i);
+                    satchelsType.Add(PluginManager.Langs["SatchelsValue"] + i);
                 }
             }
-            MenuListItem mListSatchels = new MenuListItem(GetConfig.Langs["Satchels"], satchelsType, 0, GetConfig.Langs["SatchelsDesc"]);
+            MenuListItem mListSatchels = new MenuListItem(PluginManager.Langs["Satchels"], satchelsType, 0, PluginManager.Langs["SatchelsDesc"]);
             clothesMenu.AddMenuItem(mListSatchels);
 
             clothesMenu.OnMenuOpen += (_menu) =>

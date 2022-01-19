@@ -1,8 +1,11 @@
 ﻿using CitizenFX.Core;
+using static CitizenFX.Core.Native.API;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
 using VorpCharacter.Model;
+using Newtonsoft.Json;
 
 namespace VorpCharacter
 {
@@ -15,6 +18,10 @@ namespace VorpCharacter
         public EventHandlerDictionary EventRegistry => EventHandlers;
         public ExportDictionary ExportRegistry => Exports;
 
+        public static Config Config = new Config();
+        public static Dictionary<string, string> Langs = new Dictionary<string, string>();
+        public static bool IsLoaded = false;
+
         public PluginManager()
         {
             Logger.Info($"VORP Character Init");
@@ -25,8 +32,9 @@ namespace VorpCharacter
         private async void Setup()
         {
             await GetCore();
-
             Player = new VorpPlayer();
+            LoadDefaultConfig();
+            await IsReady();
 
             Logger.Info($"VORP Character Started");
         }
@@ -43,6 +51,41 @@ namespace VorpCharacter
                         MAX_ALLOWED_CHARACTERS = max;
                     }), "none");
                 }));
+                await Delay(100);
+            }
+        }
+
+        private void LoadDefaultConfig()
+        {
+            string jsonFile = LoadResourceFile(GetCurrentResourceName(), "config/Config.json");
+
+            if (string.IsNullOrEmpty(jsonFile))
+            {
+                Logger.Error($"Config.json file is missing.");
+                return;
+            }
+
+            Config = JsonConvert.DeserializeObject<Config>(jsonFile);
+
+            string languageFile = LoadResourceFile(GetCurrentResourceName(), $"config/{Config.Defaultlang}.json");
+
+            if (string.IsNullOrEmpty(languageFile))
+            {
+                Logger.Error($"{Config.Defaultlang}.json file is missing.");
+                return;
+            }
+
+            Langs = JsonConvert.DeserializeObject<Dictionary<string, string>>(languageFile);
+
+            IsLoaded = true;
+
+            Utils.Commands.InitCommands();
+        }
+
+        public async Task IsReady()
+        {
+            while (!IsLoaded)
+            {
                 await Delay(100);
             }
         }

@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,10 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Common.cs" />
+    <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\Position.cs" />
     <Compile Include="Model\VorpPlayer.cs" />
     <Compile Include="Script\CreateCharacter.cs" />
     <Compile Include="Diagnostics\Logger.cs" />
-    <Compile Include="Script\GetConfig.cs" />
     <Compile Include="Script\LoadPlayer.cs" />
     <Compile Include="Menus\ClothesMenu.cs" />
     <Compile Include="Menus\FaceMenu.cs" />
