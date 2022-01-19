@@ -16,7 +16,6 @@ namespace VorpCharacter.Script
             EventHandlers["vorpcharacter:refreshPlayerSkin"] += new Action(RefreshPlayerSkin);
             EventHandlers["vorpcharacter:getPlayerComps"] += new Action<CallbackDelegate>(getPlayerComps);
             EventHandlers["vorpcharacter:reloadPlayerComps"] += new Action<ExpandoObject, ExpandoObject>(reloadPlayerComps);
-            Tick += SetScale;
 
             API.RegisterCommand("rc", new Action<int, List<object>, string>((source, args, raw) =>
             {

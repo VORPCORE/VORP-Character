@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using System;
+using VorpCharacter.Script;
 
 namespace VorpCharacter.Utils
 {

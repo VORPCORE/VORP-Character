@@ -3,6 +3,7 @@ using CitizenFX.Core.Native;
 using MenuAPI;
 using System.Collections.Generic;
 using System.Linq;
+using VorpCharacter.Script;
 using VorpCharacter.Utils;
 
 namespace VorpCharacter.Menus

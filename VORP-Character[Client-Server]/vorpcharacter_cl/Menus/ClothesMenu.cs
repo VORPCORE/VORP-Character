@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
 using System.Collections.Generic;
+using VorpCharacter.Script;
 using VorpCharacter.Utils;
 
 namespace VorpCharacter.Menus

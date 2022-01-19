@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using VorpCharacter.Enums;
 using VorpCharacter.Utils;
 
 namespace VorpCharacter.Script
@@ -281,6 +282,8 @@ namespace VorpCharacter.Script
             { "Satchels", -1 },
             { "CoatClosed", -1 }
         };
+        private object eControls;
+
         //end
 
         public static async Task changeScale(float scale)
@@ -962,7 +965,7 @@ namespace VorpCharacter.Script
             if (isInCharCreation)
             {
 
-                if (API.IsControlJustPressed(0, (uint)Controls.Keys.MoveUpOnly))
+                if (API.IsControlJustPressed(0, (uint)eControl.MoveUpOnly))
                 {
                     indexCamera += 1;
                     if (indexCamera > 4)
@@ -972,7 +975,7 @@ namespace VorpCharacter.Script
 
                     SwapCameras(indexCamera);
                 }
-                if (API.IsControlJustPressed(0, (uint)Controls.Keys.MoveDownOnly))
+                if (API.IsControlJustPressed(0, (uint)eControl.MoveDownOnly))
                 {
                     indexCamera -= 1;
                     if (indexCamera < 0)
@@ -982,13 +985,13 @@ namespace VorpCharacter.Script
 
                     SwapCameras(indexCamera);
                 }
-                if (API.IsControlPressed(0, (uint)Controls.Keys.MoveLeftOnly))
+                if (API.IsControlPressed(0, (uint)eControl.MoveLeftOnly))
                 {
                     DressHeading += 1.0f;
                     API.SetEntityHeading(API.PlayerPedId(), DressHeading);
                     await Delay(0);
                 }
-                if (API.IsControlPressed(0, (uint)Controls.Keys.MoveRightOnly))
+                if (API.IsControlPressed(0, (uint)eControl.MoveRightOnly))
                 {
                     DressHeading -= 1.0f;
                     API.SetEntityHeading(API.PlayerPedId(), DressHeading);
@@ -999,7 +1002,7 @@ namespace VorpCharacter.Script
 
         private async Task OnTick()
         {
-            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendRight) && isSelectSexActive)
+            if (API.IsControlJustPressed(2, (uint)eControl.FrontendRight) && isSelectSexActive)
             {
 
                 if (API.IsCamActive(Camera))
@@ -1020,7 +1023,7 @@ namespace VorpCharacter.Script
                 await Delay(2000);
             }
 
-            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendLeft) && isSelectSexActive)
+            if (API.IsControlJustPressed(2, (uint)eControl.FrontendLeft) && isSelectSexActive)
             {
 
                 if (API.IsCamActive(Camera))
@@ -1041,7 +1044,7 @@ namespace VorpCharacter.Script
                 await Delay(2000);
             }
 
-            if (API.IsControlJustPressed(2, (uint)Controls.Keys.FrontendAccept) && isSelectSexActive)
+            if (API.IsControlJustPressed(2, (uint)eControl.FrontendAccept) && isSelectSexActive)
             {
 
                 if (API.IsCamActive(Camera_Male))
