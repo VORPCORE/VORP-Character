@@ -1,9 +1,9 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
 using System.Collections.Generic;
-using vorpcharacter_cl.Utils;
+using VorpCharacter.Utils;
 
-namespace vorpcharacter_cl.Menus
+namespace VorpCharacter.Menus
 {
     class MainMenu
     {

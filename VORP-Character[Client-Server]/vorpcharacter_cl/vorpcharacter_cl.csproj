@@ -7,7 +7,7 @@
     <ProjectGuid>{51083C52-7FE7-422E-AED9-023D0903C6E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>vorpcharacter_cl</RootNamespace>
+    <RootNamespace>VorpCharacter</RootNamespace>
     <AssemblyName>vorpcharacter_cl.net</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -15,7 +15,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\build\vorp_character\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateCharacter.cs" />
+    <Compile Include="Diagnostics\Logger.cs" />
     <Compile Include="GetConfig.cs" />
     <Compile Include="LoadPlayer.cs" />
     <Compile Include="Menus\ClothesMenu.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="Utils\Controls.cs" />
     <Compile Include="Utils\Micellanea.cs" />
     <Compile Include="Utils\SkinsUtils.cs" />
-    <Compile Include="vorpcharacter_cl.cs" />
+    <Compile Include="PluginManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config.json">

@@ -1,4 +1,4 @@
-﻿namespace vorpcharacter_cl.Utils
+﻿namespace VorpCharacter.Utils
 {
     public static class Controls
     {

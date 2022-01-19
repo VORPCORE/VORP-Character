@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
-namespace vorpcharacter_cl
+namespace VorpCharacter
 {
     public class LoadPlayer : BaseScript
     {

@@ -2,7 +2,7 @@
 using CitizenFX.Core.Native;
 using System;
 
-namespace vorpcharacter_cl.Utils
+namespace VorpCharacter.Utils
 {
     class Commands : BaseScript
     {

@@ -2,7 +2,7 @@
 using MenuAPI;
 using System.Collections.Generic;
 
-namespace vorpcharacter_cl.Menus
+namespace VorpCharacter.Menus
 {
     class FaceMenu
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace vorpcharacter_cl.Utils
+namespace VorpCharacter.Utils
 {
     public class SkinsUtils : BaseScript
     {

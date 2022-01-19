@@ -4,9 +4,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using vorpcharacter_cl.Utils;
+using VorpCharacter.Utils;
 
-namespace vorpcharacter_cl
+namespace VorpCharacter
 {
     class SelectCharacter : BaseScript
     {
@@ -256,7 +256,7 @@ namespace vorpcharacter_cl
 
                 if (API.PromptHasHoldModeCompleted(CreatePrompt) && !swappingChar)
                 {
-                    if (myChars.Count < vorpcharacter_cl.MaxCharacters)
+                    if (myChars.Count < PluginManager.MAX_ALLOWED_CHARACTERS)
                     {
                         TriggerEvent("vorpcharacter:createCharacter");
                         API.PromptSetEnabled(DeletePrompt, 0);
@@ -268,7 +268,7 @@ namespace vorpcharacter_cl
                     }
                     else
                     {
-                        vorpcharacter_cl.CORE.displayRightTip(GetConfig.Langs["CharactersFull"], 4000);
+                        PluginManager.CORE.displayRightTip(GetConfig.Langs["CharactersFull"], 4000);
                         await Delay(1000);
                     }
                 }

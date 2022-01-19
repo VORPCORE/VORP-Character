@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using vorpcharacter_cl.Utils;
+using VorpCharacter.Utils;
 
-namespace vorpcharacter_cl
+namespace VorpCharacter
 {
     public class CreateCharacter : BaseScript
     {

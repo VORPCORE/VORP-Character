@@ -2,7 +2,7 @@
 using CitizenFX.Core.Native;
 using System.Threading.Tasks;
 
-namespace vorpcharacter_cl.Utils
+namespace VorpCharacter.Utils
 {
     public class Miscellanea
     {
