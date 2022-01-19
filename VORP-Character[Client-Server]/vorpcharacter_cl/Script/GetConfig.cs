@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace VorpCharacter
+namespace VorpCharacter.Script
 {
     public class GetConfig : BaseScript
     {

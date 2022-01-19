@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VorpCharacter.Utils;
 
-namespace VorpCharacter
+namespace VorpCharacter.Script
 {
     public class CreateCharacter : BaseScript
     {

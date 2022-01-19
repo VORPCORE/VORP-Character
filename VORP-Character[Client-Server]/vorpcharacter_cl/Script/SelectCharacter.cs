@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using VorpCharacter.Utils;
 
-namespace VorpCharacter
+namespace VorpCharacter.Script
 {
     class SelectCharacter : BaseScript
     {
