@@ -76,7 +76,9 @@
     <None Include="config\Config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="config\En.json" />
+    <Content Include="config\En.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="config\Es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
