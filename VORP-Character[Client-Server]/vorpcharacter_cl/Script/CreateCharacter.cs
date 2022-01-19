@@ -695,7 +695,7 @@ namespace VorpCharacter.Script
 
         public static async Task SaveChanges()
         {
-            TriggerEvent("vorpinputs:getInput", PluginManager.Langs["ButtonInputName"], PluginManager.Langs["PlaceHolderInputName"], new Action<dynamic>(async (cb) =>
+            TriggerEvent("vorpinputs:getInput", Common.GetTranslation("ButtonInputName"), Common.GetTranslation("PlaceHolderInputName"), new Action<dynamic>(async (cb) =>
             {
                 string result = cb;
                 await Delay(1000);
@@ -704,7 +704,7 @@ namespace VorpCharacter.Script
 
                 if (result.Length < 3 || words.Count() < 2)
                 {
-                    TriggerEvent("vorp:Tip", PluginManager.Langs["PlaceHolderInputName"], 3000); // from client side
+                    TriggerEvent("vorp:Tip", Common.GetTranslation("PlaceHolderInputName"), 3000); // from client side
                     SaveChanges();
                 }
                 else
@@ -746,7 +746,7 @@ namespace VorpCharacter.Script
 
             await Delay(3000);
 
-            TriggerEvent("vorp:TipBottom", PluginManager.Langs["TipFinal"], 15000);
+            TriggerEvent("vorp:TipBottom", Common.GetTranslation("TipFinal"), 15000);
         }
 
         public static async void ApplyDefaultSkinCanaryEdition(int ped)
@@ -1069,12 +1069,12 @@ namespace VorpCharacter.Script
 
             if (isSelectSexActive)
             {
-                await Utils.Miscellanea.DrawTxt(PluginManager.Langs["PressRightOrLeft"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                await Utils.Miscellanea.DrawTxt(Common.GetTranslation("PressRightOrLeft"), 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
             }
 
             if (isInCharCreation) //Fix Run Ped
             {
-                await Utils.Miscellanea.DrawTxt(PluginManager.Langs["PressGuide"], 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
+                await Utils.Miscellanea.DrawTxt(Common.GetTranslation("PressGuide"), 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
                 API.FreezeEntityPosition(API.PlayerPedId(), true);
                 API.ClearPedTasks(API.PlayerPedId(), 1, 1);
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);

@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
 using System.Collections.Generic;
+using VorpCharacter.Extensions;
 using VorpCharacter.Script;
 using VorpCharacter.Utils;
 
@@ -8,7 +9,7 @@ namespace VorpCharacter.Menus
 {
     class MainMenu
     {
-        private static Menu mainMenu = new Menu(PluginManager.Langs["TitleMainMenu"], PluginManager.Langs["SubTitleMainMenu"]);
+        private static Menu mainMenu = new Menu(Common.GetTranslation("TitleMainMenu"), Common.GetTranslation("SubTitleMainMenu"));
         private static bool setupDone = false;
         private static void SetupMenu()
         {
@@ -22,7 +23,7 @@ namespace VorpCharacter.Menus
             //SkinMenu
             MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
 
-            MenuItem subMenuSkinBtn = new MenuItem(PluginManager.Langs["TitleSkinMenu"], PluginManager.Langs["SubTitleSkinMenu"])
+            MenuItem subMenuSkinBtn = new MenuItem(Common.GetTranslation("TitleSkinMenu"), Common.GetTranslation("SubTitleSkinMenu"))
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -33,7 +34,7 @@ namespace VorpCharacter.Menus
             //FaceMenu
             MenuController.AddSubmenu(mainMenu, FaceMenu.GetMenu());
 
-            MenuItem subMenuFaceBtn = new MenuItem(PluginManager.Langs["TitleFaceMenu"], PluginManager.Langs["SubTitleFaceMenu"])
+            MenuItem subMenuFaceBtn = new MenuItem(Common.GetTranslation("TitleFaceMenu"), Common.GetTranslation("SubTitleFaceMenu"))
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -44,7 +45,7 @@ namespace VorpCharacter.Menus
             //ClothesMenu
             MenuController.AddSubmenu(mainMenu, ClothesMenu.GetMenu());
 
-            MenuItem subMenuClothesBtn = new MenuItem(PluginManager.Langs["TitleClothesMenu"], PluginManager.Langs["SubTitleClothesMenu"])
+            MenuItem subMenuClothesBtn = new MenuItem(Common.GetTranslation("TitleClothesMenu"), Common.GetTranslation("SubTitleClothesMenu"))
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
@@ -56,17 +57,17 @@ namespace VorpCharacter.Menus
 
             foreach (float sc in Utils.SkinsUtils.SCALE_LIST)
             {
-                scaleValues.Add(PluginManager.Langs["Scale"] + sc.ToString());
+                scaleValues.Add(Common.GetTranslation("Scale") + sc.ToString());
             }
 
-            MenuListItem ScaleBtn = new MenuListItem(PluginManager.Langs["ScaleList"], scaleValues, 4, PluginManager.Langs["ScaleDesc"])
+            MenuListItem ScaleBtn = new MenuListItem(Common.GetTranslation("ScaleList"), scaleValues, 4, Common.GetTranslation("ScaleDesc"))
             {
                 RightIcon = MenuItem.Icon.STAR
             };
             mainMenu.AddMenuItem(ScaleBtn);
 
             //Finish Button
-            MenuItem FinishBtn = new MenuItem(PluginManager.Langs["FinishBtnMainMenu"], PluginManager.Langs["SubFinishBtnMainMenu"])
+            MenuItem FinishBtn = new MenuItem(Common.GetTranslation("FinishBtnMainMenu"), Common.GetTranslation("SubFinishBtnMainMenu"))
             {
                 RightIcon = MenuItem.Icon.TICK
             };

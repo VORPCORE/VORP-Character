@@ -3,6 +3,7 @@ using CitizenFX.Core.Native;
 using MenuAPI;
 using System.Collections.Generic;
 using System.Linq;
+using VorpCharacter.Extensions;
 using VorpCharacter.Script;
 using VorpCharacter.Utils;
 
@@ -10,7 +11,7 @@ namespace VorpCharacter.Menus
 {
     class SkinMenu
     {
-        private static Menu skinMenu = new Menu(PluginManager.Langs["TitleSkinMenu"], PluginManager.Langs["SubTitleSkinMenu"]);
+        private static Menu skinMenu = new Menu(Common.GetTranslation("TitleSkinMenu"), Common.GetTranslation("SubTitleSkinMenu"));
 
         private static MenuListItem btnSelectorBody;
         private static MenuListItem btnSelectorFace;
@@ -49,30 +50,30 @@ namespace VorpCharacter.Menus
                 List<string> bodyValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Male.Count(); i++)
                 {
-                    bodyValues.Add(PluginManager.Langs["BodyColorValues"] + i);
+                    bodyValues.Add(Common.GetTranslation("BodyColorValues") + i);
                 }
 
-                btnSelectorBody = new MenuListItem(PluginManager.Langs["BodyColor"], bodyValues, 0, PluginManager.Langs["BodyColorDesc"]); // Añadimos la lista al boton
+                btnSelectorBody = new MenuListItem(Common.GetTranslation("BodyColor"), bodyValues, 0, Common.GetTranslation("BodyColorDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
 
                 //Faces
                 List<string> faceValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Male[0].Heads.Count(); i++)
                 {
-                    faceValues.Add(PluginManager.Langs["FaceValues"] + i);
+                    faceValues.Add(Common.GetTranslation("FaceValues") + i);
                 }
 
-                btnSelectorFace = new MenuListItem(PluginManager.Langs["FaceType"], faceValues, 0, PluginManager.Langs["FaceTypeDesc"]); // Añadimos la lista al boton
+                btnSelectorFace = new MenuListItem(Common.GetTranslation("FaceType"), faceValues, 0, Common.GetTranslation("FaceTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorFace); // Lo añadimos al menu
 
                 //Torso
                 List<string> torsoValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Male[0].Body.Count(); i++)
                 {
-                    torsoValues.Add(PluginManager.Langs["TorsoValues"] + i);
+                    torsoValues.Add(Common.GetTranslation("TorsoValues") + i);
                 }
 
-                btnSelectorTorso = new MenuListItem(PluginManager.Langs["TorsoType"], torsoValues, 0, PluginManager.Langs["TorsoTypeDesc"]); // Añadimos la lista al boton
+                btnSelectorTorso = new MenuListItem(Common.GetTranslation("TorsoType"), torsoValues, 0, Common.GetTranslation("TorsoTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorTorso); // Lo añadimos al menu
 
                 //Endoforma
@@ -80,10 +81,10 @@ namespace VorpCharacter.Menus
 
                 for (int i = 1; i < SkinsUtils.BODY_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    endoformValues.Add(PluginManager.Langs["BodySizeValue"] + i);
+                    endoformValues.Add(Common.GetTranslation("BodySizeValue") + i);
                 }
 
-                MenuListItem btnSelectorBodyForm = new MenuListItem(PluginManager.Langs["BodyType"], endoformValues, 0, PluginManager.Langs["BodyTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorBodyForm = new MenuListItem(Common.GetTranslation("BodyType"), endoformValues, 0, Common.GetTranslation("BodyTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBodyForm); // Lo añadimos al menu
 
                 //Waist
@@ -91,20 +92,20 @@ namespace VorpCharacter.Menus
 
                 for (int i = 1; i < SkinsUtils.WAIST_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    waistValues.Add(PluginManager.Langs["WaistValue"] + i);
+                    waistValues.Add(Common.GetTranslation("WaistValue") + i);
                 }
 
-                MenuListItem btnSelectorWaist = new MenuListItem(PluginManager.Langs["WaistType"], waistValues, 0, PluginManager.Langs["WaistTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorWaist = new MenuListItem(Common.GetTranslation("WaistType"), waistValues, 0, Common.GetTranslation("WaistTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorWaist); // Lo añadimos al menu
 
                 //Legs
                 List<string> legsValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Male[0].Legs.Count(); i++)
                 {
-                    legsValues.Add(PluginManager.Langs["LegsValues"] + i);
+                    legsValues.Add(Common.GetTranslation("LegsValues") + i);
                 }
 
-                btnSelectorLegs = new MenuListItem(PluginManager.Langs["LegsType"], legsValues, 0, PluginManager.Langs["LegsTypeDesc"]); // Añadimos la lista al boton
+                btnSelectorLegs = new MenuListItem(Common.GetTranslation("LegsType"), legsValues, 0, Common.GetTranslation("LegsTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLegs); // Lo añadimos al menu
 
                 //Hair
@@ -112,10 +113,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.HAIR_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    hairValues.Add(PluginManager.Langs["HairValue"] + i);
+                    hairValues.Add(Common.GetTranslation("HairValue") + i);
                 }
 
-                MenuListItem btnSelectorHairs = new MenuListItem(PluginManager.Langs["HairType"], hairValues, 0, PluginManager.Langs["HairTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorHairs = new MenuListItem(Common.GetTranslation("HairType"), hairValues, 0, Common.GetTranslation("HairTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorHairs); // Lo añadimos al menu
 
 
@@ -123,10 +124,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.EYES_MALE.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    eyesValues.Add(PluginManager.Langs["Eyes"] + i);
+                    eyesValues.Add(Common.GetTranslation("Eyes") + i);
                 }
 
-                MenuListItem btnSelectorEyes = new MenuListItem(PluginManager.Langs["EyesList"], eyesValues, 0, PluginManager.Langs["EyesDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorEyes = new MenuListItem(Common.GetTranslation("EyesList"), eyesValues, 0, Common.GetTranslation("EyesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorEyes); // Lo añadimos al menu
 
                 //Beard
@@ -134,11 +135,11 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.BEARD_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    beardValues.Add(PluginManager.Langs["BeardValue"] + i);
+                    beardValues.Add(Common.GetTranslation("BeardValue") + i);
                 }
-                //beardType.Add(PluginManager.Langs["NoExistValue"]);
+                //beardType.Add(Common.GetTranslation("NoExistValue"));
 
-                MenuListItem btnSelectorBeards = new MenuListItem(PluginManager.Langs["BeardType"], beardValues, 0, PluginManager.Langs["BeardTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorBeards = new MenuListItem(Common.GetTranslation("BeardType"), beardValues, 0, Common.GetTranslation("BeardTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBeards); // Lo añadimos al menu
 
                 //eyeBrows
@@ -146,10 +147,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["eyebrows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    eyeBrowsValues.Add(PluginManager.Langs["EyeBrows"] + i);
+                    eyeBrowsValues.Add(Common.GetTranslation("EyeBrows") + i);
                 }
 
-                btnSelectoreyeBrows = new MenuListItem(PluginManager.Langs["EyeBrowsList"], eyeBrowsValues, 0, PluginManager.Langs["EyeBrowsDesc"]); // Añadimos la lista al boton
+                btnSelectoreyeBrows = new MenuListItem(Common.GetTranslation("EyeBrowsList"), eyeBrowsValues, 0, Common.GetTranslation("EyeBrowsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectoreyeBrows); // Lo añadimos al menu
 
                 //Scars
@@ -157,10 +158,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["scars"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    scarsValues.Add(PluginManager.Langs["Scars"] + i);
+                    scarsValues.Add(Common.GetTranslation("Scars") + i);
                 }
 
-                btnSelectorScars = new MenuListItem(PluginManager.Langs["ScarsList"], scarsValues, 0, PluginManager.Langs["ScarsDesc"]); // Añadimos la lista al boton
+                btnSelectorScars = new MenuListItem(Common.GetTranslation("ScarsList"), scarsValues, 0, Common.GetTranslation("ScarsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorScars); // Lo añadimos al menu
 
                 //Spots
@@ -168,10 +169,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["spots"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    spotsValues.Add(PluginManager.Langs["Spots"] + i);
+                    spotsValues.Add(Common.GetTranslation("Spots") + i);
                 }
 
-                btnSelectorSpots = new MenuListItem(PluginManager.Langs["SpotsList"], spotsValues, 0, PluginManager.Langs["SpotsDesc"]); // Añadimos la lista al boton
+                btnSelectorSpots = new MenuListItem(Common.GetTranslation("SpotsList"), spotsValues, 0, Common.GetTranslation("SpotsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorSpots); // Lo añadimos al menu
 
                 //Disc
@@ -179,10 +180,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["disc"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    discValues.Add(PluginManager.Langs["Disc"] + i);
+                    discValues.Add(Common.GetTranslation("Disc") + i);
                 }
 
-                btnSelectorDisc = new MenuListItem(PluginManager.Langs["DiscList"], discValues, 0, PluginManager.Langs["DiscDesc"]); // Añadimos la lista al boton
+                btnSelectorDisc = new MenuListItem(Common.GetTranslation("DiscList"), discValues, 0, Common.GetTranslation("DiscDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorDisc); // Lo añadimos al menu
 
                 //Complex
@@ -190,10 +191,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["complex"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    complexValues.Add(PluginManager.Langs["Complex"] + i);
+                    complexValues.Add(Common.GetTranslation("Complex") + i);
                 }
 
-                btnSelectorComplex = new MenuListItem(PluginManager.Langs["ComplexList"], complexValues, 0, PluginManager.Langs["ComplexDesc"]); // Añadimos la lista al boton
+                btnSelectorComplex = new MenuListItem(Common.GetTranslation("ComplexList"), complexValues, 0, Common.GetTranslation("ComplexDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorComplex); // Lo añadimos al menu
 
                 //Acne
@@ -201,10 +202,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["acne"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    acneValues.Add(PluginManager.Langs["Acne"] + i);
+                    acneValues.Add(Common.GetTranslation("Acne") + i);
                 }
 
-                btnSelectorAcne = new MenuListItem(PluginManager.Langs["AcneList"], acneValues, 0, PluginManager.Langs["AcneDesc"]); // Añadimos la lista al boton
+                btnSelectorAcne = new MenuListItem(Common.GetTranslation("AcneList"), acneValues, 0, Common.GetTranslation("AcneDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorAcne); // Lo añadimos al menu
 
                 //Ageing
@@ -212,10 +213,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["ageing"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    ageingValues.Add(PluginManager.Langs["Ageing"] + i);
+                    ageingValues.Add(Common.GetTranslation("Ageing") + i);
                 }
 
-                btnSelectorAgeing = new MenuListItem(PluginManager.Langs["AgeingList"], ageingValues, 0, PluginManager.Langs["AgeingDesc"]); // Añadimos la lista al boton
+                btnSelectorAgeing = new MenuListItem(Common.GetTranslation("AgeingList"), ageingValues, 0, Common.GetTranslation("AgeingDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorAgeing); // Lo añadimos al menu
 
                 //Moles
@@ -223,10 +224,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["moles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    molesValues.Add(PluginManager.Langs["Moles"] + i);
+                    molesValues.Add(Common.GetTranslation("Moles") + i);
                 }
 
-                btnSelectorMoles = new MenuListItem(PluginManager.Langs["MolesList"], molesValues, 0, PluginManager.Langs["MolesDesc"]); // Añadimos la lista al boton
+                btnSelectorMoles = new MenuListItem(Common.GetTranslation("MolesList"), molesValues, 0, Common.GetTranslation("MolesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorMoles); // Lo añadimos al menu
 
                 //Freckles
@@ -234,10 +235,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["freckles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    frecklesValues.Add(PluginManager.Langs["Freckles"] + i);
+                    frecklesValues.Add(Common.GetTranslation("Freckles") + i);
                 }
 
-                btnSelectorFreckles = new MenuListItem(PluginManager.Langs["FrecklesList"], frecklesValues, 0, PluginManager.Langs["FrecklesDesc"]); // Añadimos la lista al boton
+                btnSelectorFreckles = new MenuListItem(Common.GetTranslation("FrecklesList"), frecklesValues, 0, Common.GetTranslation("FrecklesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorFreckles); // Lo añadimos al menu
 
                 //Freckles
@@ -245,10 +246,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["grime"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    grimeValues.Add(PluginManager.Langs["Grimes"] + i);
+                    grimeValues.Add(Common.GetTranslation("Grimes") + i);
                 }
 
-                btnSelectorGrime = new MenuListItem(PluginManager.Langs["GrimesList"], grimeValues, 0, PluginManager.Langs["GrimesDesc"]); // Añadimos la lista al boton
+                btnSelectorGrime = new MenuListItem(Common.GetTranslation("GrimesList"), grimeValues, 0, Common.GetTranslation("GrimesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorGrime); // Lo añadimos al menu
 
                 //Lipsticks
@@ -256,10 +257,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["lipsticks"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    lipsticksValues.Add(PluginManager.Langs["Lipsticks"] + i);
+                    lipsticksValues.Add(Common.GetTranslation("Lipsticks") + i);
                 }
 
-                btnSelectorLipsticks = new MenuListItem(PluginManager.Langs["LipsticksList"], lipsticksValues, 0, PluginManager.Langs["LipsticksDesc"]); // Añadimos la lista al boton
+                btnSelectorLipsticks = new MenuListItem(Common.GetTranslation("LipsticksList"), lipsticksValues, 0, Common.GetTranslation("LipsticksDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLipsticks); // Lo añadimos al menu
 
                 //Lipsticks
@@ -267,10 +268,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    lipsticksColorValues.Add(PluginManager.Langs["LipsticksColors"] + i);
+                    lipsticksColorValues.Add(Common.GetTranslation("LipsticksColors") + i);
                 }
 
-                btnSelectorLipsticksColor = new MenuListItem(PluginManager.Langs["LipsticksColorsList"], lipsticksColorValues, 0, PluginManager.Langs["LipsticksColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorLipsticksColor = new MenuListItem(Common.GetTranslation("LipsticksColorsList"), lipsticksColorValues, 0, Common.GetTranslation("LipsticksColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLipsticksColor); // Lo añadimos al menu
 
                 //Lipsticks
@@ -278,10 +279,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    lipsticksPColorValues.Add(PluginManager.Langs["LipsticksPColors"] + i);
+                    lipsticksPColorValues.Add(Common.GetTranslation("LipsticksPColors") + i);
                 }
 
-                btnSelectorLipsticksPColor = new MenuListItem(PluginManager.Langs["LipsticksPColorsList"], lipsticksPColorValues, 0, PluginManager.Langs["LipsticksPColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorLipsticksPColor = new MenuListItem(Common.GetTranslation("LipsticksPColorsList"), lipsticksPColorValues, 0, Common.GetTranslation("LipsticksPColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLipsticksPColor); // Lo añadimos al menu
 
                 //Lipsticks
@@ -289,10 +290,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["shadows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    shadowsValues.Add(PluginManager.Langs["Shadows"] + i);
+                    shadowsValues.Add(Common.GetTranslation("Shadows") + i);
                 }
 
-                btnSelectorShadows = new MenuListItem(PluginManager.Langs["ShadowsList"], shadowsValues, 0, PluginManager.Langs["ShadowsDesc"]); // Añadimos la lista al boton
+                btnSelectorShadows = new MenuListItem(Common.GetTranslation("ShadowsList"), shadowsValues, 0, Common.GetTranslation("ShadowsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorShadows); // Lo añadimos al menu
 
                 //Lipsticks
@@ -300,10 +301,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    shadowsColorValues.Add(PluginManager.Langs["ShadowsColors"] + i);
+                    shadowsColorValues.Add(Common.GetTranslation("ShadowsColors") + i);
                 }
 
-                btnSelectorShadowsColor = new MenuListItem(PluginManager.Langs["ShadowsColorsList"], shadowsColorValues, 0, PluginManager.Langs["ShadowsColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorShadowsColor = new MenuListItem(Common.GetTranslation("ShadowsColorsList"), shadowsColorValues, 0, Common.GetTranslation("ShadowsColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorShadowsColor); // Lo añadimos al menu
 
                 //Lipsticks
@@ -311,10 +312,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    shadowsPColorValues.Add(PluginManager.Langs["ShadowsPColors"] + i);
+                    shadowsPColorValues.Add(Common.GetTranslation("ShadowsPColors") + i);
                 }
 
-                btnSelectorShadowsPColor = new MenuListItem(PluginManager.Langs["ShadowsPColorsList"], shadowsPColorValues, 0, PluginManager.Langs["ShadowsPColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorShadowsPColor = new MenuListItem(Common.GetTranslation("ShadowsPColorsList"), shadowsPColorValues, 0, Common.GetTranslation("ShadowsPColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorShadowsPColor); // Lo añadimos al menu
             }
             else //Female
@@ -323,30 +324,30 @@ namespace VorpCharacter.Menus
                 List<string> bodyValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Female.Count(); i++)
                 {
-                    bodyValues.Add(PluginManager.Langs["BodyColorValues"] + i);
+                    bodyValues.Add(Common.GetTranslation("BodyColorValues") + i);
                 }
 
-                btnSelectorBody = new MenuListItem(PluginManager.Langs["BodyColor"], bodyValues, 0, PluginManager.Langs["BodyColorDesc"]); // Añadimos la lista al boton
+                btnSelectorBody = new MenuListItem(Common.GetTranslation("BodyColor"), bodyValues, 0, Common.GetTranslation("BodyColorDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
 
                 //Faces
                 List<string> faceValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Female[0].Heads.Count(); i++)
                 {
-                    faceValues.Add(PluginManager.Langs["FaceValues"] + i);
+                    faceValues.Add(Common.GetTranslation("FaceValues") + i);
                 }
 
-                btnSelectorFace = new MenuListItem(PluginManager.Langs["FaceType"], faceValues, 0, PluginManager.Langs["FaceTypeDesc"]); // Añadimos la lista al boton
+                btnSelectorFace = new MenuListItem(Common.GetTranslation("FaceType"), faceValues, 0, Common.GetTranslation("FaceTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorFace); // Lo añadimos al menu
 
                 //Torso
                 List<string> torsoValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Female[0].Body.Count(); i++)
                 {
-                    torsoValues.Add(PluginManager.Langs["TorsoValues"] + i);
+                    torsoValues.Add(Common.GetTranslation("TorsoValues") + i);
                 }
 
-                btnSelectorTorso = new MenuListItem(PluginManager.Langs["TorsoType"], torsoValues, 0, PluginManager.Langs["TorsoTypeDesc"]); // Añadimos la lista al boton
+                btnSelectorTorso = new MenuListItem(Common.GetTranslation("TorsoType"), torsoValues, 0, Common.GetTranslation("TorsoTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorTorso); // Lo añadimos al menu
 
                 //Endoforma
@@ -354,10 +355,10 @@ namespace VorpCharacter.Menus
 
                 for (int i = 1; i < SkinsUtils.BODY_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    endoformValues.Add(PluginManager.Langs["BodySizeValue"] + i);
+                    endoformValues.Add(Common.GetTranslation("BodySizeValue") + i);
                 }
 
-                MenuListItem btnSelectorBodyForm = new MenuListItem(PluginManager.Langs["BodyType"], endoformValues, 0, PluginManager.Langs["BodyTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorBodyForm = new MenuListItem(Common.GetTranslation("BodyType"), endoformValues, 0, Common.GetTranslation("BodyTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBodyForm); // Lo añadimos al menu
 
                 //Waist
@@ -365,20 +366,20 @@ namespace VorpCharacter.Menus
 
                 for (int i = 1; i < SkinsUtils.WAIST_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    waistValues.Add(PluginManager.Langs["WaistValue"] + i);
+                    waistValues.Add(Common.GetTranslation("WaistValue") + i);
                 }
 
-                MenuListItem btnSelectorWaist = new MenuListItem(PluginManager.Langs["WaistType"], waistValues, 0, PluginManager.Langs["WaistTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorWaist = new MenuListItem(Common.GetTranslation("WaistType"), waistValues, 0, Common.GetTranslation("WaistTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorWaist); // Lo añadimos al menu
 
                 //Legs
                 List<string> legsValues = new List<string>();
                 for (int i = 1; i <= PluginManager.Config.Female[0].Legs.Count(); i++)
                 {
-                    legsValues.Add(PluginManager.Langs["LegsValues"] + i);
+                    legsValues.Add(Common.GetTranslation("LegsValues") + i);
                 }
 
-                btnSelectorLegs = new MenuListItem(PluginManager.Langs["LegsType"], legsValues, 0, PluginManager.Langs["LegsTypeDesc"]); // Añadimos la lista al boton
+                btnSelectorLegs = new MenuListItem(Common.GetTranslation("LegsType"), legsValues, 0, Common.GetTranslation("LegsTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLegs); // Lo añadimos al menu
 
                 //Hair
@@ -386,10 +387,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.HAIR_FEMALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    hairValues.Add(PluginManager.Langs["HairValue"] + i);
+                    hairValues.Add(Common.GetTranslation("HairValue") + i);
                 }
 
-                MenuListItem btnSelectorHairs = new MenuListItem(PluginManager.Langs["HairType"], hairValues, 0, PluginManager.Langs["HairTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorHairs = new MenuListItem(Common.GetTranslation("HairType"), hairValues, 0, Common.GetTranslation("HairTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorHairs); // Lo añadimos al menu
 
                 //barbas
@@ -397,18 +398,18 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.EYES_FEMALE.Count; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    eyesValues.Add(PluginManager.Langs["Eyes"] + i);
+                    eyesValues.Add(Common.GetTranslation("Eyes") + i);
                 }
 
-                MenuListItem btnSelectorEyes = new MenuListItem(PluginManager.Langs["EyesList"], eyesValues, 0, PluginManager.Langs["EyesDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorEyes = new MenuListItem(Common.GetTranslation("EyesList"), eyesValues, 0, Common.GetTranslation("EyesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorEyes); // Lo añadimos al menu
 
                 //Beard
                 List<string> beardValues = new List<string>();
 
-                beardValues.Add(PluginManager.Langs["NoExistValue"]);
+                beardValues.Add(Common.GetTranslation("NoExistValue"));
 
-                MenuListItem btnSelectorBeards = new MenuListItem(PluginManager.Langs["BeardType"], beardValues, 0, PluginManager.Langs["BeardTypeDesc"]); // Añadimos la lista al boton
+                MenuListItem btnSelectorBeards = new MenuListItem(Common.GetTranslation("BeardType"), beardValues, 0, Common.GetTranslation("BeardTypeDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorBeards); // Lo añadimos al menu
 
                 //eyeBrows
@@ -416,10 +417,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["eyebrows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    eyeBrowsValues.Add(PluginManager.Langs["EyeBrows"] + i);
+                    eyeBrowsValues.Add(Common.GetTranslation("EyeBrows") + i);
                 }
 
-                btnSelectoreyeBrows = new MenuListItem(PluginManager.Langs["EyeBrowsList"], eyeBrowsValues, 0, PluginManager.Langs["EyeBrowsDesc"]); // Añadimos la lista al boton
+                btnSelectoreyeBrows = new MenuListItem(Common.GetTranslation("EyeBrowsList"), eyeBrowsValues, 0, Common.GetTranslation("EyeBrowsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectoreyeBrows); // Lo añadimos al menu
 
                 //Scars
@@ -427,10 +428,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["scars"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    scarsValues.Add(PluginManager.Langs["Scars"] + i);
+                    scarsValues.Add(Common.GetTranslation("Scars") + i);
                 }
 
-                btnSelectorScars = new MenuListItem(PluginManager.Langs["ScarsList"], scarsValues, 0, PluginManager.Langs["ScarsDesc"]); // Añadimos la lista al boton
+                btnSelectorScars = new MenuListItem(Common.GetTranslation("ScarsList"), scarsValues, 0, Common.GetTranslation("ScarsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorScars); // Lo añadimos al menu
 
                 //Spots
@@ -438,10 +439,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["spots"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    spotsValues.Add(PluginManager.Langs["Spots"] + i);
+                    spotsValues.Add(Common.GetTranslation("Spots") + i);
                 }
 
-                btnSelectorSpots = new MenuListItem(PluginManager.Langs["SpotsList"], spotsValues, 0, PluginManager.Langs["SpotsDesc"]); // Añadimos la lista al boton
+                btnSelectorSpots = new MenuListItem(Common.GetTranslation("SpotsList"), spotsValues, 0, Common.GetTranslation("SpotsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorSpots); // Lo añadimos al menu
 
                 //Disc
@@ -449,10 +450,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["disc"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    discValues.Add(PluginManager.Langs["Disc"] + i);
+                    discValues.Add(Common.GetTranslation("Disc") + i);
                 }
 
-                btnSelectorDisc = new MenuListItem(PluginManager.Langs["DiscList"], discValues, 0, PluginManager.Langs["DiscDesc"]); // Añadimos la lista al boton
+                btnSelectorDisc = new MenuListItem(Common.GetTranslation("DiscList"), discValues, 0, Common.GetTranslation("DiscDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorDisc); // Lo añadimos al menu
 
                 //Complex
@@ -460,10 +461,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["complex"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    complexValues.Add(PluginManager.Langs["Complex"] + i);
+                    complexValues.Add(Common.GetTranslation("Complex") + i);
                 }
 
-                btnSelectorComplex = new MenuListItem(PluginManager.Langs["ComplexList"], complexValues, 0, PluginManager.Langs["ComplexDesc"]); // Añadimos la lista al boton
+                btnSelectorComplex = new MenuListItem(Common.GetTranslation("ComplexList"), complexValues, 0, Common.GetTranslation("ComplexDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorComplex); // Lo añadimos al menu
 
                 //Acne
@@ -471,10 +472,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["acne"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    acneValues.Add(PluginManager.Langs["Acne"] + i);
+                    acneValues.Add(Common.GetTranslation("Acne") + i);
                 }
 
-                btnSelectorAcne = new MenuListItem(PluginManager.Langs["AcneList"], acneValues, 0, PluginManager.Langs["AcneDesc"]); // Añadimos la lista al boton
+                btnSelectorAcne = new MenuListItem(Common.GetTranslation("AcneList"), acneValues, 0, Common.GetTranslation("AcneDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorAcne); // Lo añadimos al menu
 
                 //Ageing
@@ -482,10 +483,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["ageing"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    ageingValues.Add(PluginManager.Langs["Ageing"] + i);
+                    ageingValues.Add(Common.GetTranslation("Ageing") + i);
                 }
 
-                btnSelectorAgeing = new MenuListItem(PluginManager.Langs["AgeingList"], ageingValues, 0, PluginManager.Langs["AgeingDesc"]); // Añadimos la lista al boton
+                btnSelectorAgeing = new MenuListItem(Common.GetTranslation("AgeingList"), ageingValues, 0, Common.GetTranslation("AgeingDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorAgeing); // Lo añadimos al menu
 
                 //Moles
@@ -493,10 +494,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["moles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    molesValues.Add(PluginManager.Langs["Moles"] + i);
+                    molesValues.Add(Common.GetTranslation("Moles") + i);
                 }
 
-                btnSelectorMoles = new MenuListItem(PluginManager.Langs["MolesList"], molesValues, 0, PluginManager.Langs["MolesDesc"]); // Añadimos la lista al boton
+                btnSelectorMoles = new MenuListItem(Common.GetTranslation("MolesList"), molesValues, 0, Common.GetTranslation("MolesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorMoles); // Lo añadimos al menu
 
                 //Freckles
@@ -504,10 +505,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["freckles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    frecklesValues.Add(PluginManager.Langs["Freckles"] + i);
+                    frecklesValues.Add(Common.GetTranslation("Freckles") + i);
                 }
 
-                btnSelectorFreckles = new MenuListItem(PluginManager.Langs["FrecklesList"], frecklesValues, 0, PluginManager.Langs["FrecklesDesc"]); // Añadimos la lista al boton
+                btnSelectorFreckles = new MenuListItem(Common.GetTranslation("FrecklesList"), frecklesValues, 0, Common.GetTranslation("FrecklesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorFreckles); // Lo añadimos al menu
 
                 //Freckles
@@ -515,10 +516,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["grime"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    grimeValues.Add(PluginManager.Langs["Grimes"] + i);
+                    grimeValues.Add(Common.GetTranslation("Grimes") + i);
                 }
 
-                btnSelectorGrime = new MenuListItem(PluginManager.Langs["GrimesList"], grimeValues, 0, PluginManager.Langs["GrimesDesc"]); // Añadimos la lista al boton
+                btnSelectorGrime = new MenuListItem(Common.GetTranslation("GrimesList"), grimeValues, 0, Common.GetTranslation("GrimesDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorGrime); // Lo añadimos al menu
 
                 //Lipsticks
@@ -526,10 +527,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["lipsticks"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    lipsticksValues.Add(PluginManager.Langs["Lipsticks"] + i);
+                    lipsticksValues.Add(Common.GetTranslation("Lipsticks") + i);
                 }
 
-                btnSelectorLipsticks = new MenuListItem(PluginManager.Langs["LipsticksList"], lipsticksValues, 0, PluginManager.Langs["LipsticksDesc"]); // Añadimos la lista al boton
+                btnSelectorLipsticks = new MenuListItem(Common.GetTranslation("LipsticksList"), lipsticksValues, 0, Common.GetTranslation("LipsticksDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLipsticks); // Lo añadimos al menu
 
                 //Lipsticks
@@ -537,10 +538,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    lipsticksColorValues.Add(PluginManager.Langs["LipsticksColors"] + i);
+                    lipsticksColorValues.Add(Common.GetTranslation("LipsticksColors") + i);
                 }
 
-                btnSelectorLipsticksColor = new MenuListItem(PluginManager.Langs["LipsticksColorsList"], lipsticksColorValues, 0, PluginManager.Langs["LipsticksColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorLipsticksColor = new MenuListItem(Common.GetTranslation("LipsticksColorsList"), lipsticksColorValues, 0, Common.GetTranslation("LipsticksColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLipsticksColor); // Lo añadimos al menu
 
                 //Lipsticks
@@ -548,10 +549,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    lipsticksPColorValues.Add(PluginManager.Langs["LipsticksPColors"] + i);
+                    lipsticksPColorValues.Add(Common.GetTranslation("LipsticksPColors") + i);
                 }
 
-                btnSelectorLipsticksPColor = new MenuListItem(PluginManager.Langs["LipsticksPColorsList"], lipsticksPColorValues, 0, PluginManager.Langs["LipsticksPColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorLipsticksPColor = new MenuListItem(Common.GetTranslation("LipsticksPColorsList"), lipsticksPColorValues, 0, Common.GetTranslation("LipsticksPColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorLipsticksPColor); // Lo añadimos al menu
 
                 //Lipsticks
@@ -559,10 +560,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.overlays_info["shadows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    shadowsValues.Add(PluginManager.Langs["Shadows"] + i);
+                    shadowsValues.Add(Common.GetTranslation("Shadows") + i);
                 }
 
-                btnSelectorShadows = new MenuListItem(PluginManager.Langs["ShadowsList"], shadowsValues, 0, PluginManager.Langs["ShadowsDesc"]); // Añadimos la lista al boton
+                btnSelectorShadows = new MenuListItem(Common.GetTranslation("ShadowsList"), shadowsValues, 0, Common.GetTranslation("ShadowsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorShadows); // Lo añadimos al menu
 
                 //Lipsticks
@@ -570,10 +571,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    shadowsColorValues.Add(PluginManager.Langs["ShadowsColors"] + i);
+                    shadowsColorValues.Add(Common.GetTranslation("ShadowsColors") + i);
                 }
 
-                btnSelectorShadowsColor = new MenuListItem(PluginManager.Langs["ShadowsColorsList"], shadowsColorValues, 0, PluginManager.Langs["ShadowsColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorShadowsColor = new MenuListItem(Common.GetTranslation("ShadowsColorsList"), shadowsColorValues, 0, Common.GetTranslation("ShadowsColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorShadowsColor); // Lo añadimos al menu
 
                 //Lipsticks
@@ -581,10 +582,10 @@ namespace VorpCharacter.Menus
 
                 for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
                 {
-                    shadowsPColorValues.Add(PluginManager.Langs["ShadowsPColors"] + i);
+                    shadowsPColorValues.Add(Common.GetTranslation("ShadowsPColors") + i);
                 }
 
-                btnSelectorShadowsPColor = new MenuListItem(PluginManager.Langs["ShadowsPColorsList"], shadowsPColorValues, 0, PluginManager.Langs["ShadowsPColorsDesc"]); // Añadimos la lista al boton
+                btnSelectorShadowsPColor = new MenuListItem(Common.GetTranslation("ShadowsPColorsList"), shadowsPColorValues, 0, Common.GetTranslation("ShadowsPColorsDesc")); // Añadimos la lista al boton
                 skinMenu.AddMenuItem(btnSelectorShadowsPColor); //Lo añadimos al menu 
             }
 
@@ -959,7 +960,7 @@ namespace VorpCharacter.Menus
             List<string> faceValues = new List<string>();
             for (int i = 1; i <= dynList[index]["Heads"].Count(); i++)
             {
-                btnSelectorFace.ListItems.Add(PluginManager.Langs["FaceValues"] + i);
+                btnSelectorFace.ListItems.Add(Common.GetTranslation("FaceValues") + i);
             }
             btnSelectorFace.ListIndex = 0;
 
@@ -967,7 +968,7 @@ namespace VorpCharacter.Menus
             List<string> torsoValues = new List<string>();
             for (int i = 1; i <= dynList[index]["Body"].Count(); i++)
             {
-                btnSelectorTorso.ListItems.Add(PluginManager.Langs["TorsoValues"] + i);
+                btnSelectorTorso.ListItems.Add(Common.GetTranslation("TorsoValues") + i);
             }
             btnSelectorTorso.ListIndex = 0;
 
@@ -975,7 +976,7 @@ namespace VorpCharacter.Menus
             List<string> legsValues = new List<string>();
             for (int i = 1; i <= dynList[index]["Legs"].Count(); i++)
             {
-                btnSelectorLegs.ListItems.Add(PluginManager.Langs["LegsValues"] + i);
+                btnSelectorLegs.ListItems.Add(Common.GetTranslation("LegsValues") + i);
             }
             btnSelectorLegs.ListIndex = 0;
 
