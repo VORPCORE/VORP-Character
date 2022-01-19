@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
 using VorpCharacter.Model;
 using Newtonsoft.Json;
+using VorpCharacter.Script;
 
 namespace VorpCharacter
 {
@@ -22,6 +23,10 @@ namespace VorpCharacter
         public static Dictionary<string, string> Langs = new Dictionary<string, string>();
         public static bool IsLoaded = false;
 
+        readonly CreateCharacter _createCharacter = new();
+        readonly LoadPlayer _loadPlayer = new();
+        readonly SelectCharacter _selectCharacter = new();
+
         public PluginManager()
         {
             Logger.Info($"VORP Character Init");
@@ -35,6 +40,10 @@ namespace VorpCharacter
             Player = new VorpPlayer();
             LoadDefaultConfig();
             await IsReady();
+
+            RegisterScript(_loadPlayer);
+            RegisterScript(_createCharacter);
+            RegisterScript(_selectCharacter);
 
             Logger.Info($"VORP Character Started");
         }
@@ -79,7 +88,7 @@ namespace VorpCharacter
 
             IsLoaded = true;
 
-            Utils.Commands.InitCommands();
+            Utils.Commands.InitCommands(); // this needs to be changed
         }
 
         public async Task IsReady()
@@ -88,6 +97,27 @@ namespace VorpCharacter
             {
                 await Delay(100);
             }
+        }
+
+        void AddEvents()
+        {
+            EventRegistry.Add("onResourceStart", new Action<string>(resourceName =>
+            {
+                if (resourceName != GetCurrentResourceName()) return;
+
+                Logger.Info($"VORP Character Started");
+            }));
+
+            EventRegistry.Add("onResourceStop", new Action<string>(resourceName =>
+            {
+                if (resourceName != GetCurrentResourceName()) return;
+
+                Logger.Info($"Stopping VORP Character");
+
+                UnregisterScript(_loadPlayer);
+                UnregisterScript(_createCharacter);
+                UnregisterScript(_selectCharacter);
+            }));
         }
 
     }
