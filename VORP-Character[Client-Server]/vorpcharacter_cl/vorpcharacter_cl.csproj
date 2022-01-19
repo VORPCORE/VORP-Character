@@ -68,10 +68,10 @@
     <Compile Include="PluginManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config.json">
+    <None Include="config\Config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Es.json">
+    <None Include="config\Es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
