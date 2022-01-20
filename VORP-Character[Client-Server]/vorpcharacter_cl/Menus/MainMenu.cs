@@ -74,11 +74,11 @@ namespace VorpCharacter.Menus
             mainMenu.AddMenuItem(FinishBtn);
 
             //Events
-            mainMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
+            mainMenu.OnListIndexChange += async (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
             {
                 if (_itemIndex == 3)
                 {
-                    CreateCharacter.changeScale(SkinsUtils.SCALE_LIST[_newIndex]);
+                    await Utilities.SetPedScale(Cache.PlayerPedId, SkinsUtils.SCALE_LIST[_newIndex]);
                 }
             };
 
