@@ -105,13 +105,10 @@ namespace VorpCharacter.Script
                 cloths[s.Key] = ConvertValue(s.Value.ToString());
             }
 
-            await Delay(2000);
-
             cache_skin = skin;
             cache_cloths = cloths;
 
             await SetupCharacter(true, skin, cloths);
-
         }
 
         //[Tick]
