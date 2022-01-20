@@ -56,11 +56,13 @@ namespace VorpCharacter.Utils
             await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
         }
 
-        public static int SetPlayerModel(uint hash)
+        public async static Task<int> SetPlayerModel(uint hash)
         {
             Function.Call((Hash)0xED40380076A31506, PlayerId(), hash, true);
-            UpdatePedVariation(PlayerPedId());
-            return Cache.PlayerPedId;
+            await BaseScript.Delay(100);
+            int playerPedHandle = Cache.PlayerPedId;
+            UpdatePedVariation(playerPedHandle);
+            return playerPedHandle;
         }
 
         public static void UpdatePedVariation(int pedHandle)
@@ -68,8 +70,9 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0xCC8CA3E88256E58F, pedHandle, 0, 1, 1, 1, false);
         }
 
-        public static void SetPedScale(int pedHandle, float scale)
+        public static async Task SetPedScale(int pedHandle, float scale)
         {
+            await BaseScript.Delay(10);
             Function.Call((Hash)0x25ACFC650B65C538, pedHandle, scale);
         }
 
@@ -86,6 +89,25 @@ namespace VorpCharacter.Utils
             else
             {
                 Debug.WriteLine($"Model {hash} is not valid!");
+            }
+        }
+
+        public static async Task FadeOutScreen(int duration)
+        {
+            DoScreenFadeOut(duration);
+            while (IsScreenFadingOut())
+            {
+                await BaseScript.Delay(0);
+            }
+        }
+
+        public static async Task FadeInScreen(int duration, int timeToWait = 500)
+        {
+            await BaseScript.Delay(timeToWait);
+            DoScreenFadeIn(duration);
+            while (IsScreenFadingIn())
+            {
+                await BaseScript.Delay(0);
             }
         }
     }

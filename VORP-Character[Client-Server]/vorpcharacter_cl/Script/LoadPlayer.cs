@@ -135,6 +135,8 @@ namespace VorpCharacter.Script
 
         public async Task LoadAllComps(Dictionary<string, string> skin, Dictionary<string, uint> cloths)
         {
+            await Utilities.FadeOutScreen(1000);
+
             Logger.Debug($"{JsonConvert.SerializeObject(skin)}");
 
             if (!skin.ContainsKey("sex"))
@@ -156,7 +158,7 @@ namespace VorpCharacter.Script
                 model_hash = (uint)eModel.mp_female;
 
             await Utilities.RequestModel(model_hash);
-            playerPedId = Utilities.SetPlayerModel(model_hash); // Model changes the players ped id
+            playerPedId = await Utilities.SetPlayerModel(model_hash); // Model changes the players ped id
             TriggerServerEvent("syn_walkanim:getwalk");
             //PreLoad TextureFace
             CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
@@ -274,16 +276,19 @@ namespace VorpCharacter.Script
             await Utilities.ApplyShopItemToPed(playerPedId, ConvertValue(skin["Hair"]));
             Utilities.UpdatePedVariation(playerPedId);
 
-            float pedScale = 1f;
-            float.TryParse(skin["Scale"], out pedScale);
-            Utilities.SetPedScale(playerPedId, pedScale);
+
             Utilities.SetAttributeCoreValue(playerPedId, (int)eAttributeCore.Health, pHealth);
 
             API.SetResourceKvp2("skin", JsonConvert.SerializeObject(skin));
             API.SetResourceKvp2("clothes", JsonConvert.SerializeObject(cloths));
 
             ResetEntityAlpha(playerPedId);
-            Utilities.SetPedScale(playerPedId, pedScale);
+
+            float pedScale = 1f;
+            float.TryParse(skin["Scale"], out pedScale);
+            await Utilities.SetPedScale(playerPedId, pedScale);
+
+            await Utilities.FadeInScreen(1000);
 
             IsLoaded();
         }
