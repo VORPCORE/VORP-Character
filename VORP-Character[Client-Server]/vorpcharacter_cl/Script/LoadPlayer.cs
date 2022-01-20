@@ -178,6 +178,8 @@ namespace VorpCharacter.Script
             }
 
             //End
+            await Delay(350);
+
             CreateCharacter.ApplyDefaultSkinSettings(pPedID);
             float pedScale = 1f;
             float.TryParse(skin["Scale"], out pedScale);
