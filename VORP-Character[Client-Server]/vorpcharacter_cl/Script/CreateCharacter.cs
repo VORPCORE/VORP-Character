@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using static CitizenFX.Core.Native.API;
 using MenuAPI;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,8 @@ namespace VorpCharacter.Script
 
         public CreateCharacter()
         {
-            EventHandlers["vorpcharacter:createCharacter"] += new Action(StartCreationOfCharacter);
-            EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic, dynamic>(StartCreationOfCharacter2);
+            // used to change a selected ped, this can be done better
+            EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic, dynamic>(StartCreationOfCharacter2); 
         }
 
         //vars Scene
@@ -749,44 +750,39 @@ namespace VorpCharacter.Script
             TriggerEvent("vorp:TipBottom", Common.GetTranslation("TipFinal"), 15000);
         }
 
-        public static async void ApplyDefaultSkinCanaryEdition(int ped)
+        public static async void ApplyDefaultSkinSettings(int pedHandle)
         {
-            if (API.IsPedMale(ped))
+            Utilities.SetPedOutfitPreset(pedHandle, 0);
+
+            while (!Utilities.IsPedReadyToRender(pedHandle))
             {
-                string comp_body_male = "0x" + PluginManager.Config.Male[0].Body[0].ToString();
-                int comp_body_male_int = Convert.ToInt32(comp_body_male, 16);
-                string comp_heads_male = "0x" + PluginManager.Config.Male[0].Heads[0].ToString();
-                int comp_heads_male_int = Convert.ToInt32(comp_heads_male, 16);
-                string comp_legs_male = "0x" + PluginManager.Config.Male[0].Legs[0].ToString();
-                int comp_legs_male_int = Convert.ToInt32(comp_legs_male, 16);
-
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_MALE.ElementAt(0), true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_heads_male_int, true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_body_male_int, true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_legs_male_int, true, true, true);
-
-                Function.Call((Hash)0xD710A5007C2AC539, ped, 0x3F1F01E5, 0);
-
-                Function.Call((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+                await Delay(0);
             }
-            else
+
+            Function.Call((Hash)0x0BFA1BD465CDFEFD, pedHandle);
+
+            uint compEyes = SkinsUtils.EYES_MALE.ElementAt(0);
+            uint compBody = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Body[0]}", 16);
+            uint compHead = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Heads[0]}", 16);
+            uint compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Legs[0]}", 16);
+
+            if (!IsPedMale(pedHandle))
             {
-                string comp_body_female = "0x" + PluginManager.Config.Female[0].Body[0].ToString();
-                int comp_body_female_int = Convert.ToInt32(comp_body_female, 16);
-                string comp_heads_female = "0x" + PluginManager.Config.Female[0].Heads[0].ToString();
-                int comp_heads_female_int = Convert.ToInt32(comp_heads_female, 16);
-                string comp_legs_female = "0x" + PluginManager.Config.Female[0].Legs[0].ToString();
-                int comp_legs_female_int = Convert.ToInt32(comp_legs_female, 16);
-
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, SkinsUtils.EYES_FEMALE.ElementAt(0), true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_heads_female_int, true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_body_female_int, true, true, true);
-                Function.Call((Hash)0xD3A7B003ED343FD9, ped, comp_legs_female_int, true, true, true);
-
-                Function.Call((Hash)0xD710A5007C2AC539, ped, 0x3F1F01E5, 0);
-
-                Function.Call((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+                compEyes = SkinsUtils.EYES_FEMALE.ElementAt(0);
+                compBody = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Body[0]}", 16);
+                compHead = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Heads[0]}", 16);
+                compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Legs[0]}", 16);
             }
+
+            await Utilities.ApplyShopItemToPed(pedHandle, compEyes, true, true, true);
+            await Utilities.ApplyShopItemToPed(pedHandle, compBody, true, true, true);
+            await Utilities.ApplyShopItemToPed(pedHandle, compHead, true, true, true);
+            await Utilities.ApplyShopItemToPed(pedHandle, compLegs, true, true, true);
+
+            Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
+            Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
+            Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
+            Utilities.UpdatePedVariation(pedHandle);
         }
 
         private static async void StopCreation()
@@ -808,10 +804,10 @@ namespace VorpCharacter.Script
             //Camera_Back = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -563.0956f, -3780.669f, 238.465f, 0.906957f, 0.0f, -89.36639f, 40.00f, false, 0);
 
             uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
-            await Miscellanea.LoadModel(HashVeh);
+            await Utilities.RequestModel(HashVeh);
 
             uint HashPed = (uint)API.GetHashKey("CS_balloonoperator");
-            await Miscellanea.LoadModel(HashPed);
+            await Utilities.RequestModel(HashPed);
 
         }
 
@@ -847,8 +843,9 @@ namespace VorpCharacter.Script
             /*
              * Esperamos a que cargen los modelos en cache
              */
-            await Miscellanea.LoadModel(hash_f);
-            await Miscellanea.LoadModel(hash_m);
+
+            await Utilities.RequestModel(hash_f);
+            await Utilities.RequestModel(hash_m);
             /*
              * Creamos los modelos en el sitio de creacion
              */
@@ -865,12 +862,13 @@ namespace VorpCharacter.Script
             API.FreezeEntityPosition(PedFemale, true);
             API.FreezeEntityPosition(PedMale, true);
 
-            ApplyDefaultSkinCanaryEdition(PedFemale);
-            ApplyDefaultSkinCanaryEdition(PedMale);
+            ApplyDefaultSkinSettings(PedFemale);
+            ApplyDefaultSkinSettings(PedMale);
 
             TriggerEvent("vorp:setInstancePlayer", true);
 
         }
+
         private async void CreationSexPed(string model, int camedit)
         {
             model_selected = model;
@@ -904,12 +902,11 @@ namespace VorpCharacter.Script
             Miscellanea.TeleportToCoords(-558.3258f, -3781.111f, 237.60f, 93.2f);
             API.FreezeEntityPosition(pPedID, true);
             uint model_hash = (uint)API.GetHashKey(model);
-            await Miscellanea.LoadModel(model_hash);
-            Function.Call((Hash)0xED40380076A31506, pID, model_hash, true);
-            Function.Call((Hash)0x283978A15512B2FE, pPedID, true);
+            await Utilities.RequestModel(model_hash);
+            Utilities.SetPlayerModel(model_hash);
             API.RenderScriptCams(false, true, 3000, true, true, 0);
             await Delay(2500);
-            ApplyDefaultSkinCanaryEdition(API.PlayerPedId());
+            ApplyDefaultSkinSettings(API.PlayerPedId());
             API.SetCamActive(Camera_Editor, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
             API.DeletePed(ref PedFemale);
@@ -959,7 +956,7 @@ namespace VorpCharacter.Script
                     API.SetCamActive(Camera_Legs, false);
                     API.SetCamActive(Camera_Editor, false);
                     API.RenderScriptCams(true, true, 200, true, true, 0);
-                    ApplyDefaultSkinCanaryEdition(API.PlayerPedId());
+                    ApplyDefaultSkinSettings(API.PlayerPedId());
                     break;
             }
         }

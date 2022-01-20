@@ -23,9 +23,9 @@ namespace VorpCharacter
         public static Dictionary<string, string> Langs = new Dictionary<string, string>();
         public static bool IsLoaded = false;
 
-        readonly CreateCharacter _createCharacter = new();
-        readonly LoadPlayer _loadPlayer = new();
-        readonly SelectCharacter _selectCharacter = new();
+        public static readonly CreateCharacter _createCharacter = new();
+        public static readonly LoadPlayer _loadPlayer = new();
+        public static readonly SelectCharacter _selectCharacter = new();
 
         public PluginManager()
         {

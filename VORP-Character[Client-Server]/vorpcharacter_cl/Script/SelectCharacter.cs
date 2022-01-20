@@ -1,29 +1,32 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VorpCharacter.Extensions;
 using VorpCharacter.Utils;
+using VorpCharacter.Diagnostics;
+using Newtonsoft.Json;
 
 namespace VorpCharacter.Script
 {
-    class SelectCharacter : BaseScript
+    public class SelectCharacter : BaseScript
     {
         private int CreatePrompt = -1;
         private int DeletePrompt = -1;
 
         private int selectedChar = 0;
 
-        private static int ppid = 0;
+        private static int playerPedId = 0;
         private static int mainCamera = -1;
         dynamic myChars = null;
         private static bool isInCharacterSelector = false;
         private int tagId = 0;
         private static bool swappingChar = true;
 
-        public SelectCharacter()
+        internal SelectCharacter()
         {
             EventHandlers["vorpcharacter:selectCharacter"] += new Action<dynamic>(LoadCharacters);
             EventHandlers["vorpcharacter:spawnUniqueCharacter"] += new Action<dynamic>(SpawnCharacter);
@@ -33,6 +36,8 @@ namespace VorpCharacter.Script
         {
             try
             {
+                Logger.Debug($"SpawnCharacter Called");
+
                 int charIdentifier = int.Parse(myChar[0].charIdentifier.ToString());
                 TriggerServerEvent("vorp_CharSelectedCharacter", charIdentifier);
 
@@ -41,7 +46,9 @@ namespace VorpCharacter.Script
                 string json_coords = myChar[0].coords;
                 JObject jPos = JObject.Parse(json_coords);
 
-                TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components);
+                // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
+                await PluginManager._loadPlayer.LoadPlayerSkin(json_skin, json_components);
+
                 API.DoScreenFadeOut(1000);
                 await Delay(800);
                 Vector3 playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(), jPos["z"].ToObject<float>());
@@ -69,7 +76,7 @@ namespace VorpCharacter.Script
         public async Task StartAnim()
         {
             uint hashmodel = (uint)API.GetHashKey("mp_male");
-            await Miscellanea.LoadModel(hashmodel);
+            await Utilities.RequestModel(hashmodel);
             int character_1 = API.CreatePed(hashmodel, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
             Function.Call((Hash)0x283978A15512B2FE, character_1, true);
             await Delay(1000);
@@ -115,17 +122,17 @@ namespace VorpCharacter.Script
             API.PromptSetEnabled(CreatePrompt, 0);
             API.PromptSetVisible(CreatePrompt, 0);
 
-            API.TaskGoToCoordAnyMeans(ppid, 1697.74f, 1510.202f, 147.87f, 0.8f, 0, false, 524419, -1f);
+            API.TaskGoToCoordAnyMeans(playerPedId, 1697.74f, 1510.202f, 147.87f, 0.8f, 0, false, 524419, -1f);
             await Delay(2000);
             Function.Call((Hash)0xA0D7CE5F83259663, tagId, "");
             Function.Call((Hash)0x839BFD7D7E49FE09, tagId);
-            API.DeletePed(ref ppid);
+            API.DeletePed(ref playerPedId);
             await LoadNpcComps(json_skin, json_components);
-            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, ppid, $"{Common.GetTranslation("MoneyTag")}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money, false, false, "", 0);
+            tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, playerPedId, $"{Common.GetTranslation("MoneyTag")}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money, false, false, "", 0);
             Function.Call((Hash)0xA0D7CE5F83259663, tagId, myChars[selectedChar].firstname + " " + myChars[selectedChar].lastname);
             Function.Call((Hash)0x5F57522BC1EB9D9D, tagId, 0);
             await Delay(500);
-            API.TaskGoToCoordAnyMeans(ppid, 1696.17f, 1508.474f, 147.85f, 0.8f, 0, false, 524419, -1f);
+            API.TaskGoToCoordAnyMeans(playerPedId, 1696.17f, 1508.474f, 147.85f, 0.8f, 0, false, 524419, -1f);
 
             API.PromptSetEnabled(DeletePrompt, 1);
             API.PromptSetVisible(DeletePrompt, 1);
@@ -176,6 +183,19 @@ namespace VorpCharacter.Script
         {
             try
             {
+                Logger.Debug($"CharSelect Called");
+
+                API.DoScreenFadeOut(1000);
+
+                while (API.IsScreenFadingOut())
+                {
+                    await Delay(100);
+                }
+
+                Logger.Debug($"CHARACTER DUMP!");
+                Logger.Debug($"{JsonConvert.SerializeObject(myChars)}");
+                Logger.Debug($"CHARACTER DUMP!");
+
                 int charIdentifier = int.Parse(myChars[selectedChar].charIdentifier.ToString());
                 TriggerServerEvent("vorp_CharSelectedCharacter", charIdentifier);
 
@@ -183,14 +203,22 @@ namespace VorpCharacter.Script
                 API.PromptSetVisible(DeletePrompt, 0);
                 API.PromptSetEnabled(CreatePrompt, 0);
                 API.PromptSetVisible(CreatePrompt, 0);
-                API.DeletePed(ref ppid);
+                API.DeletePed(ref playerPedId);
 
-                string json_skin = myChars[selectedChar].skin;
+                string json_skin = myChars[selectedChar].skin; // make this a class
                 string json_components = myChars[selectedChar].components;
                 string json_coords = myChars[selectedChar].coords;
                 JObject jPos = JObject.Parse(json_coords);
 
-                TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components);
+
+
+                Logger.Debug($"CHARACTER DUMP!");
+                Logger.Debug($"{JsonConvert.SerializeObject(json_skin)}");
+                Logger.Debug($"CHARACTER DUMP!");
+
+                // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
+                await PluginManager._loadPlayer.LoadPlayerSkin(json_skin, json_components);
+                
                 API.DoScreenFadeOut(1000);
                 await Delay(800);
                 API.SetCamActive(mainCamera, false);
@@ -208,13 +236,19 @@ namespace VorpCharacter.Script
                 }
                 float heading = jPos["heading"].ToObject<float>();
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
+
                 await Delay(1000);
                 API.DoScreenFadeIn(1000);
+
+                while (API.IsScreenFadingIn())
+                {
+                    await Delay(100);
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                API.DoScreenFadeIn(1000);
+                API.DoScreenFadeIn(0);
             }
         }
 
@@ -259,13 +293,14 @@ namespace VorpCharacter.Script
                 {
                     if (myChars.Count < PluginManager.MAX_ALLOWED_CHARACTERS)
                     {
-                        TriggerEvent("vorpcharacter:createCharacter");
+                        PluginManager._createCharacter.StartCreationOfCharacter();
                         API.PromptSetEnabled(DeletePrompt, 0);
                         API.PromptSetVisible(DeletePrompt, 0);
                         API.PromptSetEnabled(CreatePrompt, 0);
                         API.PromptSetVisible(CreatePrompt, 0);
-                        API.DeletePed(ref ppid);
+                        API.DeletePed(ref playerPedId);
                         isInCharacterSelector = false;
+                        return;
                     }
                     else
                     {
@@ -279,13 +314,14 @@ namespace VorpCharacter.Script
                     TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
                     if (myChars.Count <= 1)
                     {
-                        TriggerEvent("vorpcharacter:createCharacter");
+                        PluginManager._createCharacter.StartCreationOfCharacter();
                         API.PromptSetEnabled(DeletePrompt, 0);
                         API.PromptSetVisible(DeletePrompt, 0);
                         API.PromptSetEnabled(CreatePrompt, 0);
                         API.PromptSetVisible(CreatePrompt, 0);
-                        API.DeletePed(ref ppid);
+                        API.DeletePed(ref playerPedId);
                         isInCharacterSelector = false;
+                        return;
                     }
                     else
                     {
@@ -331,9 +367,9 @@ namespace VorpCharacter.Script
             }
 
             uint model_hash = (uint)API.GetHashKey(skin["sex"]);
-            await Utils.Miscellanea.LoadModel(model_hash);
-            ppid = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
-            CreateCharacter.ApplyDefaultSkinCanaryEdition(ppid);
+            await Utilities.RequestModel(model_hash);
+            playerPedId = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
+            CreateCharacter.ApplyDefaultSkinSettings(playerPedId);
             await Delay(200);
 
             //PreLoad TextureFace
@@ -358,183 +394,57 @@ namespace VorpCharacter.Script
             //End
 
             //LoadSkin
-            Function.Call((Hash)0xD3A7B003ED343FD9, ppid, LoadPlayer.ConvertValue(skin["HeadType"]), true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, ppid, LoadPlayer.ConvertValue(skin["BodyType"]), true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            Function.Call((Hash)0xD3A7B003ED343FD9, ppid, LoadPlayer.ConvertValue(skin["LegsType"]), true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
+            await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["HeadType"]));
+            await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["BodyType"]));
+            await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["LegsType"]));
 
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x84D6, float.Parse(skin["HeadSize"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x3303, float.Parse(skin["EyeBrowH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x2FF9, float.Parse(skin["EyeBrowW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x4AD1, float.Parse(skin["EyeBrowD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xC04F, float.Parse(skin["EarsH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xB6CE, float.Parse(skin["EarsW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x2844, float.Parse(skin["EarsD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xED30, float.Parse(skin["EarsL"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x8B2B, float.Parse(skin["EyeLidH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x1B6B, float.Parse(skin["EyeLidW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xEE44, float.Parse(skin["EyeD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xD266, float.Parse(skin["EyeAng"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xA54E, float.Parse(skin["EyeDis"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xDDFB, float.Parse(skin["EyeH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x6E7F, float.Parse(skin["NoseW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x3471, float.Parse(skin["NoseS"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x03F5, float.Parse(skin["NoseH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x34B1, float.Parse(skin["NoseAng"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xF156, float.Parse(skin["NoseC"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x561E, float.Parse(skin["NoseDis"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x6A0B, float.Parse(skin["CheekBonesH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xABCF, float.Parse(skin["CheekBonesW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x358D, float.Parse(skin["CheekBonesD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xF065, float.Parse(skin["MouthW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xAA69, float.Parse(skin["MouthD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x7AC3, float.Parse(skin["MouthX"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x410D, float.Parse(skin["MouthY"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x1A00, float.Parse(skin["ULiphH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x91C1, float.Parse(skin["ULiphW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xC375, float.Parse(skin["ULiphD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xBB4D, float.Parse(skin["LLiphH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xB0B0, float.Parse(skin["LLiphW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x5D16, float.Parse(skin["LLiphD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x8D0A, float.Parse(skin["JawH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xEBAE, float.Parse(skin["JawW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x1DF6, float.Parse(skin["JawD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0x3C0F, float.Parse(skin["ChinH"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xC3B2, float.Parse(skin["ChinW"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-
-            Function.Call((Hash)0x5653AB26C82938CF, ppid, 0xE323, float.Parse(skin["ChinD"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
-            //await Delay(100);
-            Function.Call((Hash)0xD3A7B003ED343FD9, ppid, LoadPlayer.ConvertValue(skin["Eyes"]), true, true, true);
-
-            Function.Call((Hash)0xD3A7B003ED343FD9, ppid, LoadPlayer.ConvertValue(skin["Hair"]), true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
+            await Utilities.SetPedFaceFeature(playerPedId, 0x84D6, float.Parse(skin["HeadSize"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x3303, float.Parse(skin["EyeBrowH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x2FF9, float.Parse(skin["EyeBrowW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x4AD1, float.Parse(skin["EyeBrowD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xC04F, float.Parse(skin["EarsH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xB6CE, float.Parse(skin["EarsW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x2844, float.Parse(skin["EarsD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xED30, float.Parse(skin["EarsL"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x8B2B, float.Parse(skin["EyeLidH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x1B6B, float.Parse(skin["EyeLidW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xEE44, float.Parse(skin["EyeD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xD266, float.Parse(skin["EyeAng"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xA54E, float.Parse(skin["EyeDis"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xDDFB, float.Parse(skin["EyeH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x6E7F, float.Parse(skin["NoseW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x3471, float.Parse(skin["NoseS"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x03F5, float.Parse(skin["NoseH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x34B1, float.Parse(skin["NoseAng"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xF156, float.Parse(skin["NoseC"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x561E, float.Parse(skin["NoseDis"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x6A0B, float.Parse(skin["CheekBonesH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xABCF, float.Parse(skin["CheekBonesW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x358D, float.Parse(skin["CheekBonesD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xF065, float.Parse(skin["MouthW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xAA69, float.Parse(skin["MouthD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x7AC3, float.Parse(skin["MouthX"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x410D, float.Parse(skin["MouthY"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x1A00, float.Parse(skin["ULiphH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x91C1, float.Parse(skin["ULiphW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xC375, float.Parse(skin["ULiphD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xBB4D, float.Parse(skin["LLiphH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xB0B0, float.Parse(skin["LLiphW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x5D16, float.Parse(skin["LLiphD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x8D0A, float.Parse(skin["JawH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xEBAE, float.Parse(skin["JawW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x1DF6, float.Parse(skin["JawD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0x3C0F, float.Parse(skin["ChinH"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xC3B2, float.Parse(skin["ChinW"]));
+            await Utilities.SetPedFaceFeature(playerPedId, 0xE323, float.Parse(skin["ChinD"]));
+            await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["Eyes"]), true, true, true);
+            await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["Hair"]), true, true, true);
+            Utilities.UpdatePedVariation(playerPedId);
             await Delay(100);
-
-
-            Function.Call((Hash)0x1902C4CFCC5BE57C, ppid, LoadPlayer.ConvertValue(skin["Body"]));
-            //Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
+            Utilities.SetPedBodyComponent(playerPedId, LoadPlayer.ConvertValue(skin["Body"]));
             await Delay(100);
-
-
-            Function.Call((Hash)0x1902C4CFCC5BE57C, ppid, LoadPlayer.ConvertValue(skin["Waist"]));
-
-            Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
+            Utilities.SetPedBodyComponent(playerPedId, LoadPlayer.ConvertValue(skin["Waist"]));
+            Utilities.UpdatePedVariation(playerPedId);
             await Delay(500);
 
 
@@ -573,7 +483,7 @@ namespace VorpCharacter.Script
             SetPlayerComponent(skin["sex"], 0xF1542D11, "GunbeltAccs", cloths);
 
 
-            Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
+            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, false);
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPedID, 0, 1, 1, 1, false); // this fix Hair not appears
 
             //Load Face Texture
@@ -591,9 +501,9 @@ namespace VorpCharacter.Script
             //CreateCharacter.toggleOverlayChange("shadows", int.Parse(skin["shadows_visibility"]), int.Parse(skin["shadows_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["shadows_palette_id"]), int.Parse(skin["shadows_palette_color_primary"]), 0, 0, 0, 1.0f);
 
             await Delay(500);
-            Function.Call((Hash)0x59BD177A1A48600A, ppid, 0xF8016BCA);
-            Function.Call((Hash)0xD3A7B003ED343FD9, ppid, LoadPlayer.ConvertValue(skin["Beard"]), true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, ppid, 0, 1, 1, 1, false);
+            Function.Call((Hash)0x59BD177A1A48600A, playerPedId, 0xF8016BCA);
+            Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(skin["Beard"]), true, true, true);
+            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, false);
 
         }
 
@@ -603,14 +513,14 @@ namespace VorpCharacter.Script
             {
                 if (cloths[component] != -1)
                 {
-                    Function.Call((Hash)0x59BD177A1A48600A, ppid, category);
-                    Function.Call((Hash)0xD3A7B003ED343FD9, ppid, cloths[component], true, true, false);
+                    Function.Call((Hash)0x59BD177A1A48600A, playerPedId, category);
+                    Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, cloths[component], true, true, false);
                 }
             }
             else
             {
-                Function.Call((Hash)0x59BD177A1A48600A, ppid, category);
-                Function.Call((Hash)0xD3A7B003ED343FD9, ppid, cloths[component], true, true, true);
+                Function.Call((Hash)0x59BD177A1A48600A, playerPedId, category);
+                Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, cloths[component], true, true, true);
             }
 
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
