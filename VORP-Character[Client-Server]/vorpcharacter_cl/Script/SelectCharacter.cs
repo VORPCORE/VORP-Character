@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
+using VorpCharacter.Enums;
 using VorpCharacter.Extensions;
 using VorpCharacter.Utils;
 
@@ -397,45 +398,46 @@ namespace VorpCharacter.Script
             await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["BodyType"]));
             await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["LegsType"]));
 
-            await Utilities.SetPedFaceFeature(playerPedId, 0x84D6, float.Parse(skin["HeadSize"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x3303, float.Parse(skin["EyeBrowH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x2FF9, float.Parse(skin["EyeBrowW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x4AD1, float.Parse(skin["EyeBrowD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xC04F, float.Parse(skin["EarsH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xB6CE, float.Parse(skin["EarsW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x2844, float.Parse(skin["EarsD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xED30, float.Parse(skin["EarsL"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x8B2B, float.Parse(skin["EyeLidH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x1B6B, float.Parse(skin["EyeLidW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xEE44, float.Parse(skin["EyeD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xD266, float.Parse(skin["EyeAng"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xA54E, float.Parse(skin["EyeDis"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xDDFB, float.Parse(skin["EyeH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x6E7F, float.Parse(skin["NoseW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x3471, float.Parse(skin["NoseS"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x03F5, float.Parse(skin["NoseH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x34B1, float.Parse(skin["NoseAng"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xF156, float.Parse(skin["NoseC"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x561E, float.Parse(skin["NoseDis"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x6A0B, float.Parse(skin["CheekBonesH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xABCF, float.Parse(skin["CheekBonesW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x358D, float.Parse(skin["CheekBonesD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xF065, float.Parse(skin["MouthW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xAA69, float.Parse(skin["MouthD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x7AC3, float.Parse(skin["MouthX"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x410D, float.Parse(skin["MouthY"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x1A00, float.Parse(skin["ULiphH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x91C1, float.Parse(skin["ULiphW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xC375, float.Parse(skin["ULiphD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xBB4D, float.Parse(skin["LLiphH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xB0B0, float.Parse(skin["LLiphW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x5D16, float.Parse(skin["LLiphD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x8D0A, float.Parse(skin["JawH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xEBAE, float.Parse(skin["JawW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x1DF6, float.Parse(skin["JawD"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0x3C0F, float.Parse(skin["ChinH"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xC3B2, float.Parse(skin["ChinW"]));
-            await Utilities.SetPedFaceFeature(playerPedId, 0xE323, float.Parse(skin["ChinD"]));
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.FaceSize, float.Parse(skin["HeadSize"])); // FaceSize
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyebrowHeight, float.Parse(skin["EyeBrowH"])); // EyebrowHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyebrowWidth, float.Parse(skin["EyeBrowW"])); // EyebrowWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyebrowDepth, float.Parse(skin["EyeBrowD"])); // EyebrowDepth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EarsHeight, float.Parse(skin["EarsH"])); // EarsHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EarsAngle, float.Parse(skin["EarsW"])); // EarsAngle
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EarsSize, float.Parse(skin["EarsD"])); // EarsSize
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EarsLobeSize, float.Parse(skin["EarsL"])); // EarsLobeSize
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyelidsHeight, float.Parse(skin["EyeLidH"])); // EyelidsHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyelidsWidth, float.Parse(skin["EyeLidW"])); // EyelidsWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyeDepth, float.Parse(skin["EyeD"])); // EyeDepth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyeAngle, float.Parse(skin["EyeAng"])); // EyeAngle
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyeSeparation, float.Parse(skin["EyeDis"])); // EyeSeparation
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.EyeHeight, float.Parse(skin["EyeH"])); // EyeHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.NoseWidth, float.Parse(skin["NoseW"])); // NoseWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.NoseSize, float.Parse(skin["NoseS"])); // NoseSize
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.NoseHeight, float.Parse(skin["NoseH"])); // NoseHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.NoseAngle, float.Parse(skin["NoseAng"])); // NoseAngle
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.NoseCurvature, float.Parse(skin["NoseC"])); // NoseCurvature
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.NostrilsSeparation, float.Parse(skin["NoseDis"])); // NostrilsSeparation
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.CheekbonesHeight, float.Parse(skin["CheekBonesH"])); // CheekbonesHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.CheekbonesWidth, float.Parse(skin["CheekBonesW"])); // CheekbonesWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.CheekbonesDepth, float.Parse(skin["CheekBonesD"])); // CheekbonesDepth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.MouthWidth, float.Parse(skin["MouthW"])); // MouthWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.MouthDepth, float.Parse(skin["MouthD"])); // MouthDepth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.MouthDeviation, float.Parse(skin["MouthX"])); // MouthDeviation
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.MouthHeight, float.Parse(skin["MouthY"])); // MouthHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.UpperLipHeight, float.Parse(skin["ULiphH"])); // UpperLipHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.UpperLipWidth, float.Parse(skin["ULiphW"])); // UpperLipWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.UpperLipDepth, float.Parse(skin["ULiphD"])); // UpperLipDepth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.LowerLipHeight, float.Parse(skin["LLiphH"])); // LowerLipHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.LowerLipWidth, float.Parse(skin["LLiphW"])); // LowerLipWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.LowerLipDepth, float.Parse(skin["LLiphD"])); // LowerLipDepth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.MandibleHeight, float.Parse(skin["JawH"])); // MandibleHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.MandibleWidth, float.Parse(skin["JawW"])); // MandibleWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.MandibleDepth, float.Parse(skin["JawD"])); // MandibleDepth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.ChinHeight, float.Parse(skin["ChinH"])); // ChinHeight
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.ChinWidth, float.Parse(skin["ChinW"])); // ChinWidth
+            await Utilities.SetPedFaceFeature(playerPedId, ePedFaceFeature.ChinDepth, float.Parse(skin["ChinD"]), true); // ChinDepth
+
             await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["Eyes"]), true, true, true);
             await Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(skin["Hair"]), true, true, true);
             Utilities.UpdatePedVariation(playerPedId);
