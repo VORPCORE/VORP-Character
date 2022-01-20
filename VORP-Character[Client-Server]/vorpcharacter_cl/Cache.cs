@@ -9,7 +9,7 @@ namespace VorpCharacter
 {
     public class Cache
     {
-        private int _playerPedId;
+        private static int _playerPedId;
         public static int PlayerPedId
         {
             get
