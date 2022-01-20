@@ -42,394 +42,64 @@ namespace VorpCharacter.Utils
             API.RegisterCommand(Common.GetTranslation("CommandLoadouts"), new Action(Loadouts), false);
             API.RegisterCommand(Common.GetTranslation("CommandAccessories"), new Action(Accessories), false);
             API.RegisterCommand(Common.GetTranslation("CommandSatchels"), new Action(Satchels), false);
-
         }
 
-        private static void CoatClosed()
+        static async void ToggleComponent(uint component, uint item)
         {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x0662AC34))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, component))
             {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x0662AC34, 0);
+                Utilities.RemoveTagFromMetaPed(playerPedId, component);
             }
             else
             {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["CoatClosed"].ToString()), true, true, false);
+                await Utilities.ApplyShopItemToPed(playerPedId, item);
             }
-            Utilities.UpdatePedVariation(playerPedId);
         }
 
-        private static void Hat()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x9925C067))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x9925C067, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void EyeWear()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x5E47CA6))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x5E47CA6, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Mask()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7505EF42))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x7505EF42, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Mask"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void NeckWear()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x5FC29285))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x5FC29285, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void NeckTies()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7A96FACA))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x7A96FACA, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Shirt()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x2026C46D))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x2026C46D, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Suspender()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x877A2CF7))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x877A2CF7, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Vest()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x485EE834))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x485EE834, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Coat()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xE06D30CE))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xE06D30CE, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Poncho()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xAF14310B))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xAF14310B, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Cloak()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x3C1A74CD))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x3C1A74CD, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Glove()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xEABE0032))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xEABE0032, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
+        private static void CoatClosed() => ToggleComponent(0x0662AC34, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["CoatClosed"].ToString()));
+        private static void Hat() => ToggleComponent(0x9925C067, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()));
+        private static void EyeWear() => ToggleComponent(0x5E47CA6, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()));
+        private static void Mask() => ToggleComponent(0x7505EF42, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Mask"].ToString()));
+        private static void NeckWear() => ToggleComponent(0x5FC29285, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()));
+        private static void NeckTies() => ToggleComponent(0x7A96FACA, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()));
+        private static void Shirt() => ToggleComponent(0x2026C46D, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()));
+        private static void Suspender() => ToggleComponent(0x877A2CF7, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()));
+        private static void Vest() => ToggleComponent(0x485EE834, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()));
+        private static void Coat() => ToggleComponent(0xE06D30CE, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()));
+        private static void Poncho() => ToggleComponent(0xAF14310B, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()));
+        private static void Cloak() => ToggleComponent(0x3C1A74CD, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()));
+        private static void Glove() => ToggleComponent(0xEABE0032, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()));
 
         private static void Rings()
         {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7A6BBD0B))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x7A6BBD0B, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()), true, true, false);
-            }
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xF16A1D23))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xF16A1D23, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
+            ToggleComponent(0x7A6BBD0B, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()));
+            ToggleComponent(0xF16A1D23, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()));
         }
 
-        private static void Bracelet()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7BC10759))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x7BC10759, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
+        private static void Bracelet() => ToggleComponent(0x7BC10759, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()));
 
         private static void Belt()
         {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x9B2C8B89))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x9B2C8B89, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()), true, true, false);
-            }
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xB6B6122D))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xB6B6122D, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()), true, true, false);
-            }
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xA6D134C6))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xA6D134C6, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
+            ToggleComponent(0x9B2C8B89, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()));
+            ToggleComponent(0xB6B6122D, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()));
+            ToggleComponent(0xA6D134C6, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()));
         }
 
-        private static void Buckle()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xFAE9107F))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xFAE9107F, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
+        private static void Buckle() => ToggleComponent(0xFAE9107F, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()));
+        private static void Pant() => ToggleComponent(0x1D4C528A, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()));
+        private static void Skirt() => ToggleComponent(0xA0E3AB7F, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()));
+        private static void Chap() => ToggleComponent(0x3107499B, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()));
+        private static void Boots() => ToggleComponent(0x777EC6EF, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()));
+        private static void Spurs() => ToggleComponent(0x18729F39, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()));
+        private static void Spats() => ToggleComponent(0x514ADCEA, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spats"].ToString()));
+        private static void GunbeltAccs() => ToggleComponent(0xF1542D11, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()));
+        private static void Gauntlets() => ToggleComponent(0x91CE9B20, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gauntlets"].ToString()));
+        private static void Loadouts() => ToggleComponent(0x83887E88, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Loadouts"].ToString()));
+        private static void Accessories() => ToggleComponent(0x79D7DF96, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()));
+        private static void Satchels() => ToggleComponent(0x83887E88, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Satchels"].ToString()));
 
-        private static void Pant()
+        private static void Undress()
         {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x1D4C528A))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x1D4C528A, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Skirt()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xA0E3AB7F))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xA0E3AB7F, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Chap()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x3107499B))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x3107499B, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static void Boots()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x777EC6EF))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x777EC6EF, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-        private static void Spurs()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x18729F39))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x18729F39, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-        private static void Spats()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x514ADCEA))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x514ADCEA, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spats"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-        private static void GunbeltAccs()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xF1542D11))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0xF1542D11, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-        private static void Gauntlets()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x91CE9B20))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x91CE9B20, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gauntlets"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-        private static void Loadouts()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x83887E88))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x83887E88, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Loadouts"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-        private static void Accessories()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x79D7DF96))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x79D7DF96, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-        private static void Satchels()
-        {
-            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x94504D26))
-            {
-                Utilities.RemoveTagFromMetaPed(playerPedId, 0x94504D26, 0);
-            }
-            else
-            {
-                Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
-            }
-            Utilities.UpdatePedVariation(playerPedId);
-        }
-
-        private static async void Undress()
-        {
-            
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x9925C067, 0);
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x5E47CA6, 0);
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x5FC29285, 0);
@@ -460,13 +130,10 @@ namespace VorpCharacter.Utils
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x83887E88, 0);
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x79D7DF96, 0);
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x94504D26, 0);
-            await Delay(100);
-            Utilities.UpdatePedVariation(playerPedId);
         }
 
-        private static async void Dress()
+        private static void Dress()
         {
-
             Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
             Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true, false);
             Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true, false);
@@ -492,8 +159,6 @@ namespace VorpCharacter.Utils
             Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
             Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
             Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true, false);
-            await Delay(100);
-            Utilities.UpdatePedVariation(playerPedId);
         }
 
     }

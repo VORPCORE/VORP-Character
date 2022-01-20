@@ -32,9 +32,11 @@ namespace VorpCharacter.Utils
             return Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, pedHandle);
         }
 
-        public static void RemoveTagFromMetaPed(int pedHandle, uint component, int p2)
+        public static async void RemoveTagFromMetaPed(int pedHandle, uint component, int p2 = 0)
         {
             Function.Call((Hash)0xD710A5007C2AC539, pedHandle, component, p2);
+            UpdatePedVariation(pedHandle);
+            await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
         }
 
         public static void SetPedOutfitPreset(int pedHandle, int presetId)
