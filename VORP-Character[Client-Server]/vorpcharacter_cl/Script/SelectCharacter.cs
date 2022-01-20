@@ -138,7 +138,8 @@ namespace VorpCharacter.Script
             Controller();
             DrawInformation();
 
-            API.NetworkClockTimeOverride(12, 00, 00, 0, false);
+            API.NetworkClockTimeOverride(9, 0, 0, 0, false);
+            API.NetworkClockTimeOverride_2(9, 0, 0, 0, true, false);
             API.FreezeEntityPosition(Cache.PlayerPedId, true);
 
             API.SetEntityCoords(API.PlayerPedId(), 1687.03f, 1507.06f, 145.60f, false, false, false, false);
@@ -198,6 +199,7 @@ namespace VorpCharacter.Script
                 // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
                 await PluginManager._loadPlayer.LoadPlayerSkin(json_skin, json_components);
 
+                API.NetworkClearClockTimeOverride();
                 API.NetworkClearClockTimeOverride();
                 API.FreezeEntityPosition(Cache.PlayerPedId, false);
 
