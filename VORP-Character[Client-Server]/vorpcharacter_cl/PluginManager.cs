@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
-using static CitizenFX.Core.Native.API;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
 using VorpCharacter.Model;
-using Newtonsoft.Json;
 using VorpCharacter.Script;
+using static CitizenFX.Core.Native.API;
 
 namespace VorpCharacter
 {

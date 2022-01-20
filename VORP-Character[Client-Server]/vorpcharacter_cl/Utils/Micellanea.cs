@@ -1,5 +1,4 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
+﻿using CitizenFX.Core.Native;
 using System.Threading.Tasks;
 
 namespace VorpCharacter.Utils

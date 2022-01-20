@@ -1,14 +1,13 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using VorpCharacter.Diagnostics;
 using VorpCharacter.Extensions;
 using VorpCharacter.Utils;
-using VorpCharacter.Diagnostics;
-using Newtonsoft.Json;
 
 namespace VorpCharacter.Script
 {
@@ -218,7 +217,7 @@ namespace VorpCharacter.Script
 
                 // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
                 await PluginManager._loadPlayer.LoadPlayerSkin(json_skin, json_components);
-                
+
                 API.DoScreenFadeOut(1000);
                 await Delay(800);
                 API.SetCamActive(mainCamera, false);

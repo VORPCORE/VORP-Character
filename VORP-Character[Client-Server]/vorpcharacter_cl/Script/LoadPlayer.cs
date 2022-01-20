@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8,8 +7,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
-using VorpCharacter.Utils;
 using VorpCharacter.Enums;
+using VorpCharacter.Utils;
+using static CitizenFX.Core.Native.API;
 
 namespace VorpCharacter.Script
 {

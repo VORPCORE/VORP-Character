@@ -1,10 +1,9 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
-using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
 using System;
+using System.Threading.Tasks;
 using VorpCharacter.Enums;
+using static CitizenFX.Core.Native.API;
 
 namespace VorpCharacter.Utils
 {

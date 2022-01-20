@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using static CitizenFX.Core.Native.API;
 using MenuAPI;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using VorpCharacter.Enums;
 using VorpCharacter.Extensions;
 using VorpCharacter.Model;
 using VorpCharacter.Utils;
+using static CitizenFX.Core.Native.API;
 
 namespace VorpCharacter.Script
 {
@@ -20,7 +20,7 @@ namespace VorpCharacter.Script
         public CreateCharacter()
         {
             // used to change a selected ped, this can be done better
-            EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic, dynamic>(StartCreationOfCharacter2); 
+            EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic, dynamic>(StartCreationOfCharacter2);
         }
 
         //vars Scene
