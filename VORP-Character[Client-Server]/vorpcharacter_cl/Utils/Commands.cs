@@ -47,7 +47,7 @@ namespace VorpCharacter.Utils
 
         private static void CoatClosed()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x0662AC34))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x0662AC34))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x0662AC34, 0);
             }
@@ -60,7 +60,7 @@ namespace VorpCharacter.Utils
 
         private static void Hat()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x9925C067))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x9925C067))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x9925C067, 0);
             }
@@ -73,7 +73,7 @@ namespace VorpCharacter.Utils
 
         private static void EyeWear()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x5E47CA6))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x5E47CA6))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x5E47CA6, 0);
             }
@@ -86,7 +86,7 @@ namespace VorpCharacter.Utils
 
         private static void Mask()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x7505EF42))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7505EF42))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x7505EF42, 0);
             }
@@ -99,7 +99,7 @@ namespace VorpCharacter.Utils
 
         private static void NeckWear()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x5FC29285))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x5FC29285))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x5FC29285, 0);
             }
@@ -112,7 +112,7 @@ namespace VorpCharacter.Utils
 
         private static void NeckTies()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x7A96FACA))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7A96FACA))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x7A96FACA, 0);
             }
@@ -125,7 +125,7 @@ namespace VorpCharacter.Utils
 
         private static void Shirt()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x2026C46D))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x2026C46D))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x2026C46D, 0);
             }
@@ -138,7 +138,7 @@ namespace VorpCharacter.Utils
 
         private static void Suspender()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x877A2CF7))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x877A2CF7))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x877A2CF7, 0);
             }
@@ -151,7 +151,7 @@ namespace VorpCharacter.Utils
 
         private static void Vest()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x485EE834))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x485EE834))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x485EE834, 0);
             }
@@ -164,7 +164,7 @@ namespace VorpCharacter.Utils
 
         private static void Coat()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xE06D30CE))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xE06D30CE))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xE06D30CE, 0);
             }
@@ -177,7 +177,7 @@ namespace VorpCharacter.Utils
 
         private static void Poncho()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xAF14310B))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xAF14310B))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xAF14310B, 0);
             }
@@ -190,7 +190,7 @@ namespace VorpCharacter.Utils
 
         private static void Cloak()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x3C1A74CD))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x3C1A74CD))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x3C1A74CD, 0);
             }
@@ -203,7 +203,7 @@ namespace VorpCharacter.Utils
 
         private static void Glove()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xEABE0032))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xEABE0032))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xEABE0032, 0);
             }
@@ -216,7 +216,7 @@ namespace VorpCharacter.Utils
 
         private static void Rings()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x7A6BBD0B))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7A6BBD0B))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x7A6BBD0B, 0);
             }
@@ -224,7 +224,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()), true, true, false);
             }
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xF16A1D23))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xF16A1D23))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xF16A1D23, 0);
             }
@@ -237,7 +237,7 @@ namespace VorpCharacter.Utils
 
         private static void Bracelet()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x7BC10759))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x7BC10759))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x7BC10759, 0);
             }
@@ -251,7 +251,7 @@ namespace VorpCharacter.Utils
 
         private static void Belt()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x9B2C8B89))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x9B2C8B89))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x9B2C8B89, 0);
             }
@@ -259,7 +259,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()), true, true, false);
             }
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xB6B6122D))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xB6B6122D))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xB6B6122D, 0);
             }
@@ -267,7 +267,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()), true, true, false);
             }
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xA6D134C6))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xA6D134C6))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xA6D134C6, 0);
             }
@@ -280,7 +280,7 @@ namespace VorpCharacter.Utils
 
         private static void Buckle()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xFAE9107F))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xFAE9107F))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xFAE9107F, 0);
             }
@@ -293,7 +293,7 @@ namespace VorpCharacter.Utils
 
         private static void Pant()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x1D4C528A))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x1D4C528A))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x1D4C528A, 0);
             }
@@ -306,7 +306,7 @@ namespace VorpCharacter.Utils
 
         private static void Skirt()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xA0E3AB7F))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xA0E3AB7F))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xA0E3AB7F, 0);
             }
@@ -319,7 +319,7 @@ namespace VorpCharacter.Utils
 
         private static void Chap()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x3107499B))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x3107499B))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x3107499B, 0);
             }
@@ -332,7 +332,7 @@ namespace VorpCharacter.Utils
 
         private static void Boots()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x777EC6EF))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x777EC6EF))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x777EC6EF, 0);
             }
@@ -344,7 +344,7 @@ namespace VorpCharacter.Utils
         }
         private static void Spurs()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x18729F39))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x18729F39))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x18729F39, 0);
             }
@@ -356,7 +356,7 @@ namespace VorpCharacter.Utils
         }
         private static void Spats()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x514ADCEA))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x514ADCEA))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x514ADCEA, 0);
             }
@@ -368,7 +368,7 @@ namespace VorpCharacter.Utils
         }
         private static void GunbeltAccs()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0xF1542D11))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0xF1542D11))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0xF1542D11, 0);
             }
@@ -380,7 +380,7 @@ namespace VorpCharacter.Utils
         }
         private static void Gauntlets()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x91CE9B20))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x91CE9B20))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x91CE9B20, 0);
             }
@@ -392,7 +392,7 @@ namespace VorpCharacter.Utils
         }
         private static void Loadouts()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x83887E88))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x83887E88))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x83887E88, 0);
             }
@@ -404,7 +404,7 @@ namespace VorpCharacter.Utils
         }
         private static void Accessories()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x79D7DF96))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x79D7DF96))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x79D7DF96, 0);
             }
@@ -416,7 +416,7 @@ namespace VorpCharacter.Utils
         }
         private static void Satchels()
         {
-            if (Function.Call<bool>((Hash)0xFB4891BD7578CDC1, playerPedId, 0x94504D26))
+            if (Utilities.IsMetapedUsingComponent(playerPedId, 0x94504D26))
             {
                 Utilities.RemoveTagFromMetaPed(playerPedId, 0x94504D26, 0);
             }
