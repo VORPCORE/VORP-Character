@@ -19,6 +19,7 @@
   "CommandSuspender": "tirantes",
   "CommandVest": "chaleco",
   "CommandCoat": "abrigo",
+  "CommandCoatClosed": "abrigocerrado",
   "CommandPoncho": "poncho",
   "CommandCloak": "capa",
   "CommandGlove": "guantes",
