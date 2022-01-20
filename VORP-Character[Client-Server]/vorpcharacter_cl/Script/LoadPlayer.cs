@@ -270,6 +270,8 @@ namespace VorpCharacter.Script
             CreateCharacter.toggleOverlayChange("lipsticks", int.Parse(skin["lipsticks_visibility"]), int.Parse(skin["lipsticks_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["lipsticks_palette_id"]), int.Parse(skin["lipsticks_palette_color_primary"]), 0, 0, 0, 1.0f);
             CreateCharacter.toggleOverlayChange("shadows", int.Parse(skin["shadows_visibility"]), int.Parse(skin["shadows_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["shadows_palette_id"]), int.Parse(skin["shadows_palette_color_primary"]), 0, 0, 0, 1.0f);
 
+            await BaseScript.Delay(100);
+
             Function.Call((Hash)0x59BD177A1A48600A, playerPedId, 0xF8016BCA);
             await Utilities.ApplyShopItemToPed(playerPedId, ConvertValue(skin["Eyes"]));
             await Utilities.ApplyShopItemToPed(playerPedId, ConvertValue(skin["Beard"]));
