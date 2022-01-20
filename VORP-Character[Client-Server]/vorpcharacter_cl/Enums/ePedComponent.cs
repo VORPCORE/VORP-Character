@@ -33,5 +33,8 @@
         Accessories = 0x79D7DF96,
         Satchels = 0x94504D26,
         GunbeltAccs = 0xF1542D11,
+        Bow = 0x8E84A2AA,
+        Armor = 0x72E6EF74,
+        Teeth = 0x72E6EF74
     }
 }

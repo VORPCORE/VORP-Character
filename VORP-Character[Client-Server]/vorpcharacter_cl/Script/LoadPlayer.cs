@@ -301,6 +301,9 @@ namespace VorpCharacter.Script
                 SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
             }
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "bow", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "armor", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "teeth", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Chap, "Chap", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Boots, "Boots", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Spurs, "Spurs", clothes);
@@ -357,20 +360,22 @@ namespace VorpCharacter.Script
         }
 
         // what does this do really?
-        public static async void SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> cloths)
+        public static async void SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
         {
+            if (!clothes.ContainsKey(component)) return;
+
             if (isMale)
             {
-                if (cloths[component] != -1)
+                if (clothes[component] != -1)
                 {
                     Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                    await Utilities.ApplyShopItemToPed(pedHandle, cloths[component], true, true, false);
+                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false);
                 }
             }
             else
             {
                 Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                await Utilities.ApplyShopItemToPed(pedHandle, cloths[component], true, true, true);
+                await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, true);
             }
         }
 
