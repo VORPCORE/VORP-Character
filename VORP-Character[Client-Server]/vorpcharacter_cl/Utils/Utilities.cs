@@ -9,7 +9,7 @@ namespace VorpCharacter.Utils
 {
     internal class Utilities
     {
-        const int MAX_COMPONENT_CHANGE_DELAY = 0;
+        const int MAX_COMPONENT_CHANGE_DELAY = 10;
         public static Random RANDOM = new Random();
 
         public static bool IsPedReadyToRender(int pedHandle)
@@ -41,7 +41,7 @@ namespace VorpCharacter.Utils
 
         public static async Task ApplyShopItemToPed(int pedHandle, uint componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true)
         {
-            Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, immediately, isMultiplayer, p4);
             UpdatePedVariation(pedHandle);
             await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
         }
