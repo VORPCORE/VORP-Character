@@ -16,6 +16,7 @@ namespace VorpCharacter.Utils
         {
             Function.Call((Hash)0xC6258F41D86676E0, pedHandle, (int)attribute, value);
         }
+
         public static int GetAttributeCoreValue(int pedHandle, eAttributeCore attribute)
         {
             return Function.Call<int>((Hash)0xC6258F41D86676E0, pedHandle, (int)attribute);
@@ -24,6 +25,16 @@ namespace VorpCharacter.Utils
         public static bool IsMetapedUsingComponent(int pedHandle, uint component)
         {
             return Function.Call<bool>((Hash)0xFB4891BD7578CDC1, pedHandle, component);
+        }
+
+        public static bool IsPedHogtied(int pedHandle)
+        {
+            return Function.Call<bool>((Hash)0x3AA24CCC0D451379, pedHandle);
+        }
+
+        public static bool IsPedCuffed(int pedHandle)
+        {
+            return Function.Call<bool>((Hash)0x74E559B3BC910685, pedHandle);
         }
 
         public static bool IsPedReadyToRender(int pedHandle)

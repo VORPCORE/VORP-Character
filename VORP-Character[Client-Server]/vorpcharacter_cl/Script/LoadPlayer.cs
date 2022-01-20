@@ -30,6 +30,11 @@ namespace VorpCharacter.Script
 
             API.RegisterCommand("rc", new Action<int, List<object>, string>((source, args, raw) =>
             {
+                bool isCuffed = Utilities.IsPedCuffed(Cache.PlayerPedId);
+                bool isHogtied = Utilities.IsPedHogtied(Cache.PlayerPedId);
+                
+                if (isCuffed || isHogtied) return; // need notification
+
                 ReloadCharacterSkin();
             }), false);
 
