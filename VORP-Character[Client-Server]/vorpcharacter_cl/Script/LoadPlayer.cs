@@ -219,40 +219,40 @@ namespace VorpCharacter.Script
             Utilities.SetPedBodyComponent(playerPedId, ConvertValue(skin["Waist"]));
 
             Utilities.UpdatePedVariation(playerPedId);
-            SetPlayerComponent(skin["sex"], 0x9925C067, "Hat", cloths);
-            SetPlayerComponent(skin["sex"], 0x5E47CA6, "EyeWear", cloths);
-            SetPlayerComponent(skin["sex"], 0x7505EF42, "Mask", cloths);
-            SetPlayerComponent(skin["sex"], 0x5FC29285, "NeckWear", cloths);
-            SetPlayerComponent(skin["sex"], 0x877A2CF7, "Suspender", cloths);
-            SetPlayerComponent(skin["sex"], 0x485EE834, "Vest", cloths);
-            SetPlayerComponent(skin["sex"], 0xE06D30CE, "Coat", cloths);
-            SetPlayerComponent(skin["sex"], 0x0662AC34, "CoatClosed", cloths);
-            SetPlayerComponent(skin["sex"], 0x2026C46D, "Shirt", cloths);
-            SetPlayerComponent(skin["sex"], 0x7A96FACA, "NeckTies", cloths);
-            SetPlayerComponent(skin["sex"], 0xAF14310B, "Poncho", cloths);
-            SetPlayerComponent(skin["sex"], 0x3C1A74CD, "Cloak", cloths);
-            SetPlayerComponent(skin["sex"], 0xEABE0032, "Glove", cloths);
-            SetPlayerComponent(skin["sex"], 0x7A6BBD0B, "RingRh", cloths);
-            SetPlayerComponent(skin["sex"], 0xF16A1D23, "RingLh", cloths);
-            SetPlayerComponent(skin["sex"], 0x7BC10759, "Bracelet", cloths);
-            SetPlayerComponent(skin["sex"], 0x9B2C8B89, "Gunbelt", cloths);
-            SetPlayerComponent(skin["sex"], 0xA6D134C6, "Belt", cloths);
-            SetPlayerComponent(skin["sex"], 0xFAE9107F, "Buckle", cloths);
-            SetPlayerComponent(skin["sex"], 0xB6B6122D, "Holster", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Hat, "Hat", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.EyeWear, "EyeWear", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Mask, "Mask", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.NeckWear, "NeckWear", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Suspender, "Suspender", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Vest, "Vest", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Coat, "Coat", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.CoatClosed, "CoatClosed", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Shirt, "Shirt", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.NeckTies, "NeckTies", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Poncho, "Poncho", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Cloak, "Cloak", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Glove, "Glove", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.RingRh, "RingRh", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.RingLh, "RingLh", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Bracelet, "Bracelet", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Gunbelt, "Gunbelt", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Belt, "Belt", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Buckle, "Buckle", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Holster, "Holster", cloths);
             if (cloths["Skirt"] != -1) // Prevents both Pant & Skirt in female ped.
             {
-                SetPlayerComponent(skin["sex"], 0x1D4C528A, "Pant", cloths);
+                SetPlayerComponent(skin["sex"], ePedComponent.Pant, "Pant", cloths);
             }
-            SetPlayerComponent(skin["sex"], 0xA0E3AB7F, "Skirt", cloths);
-            SetPlayerComponent(skin["sex"], 0x3107499B, "Chap", cloths);
-            SetPlayerComponent(skin["sex"], 0x777EC6EF, "Boots", cloths);
-            SetPlayerComponent(skin["sex"], 0x18729F39, "Spurs", cloths);
-            SetPlayerComponent(skin["sex"], 0x514ADCEA, "Spats", cloths);
-            SetPlayerComponent(skin["sex"], 0x91CE9B20, "Gauntlets", cloths);
-            SetPlayerComponent(skin["sex"], 0x83887E88, "Loadouts", cloths);
-            SetPlayerComponent(skin["sex"], 0x79D7DF96, "Accessories", cloths);
-            SetPlayerComponent(skin["sex"], 0x94504D26, "Satchels", cloths);
-            SetPlayerComponent(skin["sex"], 0xF1542D11, "GunbeltAccs", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Skirt, "Skirt", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Chap, "Chap", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Boots, "Boots", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Spurs, "Spurs", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Spats, "Spats", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Gauntlets, "Gauntlets", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Loadouts, "Loadouts", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Accessories, "Accessories", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Satchels, "Satchels", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.GunbeltAccs, "GunbeltAccs", cloths);
 
             Utilities.UpdatePedVariation(playerPedId);
 
@@ -312,21 +312,22 @@ namespace VorpCharacter.Script
             }
         }
 
-        public static async void SetPlayerComponent(string model, uint category, string component, Dictionary<string, uint> cloths)
+        // what does this do really?
+        public static async void SetPlayerComponent(string model, ePedComponent pedComponent, string component, Dictionary<string, uint> cloths)
         {
             int pPID = API.PlayerPedId();
             if (model == "mp_male")
             {
                 if (cloths[component] != -1)
                 {
-                    Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
+                    Function.Call((Hash)0x59BD177A1A48600A, pPID, (uint)pedComponent);
                     await Utilities.ApplyShopItemToPed(pPID, cloths[component], true, false, false);
                     await Utilities.ApplyShopItemToPed(pPID, cloths[component], true, true, false);
                 }
             }
             else
             {
-                Function.Call((Hash)0x59BD177A1A48600A, pPID, category);
+                Function.Call((Hash)0x59BD177A1A48600A, pPID, (uint)pedComponent);
                 await Utilities.ApplyShopItemToPed(pPID, cloths[component], true, false, true);
                 await Utilities.ApplyShopItemToPed(pPID, cloths[component], true, true, true);
             }
@@ -337,7 +338,7 @@ namespace VorpCharacter.Script
         private async Task IsLoaded()
         {
             await Delay(1500);
-            bool loaded = Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, API.PlayerPedId());
+            bool loaded = Utilities.IsPedReadyToRender(Cache.PlayerPedId);
             if (!loaded)
             {
                 LoadAllComps(cache_skin, cache_cloths);
