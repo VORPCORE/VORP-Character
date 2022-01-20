@@ -78,7 +78,7 @@ namespace VorpCharacter.Utils
 
         public static async Task SetPedScale(int pedHandle, float scale)
         {
-            await BaseScript.Delay(10);
+            await BaseScript.Delay(500);
             Function.Call((Hash)0x25ACFC650B65C538, pedHandle, scale);
         }
 
