@@ -775,8 +775,8 @@ namespace VorpCharacter.Script
             }
 
             await Utilities.ApplyShopItemToPed(pedHandle, compEyes, true, true, true);
-            await Utilities.ApplyShopItemToPed(pedHandle, compBody, true, true, true);
             await Utilities.ApplyShopItemToPed(pedHandle, compHead, true, true, true);
+            await Utilities.ApplyShopItemToPed(pedHandle, compBody, true, true, true);
             await Utilities.ApplyShopItemToPed(pedHandle, compLegs, true, true, true);
 
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
