@@ -49,9 +49,9 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0x1902C4CFCC5BE57C, pedHandle, hash);
         }
 
-        public static async Task SetPedFaceFeature(int pedHandle, uint index, float value, bool updateVariation = false)
+        public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, float value, bool updateVariation = false)
         {
-            Function.Call((Hash)0x5653AB26C82938CF, pedHandle, index, value);
+            Function.Call((Hash)0x5653AB26C82938CF, pedHandle, (uint)pedFaceFeature, value);
             if (updateVariation) UpdatePedVariation(pedHandle);
             await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
         }
