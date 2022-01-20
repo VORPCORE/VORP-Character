@@ -452,11 +452,11 @@ namespace VorpCharacter.Script
             SetPlayerComponent(skin["sex"], 0x5E47CA6, "EyeWear", cloths);
             SetPlayerComponent(skin["sex"], 0x7505EF42, "Mask", cloths);
             SetPlayerComponent(skin["sex"], 0x5FC29285, "NeckWear", cloths);
-            SetPlayerComponent(skin["sex"], 0x7A96FACA, "NeckTies", cloths);
-            SetPlayerComponent(skin["sex"], 0x2026C46D, "Shirt", cloths);
             SetPlayerComponent(skin["sex"], 0x877A2CF7, "Suspender", cloths);
             SetPlayerComponent(skin["sex"], 0x485EE834, "Vest", cloths);
             SetPlayerComponent(skin["sex"], 0xE06D30CE, "Coat", cloths);
+            SetPlayerComponent(skin["sex"], 0x2026C46D, "Shirt", cloths);
+            SetPlayerComponent(skin["sex"], 0x7A96FACA, "NeckTies", cloths);
             SetPlayerComponent(skin["sex"], 0xAF14310B, "Poncho", cloths);
             SetPlayerComponent(skin["sex"], 0x3C1A74CD, "Cloak", cloths);
             SetPlayerComponent(skin["sex"], 0xEABE0032, "Glove", cloths);
