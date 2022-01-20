@@ -774,10 +774,10 @@ namespace VorpCharacter.Script
                 compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Legs[0]}", 16);
             }
 
-            await Utilities.ApplyShopItemToPed(pedHandle, compEyes, true, true, true);
-            await Utilities.ApplyShopItemToPed(pedHandle, compHead, true, true, true);
-            await Utilities.ApplyShopItemToPed(pedHandle, compBody, true, true, true);
-            await Utilities.ApplyShopItemToPed(pedHandle, compLegs, true, true, true);
+            await Utilities.ApplyShopItemToPed(pedHandle, compHead);
+            await Utilities.ApplyShopItemToPed(pedHandle, compEyes);
+            await Utilities.ApplyShopItemToPed(pedHandle, compBody);
+            await Utilities.ApplyShopItemToPed(pedHandle, compLegs);
 
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);

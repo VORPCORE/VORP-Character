@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\eAttributeCore.cs" />
+    <Compile Include="Enums\eModel.cs" />
     <Compile Include="Extensions\Common.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\Position.cs" />

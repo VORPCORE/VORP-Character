@@ -4,13 +4,23 @@ using static CitizenFX.Core.Native.API;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
 using System;
+using VorpCharacter.Enums;
 
 namespace VorpCharacter.Utils
 {
     internal class Utilities
     {
-        const int MAX_COMPONENT_CHANGE_DELAY = 10;
+        const int MAX_COMPONENT_CHANGE_DELAY = 0;
         public static Random RANDOM = new Random();
+
+        public static void SetAttributeCoreValue(int pedHandle, eAttributeCore attribute, int value)
+        {
+            Function.Call((Hash)0xC6258F41D86676E0, pedHandle, (int)attribute, value);
+        }
+        public static int GetAttributeCoreValue(int pedHandle, eAttributeCore attribute)
+        {
+            return Function.Call<int>((Hash)0xC6258F41D86676E0, pedHandle, (int)attribute);
+        }
 
         public static bool IsPedReadyToRender(int pedHandle)
         {
@@ -32,11 +42,11 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0x1902C4CFCC5BE57C, pedHandle, hash);
         }
 
-        public static async Task SetPedFaceFeature(int pedHandle, uint index, float value)
+        public static async Task SetPedFaceFeature(int pedHandle, uint index, float value, bool updateVariation = false)
         {
             Function.Call((Hash)0x5653AB26C82938CF, pedHandle, index, value);
-            UpdatePedVariation(pedHandle);
-            // await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
+            if (updateVariation) UpdatePedVariation(pedHandle);
+            await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
         }
 
         public static async Task ApplyShopItemToPed(int pedHandle, uint componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true)

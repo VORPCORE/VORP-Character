@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
 using VorpCharacter.Utils;
+using VorpCharacter.Enums;
 
 namespace VorpCharacter.Script
 {
@@ -142,48 +143,32 @@ namespace VorpCharacter.Script
                 return;
             }
 
-            
-
-            int pHealth = Function.Call<int>((Hash)0x36731AC041289BB1, API.PlayerPedId(), 0);
-            int pID = API.PlayerId();
             int pPedID = API.PlayerPedId();
+            int pHealth = Utilities.GetAttributeCoreValue(pPedID, eAttributeCore.Health);
+            int pID = API.PlayerId();
 
             SetEntityAlpha(pPedID, 0, true);
 
-            string sex = skin["sex"];
+            bool isMale = skin["sex"] == "mp_male";
 
-            uint model_hash = (uint)API.GetHashKey(sex);
+            uint model_hash = (uint)eModel.mp_male;
+            if (!isMale)
+                model_hash = (uint)eModel.mp_female;
+
             await Utilities.RequestModel(model_hash);
             Utilities.SetPlayerModel(model_hash);
+            pPedID = API.PlayerPedId();
             TriggerServerEvent("syn_walkanim:getwalk");
             //PreLoad TextureFace
-
-            if (sex == "mp_male")
-            {
-                CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
-                CreateCharacter.texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
-                CreateCharacter.texture_types["material"] = 0x7FC5B1E1;
-                CreateCharacter.texture_types["color_type"] = 1;
-                CreateCharacter.texture_types["texture_opacity"] = 1.0f;
-                CreateCharacter.texture_types["unk_arg"] = 0;
-            }
-            else
-            {
-                CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
-                CreateCharacter.texture_types["normal"] = API.GetHashKey("head_fr1_mp_002_nm");
-                CreateCharacter.texture_types["material"] = 0x7FC5B1E1;
-                CreateCharacter.texture_types["color_type"] = 1;
-                CreateCharacter.texture_types["texture_opacity"] = 1.0f;
-                CreateCharacter.texture_types["unk_arg"] = 0;
-            }
-
+            CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
+            CreateCharacter.texture_types["normal"] = isMale ? API.GetHashKey("mp_head_mr1_000_nm") : API.GetHashKey("head_fr1_mp_002_nm");
+            CreateCharacter.texture_types["material"] = 0x7FC5B1E1;
+            CreateCharacter.texture_types["color_type"] = 1;
+            CreateCharacter.texture_types["texture_opacity"] = 1.0f;
+            CreateCharacter.texture_types["unk_arg"] = 0;
             //End
-            await Delay(350);
-
+            await Delay(0);
             CreateCharacter.ApplyDefaultSkinSettings(pPedID);
-            float pedScale = 1f;
-            float.TryParse(skin["Scale"], out pedScale);
-            Utilities.SetPedScale(pPedID, pedScale);
             //LoadSkin
             await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["HeadType"]));
             await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["BodyType"]));
@@ -227,10 +212,8 @@ namespace VorpCharacter.Script
             await Utilities.SetPedFaceFeature(pPedID, 0x1DF6, float.Parse(skin["JawD"])); // MandibleDepth
             await Utilities.SetPedFaceFeature(pPedID, 0x3C0F, float.Parse(skin["ChinH"])); // ChinHeight
             await Utilities.SetPedFaceFeature(pPedID, 0xC3B2, float.Parse(skin["ChinW"])); // ChinWidth
-            await Utilities.SetPedFaceFeature(pPedID, 0xE323, float.Parse(skin["ChinD"])); // ChinDepth
-
-            await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["Eyes"]), true, true, true);
-            await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["Hair"]), true, true, true);
+            await Utilities.SetPedFaceFeature(pPedID, 0xE323, float.Parse(skin["ChinD"]), true); // ChinDepth
+            
             Utilities.SetPedBodyComponent(pPedID, ConvertValue(skin["Body"]));
             Utilities.SetPedBodyComponent(pPedID, ConvertValue(skin["Waist"]));
 
@@ -287,12 +270,15 @@ namespace VorpCharacter.Script
             CreateCharacter.toggleOverlayChange("shadows", int.Parse(skin["shadows_visibility"]), int.Parse(skin["shadows_tx_id"]), 0, 0, 0, 1.0f, 0, int.Parse(skin["shadows_palette_id"]), int.Parse(skin["shadows_palette_color_primary"]), 0, 0, 0, 1.0f);
 
             Function.Call((Hash)0x59BD177A1A48600A, pPedID, 0xF8016BCA);
-            await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["Beard"]), true, true, true);
-            Utilities.UpdatePedVariation(pPedID);
-            CreateCharacter.changeOverlays();
+            await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["Eyes"]));
+            await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["Beard"]));
+            await Utilities.ApplyShopItemToPed(pPedID, ConvertValue(skin["Hair"]));
             Utilities.UpdatePedVariation(pPedID);
 
-            Function.Call((Hash)0xC6258F41D86676E0, pPedID, 0, pHealth);
+            float pedScale = 1f;
+            float.TryParse(skin["Scale"], out pedScale);
+            Utilities.SetPedScale(pPedID, pedScale);
+            Utilities.SetAttributeCoreValue(pPedID, (int)eAttributeCore.Health, pHealth);
 
             API.SetResourceKvp2("skin", JsonConvert.SerializeObject(skin));
             API.SetResourceKvp2("clothes", JsonConvert.SerializeObject(cloths));
