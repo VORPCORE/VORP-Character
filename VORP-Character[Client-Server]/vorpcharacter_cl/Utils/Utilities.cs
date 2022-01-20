@@ -31,11 +31,11 @@ namespace VorpCharacter.Utils
             return Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, pedHandle);
         }
 
-        public static async void RemoveTagFromMetaPed(int pedHandle, uint component, int p2 = 0)
+        public static async void RemoveTagFromMetaPed(int pedHandle, uint component, int p2 = 0, int delay = MAX_COMPONENT_CHANGE_DELAY)
         {
             Function.Call((Hash)0xD710A5007C2AC539, pedHandle, component, p2);
             UpdatePedVariation(pedHandle);
-            await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
+            await BaseScript.Delay(delay);
         }
 
         public static void SetPedOutfitPreset(int pedHandle, int presetId)
@@ -48,18 +48,18 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0x1902C4CFCC5BE57C, pedHandle, hash);
         }
 
-        public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, float value, bool updateVariation = false)
+        public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, float value, bool updateVariation = false, int delay = MAX_COMPONENT_CHANGE_DELAY)
         {
             Function.Call((Hash)0x5653AB26C82938CF, pedHandle, (uint)pedFaceFeature, value);
             if (updateVariation) UpdatePedVariation(pedHandle);
-            await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
+            await BaseScript.Delay(delay);
         }
 
-        public static async Task ApplyShopItemToPed(int pedHandle, uint componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true)
+        public static async Task ApplyShopItemToPed(int pedHandle, uint componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true, int delay = MAX_COMPONENT_CHANGE_DELAY)
         {
             Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, immediately, isMultiplayer, p4);
             UpdatePedVariation(pedHandle);
-            await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
+            await BaseScript.Delay(delay);
         }
 
         public async static Task<int> SetPlayerModel(uint hash)

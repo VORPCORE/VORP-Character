@@ -55,7 +55,7 @@ namespace VorpCharacter.Script
                     Logger.Debug($"Loaded clothes from resource store");
                 }
 
-                await SetupCharacter(Cache.PlayerPedId, true, cache_skin, cache_cloths);
+                await SetupCharacter(true, cache_skin, cache_cloths, true);
             }
         }
 
@@ -110,7 +110,7 @@ namespace VorpCharacter.Script
             cache_skin = skin;
             cache_cloths = cloths;
 
-            await SetupCharacter(Cache.PlayerPedId, true, skin, cloths);
+            await SetupCharacter(true, skin, cloths);
 
         }
 
@@ -130,37 +130,74 @@ namespace VorpCharacter.Script
         //    await CreateCharacter.changeScale(float.Parse(cache_skin["Scale"]));
         //}
 
-        public async Task SetupCharacter(int pedHandle, bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> cloths)
+        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, bool doFades = false, int delay = 0)
         {
-            if (IsCurrentlyRunningSetup) return;
+            if (IsCurrentlyRunningSetup) return -1;
             IsCurrentlyRunningSetup = true;
 
-            await Utilities.FadeOutScreen(1000);
+            // handle a weird issue where things are sent through more than once
+            if (skin.Count > 0)
+                API.SetResourceKvp2("skin", JsonConvert.SerializeObject(skin));
+
+            if (clothes.Count > 0)
+                API.SetResourceKvp2("clothes", JsonConvert.SerializeObject(clothes));
+
+            if (skin.Count == 0)
+            {
+                string skinKvp = GetResourceKvpString2("skin");
+                if (!string.IsNullOrEmpty(skinKvp))
+                {
+                    cache_skin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinKvp);
+                    Logger.Debug($"Loaded skin from resource store");
+                    skin = cache_skin;
+                }
+            }
+
+            if (clothes.Count == 0)
+            {
+                string clothesKvp = GetResourceKvpString2("clothes");
+                if (!string.IsNullOrEmpty(clothesKvp))
+                {
+                    cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, uint>>(clothesKvp);
+                    Logger.Debug($"Loaded clothes from resource store");
+                    clothes = cache_cloths;
+                }
+            }
+
+            if (doFades) await Utilities.FadeOutScreen(1000);
 
             Logger.Debug($"{JsonConvert.SerializeObject(skin)}");
 
             if (!skin.ContainsKey("sex"))
             {
                 Logger.Error($"Information on selected character is null");
-                return;
+                return -1;
             }
+            int pedHandle = -1;
 
-            int pHealth = Utilities.GetAttributeCoreValue(pedHandle, eAttributeCore.Health);
-
-            SetEntityAlpha(pedHandle, 0, true);
+            if (isPlayer) pedHandle = Cache.PlayerPedId;
 
             bool isMale = skin["sex"] == "mp_male";
-
             uint model_hash = (uint)eModel.mp_male;
             if (!isMale)
                 model_hash = (uint)eModel.mp_female;
 
             await Utilities.RequestModel(model_hash);
-            
-            if (isPlayer)
-                pedHandle = await Utilities.SetPlayerModel(model_hash); // Model changes the players ped id
 
-            TriggerServerEvent("syn_walkanim:getwalk");
+            if (isPlayer)
+            {
+                pedHandle = await Utilities.SetPlayerModel(model_hash); // Model changes the players ped id
+                TriggerServerEvent("syn_walkanim:getwalk");
+            }
+
+            if (!isPlayer)
+            {
+                pedHandle = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
+            }
+
+            Utilities.UpdatePedVariation(pedHandle);
+            int pHealth = Utilities.GetAttributeCoreValue(pedHandle, eAttributeCore.Health);
+
             //PreLoad TextureFace
             CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);
             CreateCharacter.texture_types["normal"] = isMale ? API.GetHashKey("mp_head_mr1_000_nm") : API.GetHashKey("head_fr1_mp_002_nm");
@@ -172,9 +209,9 @@ namespace VorpCharacter.Script
             await Delay(0);
             CreateCharacter.ApplyDefaultSkinSettings(pedHandle);
             //LoadSkin
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["HeadType"]));
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["BodyType"]));
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["LegsType"]));
+            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["HeadType"]), delay: delay);
+            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["BodyType"]), delay: delay);
+            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["LegsType"]), delay: delay);
 
             await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.FaceSize, float.Parse(skin["HeadSize"])); // FaceSize
             await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowHeight, float.Parse(skin["EyeBrowH"])); // EyebrowHeight
@@ -220,40 +257,40 @@ namespace VorpCharacter.Script
             Utilities.SetPedBodyComponent(pedHandle, ConvertValue(skin["Waist"]));
 
             Utilities.UpdatePedVariation(pedHandle);
-            SetPlayerComponent(skin["sex"], ePedComponent.Hat, "Hat", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.EyeWear, "EyeWear", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Mask, "Mask", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.NeckWear, "NeckWear", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Suspender, "Suspender", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Vest, "Vest", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Coat, "Coat", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.CoatClosed, "CoatClosed", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Shirt, "Shirt", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.NeckTies, "NeckTies", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Poncho, "Poncho", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Cloak, "Cloak", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Glove, "Glove", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.RingRh, "RingRh", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.RingLh, "RingLh", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Bracelet, "Bracelet", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Gunbelt, "Gunbelt", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Belt, "Belt", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Buckle, "Buckle", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Holster, "Holster", cloths);
-            if (cloths["Skirt"] != -1) // Prevents both Pant & Skirt in female ped.
+            SetPlayerComponent(skin["sex"], ePedComponent.Hat, "Hat", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.EyeWear, "EyeWear", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Mask, "Mask", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.NeckWear, "NeckWear", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Suspender, "Suspender", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Vest, "Vest", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Coat, "Coat", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.CoatClosed, "CoatClosed", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Shirt, "Shirt", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.NeckTies, "NeckTies", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Poncho, "Poncho", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Cloak, "Cloak", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Glove, "Glove", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.RingRh, "RingRh", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.RingLh, "RingLh", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Bracelet, "Bracelet", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Gunbelt, "Gunbelt", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Belt, "Belt", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Buckle, "Buckle", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Holster, "Holster", clothes);
+            if (clothes["Skirt"] != -1) // Prevents both Pant & Skirt in female ped.
             {
-                SetPlayerComponent(skin["sex"], ePedComponent.Pant, "Pant", cloths);
+                SetPlayerComponent(skin["sex"], ePedComponent.Pant, "Pant", clothes);
             }
-            SetPlayerComponent(skin["sex"], ePedComponent.Skirt, "Skirt", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Chap, "Chap", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Boots, "Boots", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Spurs, "Spurs", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Spats, "Spats", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Gauntlets, "Gauntlets", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Loadouts, "Loadouts", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Accessories, "Accessories", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.Satchels, "Satchels", cloths);
-            SetPlayerComponent(skin["sex"], ePedComponent.GunbeltAccs, "GunbeltAccs", cloths);
+            SetPlayerComponent(skin["sex"], ePedComponent.Skirt, "Skirt", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Chap, "Chap", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Boots, "Boots", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Spurs, "Spurs", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Spats, "Spats", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Gauntlets, "Gauntlets", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Loadouts, "Loadouts", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Accessories, "Accessories", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.Satchels, "Satchels", clothes);
+            SetPlayerComponent(skin["sex"], ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
 
             Utilities.UpdatePedVariation(pedHandle);
 
@@ -282,20 +319,19 @@ namespace VorpCharacter.Script
 
             Utilities.SetAttributeCoreValue(pedHandle, (int)eAttributeCore.Health, pHealth);
 
-            API.SetResourceKvp2("skin", JsonConvert.SerializeObject(skin));
-            API.SetResourceKvp2("clothes", JsonConvert.SerializeObject(cloths));
-
             ResetEntityAlpha(pedHandle);
 
             float pedScale = 1f;
             float.TryParse(skin["Scale"], out pedScale);
             await Utilities.SetPedScale(pedHandle, pedScale);
 
-            await Utilities.FadeInScreen(1000);
+            if (doFades) await Utilities.FadeInScreen(1000);
 
             IsCurrentlyRunningSetup = false;
 
-            IsLoaded();
+            await IsLoaded(skin, clothes);
+
+            return pedHandle;
         }
 
 
@@ -338,13 +374,15 @@ namespace VorpCharacter.Script
             //Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
         }
 
-        private async Task IsLoaded()
+        private async Task IsLoaded(Dictionary<string, string> skin, Dictionary<string, uint> clothes)
         {
             await Delay(1500);
             bool loaded = Utilities.IsPedReadyToRender(Cache.PlayerPedId);
             if (!loaded)
             {
-                LoadAllComps(cache_skin, cache_cloths);
+                Logger.Debug($"Ped is not ready to render");
+                // maybe done because of some other delay?
+                await SetupCharacter(true, skin, clothes);
             }
         }
 
