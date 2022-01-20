@@ -55,7 +55,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["CoatClosed"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Hat()
@@ -68,7 +68,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void EyeWear()
@@ -81,7 +81,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Mask()
@@ -94,7 +94,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Mask"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void NeckWear()
@@ -107,7 +107,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void NeckTies()
@@ -120,7 +120,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Shirt()
@@ -133,7 +133,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Suspender()
@@ -146,7 +146,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Vest()
@@ -159,7 +159,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Coat()
@@ -172,7 +172,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Poncho()
@@ -185,7 +185,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Cloak()
@@ -198,7 +198,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Glove()
@@ -211,7 +211,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Rings()
@@ -232,7 +232,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Bracelet()
@@ -245,7 +245,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
 
@@ -275,7 +275,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Buckle()
@@ -288,7 +288,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Pant()
@@ -301,7 +301,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Skirt()
@@ -314,7 +314,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Chap()
@@ -327,7 +327,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static void Boots()
@@ -340,7 +340,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
         private static void Spurs()
         {
@@ -352,7 +352,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
         private static void Spats()
         {
@@ -364,7 +364,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spats"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
         private static void GunbeltAccs()
         {
@@ -376,7 +376,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
         private static void Gauntlets()
         {
@@ -388,7 +388,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gauntlets"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
         private static void Loadouts()
         {
@@ -400,7 +400,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Loadouts"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
         private static void Accessories()
         {
@@ -412,7 +412,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
         private static void Satchels()
         {
@@ -424,7 +424,7 @@ namespace VorpCharacter.Utils
             {
                 Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Accessories"].ToString()), true, true, false);
             }
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static async void Undress()
@@ -461,7 +461,7 @@ namespace VorpCharacter.Utils
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x79D7DF96, 0);
             Utilities.RemoveTagFromMetaPed(playerPedId, 0x94504D26, 0);
             await Delay(100);
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
         private static async void Dress()
@@ -493,7 +493,7 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
             Function.Call((Hash)0xD3A7B003ED343FD9, playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true, false);
             await Delay(100);
-            Function.Call((Hash)0xCC8CA3E88256E58F, playerPedId, 0, 1, 1, 1, 0);
+            Utilities.UpdatePedVariation(playerPedId);
         }
 
     }
