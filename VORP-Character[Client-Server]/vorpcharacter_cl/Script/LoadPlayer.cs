@@ -156,8 +156,7 @@ namespace VorpCharacter.Script
                 model_hash = (uint)eModel.mp_female;
 
             await Utilities.RequestModel(model_hash);
-            Utilities.SetPlayerModel(model_hash);
-            playerPedId = Cache.PlayerPedId;
+            playerPedId = Utilities.SetPlayerModel(model_hash); // Model changes the players ped id
             TriggerServerEvent("syn_walkanim:getwalk");
             //PreLoad TextureFace
             CreateCharacter.texture_types["albedo"] = int.Parse(skin["albedo"]);

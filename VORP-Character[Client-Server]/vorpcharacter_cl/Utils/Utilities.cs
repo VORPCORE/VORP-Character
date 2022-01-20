@@ -56,10 +56,11 @@ namespace VorpCharacter.Utils
             await BaseScript.Delay(MAX_COMPONENT_CHANGE_DELAY);
         }
 
-        public static void SetPlayerModel(uint hash)
+        public static int SetPlayerModel(uint hash)
         {
             Function.Call((Hash)0xED40380076A31506, PlayerId(), hash, true);
             UpdatePedVariation(PlayerPedId());
+            return Cache.PlayerPedId;
         }
 
         public static void UpdatePedVariation(int pedHandle)
