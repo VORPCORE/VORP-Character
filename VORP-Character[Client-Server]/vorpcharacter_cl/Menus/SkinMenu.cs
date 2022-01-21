@@ -11,8 +11,10 @@ namespace VorpCharacter.Menus
 {
     /*
      * Note:
-     * 
-     * 
+     * Add opacity sliders
+     * Add additional components
+     * Load random settings first time around for both peds
+     * Figure out colour issue with Grime
      * */
 
     class SkinMenu
@@ -21,35 +23,35 @@ namespace VorpCharacter.Menus
 
         private static int _bodyIndex = 0;
 
-        private static MenuListItem miLstBodyType;
-        private static MenuListItem miLstBodyColor;
-        private static MenuListItem miLstFaceSelection;
-        private static MenuListItem miLstTorso;
-        private static MenuListItem miLstBodyWaist;
-        private static MenuListItem miLstBodyLegs;
-        private static MenuListItem miLstHairType;
-        private static MenuListItem miLstEyes;
-        private static MenuListItem miLstBeards;
-        private static MenuListItem miLstEyeBrows;
-        private static MenuListItem miLstScars;
-        private static MenuListItem miLstSpots;
-        private static MenuListItem miLstDisc;
-        private static MenuListItem miLstComplexion;
-        private static MenuListItem miLstAcne;
-        private static MenuListItem miLstAging;
-        private static MenuListItem miLstMoles;
-        private static MenuListItem miLstFreckles;
-        private static MenuListItem miLstGrime;
-        private static MenuListItem miLstLipstick;
-        private static MenuListItem miLstLipstickColor;
-        private static MenuListItem miLstLipstickColorTwo;
-        private static MenuListItem miLstShadows;
-        private static MenuListItem miLstShadowColor;
-        private static MenuListItem miLstShadowColorTwo;
+        private static MenuListItem miLstBodyType; // bodyIndex
+        private static MenuListItem miLstBodyColor; // body
+        private static MenuListItem miLstFaceSelection; // headtype
+        private static MenuListItem miLstTorso; // bodytype
+        private static MenuListItem miLstBodyWaist; // waist
+        private static MenuListItem miLstBodyLegs; // legstype
+        private static MenuListItem miLstHairType; // 6
+        private static MenuListItem miLstEyes; // 7
+        private static MenuListItem miLstBeards; // 8
+        private static MenuListItem miLstEyeBrows; // 9
+        private static MenuListItem miLstScars; // 10
+        private static MenuListItem miLstSpots; // 11
+        private static MenuListItem miLstDisc; // 12
+        private static MenuListItem miLstComplexion; // 13
+        private static MenuListItem miLstAcne; // 14
+        private static MenuListItem miLstAging; // 15
+        private static MenuListItem miLstMoles; // 16
+        private static MenuListItem miLstFreckles; // 17
+        private static MenuListItem miLstGrime; // 18
+        private static MenuListItem miLstLipstick; // 19
+        private static MenuListItem miLstLipstickColor; // 20
+        private static MenuListItem miLstLipstickColorTwo; // 21
+        private static MenuListItem miLstShadows; // 22
+        private static MenuListItem miLstShadowColor; // 23
+        private static MenuListItem miLstShadowColorTwo; // 24
 
-        private static void SetupMenu()
+        public static Menu SetupMenu()
         {
-            if (skinMenu is not null) return;
+            if (skinMenu is not null) return skinMenu;
             skinMenu = new Menu(Common.GetTranslation("TitleSkinMenu"), Common.GetTranslation("SubTitleSkinMenu"));
             MenuController.AddMenu(skinMenu);
 
@@ -175,33 +177,38 @@ namespace VorpCharacter.Menus
             skinMenu.AddMenuItem(miLstShadowColorTwo);
 
             skinMenu.OnListIndexChange += SkinMenu_OnListIndexChange;
+
+            return skinMenu;
         }
 
         private static void SkinMenu_OnListIndexChange(Menu menu, MenuListItem listItem, int oldSelectionIndex, int newSelectionIndex, int itemIndex)
         {
-            if (listItem == miLstBodyType)
+            if (listItem == miLstBodyColor)
             {
                 UpdateLists(newSelectionIndex);
             }
-            else if (listItem == miLstBodyColor)
+            else if (listItem == miLstTorso)
             {
-                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "HeadType");
+                dynamic lst = CreateCharacter.isMale ? PluginManager.Config.Male[_bodyIndex].Body : PluginManager.Config.Female[_bodyIndex].Body;
+                CreateCharacter.SetPlayerModelComponent(lst[newSelectionIndex], "BodyType");
             }
             else if (listItem == miLstFaceSelection)
             {
-                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "BodyType");
+                dynamic lst = CreateCharacter.isMale ? PluginManager.Config.Male[_bodyIndex].Heads : PluginManager.Config.Female[_bodyIndex].Heads;
+                CreateCharacter.SetPlayerModelComponent(lst[newSelectionIndex], "HeadType");
             }
-            else if (listItem == miLstTorso)
+            else if (listItem == miLstBodyType)
             {
-                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "Body");
+                CreateCharacter.SetPlayerBodyComponent((uint)SkinsUtils.BODY_TYPES.ElementAt(newSelectionIndex), "Body");
             }
             else if (listItem == miLstBodyWaist)
             {
-                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "Waist");
+                CreateCharacter.SetPlayerBodyComponent((uint)SkinsUtils.WAIST_TYPES.ElementAt(newSelectionIndex), "Waist");
             }
             else if (listItem == miLstBodyLegs)
             {
-                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "LegsType");
+                dynamic lst = CreateCharacter.isMale ? PluginManager.Config.Male[_bodyIndex].Legs : PluginManager.Config.Female[_bodyIndex].Legs;
+                CreateCharacter.SetPlayerModelComponent(lst[newSelectionIndex], "LegsType");
             }
             else if (listItem == miLstHairType)
             {
@@ -233,39 +240,39 @@ namespace VorpCharacter.Menus
             }
             else if (listItem == miLstScars)
             {
-                CreateCharacter.ToggleOverlayChange("scars", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("scars", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstSpots)
             {
-                CreateCharacter.ToggleOverlayChange("spots", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("spots", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstDisc)
             {
-                CreateCharacter.ToggleOverlayChange("disc", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("disc", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstComplexion)
             {
-                CreateCharacter.ToggleOverlayChange("complex", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("complex", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstAcne)
             {
-                CreateCharacter.ToggleOverlayChange("acne", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("acne", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstAging)
             {
-                CreateCharacter.ToggleOverlayChange("ageing", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("ageing", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstMoles)
             {
-                CreateCharacter.ToggleOverlayChange("moles", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("moles", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstFreckles)
             {
-                CreateCharacter.ToggleOverlayChange("freckles", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("freckles", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstGrime)
             {
-                CreateCharacter.ToggleOverlayChange("grime", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+                CreateCharacter.ToggleOverlayChange("grime", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, tx_color_type: 1);
             }
             else if (listItem == miLstLipstick)
             {
@@ -295,14 +302,7 @@ namespace VorpCharacter.Menus
 
         private static void SkinMenu_OnMenuClose(Menu menu)
         {
-            menu.ClearMenuItems();
-            skinMenu = null;
-        }
 
-        public static Menu GetMenu()
-        {
-            SetupMenu();
-            return skinMenu;
         }
 
         private static void ReloadTextures()
@@ -359,8 +359,8 @@ namespace VorpCharacter.Menus
             CreateCharacter.SetPlayerModelComponent(lstTorso[0].ToString(), "BodyType");
             CreateCharacter.SetPlayerModelComponent(lstLegs[0].ToString(), "LegsType");
 
-            CreateCharacter.texture_types["albedo"] = API.GetHashKey(dynList[bodyIndex]["HeadTexture"].ToString());
-            CreateCharacter.skinPlayer["albedo"] = API.GetHashKey(dynList[bodyIndex]["HeadTexture"].ToString());
+            CreateCharacter.texture_types["albedo"] = API.GetHashKey(dynList[bodyIndex].HeadTexture);
+            CreateCharacter.skinPlayer["albedo"] = API.GetHashKey(dynList[bodyIndex].HeadTexture);
             ReloadTextures();
         }
     }
