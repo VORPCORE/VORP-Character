@@ -140,6 +140,7 @@ namespace VorpCharacter.Script
                 IsCurrentlyRunningSetup = true;
 
                 // handle a weird issue where things are sent through more than once
+                // Need to handle when being send from creator or changing character
                 if (skin.Count > 0)
                     API.SetResourceKvp2("skin", JsonConvert.SerializeObject(skin));
 
