@@ -38,7 +38,7 @@ namespace VorpCharacter.Menus
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            AddSubMenu(mainMenu, SkinMenu.GetMenu(), "TitleSkinMenu", "SubTitleSkinMenu");
+            AddSubMenu(mainMenu, SkinMenu.SetupMenu(), "TitleSkinMenu", "SubTitleSkinMenu");
             AddSubMenu(mainMenu, FaceMenu.GetMenu(), "TitleFaceMenu", "SubTitleFaceMenu");
             AddSubMenu(mainMenu, ClothesMenu.GetMenu(), "TitleClothesMenu", "SubTitleClothesMenu");
 
