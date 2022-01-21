@@ -11,7 +11,7 @@ namespace VorpCharacter.Script
 {
     public class CharacterApi : BaseScript
     {
-        internal CharacterApi()
+        internal CharacterApi() // MOVE TO CORE v2
         {
             //Event for create new character 
             EventHandlers["vorp_CreateNewCharacter"] += new Action<int>(CreateNewCharacter);
