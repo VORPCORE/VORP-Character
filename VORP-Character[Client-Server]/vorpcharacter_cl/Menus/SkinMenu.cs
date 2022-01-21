@@ -19,7 +19,7 @@ namespace VorpCharacter.Menus
     {
         private static Menu skinMenu;
 
-        private static int bodyIndex = 0;
+        private static int _bodyIndex = 0;
 
         private static MenuListItem miLstBodyType;
         private static MenuListItem miLstBodyColor;
@@ -65,9 +65,9 @@ namespace VorpCharacter.Menus
             miLstBodyWaist = new MenuListItem(Common.GetTranslation("WaistType"), lstBodyWaist, 0, Common.GetTranslation("WaistTypeDesc"));
 
             List<string> lstBody = PluginManager.Config.Male.Select((x, i) => Common.GetTranslation("BodyColorValues") + i).ToList();
-            List<string> lstFaces = PluginManager.Config.Male[bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
-            List<string> lstTorso = PluginManager.Config.Male[bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
-            List<string> lstLegs = PluginManager.Config.Male[bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
+            List<string> lstFaces = PluginManager.Config.Male[_bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
+            List<string> lstTorso = PluginManager.Config.Male[_bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
+            List<string> lstLegs = PluginManager.Config.Male[_bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
             List<string> lstHair = SkinsUtils.HAIR_MALE.Select((x, i) => Common.GetTranslation("HairValue") + i).ToList();
             List<string> lstEyes = SkinsUtils.EYES_MALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList(); 
             List<string> lstBeards = SkinsUtils.BEARD_MALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList();
@@ -92,9 +92,9 @@ namespace VorpCharacter.Menus
             if (!CreateCharacter.isMale)
             {
                 lstBody = PluginManager.Config.Female.Select((x, i) => Common.GetTranslation("BodyColorValues") + i).ToList();
-                lstFaces = PluginManager.Config.Female[bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
-                lstTorso = PluginManager.Config.Female[bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
-                lstLegs = PluginManager.Config.Female[bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
+                lstFaces = PluginManager.Config.Female[_bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
+                lstTorso = PluginManager.Config.Female[_bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
+                lstLegs = PluginManager.Config.Female[_bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
                 lstHair = SkinsUtils.HAIR_FEMALE.Select((x, i) => Common.GetTranslation("HairValue") + i).ToList();
                 lstEyes = SkinsUtils.EYES_FEMALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList();
             }
@@ -326,6 +326,8 @@ namespace VorpCharacter.Menus
             miLstFaceSelection.ListItems.Clear();
             miLstTorso.ListItems.Clear();
             miLstBodyLegs.ListItems.Clear();
+
+            _bodyIndex = bodyIndex;
 
             dynamic dynList = PluginManager.Config.Male;
             if (!CreateCharacter.isMale) dynList = PluginManager.Config.Female;
