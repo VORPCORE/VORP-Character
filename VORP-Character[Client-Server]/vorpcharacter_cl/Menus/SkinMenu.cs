@@ -9,837 +9,297 @@ using VorpCharacter.Utils;
 
 namespace VorpCharacter.Menus
 {
+    /*
+     * Note:
+     * 
+     * 
+     * */
+
     class SkinMenu
     {
-        private static Menu skinMenu = new Menu(Common.GetTranslation("TitleSkinMenu"), Common.GetTranslation("SubTitleSkinMenu"));
+        private static Menu skinMenu;
 
-        private static MenuListItem btnSelectorBody;
-        private static MenuListItem btnSelectorFace;
-        private static MenuListItem btnSelectorTorso;
-        private static MenuListItem btnSelectorLegs;
-        private static MenuListItem btnSelectoreyeBrows;
-        private static MenuListItem btnSelectorScars;
-        private static MenuListItem btnSelectorSpots;
-        private static MenuListItem btnSelectorDisc;
-        private static MenuListItem btnSelectorComplex;
-        private static MenuListItem btnSelectorAcne;
-        private static MenuListItem btnSelectorAgeing;
-        private static MenuListItem btnSelectorMoles;
-        private static MenuListItem btnSelectorFreckles;
-        private static MenuListItem btnSelectorGrime;
-        private static MenuListItem btnSelectorLipsticks;
-        private static MenuListItem btnSelectorLipsticksColor;
-        private static MenuListItem btnSelectorLipsticksPColor;
-        private static MenuListItem btnSelectorShadows;
-        private static MenuListItem btnSelectorShadowsColor;
-        private static MenuListItem btnSelectorShadowsPColor;
+        private static int bodyIndex = 0;
+
+        private static MenuListItem miLstBodyType;
+        private static MenuListItem miLstBodyColor;
+        private static MenuListItem miLstFaceSelection;
+        private static MenuListItem miLstTorso;
+        private static MenuListItem miLstBodyWaist;
+        private static MenuListItem miLstBodyLegs;
+        private static MenuListItem miLstHairType;
+        private static MenuListItem miLstEyes;
+        private static MenuListItem miLstBeards;
+        private static MenuListItem miLstEyeBrows;
+        private static MenuListItem miLstScars;
+        private static MenuListItem miLstSpots;
+        private static MenuListItem miLstDisc;
+        private static MenuListItem miLstComplexion;
+        private static MenuListItem miLstAcne;
+        private static MenuListItem miLstAging;
+        private static MenuListItem miLstMoles;
+        private static MenuListItem miLstFreckles;
+        private static MenuListItem miLstGrime;
+        private static MenuListItem miLstLipstick;
+        private static MenuListItem miLstLipstickColor;
+        private static MenuListItem miLstLipstickColorTwo;
+        private static MenuListItem miLstShadows;
+        private static MenuListItem miLstShadowColor;
+        private static MenuListItem miLstShadowColorTwo;
 
         private static bool setupDone = false;
         private static void SetupMenu()
         {
-            if (setupDone) return;
-            setupDone = true;
+            if (skinMenu is not null) return;
+            skinMenu = new Menu(Common.GetTranslation("TitleSkinMenu"), Common.GetTranslation("SubTitleSkinMenu"));
             MenuController.AddMenu(skinMenu);
+
+            skinMenu.OnMenuClose += SkinMenu_OnMenuClose;
 
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            if (CreateCharacter.model_selected == "mp_male") // Male
+            List<string> lstBodyType = SkinsUtils.BODY_TYPES.Select((x, i) => Common.GetTranslation("BodySizeValue") + i).ToList();
+            miLstBodyType = new MenuListItem(Common.GetTranslation("BodyType"), lstBodyType, 0, Common.GetTranslation("BodyTypeDesc"));
+
+            List<string> lstBodyWaist = SkinsUtils.WAIST_TYPES.Select((x, i) => Common.GetTranslation("WaistValue") + i).ToList();
+            miLstBodyWaist = new MenuListItem(Common.GetTranslation("WaistType"), lstBodyWaist, 0, Common.GetTranslation("WaistTypeDesc"));
+
+            List<string> lstBody = PluginManager.Config.Male.Select((x, i) => Common.GetTranslation("BodyColorValues") + i).ToList();
+            List<string> lstFaces = PluginManager.Config.Male[bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
+            List<string> lstTorso = PluginManager.Config.Male[bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
+            List<string> lstLegs = PluginManager.Config.Male[bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
+            List<string> lstHair = SkinsUtils.HAIR_MALE.Select((x, i) => Common.GetTranslation("HairValue") + i).ToList();
+            List<string> lstEyes = SkinsUtils.EYES_MALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList(); 
+            List<string> lstBeards = SkinsUtils.BEARD_MALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList();
+
+            List<string> lstEyeBrows = SkinsUtils.overlays_info["eyebrows"].Select((x, i) => Common.GetTranslation("EyeBrows") + i).ToList();
+            List<string> lstScars = SkinsUtils.overlays_info["scars"].Select((x, i) => Common.GetTranslation("Scars") + i).ToList();
+            List<string> lstSpots = SkinsUtils.overlays_info["spots"].Select((x, i) => Common.GetTranslation("Spots") + i).ToList();
+            List<string> lstDiscValues = SkinsUtils.overlays_info["disc"].Select((x, i) => Common.GetTranslation("Disc") + i).ToList();
+            List<string> lstComplexion = SkinsUtils.overlays_info["complex"].Select((x, i) => Common.GetTranslation("Complex") + i).ToList();
+            List<string> lstAcne = SkinsUtils.overlays_info["acne"].Select((x, i) => Common.GetTranslation("Acne") + i).ToList();
+            List<string> lstAging = SkinsUtils.overlays_info["ageing"].Select((x, i) => Common.GetTranslation("Ageing") + i).ToList();
+            List<string> lstMoles = SkinsUtils.overlays_info["moles"].Select((x, i) => Common.GetTranslation("Moles") + i).ToList();
+            List<string> lstFreckles = SkinsUtils.overlays_info["freckles"].Select((x, i) => Common.GetTranslation("Freckles") + i).ToList();
+            List<string> lstGrime = SkinsUtils.overlays_info["grime"].Select((x, i) => Common.GetTranslation("Grimes") + i).ToList();
+            List<string> lstLipStick = SkinsUtils.overlays_info["lipsticks"].Select((x, i) => Common.GetTranslation("Lipsticks") + i).ToList();
+            List<string> lstLipStickColor = SkinsUtils.COLOR_PALETTES.Select((x, i) => Common.GetTranslation("LipsticksColors") + i).ToList();
+            List<string> lstLipStickColorTwo = new string[255].Select((x, i) => Common.GetTranslation("LipsticksPColors") + i).ToList();
+            List<string> lstShadows = SkinsUtils.overlays_info["shadows"].Select((x, i) => Common.GetTranslation("Shadows") + i).ToList();
+            List<string> lstShadowColor = SkinsUtils.COLOR_PALETTES.Select((x, i) => Common.GetTranslation("ShadowsColors") + i).ToList();
+            List<string> lstShadowColorTwo = new string[255].Select((x, i) => Common.GetTranslation("ShadowsPColors") + i).ToList();
+
+            if (!CreateCharacter.isMale)
             {
-                //Body Colors
-                List<string> bodyValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Male.Count(); i++)
-                {
-                    bodyValues.Add(Common.GetTranslation("BodyColorValues") + i);
-                }
-
-                btnSelectorBody = new MenuListItem(Common.GetTranslation("BodyColor"), bodyValues, 0, Common.GetTranslation("BodyColorDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
-
-                //Faces
-                List<string> faceValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Male[0].Heads.Count(); i++)
-                {
-                    faceValues.Add(Common.GetTranslation("FaceValues") + i);
-                }
-
-                btnSelectorFace = new MenuListItem(Common.GetTranslation("FaceType"), faceValues, 0, Common.GetTranslation("FaceTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorFace); // Lo añadimos al menu
-
-                //Torso
-                List<string> torsoValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Male[0].Body.Count(); i++)
-                {
-                    torsoValues.Add(Common.GetTranslation("TorsoValues") + i);
-                }
-
-                btnSelectorTorso = new MenuListItem(Common.GetTranslation("TorsoType"), torsoValues, 0, Common.GetTranslation("TorsoTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorTorso); // Lo añadimos al menu
-
-                //Endoforma
-                List<string> endoformValues = new List<string>();
-
-                for (int i = 1; i < SkinsUtils.BODY_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    endoformValues.Add(Common.GetTranslation("BodySizeValue") + i);
-                }
-
-                MenuListItem btnSelectorBodyForm = new MenuListItem(Common.GetTranslation("BodyType"), endoformValues, 0, Common.GetTranslation("BodyTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorBodyForm); // Lo añadimos al menu
-
-                //Waist
-                List<string> waistValues = new List<string>();
-
-                for (int i = 1; i < SkinsUtils.WAIST_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    waistValues.Add(Common.GetTranslation("WaistValue") + i);
-                }
-
-                MenuListItem btnSelectorWaist = new MenuListItem(Common.GetTranslation("WaistType"), waistValues, 0, Common.GetTranslation("WaistTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorWaist); // Lo añadimos al menu
-
-                //Legs
-                List<string> legsValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Male[0].Legs.Count(); i++)
-                {
-                    legsValues.Add(Common.GetTranslation("LegsValues") + i);
-                }
-
-                btnSelectorLegs = new MenuListItem(Common.GetTranslation("LegsType"), legsValues, 0, Common.GetTranslation("LegsTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLegs); // Lo añadimos al menu
-
-                //Hair
-                List<string> hairValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.HAIR_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    hairValues.Add(Common.GetTranslation("HairValue") + i);
-                }
-
-                MenuListItem btnSelectorHairs = new MenuListItem(Common.GetTranslation("HairType"), hairValues, 0, Common.GetTranslation("HairTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorHairs); // Lo añadimos al menu
-
-
-                List<string> eyesValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.EYES_MALE.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    eyesValues.Add(Common.GetTranslation("Eyes") + i);
-                }
-
-                MenuListItem btnSelectorEyes = new MenuListItem(Common.GetTranslation("EyesList"), eyesValues, 0, Common.GetTranslation("EyesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorEyes); // Lo añadimos al menu
-
-                //Beard
-                List<string> beardValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.BEARD_MALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    beardValues.Add(Common.GetTranslation("BeardValue") + i);
-                }
-                //beardType.Add(Common.GetTranslation("NoExistValue"));
-
-                MenuListItem btnSelectorBeards = new MenuListItem(Common.GetTranslation("BeardType"), beardValues, 0, Common.GetTranslation("BeardTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorBeards); // Lo añadimos al menu
-
-                //eyeBrows
-                List<string> eyeBrowsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["eyebrows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    eyeBrowsValues.Add(Common.GetTranslation("EyeBrows") + i);
-                }
-
-                btnSelectoreyeBrows = new MenuListItem(Common.GetTranslation("EyeBrowsList"), eyeBrowsValues, 0, Common.GetTranslation("EyeBrowsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectoreyeBrows); // Lo añadimos al menu
-
-                //Scars
-                List<string> scarsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["scars"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    scarsValues.Add(Common.GetTranslation("Scars") + i);
-                }
-
-                btnSelectorScars = new MenuListItem(Common.GetTranslation("ScarsList"), scarsValues, 0, Common.GetTranslation("ScarsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorScars); // Lo añadimos al menu
-
-                //Spots
-                List<string> spotsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["spots"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    spotsValues.Add(Common.GetTranslation("Spots") + i);
-                }
-
-                btnSelectorSpots = new MenuListItem(Common.GetTranslation("SpotsList"), spotsValues, 0, Common.GetTranslation("SpotsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorSpots); // Lo añadimos al menu
-
-                //Disc
-                List<string> discValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["disc"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    discValues.Add(Common.GetTranslation("Disc") + i);
-                }
-
-                btnSelectorDisc = new MenuListItem(Common.GetTranslation("DiscList"), discValues, 0, Common.GetTranslation("DiscDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorDisc); // Lo añadimos al menu
-
-                //Complex
-                List<string> complexValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["complex"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    complexValues.Add(Common.GetTranslation("Complex") + i);
-                }
-
-                btnSelectorComplex = new MenuListItem(Common.GetTranslation("ComplexList"), complexValues, 0, Common.GetTranslation("ComplexDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorComplex); // Lo añadimos al menu
-
-                //Acne
-                List<string> acneValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["acne"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    acneValues.Add(Common.GetTranslation("Acne") + i);
-                }
-
-                btnSelectorAcne = new MenuListItem(Common.GetTranslation("AcneList"), acneValues, 0, Common.GetTranslation("AcneDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorAcne); // Lo añadimos al menu
-
-                //Ageing
-                List<string> ageingValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["ageing"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    ageingValues.Add(Common.GetTranslation("Ageing") + i);
-                }
-
-                btnSelectorAgeing = new MenuListItem(Common.GetTranslation("AgeingList"), ageingValues, 0, Common.GetTranslation("AgeingDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorAgeing); // Lo añadimos al menu
-
-                //Moles
-                List<string> molesValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["moles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    molesValues.Add(Common.GetTranslation("Moles") + i);
-                }
-
-                btnSelectorMoles = new MenuListItem(Common.GetTranslation("MolesList"), molesValues, 0, Common.GetTranslation("MolesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorMoles); // Lo añadimos al menu
-
-                //Freckles
-                List<string> frecklesValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["freckles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    frecklesValues.Add(Common.GetTranslation("Freckles") + i);
-                }
-
-                btnSelectorFreckles = new MenuListItem(Common.GetTranslation("FrecklesList"), frecklesValues, 0, Common.GetTranslation("FrecklesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorFreckles); // Lo añadimos al menu
-
-                //Freckles
-                List<string> grimeValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["grime"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    grimeValues.Add(Common.GetTranslation("Grimes") + i);
-                }
-
-                btnSelectorGrime = new MenuListItem(Common.GetTranslation("GrimesList"), grimeValues, 0, Common.GetTranslation("GrimesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorGrime); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> lipsticksValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["lipsticks"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    lipsticksValues.Add(Common.GetTranslation("Lipsticks") + i);
-                }
-
-                btnSelectorLipsticks = new MenuListItem(Common.GetTranslation("LipsticksList"), lipsticksValues, 0, Common.GetTranslation("LipsticksDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLipsticks); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> lipsticksColorValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    lipsticksColorValues.Add(Common.GetTranslation("LipsticksColors") + i);
-                }
-
-                btnSelectorLipsticksColor = new MenuListItem(Common.GetTranslation("LipsticksColorsList"), lipsticksColorValues, 0, Common.GetTranslation("LipsticksColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLipsticksColor); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> lipsticksPColorValues = new List<string>();
-
-                for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    lipsticksPColorValues.Add(Common.GetTranslation("LipsticksPColors") + i);
-                }
-
-                btnSelectorLipsticksPColor = new MenuListItem(Common.GetTranslation("LipsticksPColorsList"), lipsticksPColorValues, 0, Common.GetTranslation("LipsticksPColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLipsticksPColor); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> shadowsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["shadows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    shadowsValues.Add(Common.GetTranslation("Shadows") + i);
-                }
-
-                btnSelectorShadows = new MenuListItem(Common.GetTranslation("ShadowsList"), shadowsValues, 0, Common.GetTranslation("ShadowsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorShadows); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> shadowsColorValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    shadowsColorValues.Add(Common.GetTranslation("ShadowsColors") + i);
-                }
-
-                btnSelectorShadowsColor = new MenuListItem(Common.GetTranslation("ShadowsColorsList"), shadowsColorValues, 0, Common.GetTranslation("ShadowsColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorShadowsColor); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> shadowsPColorValues = new List<string>();
-
-                for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    shadowsPColorValues.Add(Common.GetTranslation("ShadowsPColors") + i);
-                }
-
-                btnSelectorShadowsPColor = new MenuListItem(Common.GetTranslation("ShadowsPColorsList"), shadowsPColorValues, 0, Common.GetTranslation("ShadowsPColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorShadowsPColor); // Lo añadimos al menu
-            }
-            else //Female
-            {
-                //Body Colors
-                List<string> bodyValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Female.Count(); i++)
-                {
-                    bodyValues.Add(Common.GetTranslation("BodyColorValues") + i);
-                }
-
-                btnSelectorBody = new MenuListItem(Common.GetTranslation("BodyColor"), bodyValues, 0, Common.GetTranslation("BodyColorDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorBody); // Lo añadimos al menu
-
-                //Faces
-                List<string> faceValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Female[0].Heads.Count(); i++)
-                {
-                    faceValues.Add(Common.GetTranslation("FaceValues") + i);
-                }
-
-                btnSelectorFace = new MenuListItem(Common.GetTranslation("FaceType"), faceValues, 0, Common.GetTranslation("FaceTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorFace); // Lo añadimos al menu
-
-                //Torso
-                List<string> torsoValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Female[0].Body.Count(); i++)
-                {
-                    torsoValues.Add(Common.GetTranslation("TorsoValues") + i);
-                }
-
-                btnSelectorTorso = new MenuListItem(Common.GetTranslation("TorsoType"), torsoValues, 0, Common.GetTranslation("TorsoTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorTorso); // Lo añadimos al menu
-
-                //Endoforma
-                List<string> endoformValues = new List<string>();
-
-                for (int i = 1; i < SkinsUtils.BODY_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    endoformValues.Add(Common.GetTranslation("BodySizeValue") + i);
-                }
-
-                MenuListItem btnSelectorBodyForm = new MenuListItem(Common.GetTranslation("BodyType"), endoformValues, 0, Common.GetTranslation("BodyTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorBodyForm); // Lo añadimos al menu
-
-                //Waist
-                List<string> waistValues = new List<string>();
-
-                for (int i = 1; i < SkinsUtils.WAIST_TYPES.Count + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    waistValues.Add(Common.GetTranslation("WaistValue") + i);
-                }
-
-                MenuListItem btnSelectorWaist = new MenuListItem(Common.GetTranslation("WaistType"), waistValues, 0, Common.GetTranslation("WaistTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorWaist); // Lo añadimos al menu
-
-                //Legs
-                List<string> legsValues = new List<string>();
-                for (int i = 1; i <= PluginManager.Config.Female[0].Legs.Count(); i++)
-                {
-                    legsValues.Add(Common.GetTranslation("LegsValues") + i);
-                }
-
-                btnSelectorLegs = new MenuListItem(Common.GetTranslation("LegsType"), legsValues, 0, Common.GetTranslation("LegsTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLegs); // Lo añadimos al menu
-
-                //Hair
-                List<string> hairValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.HAIR_FEMALE.Count + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    hairValues.Add(Common.GetTranslation("HairValue") + i);
-                }
-
-                MenuListItem btnSelectorHairs = new MenuListItem(Common.GetTranslation("HairType"), hairValues, 0, Common.GetTranslation("HairTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorHairs); // Lo añadimos al menu
-
-                //barbas
-                List<string> eyesValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.EYES_FEMALE.Count; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    eyesValues.Add(Common.GetTranslation("Eyes") + i);
-                }
-
-                MenuListItem btnSelectorEyes = new MenuListItem(Common.GetTranslation("EyesList"), eyesValues, 0, Common.GetTranslation("EyesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorEyes); // Lo añadimos al menu
-
-                //Beard
-                List<string> beardValues = new List<string>();
-
-                beardValues.Add(Common.GetTranslation("NoExistValue"));
-
-                MenuListItem btnSelectorBeards = new MenuListItem(Common.GetTranslation("BeardType"), beardValues, 0, Common.GetTranslation("BeardTypeDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorBeards); // Lo añadimos al menu
-
-                //eyeBrows
-                List<string> eyeBrowsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["eyebrows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    eyeBrowsValues.Add(Common.GetTranslation("EyeBrows") + i);
-                }
-
-                btnSelectoreyeBrows = new MenuListItem(Common.GetTranslation("EyeBrowsList"), eyeBrowsValues, 0, Common.GetTranslation("EyeBrowsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectoreyeBrows); // Lo añadimos al menu
-
-                //Scars
-                List<string> scarsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["scars"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    scarsValues.Add(Common.GetTranslation("Scars") + i);
-                }
-
-                btnSelectorScars = new MenuListItem(Common.GetTranslation("ScarsList"), scarsValues, 0, Common.GetTranslation("ScarsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorScars); // Lo añadimos al menu
-
-                //Spots
-                List<string> spotsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["spots"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    spotsValues.Add(Common.GetTranslation("Spots") + i);
-                }
-
-                btnSelectorSpots = new MenuListItem(Common.GetTranslation("SpotsList"), spotsValues, 0, Common.GetTranslation("SpotsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorSpots); // Lo añadimos al menu
-
-                //Disc
-                List<string> discValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["disc"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    discValues.Add(Common.GetTranslation("Disc") + i);
-                }
-
-                btnSelectorDisc = new MenuListItem(Common.GetTranslation("DiscList"), discValues, 0, Common.GetTranslation("DiscDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorDisc); // Lo añadimos al menu
-
-                //Complex
-                List<string> complexValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["complex"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    complexValues.Add(Common.GetTranslation("Complex") + i);
-                }
-
-                btnSelectorComplex = new MenuListItem(Common.GetTranslation("ComplexList"), complexValues, 0, Common.GetTranslation("ComplexDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorComplex); // Lo añadimos al menu
-
-                //Acne
-                List<string> acneValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["acne"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    acneValues.Add(Common.GetTranslation("Acne") + i);
-                }
-
-                btnSelectorAcne = new MenuListItem(Common.GetTranslation("AcneList"), acneValues, 0, Common.GetTranslation("AcneDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorAcne); // Lo añadimos al menu
-
-                //Ageing
-                List<string> ageingValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["ageing"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    ageingValues.Add(Common.GetTranslation("Ageing") + i);
-                }
-
-                btnSelectorAgeing = new MenuListItem(Common.GetTranslation("AgeingList"), ageingValues, 0, Common.GetTranslation("AgeingDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorAgeing); // Lo añadimos al menu
-
-                //Moles
-                List<string> molesValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["moles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    molesValues.Add(Common.GetTranslation("Moles") + i);
-                }
-
-                btnSelectorMoles = new MenuListItem(Common.GetTranslation("MolesList"), molesValues, 0, Common.GetTranslation("MolesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorMoles); // Lo añadimos al menu
-
-                //Freckles
-                List<string> frecklesValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["freckles"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    frecklesValues.Add(Common.GetTranslation("Freckles") + i);
-                }
-
-                btnSelectorFreckles = new MenuListItem(Common.GetTranslation("FrecklesList"), frecklesValues, 0, Common.GetTranslation("FrecklesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorFreckles); // Lo añadimos al menu
-
-                //Freckles
-                List<string> grimeValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["grime"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    grimeValues.Add(Common.GetTranslation("Grimes") + i);
-                }
-
-                btnSelectorGrime = new MenuListItem(Common.GetTranslation("GrimesList"), grimeValues, 0, Common.GetTranslation("GrimesDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorGrime); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> lipsticksValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["lipsticks"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    lipsticksValues.Add(Common.GetTranslation("Lipsticks") + i);
-                }
-
-                btnSelectorLipsticks = new MenuListItem(Common.GetTranslation("LipsticksList"), lipsticksValues, 0, Common.GetTranslation("LipsticksDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLipsticks); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> lipsticksColorValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    lipsticksColorValues.Add(Common.GetTranslation("LipsticksColors") + i);
-                }
-
-                btnSelectorLipsticksColor = new MenuListItem(Common.GetTranslation("LipsticksColorsList"), lipsticksColorValues, 0, Common.GetTranslation("LipsticksColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLipsticksColor); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> lipsticksPColorValues = new List<string>();
-
-                for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    lipsticksPColorValues.Add(Common.GetTranslation("LipsticksPColors") + i);
-                }
-
-                btnSelectorLipsticksPColor = new MenuListItem(Common.GetTranslation("LipsticksPColorsList"), lipsticksPColorValues, 0, Common.GetTranslation("LipsticksPColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorLipsticksPColor); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> shadowsValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.overlays_info["shadows"].Count() + 2; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    shadowsValues.Add(Common.GetTranslation("Shadows") + i);
-                }
-
-                btnSelectorShadows = new MenuListItem(Common.GetTranslation("ShadowsList"), shadowsValues, 0, Common.GetTranslation("ShadowsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorShadows); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> shadowsColorValues = new List<string>();
-
-                for (float i = 1; i < SkinsUtils.COLOR_PALETTES.Count() + 1; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    shadowsColorValues.Add(Common.GetTranslation("ShadowsColors") + i);
-                }
-
-                btnSelectorShadowsColor = new MenuListItem(Common.GetTranslation("ShadowsColorsList"), shadowsColorValues, 0, Common.GetTranslation("ShadowsColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorShadowsColor); // Lo añadimos al menu
-
-                //Lipsticks
-                List<string> shadowsPColorValues = new List<string>();
-
-                for (float i = 1; i < 255; i++) //Recuerda un +1 a la lista ya que empezamos desde el (INT I = 1)
-                {
-                    shadowsPColorValues.Add(Common.GetTranslation("ShadowsPColors") + i);
-                }
-
-                btnSelectorShadowsPColor = new MenuListItem(Common.GetTranslation("ShadowsPColorsList"), shadowsPColorValues, 0, Common.GetTranslation("ShadowsPColorsDesc")); // Añadimos la lista al boton
-                skinMenu.AddMenuItem(btnSelectorShadowsPColor); //Lo añadimos al menu 
+                lstBody = PluginManager.Config.Female.Select((x, i) => Common.GetTranslation("BodyColorValues") + i).ToList();
+                lstFaces = PluginManager.Config.Female[bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
+                lstTorso = PluginManager.Config.Female[bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
+                lstLegs = PluginManager.Config.Female[bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
+                lstHair = SkinsUtils.HAIR_FEMALE.Select((x, i) => Common.GetTranslation("HairValue") + i).ToList();
+                lstEyes = SkinsUtils.EYES_FEMALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList();
             }
 
+            miLstBodyColor = new MenuListItem(Common.GetTranslation("BodyColor"), lstBody, 0, Common.GetTranslation("BodyColorDesc"));
+            skinMenu.AddMenuItem(miLstBodyColor);
 
-            skinMenu.OnMenuOpen += (_menu) =>
+            miLstFaceSelection = new MenuListItem(Common.GetTranslation("FaceType"), lstFaces, 0, Common.GetTranslation("FaceTypeDesc"));
+            skinMenu.AddMenuItem(miLstFaceSelection);
+
+            miLstTorso = new MenuListItem(Common.GetTranslation("TorsoType"), lstTorso, 0, Common.GetTranslation("TorsoTypeDesc"));
+            skinMenu.AddMenuItem(miLstTorso);
+
+            skinMenu.AddMenuItem(miLstBodyType);
+            skinMenu.AddMenuItem(miLstBodyWaist);
+
+            miLstBodyLegs = new MenuListItem(Common.GetTranslation("LegsType"), lstLegs, 0, Common.GetTranslation("LegsTypeDesc"));
+            skinMenu.AddMenuItem(miLstBodyLegs);
+
+            miLstHairType = new MenuListItem(Common.GetTranslation("HairType"), lstHair, 0, Common.GetTranslation("HairTypeDesc"));
+            skinMenu.AddMenuItem(miLstHairType);
+
+            miLstEyes = new MenuListItem(Common.GetTranslation("EyesList"), lstEyes, 0, Common.GetTranslation("EyesDesc"));
+            skinMenu.AddMenuItem(miLstEyes);
+
+            if (CreateCharacter.isMale)
             {
+                miLstBeards = new MenuListItem(Common.GetTranslation("BeardType"), lstBeards, 0, Common.GetTranslation("BeardTypeDesc"));
+                skinMenu.AddMenuItem(miLstBeards);
+            }
 
-            };
+            miLstEyeBrows = new MenuListItem(Common.GetTranslation("EyeBrowsList"), lstEyeBrows, 0, Common.GetTranslation("EyeBrowsDesc"));
+            skinMenu.AddMenuItem(miLstEyeBrows);
 
-            skinMenu.OnMenuClose += (_menu) =>
-            {
+            miLstScars = new MenuListItem(Common.GetTranslation("ScarsList"), lstScars, 0, Common.GetTranslation("ScarsDesc"));
+            skinMenu.AddMenuItem(miLstScars);
 
-            };
+            miLstSpots = new MenuListItem(Common.GetTranslation("SpotsList"), lstSpots, 0, Common.GetTranslation("SpotsDesc"));
+            skinMenu.AddMenuItem(miLstSpots);
 
-            skinMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
-            {
-                switch (_itemIndex)
-                {
-                    case 0:
-                        if (CreateCharacter.model_selected == "mp_male") // Male
-                        {
-                            UpdateLists(_newIndex, "Male");
-                        }
-                        else
-                        {
-                            UpdateLists(_newIndex, "Female");
-                        }
-                        break;
-                    case 1:
-                        if (CreateCharacter.model_selected == "mp_male") // Male
-                        {
-                            CreateCharacter.SetPlayerModelComponent(PluginManager.Config.Male[btnSelectorBody.ListIndex].Heads[_newIndex].ToString(), "HeadType");
-                            ReloadTextures();
-                        }
-                        else
-                        {
-                            CreateCharacter.SetPlayerModelComponent(PluginManager.Config.Female[btnSelectorBody.ListIndex].Heads[_newIndex].ToString(), "HeadType");
-                            ReloadTextures();
-                        }
-                        break;
-                    case 2:
-                        if (CreateCharacter.model_selected == "mp_male") // Male
-                        {
-                            CreateCharacter.SetPlayerModelComponent(PluginManager.Config.Male[btnSelectorBody.ListIndex].Body[_newIndex].ToString(), "BodyType");
-                        }
-                        else
-                        {
-                            CreateCharacter.SetPlayerModelComponent(PluginManager.Config.Female[btnSelectorBody.ListIndex].Body[_newIndex].ToString(), "BodyType");
-                        }
-                        break;
-                    case 3:
-                        CreateCharacter.SetPlayerBodyComponent((uint)SkinsUtils.BODY_TYPES.ElementAt(_newIndex), "Body");
-                        break;
-                    case 4:
-                        CreateCharacter.SetPlayerBodyComponent((uint)SkinsUtils.WAIST_TYPES.ElementAt(_newIndex), "Waist");
-                        break;
-                    case 5:
-                        if (CreateCharacter.model_selected == "mp_male") // Male 
-                        {
-                            CreateCharacter.SetPlayerModelComponent(PluginManager.Config.Male[btnSelectorBody.ListIndex].Legs[_newIndex].ToString(), "LegsType");
-                        }
-                        else
-                        {
-                            CreateCharacter.SetPlayerModelComponent(PluginManager.Config.Female[btnSelectorBody.ListIndex].Legs[_newIndex].ToString(), "LegsType");
-                        }
-                        break;
-                    case 6:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.SetPlayerModelListComps("Hair", 0, 0x864B03AE);
-                        }
-                        else if (CreateCharacter.model_selected == "mp_male")
-                        {
-                            CreateCharacter.SetPlayerModelListComps("Hair", SkinsUtils.HAIR_MALE.ElementAt(_newIndex - 1), 0x864B03AE);
-                        }
-                        else
-                        {
-                            CreateCharacter.SetPlayerModelListComps("Hair", SkinsUtils.HAIR_FEMALE.ElementAt(_newIndex - 1), 0x864B03AE);
-                        }
-                        break;
-                    case 7:
-                        if (CreateCharacter.model_selected == "mp_male")
-                        {
-                            CreateCharacter.SetPlayerModelListComps("Eyes", SkinsUtils.EYES_MALE.ElementAt(_newIndex), 0x864B03AE);
-                        }
-                        else
-                        {
-                            CreateCharacter.SetPlayerModelListComps("Eyes", SkinsUtils.EYES_FEMALE.ElementAt(_newIndex), 0x864B03AE);
-                        }
-                        break;
-                    case 8:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.SetPlayerModelListComps("Beard", 0, 0xF8016BCA);
-                        }
-                        else if (CreateCharacter.model_selected == "mp_male")
-                        {
-                            CreateCharacter.SetPlayerModelListComps("Beard", SkinsUtils.BEARD_MALE.ElementAt(_newIndex - 1), 0xF8016BCA);
-                        }
-                        break;
-                    case 9:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("eyebrows", 0, _newIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("eyebrows", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 10:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("scars", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("scars", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 11:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("spots", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("spots", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 12:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("disc", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("disc", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 13:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("complex", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("complex", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 14:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("acne", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("acne", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 15:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("ageing", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("ageing", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 16:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("moles", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("moles", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 17:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("freckles", 0, _newIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("freckles", 1, _newIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 18:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("grime", 0, _newIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("grime", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 19:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("lipsticks", 0, _newIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("lipsticks", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 20:
-                        if (btnSelectorLipsticks.ListIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, _newIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, _newIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 21:
-                        if (btnSelectorLipsticks.ListIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 22:
-                        if (_newIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("shadows", 0, _newIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorShadowsPColor.ListIndex, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("shadows", 1, _newIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorShadowsPColor.ListIndex, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                    case 23:
-                        if (btnSelectorShadows.ListIndex == 0)
-                        {
-                            CreateCharacter.toggleOverlayChange("shadows", 0, btnSelectorShadows.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
-                        }
-                        else
-                        {
-                            CreateCharacter.toggleOverlayChange("shadows", 1, btnSelectorShadows.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, _newIndex, 0, 0, 0, 1.0f);
-                        }
-                        break;
-                }
-            };
+            miLstDisc = new MenuListItem(Common.GetTranslation("DiscList"), lstDiscValues, 0, Common.GetTranslation("DiscDesc"));
+            skinMenu.AddMenuItem(miLstDisc);
 
+            miLstComplexion = new MenuListItem(Common.GetTranslation("ComplexList"), lstComplexion, 0, Common.GetTranslation("ComplexDesc"));
+            skinMenu.AddMenuItem(miLstComplexion);
+
+            miLstAcne = new MenuListItem(Common.GetTranslation("AcneList"), lstAcne, 0, Common.GetTranslation("AcneDesc"));
+            skinMenu.AddMenuItem(miLstAcne);
+
+            miLstAging = new MenuListItem(Common.GetTranslation("AgeingList"), lstAging, 0, Common.GetTranslation("AgeingDesc"));
+            skinMenu.AddMenuItem(miLstAging);
+
+            miLstMoles = new MenuListItem(Common.GetTranslation("MolesList"), lstMoles, 0, Common.GetTranslation("MolesDesc"));
+            skinMenu.AddMenuItem(miLstMoles);
+
+            miLstFreckles = new MenuListItem(Common.GetTranslation("FrecklesList"), lstFreckles, 0, Common.GetTranslation("FrecklesDesc"));
+            skinMenu.AddMenuItem(miLstFreckles);
+
+            miLstGrime = new MenuListItem(Common.GetTranslation("GrimesList"), lstGrime, 0, Common.GetTranslation("GrimesDesc"));
+            skinMenu.AddMenuItem(miLstGrime);
+
+            miLstLipstick = new MenuListItem(Common.GetTranslation("LipsticksList"), lstLipStick, 0, Common.GetTranslation("LipsticksDesc"));
+            skinMenu.AddMenuItem(miLstLipstick);
+
+            miLstLipstickColor = new MenuListItem(Common.GetTranslation("LipsticksColorsList"), lstLipStickColor, 0, Common.GetTranslation("LipsticksColorsDesc"));
+            skinMenu.AddMenuItem(miLstLipstickColor);
+
+            miLstLipstickColorTwo = new MenuListItem(Common.GetTranslation("LipsticksPColorsList"), lstLipStickColorTwo, 0, Common.GetTranslation("LipsticksPColorsDesc"));
+            skinMenu.AddMenuItem(miLstLipstickColorTwo);
+
+            miLstShadows = new MenuListItem(Common.GetTranslation("ShadowsList"), lstShadows, 0, Common.GetTranslation("ShadowsDesc"));
+            skinMenu.AddMenuItem(miLstShadows);
+
+            miLstShadowColor = new MenuListItem(Common.GetTranslation("ShadowsColorsList"), lstShadowColor, 0, Common.GetTranslation("ShadowsColorsDesc"));
+            skinMenu.AddMenuItem(miLstShadowColor);
+
+            miLstShadowColorTwo = new MenuListItem(Common.GetTranslation("ShadowsPColorsList"), lstShadowColorTwo, 0, Common.GetTranslation("ShadowsPColorsDesc"));
+            skinMenu.AddMenuItem(miLstShadowColorTwo);
+
+            skinMenu.OnListIndexChange += SkinMenu_OnListIndexChange;
         }
+
+        private static void SkinMenu_OnListIndexChange(Menu menu, MenuListItem listItem, int oldSelectionIndex, int newSelectionIndex, int itemIndex)
+        {
+            if (listItem == miLstBodyType)
+            {
+                UpdateLists(newSelectionIndex);
+            }
+            else if (listItem == miLstBodyColor)
+            {
+                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "HeadType");
+            }
+            else if (listItem == miLstFaceSelection)
+            {
+                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "BodyType");
+            }
+            else if (listItem == miLstTorso)
+            {
+                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "Body");
+            }
+            else if (listItem == miLstBodyWaist)
+            {
+                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "Waist");
+            }
+            else if (listItem == miLstBodyLegs)
+            {
+                CreateCharacter.SetPlayerModelComponent(listItem.ListItems[newSelectionIndex], "LegsType");
+            }
+            else if (listItem == miLstHairType)
+            {
+                List<uint> lst = SkinsUtils.HAIR_FEMALE;
+                if (CreateCharacter.isMale)
+                    lst = SkinsUtils.HAIR_MALE;
+
+                CreateCharacter.SetPlayerModelListComps("Hair", lst[newSelectionIndex], 0x864B03AE);
+            }
+            else if (listItem == miLstEyes)
+            {
+                List<uint> lst = SkinsUtils.EYES_FEMALE;
+                if (CreateCharacter.isMale)
+                    lst = SkinsUtils.EYES_MALE;
+
+                CreateCharacter.SetPlayerModelListComps("Eyes", lst[newSelectionIndex], 0x864B03AE);
+            }
+            else if (listItem == miLstBeards)
+            {
+                if (newSelectionIndex == 0 || !CreateCharacter.isMale)
+                    CreateCharacter.SetPlayerModelListComps("Beard", 0, 0xF8016BCA);
+
+                if (CreateCharacter.isMale)
+                    CreateCharacter.SetPlayerModelListComps("Beard", SkinsUtils.BEARD_MALE.ElementAt(newSelectionIndex), 0xF8016BCA);
+            }
+            else if (listItem == miLstEyeBrows)
+            {
+                CreateCharacter.ToggleOverlayChange("eyebrows", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstScars)
+            {
+                CreateCharacter.ToggleOverlayChange("scars", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstSpots)
+            {
+                CreateCharacter.ToggleOverlayChange("spots", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstDisc)
+            {
+                CreateCharacter.ToggleOverlayChange("disc", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstComplexion)
+            {
+                CreateCharacter.ToggleOverlayChange("complex", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstAcne)
+            {
+                CreateCharacter.ToggleOverlayChange("acne", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstAging)
+            {
+                CreateCharacter.ToggleOverlayChange("ageing", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstMoles)
+            {
+                CreateCharacter.ToggleOverlayChange("moles", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstFreckles)
+            {
+                CreateCharacter.ToggleOverlayChange("freckles", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstGrime)
+            {
+                CreateCharacter.ToggleOverlayChange("grime", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex);
+            }
+            else if (listItem == miLstLipstick)
+            {
+                CreateCharacter.ToggleOverlayChange("lipsticks", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, palette_id: miLstLipstickColor.ListIndex, palette_color_primary: miLstLipstickColorTwo.ListIndex);
+            }
+            else if (listItem == miLstLipstickColor)
+            {
+                CreateCharacter.ToggleOverlayChange("lipsticks", newSelectionIndex == 0 ? 0 : 1, miLstLipstick.ListIndex, palette_id: newSelectionIndex, palette_color_primary: miLstLipstickColorTwo.ListIndex);
+            }
+            else if (listItem == miLstLipstickColorTwo)
+            {
+                CreateCharacter.ToggleOverlayChange("lipsticks", newSelectionIndex == 0 ? 0 : 1, miLstLipstick.ListIndex, palette_id: miLstLipstickColor.ListIndex, palette_color_primary: newSelectionIndex);
+            }
+            else if (listItem == miLstShadows)
+            {
+                CreateCharacter.ToggleOverlayChange("shadows", newSelectionIndex == 0 ? 0 : 1, newSelectionIndex, palette_id: miLstShadowColor.ListIndex, palette_color_primary: miLstShadowColorTwo.ListIndex);
+            }
+            else if (listItem == miLstShadowColor)
+            {
+                CreateCharacter.ToggleOverlayChange("shadows", newSelectionIndex == 0 ? 0 : 1, miLstShadows.ListIndex, palette_id: newSelectionIndex, palette_color_primary: miLstShadowColorTwo.ListIndex);
+            }
+            else if (listItem == miLstShadowColorTwo)
+            {
+                CreateCharacter.ToggleOverlayChange("shadows", newSelectionIndex == 0 ? 0 : 1, miLstShadows.ListIndex, palette_id: miLstShadowColor.ListIndex, palette_color_primary: newSelectionIndex);
+            }
+        }
+
+        private static void SkinMenu_OnMenuClose(Menu menu)
+        {
+            menu.ClearMenuItems();
+            skinMenu = null;
+        }
+
         public static Menu GetMenu()
         {
             SetupMenu();
@@ -848,144 +308,58 @@ namespace VorpCharacter.Menus
 
         private static void ReloadTextures()
         {
-
-            if (btnSelectoreyeBrows.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("eyebrows", 0, btnSelectoreyeBrows.ListIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("eyebrows", 1, btnSelectoreyeBrows.ListIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorScars.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("scars", 0, btnSelectorScars.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("scars", 1, btnSelectorScars.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorSpots.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("spots", 0, btnSelectorSpots.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("spots", 1, btnSelectorSpots.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorDisc.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("disc", 0, btnSelectorDisc.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("disc", 1, btnSelectorDisc.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorComplex.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("complex", 0, btnSelectorComplex.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("complex", 1, btnSelectorComplex.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorAcne.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("acne", 0, btnSelectorAcne.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("acne", 1, btnSelectorAcne.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorAgeing.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("ageing", 0, btnSelectorAgeing.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("ageing", 1, btnSelectorAgeing.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorMoles.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("moles", 0, btnSelectorMoles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("moles", 1, btnSelectorMoles.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorFreckles.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("freckles", 0, btnSelectorFreckles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("freckles", 1, btnSelectorFreckles.ListIndex - 1, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorGrime.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("grime", 0, btnSelectorGrime.ListIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("grime", 1, btnSelectorGrime.ListIndex - 1, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorLipsticks.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("lipsticks", 0, btnSelectorLipsticks.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("lipsticks", 1, btnSelectorLipsticks.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorLipsticksColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-            }
-            if (btnSelectorShadows.ListIndex == 0)
-            {
-                CreateCharacter.toggleOverlayChange("shadows", 0, btnSelectorShadows.ListIndex, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-            }
-            else
-            {
-                CreateCharacter.toggleOverlayChange("shadows", 1, btnSelectorShadows.ListIndex - 1, 0, 0, 0, 1.0f, 0, btnSelectorShadowsColor.ListIndex, btnSelectorLipsticksPColor.ListIndex, 0, 0, 0, 1.0f);
-            }
+            CreateCharacter.ToggleOverlayChange("eyebrows", miLstEyeBrows.ListIndex == 0 ? 0 : 1, miLstEyeBrows.ListIndex, 0, 0, 0, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("scars", miLstScars.ListIndex == 0 ? 0 : 1, miLstScars.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("spots", miLstSpots.ListIndex == 0 ? 0 : 1, miLstSpots.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("disc", miLstDisc.ListIndex == 0 ? 0 : 1, miLstDisc.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("complex", miLstComplexion.ListIndex == 0 ? 0 : 1, miLstComplexion.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("acne", miLstAcne.ListIndex == 0 ? 0 : 1, miLstAcne.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("ageing", miLstAging.ListIndex == 0 ? 0 : 1, miLstAging.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("moles", miLstMoles.ListIndex == 0 ? 0 : 1, miLstMoles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("freckles", miLstFreckles.ListIndex == 0 ? 0 : 1, miLstFreckles.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("grime", miLstGrime.ListIndex == 0 ? 0 : 1, miLstGrime.ListIndex, 0, 0, 1, 1.0f, 0, 0, 0, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("lipsticks", miLstLipstick.ListIndex == 0 ? 0 : 1, miLstLipstick.ListIndex, 0, 0, 0, 1.0f, 0, miLstLipstickColor.ListIndex, miLstLipstickColorTwo.ListIndex, 0, 0, 0, 1.0f);
+            CreateCharacter.ToggleOverlayChange("shadows", miLstShadows.ListIndex == 0 ? 0 : 1, miLstLipstick.ListIndex, 0, 0, 0, 1.0f, 0, miLstShadowColor.ListIndex, miLstLipstickColorTwo.ListIndex, 0, 0, 0, 1.0f);
         }
 
-        private static void UpdateLists(int index, string sex)
+        private static void UpdateLists(int bodyIndex)
         {
-            btnSelectorFace.ListItems.Clear();
-            btnSelectorTorso.ListItems.Clear();
-            btnSelectorLegs.ListItems.Clear();
+            miLstFaceSelection.ListItems.Clear();
+            miLstTorso.ListItems.Clear();
+            miLstBodyLegs.ListItems.Clear();
 
             dynamic dynList = PluginManager.Config.Male;
-            if (sex == "female") dynList = PluginManager.Config.Female;
+            if (!CreateCharacter.isMale) dynList = PluginManager.Config.Female;
+
+            List<string> lstFaces = PluginManager.Config.Male[bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
+            List<string> lstTorso = PluginManager.Config.Male[bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
+            List<string> lstLegs = PluginManager.Config.Male[bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
+
+            if (!CreateCharacter.isMale)
+            {
+                lstFaces = PluginManager.Config.Female[bodyIndex].Heads.Select((x, i) => Common.GetTranslation("FaceValues") + i).ToList();
+                lstTorso = PluginManager.Config.Female[bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
+                lstLegs = PluginManager.Config.Female[bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
+            }
 
             //Faces
-            List<string> faceValues = new List<string>();
-            for (int i = 1; i <= dynList[index]["Heads"].Count(); i++)
-            {
-                btnSelectorFace.ListItems.Add(Common.GetTranslation("FaceValues") + i);
-            }
-            btnSelectorFace.ListIndex = 0;
+            miLstFaceSelection.ListItems = lstFaces;
+            miLstFaceSelection.ListIndex = 0;
 
             //Torso
-            List<string> torsoValues = new List<string>();
-            for (int i = 1; i <= dynList[index]["Body"].Count(); i++)
-            {
-                btnSelectorTorso.ListItems.Add(Common.GetTranslation("TorsoValues") + i);
-            }
-            btnSelectorTorso.ListIndex = 0;
+            miLstTorso.ListItems = lstTorso;
+            miLstTorso.ListIndex = 0;
 
             //Legs
-            List<string> legsValues = new List<string>();
-            for (int i = 1; i <= dynList[index]["Legs"].Count(); i++)
-            {
-                btnSelectorLegs.ListItems.Add(Common.GetTranslation("LegsValues") + i);
-            }
-            btnSelectorLegs.ListIndex = 0;
+            miLstBodyLegs.ListItems = lstLegs;
+            miLstBodyLegs.ListIndex = 0;
 
-            CreateCharacter.SetPlayerModelComponent(dynList[index]["Heads"][0].ToString(), "HeadType");
-            CreateCharacter.SetPlayerModelComponent(dynList[index]["Body"][0].ToString(), "BodyType");
-            CreateCharacter.SetPlayerModelComponent(dynList[index]["Legs"][0].ToString(), "LegsType");
+            CreateCharacter.SetPlayerModelComponent(lstFaces[0].ToString(), "HeadType");
+            CreateCharacter.SetPlayerModelComponent(lstTorso[0].ToString(), "BodyType");
+            CreateCharacter.SetPlayerModelComponent(lstLegs[0].ToString(), "LegsType");
 
-            CreateCharacter.texture_types["albedo"] = API.GetHashKey(dynList[index]["HeadTexture"].ToString());
-            CreateCharacter.skinPlayer["albedo"] = API.GetHashKey(dynList[index]["HeadTexture"].ToString());
+            CreateCharacter.texture_types["albedo"] = API.GetHashKey(dynList[bodyIndex]["HeadTexture"].ToString());
+            CreateCharacter.skinPlayer["albedo"] = API.GetHashKey(dynList[bodyIndex]["HeadTexture"].ToString());
             ReloadTextures();
         }
     }

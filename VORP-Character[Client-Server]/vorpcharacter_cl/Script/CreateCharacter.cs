@@ -27,6 +27,7 @@ namespace VorpCharacter.Script
         static bool isSelectSexActive = false;
         static bool secondchance = false;
         public static bool isInCharCreation = false;
+        public static bool isMale => model_selected == model_m;
         public static string model_selected;
         static string model_f = "mp_female";
         static string model_m = "mp_male";
@@ -52,7 +53,7 @@ namespace VorpCharacter.Script
 
         public static Dictionary<string, dynamic> texture_types = new Dictionary<string, dynamic>();
 
-        public static void toggleOverlayChange(string name, int visibility, int tx_id, int tx_normal, int tx_material, int tx_color_type, float tx_opacity, int tx_unk, int palette_id, int palette_color_primary, int palette_color_secondary, int palette_color_tertiary, int var, float opacity)
+        public static void ToggleOverlayChange(string name, int visibility, int tx_id, int tx_normal = 0, int tx_material = 0, int tx_color_type = 1, float tx_opacity = 1.0f, int tx_unk = 0, int palette_id = 0, int palette_color_primary = 0, int palette_color_secondary = 0, int palette_color_tertiary = 0, int var = 0, float opacity = 1.0f)
         {
             for (int i = 0; i < SkinsUtils.overlay_all_layers.Count(); i++)
             {
