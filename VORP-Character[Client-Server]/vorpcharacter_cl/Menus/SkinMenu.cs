@@ -47,7 +47,6 @@ namespace VorpCharacter.Menus
         private static MenuListItem miLstShadowColor;
         private static MenuListItem miLstShadowColorTwo;
 
-        private static bool setupDone = false;
         private static void SetupMenu()
         {
             if (skinMenu is not null) return;
