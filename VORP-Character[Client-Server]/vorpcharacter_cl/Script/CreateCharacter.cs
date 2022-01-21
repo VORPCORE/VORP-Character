@@ -617,7 +617,7 @@ namespace VorpCharacter.Script
             Function.Call(Hash.SET_CLOCK_TIME, 12, 00, 0);
             API.SetClockTime(12, 00, 00);
 
-            Miscellanea.TeleportToCoords(-563.1345f, -3775.811f, 237.60f);
+            VorpPlayer.Position = new Vector3(-563.1345f, -3775.811f, 237.60f);
             await CreationSelectPeds();
             await CreateCams();
 
@@ -644,7 +644,7 @@ namespace VorpCharacter.Script
             Function.Call(Hash.SET_CLOCK_TIME, 12, 00, 0);
             API.SetClockTime(12, 00, 00);
 
-            Miscellanea.TeleportToCoords(-563.1345f, -3775.811f, 237.60f);
+            VorpPlayer.Position = new Vector3(-563.1345f, -3775.811f, 237.60f);
             await CreationSelectPeds();
             await CreateCams();
 
@@ -867,7 +867,8 @@ namespace VorpCharacter.Script
             int pID = API.PlayerId();
             int pPedID = Cache.PlayerPedId;
             Menus.MainMenu.GetMenu();
-            Miscellanea.TeleportToCoords(-558.3258f, -3781.111f, 237.60f, 93.2f);
+            VorpPlayer.Position = new Vector3(-558.3258f, -3781.111f, 237.60f);
+            VorpPlayer.Heading = 93.2f;
             API.FreezeEntityPosition(pPedID, true);
             uint model_hash = (uint)API.GetHashKey(model);
             await Utilities.RequestModel(model_hash);

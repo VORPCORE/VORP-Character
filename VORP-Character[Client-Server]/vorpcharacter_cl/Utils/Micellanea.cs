@@ -7,7 +7,7 @@ namespace VorpCharacter.Utils
     {
         public static void TeleportToCoords(float x, float y, float z, float heading = 0.0f)
         {
-            int playerPedId = API.PlayerPedId();
+            int playerPedId = Cache.PlayerPedId;
             API.SetEntityCoords(playerPedId, x, y, z, true, true, true, false);
             API.SetEntityHeading(playerPedId, heading);
         }

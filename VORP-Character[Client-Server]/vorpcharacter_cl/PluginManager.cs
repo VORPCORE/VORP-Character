@@ -13,7 +13,6 @@ namespace VorpCharacter
     public class PluginManager : BaseScript
     {
         public static PluginManager Instance { get; private set; }
-        public static VorpPlayer Player;
         public static dynamic CORE;
         public static int MAX_ALLOWED_CHARACTERS = 0;
         public EventHandlerDictionary EventRegistry => EventHandlers;
@@ -37,7 +36,6 @@ namespace VorpCharacter
         private async void Setup()
         {
             await GetCore();
-            Player = new VorpPlayer();
             LoadDefaultConfig();
             await IsReady();
 
