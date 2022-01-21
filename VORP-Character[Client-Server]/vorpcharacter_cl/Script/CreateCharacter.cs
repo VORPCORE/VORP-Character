@@ -53,7 +53,7 @@ namespace VorpCharacter.Script
 
         public static Dictionary<string, dynamic> texture_types = new Dictionary<string, dynamic>();
 
-        public static void ToggleOverlayChange(string name, int visibility, int tx_id, int tx_normal = 0, int tx_material = 0, int tx_color_type = 1, float tx_opacity = 1.0f, int tx_unk = 0, int palette_id = 0, int palette_color_primary = 0, int palette_color_secondary = 0, int palette_color_tertiary = 0, int var = 0, float opacity = 1.0f)
+        public static void ToggleOverlayChange(string name, int visibility, int tx_id, int tx_normal = 0, int tx_material = 0, int tx_color_type = 0, float tx_opacity = 1.0f, int tx_unk = 0, int palette_id = 0, int palette_color_primary = 0, int palette_color_secondary = 0, int palette_color_tertiary = 0, int var = 0, float opacity = 1.0f)
         {
             for (int i = 0; i < SkinsUtils.overlay_all_layers.Count(); i++)
             {
@@ -360,40 +360,39 @@ namespace VorpCharacter.Script
             //end
             Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
         }
-        public static void SetPlayerModelComponent(string hex, string skinP)
+
+        public static async void SetPlayerModelComponent(string hex, string skinP)
         {
             string comp = "0x" + hex;
             int compInt = Convert.ToInt32(comp, 16);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), compInt, true, true, true);
-            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            await Utilities.ApplyShopItemToPed(Cache.PlayerPedId, (uint)compInt);
             skinPlayer[skinP] = compInt;
         }
-        public static void SetPlayerModelListComps(string skinP, uint comp, uint category)
+
+        public static async void SetPlayerModelListComps(string skinP, uint comp, uint category)
         {
             if (comp == 0)
             {
-                Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), category, 0);
+                Utilities.RemoveTagFromMetaPed(Cache.PlayerPedId, comp);
                 skinPlayer[skinP] = -1;
             }
             else
             {
-                Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), comp, true, true, true);
+                await Utilities.ApplyShopItemToPed(Cache.PlayerPedId, (uint)comp);
                 skinPlayer[skinP] = comp;
             }
-
-
-            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            Utilities.UpdatePedVariation(Cache.PlayerPedId);
         }
         public static void SetPlayerBodyComponent(uint comp, string skinP)
         {
-            Function.Call((Hash)0x1902C4CFCC5BE57C, API.PlayerPedId(), comp);
-            Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
+            Utilities.SetPedBodyComponent(Cache.PlayerPedId, comp);
+            Utilities.UpdatePedVariation(Cache.PlayerPedId);
             skinPlayer[skinP] = comp;
         }
 
         public static void SetPlayerFaceBlend(int item, int index) //find me
         {
-            int pPID = API.PlayerPedId();
+            int pPID = Cache.PlayerPedId;
             float _sizeValue = (float)index;
 
             if (_sizeValue > 10)
@@ -413,200 +412,162 @@ namespace VorpCharacter.Script
             {
                 case 0:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x84D6, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["HeadSize"] = _sizeValue;
                     break;
                 case 1:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3303, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeBrowH"] = _sizeValue;
                     break;
                 case 2:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2FF9, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeBrowW"] = _sizeValue;
                     break;
                 case 3:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x4AD1, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeBrowD"] = _sizeValue;
                     break;
                 case 4:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC04F, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EarsH"] = _sizeValue;
                     break;
                 case 5:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB6CE, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EarsW"] = _sizeValue;
                     break;
                 case 6:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x2844, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EarsD"] = _sizeValue;
                     break;
                 case 7:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xED30, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EarsL"] = _sizeValue;
                     break;
                 case 8:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8B2B, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeLidH"] = _sizeValue;
                     break;
                 case 9:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1B6B, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeLidW"] = _sizeValue;
                     break;
                 case 10:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEE44, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeD"] = _sizeValue;
                     break;
                 case 11:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xD266, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeAng"] = _sizeValue;
                     break;
                 case 12:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xA54E, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeDis"] = _sizeValue;
                     break;
                 case 13:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xDDFB, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["EyeH"] = _sizeValue;
                     break;
                 case 14:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6E7F, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["NoseW"] = _sizeValue;
                     break;
                 case 15:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3471, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["NoseS"] = _sizeValue;
                     break;
                 case 16:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x03F5, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["NoseH"] = _sizeValue;
                     break;
                 case 17:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x34B1, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["NoseAng"] = _sizeValue;
                     break;
                 case 18:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF156, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["NoseC"] = _sizeValue;
                     break;
                 case 19:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x561E, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["NoseDis"] = _sizeValue;
                     break;
                 case 20:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x6A0B, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["CheekBonesH"] = _sizeValue;
                     break;
                 case 21:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xABCF, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["CheekBonesW"] = _sizeValue;
                     break;
                 case 22:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x358D, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["CheekBonesD"] = _sizeValue;
                     break;
                 case 23:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xF065, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["MouthW"] = _sizeValue;
                     break;
                 case 24:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xAA69, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["MouthD"] = _sizeValue;
                     break;
                 case 25:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x7AC3, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["MouthX"] = _sizeValue;
                     break;
                 case 26:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x410D, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["MouthY"] = _sizeValue;
                     break;
                 case 27:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1A00, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["ULiphH"] = _sizeValue;
                     break;
                 case 28:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x91C1, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["ULiphW"] = _sizeValue;
                     break;
                 case 29:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC375, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["ULiphD"] = _sizeValue;
                     break;
                 case 30:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xBB4D, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["LLiphH"] = _sizeValue;
                     break;
                 case 31:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xB0B0, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["LLiphW"] = _sizeValue;
                     break;
                 case 32:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x5D16, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["LLiphD"] = _sizeValue;
                     break;
                 case 33:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x8D0A, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["JawH"] = _sizeValue;
                     break;
                 case 34:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xEBAE, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["JawW"] = _sizeValue;
                     break;
                 case 35:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x1DF6, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["JawD"] = _sizeValue;
                     break;
                 case 36:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0x3C0F, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["ChinH"] = _sizeValue;
                     break;
                 case 37:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xC3B2, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["ChinW"] = _sizeValue;
                     break;
                 case 38:
                     Function.Call((Hash)0x5653AB26C82938CF, pPID, 0xE323, _sizeValue);
-                    Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
                     skinPlayer["ChinD"] = _sizeValue;
                     break;
             }
+            Utilities.UpdatePedVariation(Cache.PlayerPedId);
         }
 
         public static async Task CloseSecureMenu()
@@ -858,6 +819,8 @@ namespace VorpCharacter.Script
             /*
              * Necesitan un radom Outfit ya que no se por que no salen si no
              */
+            API.SetPedRandomComponentVariation(PedFemale, 1);
+            API.SetPedRandomComponentVariation(PedMale, 1);
             Function.Call((Hash)0x283978A15512B2FE, PedFemale, true);
             Function.Call((Hash)0x283978A15512B2FE, PedMale, true);
             /*
@@ -873,6 +836,7 @@ namespace VorpCharacter.Script
 
         }
 
+        // Char Creation - Photo booth
         private async void CreationSexPed(string model, int camedit)
         {
             model_selected = model;
@@ -901,16 +865,22 @@ namespace VorpCharacter.Script
             }
             await Delay(200);
             int pID = API.PlayerId();
-            int pPedID = API.PlayerPedId();
+            int pPedID = Cache.PlayerPedId;
             Menus.MainMenu.GetMenu();
             Miscellanea.TeleportToCoords(-558.3258f, -3781.111f, 237.60f, 93.2f);
             API.FreezeEntityPosition(pPedID, true);
             uint model_hash = (uint)API.GetHashKey(model);
             await Utilities.RequestModel(model_hash);
-            Utilities.SetPlayerModel(model_hash);
+            await Utilities.SetPlayerModel(model_hash);
+
+            
+
             API.RenderScriptCams(false, true, 3000, true, true, 0);
             await Delay(2500);
-            ApplyDefaultSkinSettings(API.PlayerPedId());
+            ApplyDefaultSkinSettings(Cache.PlayerPedId);
+
+            API.SetPedRandomComponentVariation(Cache.PlayerPedId, 1);
+
             API.SetCamActive(Camera_Editor, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
             API.DeletePed(ref PedFemale);
