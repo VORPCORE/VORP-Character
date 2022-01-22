@@ -715,40 +715,7 @@ namespace VorpCharacter.Script
             TriggerEvent("vorp:TipBottom", Common.GetTranslation("TipFinal"), 15000);
         }
 
-        public static async void ApplyDefaultSkinSettings(int pedHandle)
-        {
-            Utilities.SetPedOutfitPreset(pedHandle, 0);
-
-            while (!Utilities.IsPedReadyToRender(pedHandle))
-            {
-                await Delay(0);
-            }
-
-            Function.Call((Hash)0x0BFA1BD465CDFEFD, pedHandle);
-
-            uint compEyes = SkinsUtils.EYES_MALE.ElementAt(0);
-            uint compBody = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Body[0]}", 16);
-            uint compHead = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Heads[0]}", 16);
-            uint compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Legs[0]}", 16);
-
-            if (!IsPedMale(pedHandle))
-            {
-                compEyes = SkinsUtils.EYES_FEMALE.ElementAt(0);
-                compBody = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Body[0]}", 16);
-                compHead = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Heads[0]}", 16);
-                compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Legs[0]}", 16);
-            }
-
-            await Utilities.ApplyShopItemToPed(pedHandle, compHead);
-            await Utilities.ApplyShopItemToPed(pedHandle, compEyes);
-            await Utilities.ApplyShopItemToPed(pedHandle, compBody);
-            await Utilities.ApplyShopItemToPed(pedHandle, compLegs);
-
-            Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
-            Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
-            Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
-            Utilities.UpdatePedVariation(pedHandle);
-        }
+        
 
         private static async void StopCreation()
         {
@@ -829,8 +796,8 @@ namespace VorpCharacter.Script
             API.FreezeEntityPosition(PedFemale, true);
             API.FreezeEntityPosition(PedMale, true);
 
-            ApplyDefaultSkinSettings(PedFemale);
-            ApplyDefaultSkinSettings(PedMale);
+            LoadPlayer.ApplyDefaultSkinSettings(PedFemale);
+            LoadPlayer.ApplyDefaultSkinSettings(PedMale);
 
             TriggerEvent("vorp:setInstancePlayer", true);
 
@@ -878,7 +845,7 @@ namespace VorpCharacter.Script
 
             API.RenderScriptCams(false, true, 3000, true, true, 0);
             await Delay(2500);
-            ApplyDefaultSkinSettings(Cache.PlayerPedId);
+            LoadPlayer.ApplyDefaultSkinSettings(Cache.PlayerPedId);
 
             API.SetPedRandomComponentVariation(Cache.PlayerPedId, 1);
 
@@ -931,7 +898,7 @@ namespace VorpCharacter.Script
                     API.SetCamActive(Camera_Legs, false);
                     API.SetCamActive(Camera_Editor, false);
                     API.RenderScriptCams(true, true, 200, true, true, 0);
-                    ApplyDefaultSkinSettings(API.PlayerPedId());
+                    LoadPlayer.ApplyDefaultSkinSettings(API.PlayerPedId());
                     break;
             }
         }

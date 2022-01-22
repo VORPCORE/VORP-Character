@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
 using VorpCharacter.Enums;
@@ -116,6 +117,41 @@ namespace VorpCharacter.Script
             await SetupCharacter(true, skin, cloths);
         }
 
+        public static async void ApplyDefaultSkinSettings(int pedHandle)
+        {
+            Utilities.SetPedOutfitPreset(pedHandle, 0);
+
+            while (!Utilities.IsPedReadyToRender(pedHandle))
+            {
+                await Delay(0);
+            }
+
+            Function.Call((Hash)0x0BFA1BD465CDFEFD, pedHandle);
+
+            uint compEyes = SkinsUtils.EYES_MALE.ElementAt(0);
+            uint compBody = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Body[0]}", 16);
+            uint compHead = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Heads[0]}", 16);
+            uint compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Male[0].Legs[0]}", 16);
+
+            if (!IsPedMale(pedHandle))
+            {
+                compEyes = SkinsUtils.EYES_FEMALE.ElementAt(0);
+                compBody = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Body[0]}", 16);
+                compHead = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Heads[0]}", 16);
+                compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Legs[0]}", 16);
+            }
+
+            await Utilities.ApplyShopItemToPed(pedHandle, compHead);
+            await Utilities.ApplyShopItemToPed(pedHandle, compEyes);
+            await Utilities.ApplyShopItemToPed(pedHandle, compBody);
+            await Utilities.ApplyShopItemToPed(pedHandle, compLegs);
+
+            Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
+            Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
+            Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
+            Utilities.UpdatePedVariation(pedHandle);
+        }
+
         public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, bool doFades = false, int delay = 0, bool newChaarcter = false)
         {
             try
@@ -199,7 +235,7 @@ namespace VorpCharacter.Script
                 CreateCharacter.texture_types["unk_arg"] = 0;
                 //End
                 await Delay(0);
-                CreateCharacter.ApplyDefaultSkinSettings(pedHandle);
+                ApplyDefaultSkinSettings(pedHandle);
                 //LoadSkin
                 await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["HeadType"]), delay: delay);
                 await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(skin["BodyType"]), delay: delay);
