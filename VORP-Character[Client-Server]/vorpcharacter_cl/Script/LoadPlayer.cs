@@ -116,56 +116,43 @@ namespace VorpCharacter.Script
             await SetupCharacter(true, skin, cloths);
         }
 
-        //[Tick]
-        //public async Task SetScale()
-        //{
-        //    await Delay(5000);
-        //    if (!cache_skin.ContainsKey("Scale"))
-        //    {
-        //        return;
-        //    }
-        //    else if (float.Parse(cache_skin["Scale"]) == 1.0f)
-        //    {
-        //        return;
-        //    }
-
-        //    await CreateCharacter.changeScale(float.Parse(cache_skin["Scale"]));
-        //}
-
-        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, bool doFades = false, int delay = 0)
+        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, bool doFades = false, int delay = 0, bool newChaarcter = false)
         {
             try
             {
                 if (IsCurrentlyRunningSetup) return -1;
                 IsCurrentlyRunningSetup = true;
 
-                // handle a weird issue where things are sent through more than once
-                // Need to handle when being send from creator or changing character
                 if (skin.Count > 0)
                     API.SetResourceKvp2("skin", JsonConvert.SerializeObject(skin));
 
                 if (clothes.Count > 0)
                     API.SetResourceKvp2("clothes", JsonConvert.SerializeObject(clothes));
 
-                if (skin.Count == 0)
+                if (!newChaarcter)
                 {
-                    string skinKvp = GetResourceKvpString2("skin");
-                    if (!string.IsNullOrEmpty(skinKvp))
+                    // handle a weird issue where things are sent through more than once
+                    // Need to handle when being send from creator or changing character
+                    if (skin.Count == 0)
                     {
-                        cache_skin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinKvp);
-                        Logger.Debug($"Loaded skin from resource store");
-                        skin = cache_skin;
+                        string skinKvp = GetResourceKvpString2("skin");
+                        if (!string.IsNullOrEmpty(skinKvp))
+                        {
+                            cache_skin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinKvp);
+                            Logger.Debug($"Loaded skin from resource store");
+                            skin = cache_skin;
+                        }
                     }
-                }
 
-                if (clothes.Count == 0)
-                {
-                    string clothesKvp = GetResourceKvpString2("clothes");
-                    if (!string.IsNullOrEmpty(clothesKvp))
+                    if (clothes.Count == 0)
                     {
-                        cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, uint>>(clothesKvp);
-                        Logger.Debug($"Loaded clothes from resource store");
-                        clothes = cache_cloths;
+                        string clothesKvp = GetResourceKvpString2("clothes");
+                        if (!string.IsNullOrEmpty(clothesKvp))
+                        {
+                            cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, uint>>(clothesKvp);
+                            Logger.Debug($"Loaded clothes from resource store");
+                            clothes = cache_cloths;
+                        }
                     }
                 }
 
