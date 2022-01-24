@@ -778,20 +778,22 @@ namespace VorpCharacter.Script
             PedFemale = API.CreatePed((uint)hash_f, -558.43f, -3776.65f, 237.7f, 93.2f, false, true, true, true);
             PedMale = API.CreatePed((uint)hash_m, -558.52f, -3775.6f, 237.7f, 93.2f, false, true, true, true);
             /*
-             * Necesitan un radom Outfit ya que no se por que no salen si no
+             * Freeze peds in position
+             */
+            API.FreezeEntityPosition(PedFemale, true);
+            API.FreezeEntityPosition(PedMale, true);
+            SetEntityInvincible(PedFemale, true);
+            SetEntityInvincible(PedMale, true);
+
+            LoadPlayer.ApplyDefaultSkinSettings(PedFemale);
+            LoadPlayer.ApplyDefaultSkinSettings(PedMale);
+            /*
+             * Set random components, Native doesn't work as expected
              */
             API.SetPedRandomComponentVariation(PedFemale, 1);
             API.SetPedRandomComponentVariation(PedMale, 1);
             Function.Call((Hash)0x283978A15512B2FE, PedFemale, true);
             Function.Call((Hash)0x283978A15512B2FE, PedMale, true);
-            /*
-             * Congelamos las Peds
-             */
-            API.FreezeEntityPosition(PedFemale, true);
-            API.FreezeEntityPosition(PedMale, true);
-
-            LoadPlayer.ApplyDefaultSkinSettings(PedFemale);
-            LoadPlayer.ApplyDefaultSkinSettings(PedMale);
 
             TriggerEvent("vorp:setInstancePlayer", true);
 
