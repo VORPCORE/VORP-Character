@@ -142,7 +142,7 @@ namespace VorpCharacter.Script
             API.NetworkClockTimeOverride_2(20, 0, 0, 0, true, false);
             API.FreezeEntityPosition(Cache.PlayerPedId, true);
 
-            API.SetEntityCoords(API.PlayerPedId(), 1687.03f, 1507.06f, 145.60f, false, false, false, false);
+            API.SetEntityCoords(Cache.PlayerPedId, 1687.03f, 1507.06f, 145.60f, false, false, false, false);
 
             myChars = myCharacters;
 

@@ -104,7 +104,7 @@ namespace VorpCharacter.Script
         public static async Task changeOverlays()
         {
 
-            int ped = API.PlayerPedId();
+            int ped = Cache.PlayerPedId;
             if (textureId != -1)
             {
                 Function.Call((Hash)0xB63B9178D0F58D82, textureId);
@@ -293,15 +293,9 @@ namespace VorpCharacter.Script
 
         //end
 
-        public static async Task changeScale(float scale)
-        {
-            skinPlayer["Scale"] = scale;
-            Function.Call((Hash)0x25ACFC650B65C538, API.PlayerPedId(), scale);
-        }
-
         public static void SetPlayerComponent(int _newIndex, uint category, string idlist, List<uint> male_components, List<uint> female_components)
         {
-            int pPID = API.PlayerPedId();
+            int pPID = Cache.PlayerPedId;
             if (model_selected == "mp_male")
             {
                 if (_newIndex == 0)
@@ -349,13 +343,13 @@ namespace VorpCharacter.Script
                 }
             }
             //Fix Hair
-            Function.Call((Hash)0xD710A5007C2AC539, API.PlayerPedId(), 0x864B03AE, 0);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["Hair"].ToString()), true, true, true);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["Beard"].ToString()), true, true, true);
+            Function.Call((Hash)0xD710A5007C2AC539, Cache.PlayerPedId, 0x864B03AE, 0);
+            Function.Call((Hash)0xD3A7B003ED343FD9, Cache.PlayerPedId, ConvertValue(skinPlayer["Hair"].ToString()), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, Cache.PlayerPedId, ConvertValue(skinPlayer["Beard"].ToString()), true, true, true);
 
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["HeadType"].ToString()), true, true, true);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["BodyType"].ToString()), true, true, true);
-            Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skinPlayer["LegsType"].ToString()), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, Cache.PlayerPedId, ConvertValue(skinPlayer["HeadType"].ToString()), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, Cache.PlayerPedId, ConvertValue(skinPlayer["BodyType"].ToString()), true, true, true);
+            Function.Call((Hash)0xD3A7B003ED343FD9, Cache.PlayerPedId, ConvertValue(skinPlayer["LegsType"].ToString()), true, true, true);
 
             //end
             Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
@@ -702,8 +696,8 @@ namespace VorpCharacter.Script
             float heading = position.H;
 
             API.DoScreenFadeOut(500);
-            API.SetEntityCoords(API.PlayerPedId(), coords.X, coords.Y, coords.Z, true, true, true, false);
-            API.SetEntityHeading(API.PlayerPedId(), heading);
+            API.SetEntityCoords(Cache.PlayerPedId, coords.X, coords.Y, coords.Z, true, true, true, false);
+            API.SetEntityHeading(Cache.PlayerPedId, heading);
             await Delay(3000);
 
             TriggerEvent("vorp:setInstancePlayer", false);
@@ -764,7 +758,7 @@ namespace VorpCharacter.Script
             API.SetCamActive(Camera_Back, false);
             API.DestroyCam(Camera_Back, true);
             API.RenderScriptCams(false, true, 5000, true, true, 0);
-            API.FreezeEntityPosition(API.PlayerPedId(), false);
+            API.FreezeEntityPosition(Cache.PlayerPedId, false);
         }
 
         private static async Task CreationSelectPeds()
@@ -898,7 +892,7 @@ namespace VorpCharacter.Script
                     API.SetCamActive(Camera_Legs, false);
                     API.SetCamActive(Camera_Editor, false);
                     API.RenderScriptCams(true, true, 200, true, true, 0);
-                    LoadPlayer.ApplyDefaultSkinSettings(API.PlayerPedId());
+                    LoadPlayer.ApplyDefaultSkinSettings(Cache.PlayerPedId);
                     break;
             }
         }
@@ -931,13 +925,13 @@ namespace VorpCharacter.Script
                 if (API.IsControlPressed(0, (uint)eControl.MoveLeftOnly))
                 {
                     DressHeading += 1.0f;
-                    API.SetEntityHeading(API.PlayerPedId(), DressHeading);
+                    API.SetEntityHeading(Cache.PlayerPedId, DressHeading);
                     await Delay(0);
                 }
                 if (API.IsControlPressed(0, (uint)eControl.MoveRightOnly))
                 {
                     DressHeading -= 1.0f;
-                    API.SetEntityHeading(API.PlayerPedId(), DressHeading);
+                    API.SetEntityHeading(Cache.PlayerPedId, DressHeading);
                     await Delay(0);
                 }
             }
@@ -1014,8 +1008,8 @@ namespace VorpCharacter.Script
             if (isInCharCreation) //Fix Run Ped
             {
                 await Utils.Miscellanea.DrawTxt(Common.GetTranslation("PressGuide"), 0.5f, 0.9f, 0.7f, 0.7f, 255, 255, 255, 255, true, true);
-                API.FreezeEntityPosition(API.PlayerPedId(), true);
-                API.ClearPedTasks(API.PlayerPedId(), 1, 1);
+                API.FreezeEntityPosition(Cache.PlayerPedId, true);
+                API.ClearPedTasks(Cache.PlayerPedId, 1, 1);
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);
             }
 
