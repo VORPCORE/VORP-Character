@@ -1,7 +1,9 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using VorpCharacter.Diagnostics;
 using VorpCharacter.Enums;
 using static CitizenFX.Core.Native.API;
 
@@ -57,6 +59,25 @@ namespace VorpCharacter.Utils
         public static void SetPedBodyComponent(int pedHandle, uint hash)
         {
             Function.Call((Hash)0x1902C4CFCC5BE57C, pedHandle, hash);
+        }
+
+        public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, Dictionary<string, string> skin, string key, bool updateVariation = false, int delay = MAX_COMPONENT_CHANGE_DELAY)
+        {
+            if (!skin.TryGetValue(key, out string keyValue))
+            {
+                Logger.Error($"SetPedFaceFeature: Skin model is missing key '{key}'.");
+                return;
+            }
+
+            if (!float.TryParse(keyValue, out float value))
+            {
+                Logger.Error($"SetPedFaceFeature: Skin model, key '{key}' is not a valid float.");
+                return;
+            }
+
+            Function.Call((Hash)0x5653AB26C82938CF, pedHandle, (uint)pedFaceFeature, value);
+            if (updateVariation) UpdatePedVariation(pedHandle);
+            await BaseScript.Delay(delay);
         }
 
         public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, float value, bool updateVariation = false, int delay = MAX_COMPONENT_CHANGE_DELAY)
