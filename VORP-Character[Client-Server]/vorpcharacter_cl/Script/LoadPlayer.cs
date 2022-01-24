@@ -366,6 +366,8 @@ namespace VorpCharacter.Script
         private static void SetPedFaceTextures(Dictionary<string, string> skin)
         {
             // if you're looking at this, and saying "WTF is this..." welcome to to supporting a legacy model before refactoring to classes, yes, I don't like this either!
+            // also can see that another resource has added this information into another column, so which one is the correct one?! what a mess.
+            // Character system is better than it was, for what it was, but, for it to add the new data, the 3 columns need to become one class object.
 
             string strEyebrowVisibility = GetKeyValue(skin, "eyebrows_visibility");
             string strEyebrowTxId = GetKeyValue(skin, "eyebrows_tx_id");
