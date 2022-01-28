@@ -1,6 +1,8 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using VorpCharacter.Diagnostics;
 
 namespace VorpCharacter.Utils
 {
@@ -9,6 +11,7 @@ namespace VorpCharacter.Utils
         public SkinsUtils()
         {
             EventHandlers["vorpcharacter:getSkinComps"] += new Action<string, dynamic>(GetSkinUtils);
+            Logger.Info(JsonConvert.SerializeObject(sk));
         }
 
         public void GetSkinUtils(string key, dynamic cb)
@@ -22,8 +25,6 @@ namespace VorpCharacter.Utils
                 cb.Invoke(null);
             }
         }
-
-
 
         public static List<uint> HATS_MALE = new List<uint>()
         {

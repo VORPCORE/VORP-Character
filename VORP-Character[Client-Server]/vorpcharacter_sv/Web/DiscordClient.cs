@@ -77,12 +77,16 @@ namespace VorpCharacter.Web
                 DiscordBotKey = serverConfig.DiscordConfig.Key;
                 serverConfig.DiscordConfig.WebHooks.ForEach(x =>
                 {
-                    Webhooks.Add(x.Name, x);
+                    if (!Webhooks.ContainsKey(x.Name))
+                        Webhooks.Add(x.Name, x);
+
+                    if (Webhooks.ContainsKey(x.Name))
+                        Webhooks[x.Name] = x;
                 });
             }
             catch(Exception ex)
             {
-                Logger.Error($"Error when trying to load Server Configuration, please check server-config.json exists.");
+                Logger.Error(ex, $"Error when trying to load Server Configuration, please check server-config.json exists.");
             }
         }
 
