@@ -18,6 +18,9 @@ namespace VorpCharacter
         public ExportDictionary ExportRegistry => Exports;
         string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
 
+        public static object DiscordBotKey { get; internal set; }
+        public static object DiscordGuildId { get; internal set; }
+
         readonly CharacterApi _vorpCharacterAPI = new CharacterApi();
 
         public PluginManager()
