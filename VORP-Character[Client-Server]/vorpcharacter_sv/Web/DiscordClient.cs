@@ -1,15 +1,13 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Web.Discord.Entity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VorpCharacter.Models.Discord;
+using VorpCharacter.Diagnostics;
 using VorpCharacter.Models;
+using VorpCharacter.Web.Discord.Entity;
 
 namespace VorpCharacter.Web
 {
@@ -34,6 +32,7 @@ namespace VorpCharacter.Web
         public Dictionary<string, DiscordWebhook> Webhooks = new Dictionary<string, DiscordWebhook>();
         static long lastUpdate;
         static bool IsDelayRunnning = false;
+        public static string DiscordBotKey;
 
         private static Regex _compiledUnicodeRegex = new Regex(@"[^\u0000-\u007F]", RegexOptions.Compiled);
 
@@ -75,6 +74,7 @@ namespace VorpCharacter.Web
             try
             {
                 ServerConfig serverConfig = JsonConvert.DeserializeObject<ServerConfig>(Properties.Resources.server_config);
+                DiscordBotKey = serverConfig.DiscordConfig.Key;
                 serverConfig.DiscordConfig.WebHooks.ForEach(x =>
                 {
                     Webhooks.Add(x.Name, x);
@@ -84,22 +84,6 @@ namespace VorpCharacter.Web
             {
                 Logger.Error($"Error when trying to load Server Configuration, please check server-config.json exists.");
             }
-        }
-
-        public async Task<RequestResponse> DiscordWebsocket(string method, string url, string jsonData = "")
-        {
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("Content-Type", "application/json");
-            headers.Add("Authorization", $"Bot {PluginManager.DiscordBotKey}");
-            return await request.Http($"{url}", method, jsonData, headers);
-        }
-
-        public async Task<RequestResponse> DiscordRequest(string method, string endpoint, string jsonData = "")
-        {
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("Content-Type", "application/json");
-            headers.Add("Authorization", $"Bot {PluginManager.DiscordBotKey}");
-            return await request.Http($"https://discordapp.com/api/{endpoint}", method, jsonData, headers);
         }
 
         public async Task SendDiscordEmbededMessage(string webHookName, string name, string title, string description, DiscordColor discordColor)

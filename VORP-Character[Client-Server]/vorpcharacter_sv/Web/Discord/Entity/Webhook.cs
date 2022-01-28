@@ -31,14 +31,8 @@ namespace VorpCharacter.Web.Discord.Entity
         {
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("Content-Type", "application/json");
-
-            string discordBotKey = PluginManager.DiscordBotKey;
-
-            headers.Add("Authorization", $"Bot {discordBotKey}");
-
-            string jsonData = JsonConvert.SerializeObject(this);
-
-            await request.Http($"{Url}", "POST", jsonData, headers);
+            headers.Add("Authorization", $"Bot {DiscordClient.DiscordBotKey}");
+            await request.Http($"{Url}", "POST", JsonConvert.SerializeObject(this), headers);
         }
     }
 }

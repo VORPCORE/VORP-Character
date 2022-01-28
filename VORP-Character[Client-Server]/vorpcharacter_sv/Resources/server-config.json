@@ -1,5 +1,6 @@
 {
   "discord": {
+    "key": "discordBotKey",
     "webHooks": [
       {
         "name": "vorp_character",
