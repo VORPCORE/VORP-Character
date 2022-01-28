@@ -20,7 +20,7 @@ namespace VorpCharacter
         string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
 
         readonly CharacterApi VorpCharacterAPI = new CharacterApi();
-        readonly DiscordClient DiscordClient = new();
+        readonly public DiscordClient DiscordClient = new();
 
         public PluginManager()
         {

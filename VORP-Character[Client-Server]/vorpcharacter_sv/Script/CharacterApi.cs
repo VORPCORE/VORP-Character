@@ -112,7 +112,9 @@ namespace VorpCharacter.Script
         private void DeleteCharacter([FromSource] Player player, int charid)
         {
             dynamic CoreUser = player.GetCoreUser();
+            if (CoreUser == null) return;
             CoreUser.removeCharacter(charid);
+            PluginManager.Instance.DiscordClient.SendDiscordEmbededMessage("vorp_character", $"VORP Character Sentry", $"Deleted Character", $"User: {player.Name}", Web.DiscordColor.Red);
         }
 
         private async void SaveNewCharacter([FromSource] Player player, dynamic skin, dynamic components, string name)
@@ -142,6 +144,8 @@ namespace VorpCharacter.Script
                 await Delay(2000);
                 player.TriggerEvent("vorp_NewCharacter");
                 TriggerEvent("vorp_NewCharacter", int.Parse(player.Handle));
+
+                PluginManager.Instance.DiscordClient.SendDiscordEmbededMessage("vorp_character", $"VORP Character Sentry", $"Created Character", $"User: {player.Name}", Web.DiscordColor.Green);
             }
             catch (Exception e)
             {
