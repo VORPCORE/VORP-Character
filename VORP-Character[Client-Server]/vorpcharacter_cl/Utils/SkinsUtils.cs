@@ -11,7 +11,6 @@ namespace VorpCharacter.Utils
         public SkinsUtils()
         {
             EventHandlers["vorpcharacter:getSkinComps"] += new Action<string, dynamic>(GetSkinUtils);
-            Logger.Info(JsonConvert.SerializeObject(sk));
         }
 
         public void GetSkinUtils(string key, dynamic cb)
