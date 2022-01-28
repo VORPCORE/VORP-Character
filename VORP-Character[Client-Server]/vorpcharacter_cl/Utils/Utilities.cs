@@ -24,6 +24,7 @@ namespace VorpCharacter.Utils
             return Function.Call<int>((Hash)0xC6258F41D86676E0, pedHandle, (int)attribute);
         }
 
+        public static bool IsMetapedUsingComponent(int pedHandle, ePedComponent component) => IsMetapedUsingComponent(pedHandle, (uint)component);
         public static bool IsMetapedUsingComponent(int pedHandle, uint component)
         {
             return Function.Call<bool>((Hash)0xFB4891BD7578CDC1, pedHandle, component);

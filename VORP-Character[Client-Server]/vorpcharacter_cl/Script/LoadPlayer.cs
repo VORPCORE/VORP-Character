@@ -311,6 +311,11 @@ namespace VorpCharacter.Script
             string headType = GetKeyValue(skin, "HeadType");
             string bodyType = GetKeyValue(skin, "BodyType");
             string legsType = GetKeyValue(skin, "LegsType");
+
+            Logger.Debug(headType);
+            Logger.Debug(bodyType);
+            Logger.Debug(legsType);
+
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(headType), delay: delay);
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(bodyType), delay: delay);
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(legsType), delay: delay);
@@ -489,14 +494,11 @@ namespace VorpCharacter.Script
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Belt, "Belt", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
-            if (clothes.ContainsKey("skirt"))
-            {
-                if (clothes["Skirt"] != -1) // Prevents both Pant & Skirt in female ped.
-                {
-                    SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
-                }
-            }
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
+            
+            if (!Utilities.IsMetapedUsingComponent(pedHandle, ePedComponent.Pant))
+                SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
+
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "bow", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "armor", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "teeth", clothes);
@@ -539,18 +541,12 @@ namespace VorpCharacter.Script
         {
             if (!clothes.ContainsKey(component)) return;
 
-            if (isMale)
-            {
-                if (clothes[component] != -1)
-                {
-                    Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false);
-                }
-            }
-            else
+            Logger.Debug($"{component} : {clothes[component]}");
+
+            if (clothes[component] != -1)
             {
                 Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, true);
+                await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false);
             }
         }
 
