@@ -312,10 +312,6 @@ namespace VorpCharacter.Script
             string bodyType = GetKeyValue(skin, "BodyType");
             string legsType = GetKeyValue(skin, "LegsType");
 
-            Logger.Debug(headType);
-            Logger.Debug(bodyType);
-            Logger.Debug(legsType);
-
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(headType), delay: delay);
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(bodyType), delay: delay);
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(legsType), delay: delay);
@@ -541,7 +537,7 @@ namespace VorpCharacter.Script
         {
             if (!clothes.ContainsKey(component)) return;
 
-            Logger.Debug($"{component} : {clothes[component]}");
+            // Logger.Debug($"{component} : {clothes[component]}");
 
             if (clothes[component] != -1)
             {
