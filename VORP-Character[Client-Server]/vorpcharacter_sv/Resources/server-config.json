@@ -1,0 +1,11 @@
+{
+  "discord": {
+    "webHooks": [
+      {
+        "name": "vorp_character",
+        "avatar": "myAvatarUrl",
+        "url": "myWebhookUrl"
+      }
+    ]
+  }
+}

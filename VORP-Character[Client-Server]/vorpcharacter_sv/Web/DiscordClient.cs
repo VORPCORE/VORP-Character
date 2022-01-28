@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VorpCharacter.Models.Discord;
+using VorpCharacter.Models;
 
 namespace VorpCharacter.Web
 {
@@ -30,8 +31,8 @@ namespace VorpCharacter.Web
     public class DiscordClient : BaseScript
     {
         static Request request = new Request();
-        public Dictionary<WebhookChannel, DiscordWebhook> Webhooks = new Dictionary<WebhookChannel, DiscordWebhook>();
-        static DateTime lastUpdate = DateTime.Now;
+        public Dictionary<string, DiscordWebhook> Webhooks = new Dictionary<string, DiscordWebhook>();
+        static long lastUpdate;
         static bool IsDelayRunnning = false;
 
         private static Regex _compiledUnicodeRegex = new Regex(@"[^\u0000-\u007F]", RegexOptions.Compiled);
@@ -49,16 +50,14 @@ namespace VorpCharacter.Web
         [Tick]
         private async Task OnDiscordWebhookUpdate()
         {
-            if (DateTime.Now.Subtract(lastUpdate).TotalSeconds > 120)
+            if ((API.GetGameTimer() - lastUpdate) > 120000)
             {
-                // update every 2 minutes
-                lastUpdate = DateTime.Now;
+                lastUpdate = API.GetGameTimer();
                 UpdateWebhooks();
             }
 
             while (Webhooks.Count == 0)
             {
-                // init
                 UpdateWebhooks();
                 await BaseScript.Delay(1000);
                 if (Webhooks.Count == 0)
@@ -73,7 +72,18 @@ namespace VorpCharacter.Web
 
         private async Task UpdateWebhooks()
         {
-
+            try
+            {
+                ServerConfig serverConfig = JsonConvert.DeserializeObject<ServerConfig>(Properties.Resources.server_config);
+                serverConfig.DiscordConfig.WebHooks.ForEach(x =>
+                {
+                    Webhooks.Add(x.Name, x);
+                });
+            }
+            catch(Exception ex)
+            {
+                Logger.Error($"Error when trying to load Server Configuration, please check server-config.json exists.");
+            }
         }
 
         public async Task<RequestResponse> DiscordWebsocket(string method, string url, string jsonData = "")
@@ -92,25 +102,13 @@ namespace VorpCharacter.Web
             return await request.Http($"https://discordapp.com/api/{endpoint}", method, jsonData, headers);
         }
 
-        public async Task<string> Avatar(ulong discordId)
-        {
-            string url = $"https://api.discord.wf/v2/users/{discordId}/avatar";
-            RequestResponse requestResponse = await request.Http(url);
-            if (requestResponse.status == System.Net.HttpStatusCode.OK)
-            {
-                DiscordAvatar avatar = JsonConvert.DeserializeObject<DiscordAvatar>(requestResponse.content);
-                return avatar.Avatarurl;
-            }
-            return string.Empty;
-        }
-
-        public async Task SendDiscordEmbededMessage(WebhookChannel webhookChannel, string name, string title, string description, DiscordColor discordColor)
+        public async Task SendDiscordEmbededMessage(string webHookName, string name, string title, string description, DiscordColor discordColor)
         {
             try
             {
-                if (!Webhooks.ContainsKey(webhookChannel))
+                if (!Webhooks.ContainsKey(webHookName))
                 {
-                    Logger.Warn($"SendDiscordEmbededMessage() -> Discord {webhookChannel} Webhook Missing");
+                    Logger.Warn($"SendDiscordEmbededMessage() -> Discord '{webHookName}' Webhook Missing from the config.");
                     return;
                 }
 
@@ -118,7 +116,7 @@ namespace VorpCharacter.Web
 
                 string cleanName = StripUnicodeCharactersFromString(name);
 
-                DiscordWebhook discordWebhook = Webhooks[webhookChannel];
+                DiscordWebhook discordWebhook = Webhooks[webHookName];
 
                 Webhook webhook = new Webhook(discordWebhook.Url);
 
@@ -136,35 +134,11 @@ namespace VorpCharacter.Web
                 await BaseScript.Delay(0);
                 await webhook.Send();
 
-                await Task.FromResult(0);
+                await BaseScript.Delay(0);
             }
             catch (Exception ex)
             {
                 Logger.Error($"SendDiscordEmbededMessage() -> {ex.Message}");
-            }
-        }
-
-        public async Task SendDiscordSimpleMessage(WebhookChannel webhookChannel, string username, string name, string message)
-        {
-            try
-            {
-                DiscordWebhook discordWebhook = Webhooks[webhookChannel];
-
-                Webhook webhook = new Webhook(discordWebhook.Url);
-
-                webhook.AvatarUrl = discordWebhook.Avatar;
-                webhook.Content = StripUnicodeCharactersFromString($"{name} > {message.Trim('"')}");
-                webhook.Username = StripUnicodeCharactersFromString(username);
-
-                await BaseScript.Delay(0);
-
-                await webhook.Send();
-
-                await Task.FromResult(0);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"SendDiscordSimpleMessage() -> {ex.Message}");
             }
         }
     }
