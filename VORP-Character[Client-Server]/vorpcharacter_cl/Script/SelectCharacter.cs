@@ -23,6 +23,7 @@ namespace VorpCharacter.Script
         private static int mainCamera = -1;
         dynamic myChars = null;
         private static bool isInCharacterSelector = false;
+        private static bool isDeletionAttempt = false;
         private int tagId = 0;
         private static bool swappingChar = true;
 
@@ -240,7 +241,7 @@ namespace VorpCharacter.Script
         {
             while (isInCharacterSelector)
             {
-                if (API.IsControlJustPressed(0, 0xDEB34313) && !swappingChar)
+                if (API.IsControlJustPressed(0, (uint)eControl.FrontendRight) && !swappingChar)
                 {
                     if (selectedChar == myChars.Count - 1)
                     {
@@ -253,7 +254,7 @@ namespace VorpCharacter.Script
                     await StartSwapCharacter();
                 }
 
-                if (API.IsControlJustPressed(0, 0xA65EBAB4) && !swappingChar)
+                if (API.IsControlJustPressed(0, (uint)eControl.FrontendLeft) && !swappingChar)
                 {
                     if (selectedChar == 0)
                     {
@@ -266,7 +267,7 @@ namespace VorpCharacter.Script
                     await StartSwapCharacter();
                 }
 
-                if (API.IsControlJustPressed(0, 0xC7B5340A) && !swappingChar)
+                if (API.IsControlJustPressed(0, (uint)eControl.FrontendAccept) && !swappingChar)
                 {
                     CharSelect();
                     isInCharacterSelector = false;
@@ -295,41 +296,75 @@ namespace VorpCharacter.Script
 
                 if (API.PromptHasHoldModeCompleted(DeletePrompt) && !swappingChar)
                 {
-                    TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
-                    if (myChars.Count <= 1)
-                    {
-                        PluginManager._createCharacter.StartCreationOfCharacter();
-                        API.PromptSetEnabled(DeletePrompt, 0);
-                        API.PromptSetVisible(DeletePrompt, 0);
-                        API.PromptSetEnabled(CreatePrompt, 0);
-                        API.PromptSetVisible(CreatePrompt, 0);
-                        API.DeletePed(ref pedHandle);
-                        isInCharacterSelector = false;
-                        return;
-                    }
-                    else
-                    {
-                        myChars.RemoveAt(selectedChar);
-
-                        Function.Call((Hash)0x7D6F58F69DA92530, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false, true);
-
-                        if (selectedChar == 0)
-                        {
-                            selectedChar = myChars.Count - 1;
-                        }
-                        else
-                        {
-                            selectedChar -= 1;
-                        }
-
-                        await StartSwapCharacter();
-                    }
+                    isDeletionAttempt = true;
+                    isInCharacterSelector = false;
                 }
 
                 await Delay(0);
             }
 
+            if (isDeletionAttempt)
+            {
+                TriggerEvent("vorpinputs:getInput", Common.GetTranslation("ButtonSupprName"), Common.GetTranslation("SUPPRConfirmMsg"), new Action<dynamic>(async (cb) =>
+                {
+                    string result = cb;
+                    await Delay(1000);
+
+                    if (!result.Equals("close"))
+                    {
+                        if (result.Equals(Common.GetTranslation("SUPPRCode")))
+                        {
+                            TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
+                            if (myChars.Count <= 1)
+                            {
+                                TriggerEvent("vorpcharacter:createCharacter");
+                                API.PromptSetEnabled(DeletePrompt, 0);
+                                API.PromptSetVisible(DeletePrompt, 0);
+                                API.PromptSetEnabled(CreatePrompt, 0);
+                                API.PromptSetVisible(CreatePrompt, 0);
+                                API.DeletePed(ref pedHandle);
+                                isInCharacterSelector = false;
+                            }
+                            else
+                            {
+                                myChars.RemoveAt(selectedChar);
+
+                                Function.Call(Hash.ADD_EXPLOSION, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false, true);
+
+                                if (selectedChar == 0)
+                                {
+                                    selectedChar = myChars.Count - 1;
+                                }
+                                else
+                                {
+                                    selectedChar -= 1;
+                                }
+
+                                await StartSwapCharacter();
+                            }
+
+                        }
+                        else
+                        {
+                            RegisterPrompts();
+                            isDeletionAttempt = false;
+                            isInCharacterSelector = true;
+                            Controller();
+                        }
+
+                    }
+                    else
+                    {
+                        RegisterPrompts();
+                        isDeletionAttempt = false;
+                        isInCharacterSelector = true;
+                        Controller();
+                    }
+
+                }));
+            }
         }
+
 
         public async Task LoadNpcComps(string skin_json, string cloths_json)
         {
