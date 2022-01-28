@@ -350,9 +350,6 @@ namespace VorpCharacter.Script
                 clothes[s.Key] = LoadPlayer.ConvertValue(s.Value.ToString());
             }
 
-            Logger.Debug($"{JsonConvert.SerializeObject(skin)}");
-            Logger.Debug($"{JsonConvert.SerializeObject(clothes)}");
-
             pedHandle = await PluginManager._loadPlayer.SetupCharacter(false, skin, clothes, delay: 10, newChaarcter: true);
         }
     }

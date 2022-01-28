@@ -175,7 +175,6 @@ namespace VorpCharacter.Script
                         if (!string.IsNullOrEmpty(skinKvp))
                         {
                             cache_skin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinKvp);
-                            Logger.Debug($"Loaded skin from resource store");
                             skin = cache_skin;
                         }
                     }
@@ -186,15 +185,12 @@ namespace VorpCharacter.Script
                         if (!string.IsNullOrEmpty(clothesKvp))
                         {
                             cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, uint>>(clothesKvp);
-                            Logger.Debug($"Loaded clothes from resource store");
                             clothes = cache_cloths;
                         }
                     }
                 }
 
                 if (doFades) await Utilities.FadeOutScreen(1000);
-
-                Logger.Debug($"{JsonConvert.SerializeObject(skin)}");
 
                 if (!skin.ContainsKey("sex"))
                 {
