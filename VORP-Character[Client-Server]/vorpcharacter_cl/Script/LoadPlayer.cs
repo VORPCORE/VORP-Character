@@ -51,14 +51,18 @@ namespace VorpCharacter.Script
                 if (!string.IsNullOrEmpty(skin))
                 {
                     cache_skin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skin);
+#if DEVELOPMENT
                     Logger.Debug($"Loaded skin from resource store");
+#endif
                 }
 
 
                 if (!string.IsNullOrEmpty(clothes))
                 {
                     cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, uint>>(clothes);
+#if DEVELOPMENT
                     Logger.Debug($"Loaded clothes from resource store");
+#endif
                 }
 
                 await SetupCharacter(true, cache_skin, cache_cloths, true);
@@ -236,14 +240,14 @@ namespace VorpCharacter.Script
 
                 SetPedBodyComponents(skin, pedHandle);
 
-                Utilities.UpdatePedVariation(pedHandle);
+                await Utilities.UpdatePedVariation(pedHandle);
 
                 await BaseScript.Delay(100);
 
                 SetPedFaceTextures(skin);
-                SetPedComponents(clothes, pedHandle, isMale);
+                await SetPedComponents(clothes, pedHandle, isMale);
 
-                Utilities.UpdatePedVariation(pedHandle);
+                await Utilities.UpdatePedVariation(pedHandle);
 
                 await BaseScript.Delay(100);
                 // this has to be after SetPedFaceTextures, could be included inside SetPedFaceTextures?!
@@ -303,7 +307,7 @@ namespace VorpCharacter.Script
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(eyesValue));
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(beardValue));
             await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(hairValue));
-            Utilities.UpdatePedVariation(pedHandle);
+            await Utilities.UpdatePedVariation(pedHandle);
         }
 
         private static async Task SetupPedBodyTypes(Dictionary<string, string> skin, int delay, int pedHandle)
@@ -468,45 +472,45 @@ namespace VorpCharacter.Script
             CreateCharacter.ToggleOverlayChange("shadows", iShadowsVisibility, iShadowsTxId, palette_id: iShadowsPaletteId, palette_color_primary: iShadowsColorPrimary);
         }
 
-        private static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle, bool isMale)
+        private async static Task SetPedComponents(Dictionary<string, uint> clothes, int pedHandle, bool isMale)
         {
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Hat, "Hat", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.EyeWear, "EyeWear", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Mask, "Mask", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckWear, "NeckWear", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Suspender, "Suspender", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Vest, "Vest", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Coat, "Coat", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatClosed, "CoatClosed", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Shirt, "Shirt", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckTies, "NeckTies", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Poncho, "Poncho", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloak, "Cloak", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Glove, "Glove", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.RingRh, "RingRh", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.RingLh, "RingLh", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Bracelet, "Bracelet", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Gunbelt, "Gunbelt", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Belt, "Belt", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Hat, "Hat", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.EyeWear, "EyeWear", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Mask, "Mask", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckWear, "NeckWear", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Suspender, "Suspender", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Vest, "Vest", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Coat, "Coat", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatClosed, "CoatClosed", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Shirt, "Shirt", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckTies, "NeckTies", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Poncho, "Poncho", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloak, "Cloak", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Glove, "Glove", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingRh, "RingRh", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingLh, "RingLh", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Bracelet, "Bracelet", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Gunbelt, "Gunbelt", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Belt, "Belt", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
             
             if (!Utilities.IsMetapedUsingComponent(pedHandle, ePedComponent.Pant))
-                SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
+                await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
 
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "bow", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "armor", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "teeth", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Chap, "Chap", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Boots, "Boots", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Spurs, "Spurs", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Spats, "Spats", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Gauntlets, "Gauntlets", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Loadouts, "Loadouts", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Accessories, "Accessories", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Satchels, "Satchels", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "bow", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "armor", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "teeth", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Chap, "Chap", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Boots, "Boots", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Spurs, "Spurs", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Spats, "Spats", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Gauntlets, "Gauntlets", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Loadouts, "Loadouts", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Accessories, "Accessories", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Satchels, "Satchels", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
         }
 
         private static string GetKeyValue(Dictionary<string, string> skin, string key)
@@ -533,19 +537,26 @@ namespace VorpCharacter.Script
         }
 
         // what does this do really?
-        public static async void SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
+        public static async Task SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
         {
             if (!clothes.ContainsKey(component)) return;
-
-            // Logger.Debug($"{component} : {clothes[component]}");
-
-            if (clothes[component] != -1)
+            
+            if (clothes[component] > 0)
             {
+                int attempts = 0;
                 while (!Utilities.IsMetapedUsingComponent(pedHandle, pedComponent))
                 {
                     Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false);
+                    await Delay(0);
+                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false, 10);
+
+                    if (attempts > 10) break; // we don't want to get stuck here
+                    attempts++;
                 }
+
+#if DEVELOPMENT
+                Logger.Debug($"{component} : {clothes[component]} : Using? {Utilities.IsMetapedUsingComponent(pedHandle, pedComponent)}");
+#endif
             }
         }
 
@@ -555,7 +566,9 @@ namespace VorpCharacter.Script
             bool loaded = Utilities.IsPedReadyToRender(Cache.PlayerPedId);
             if (!loaded)
             {
+#if DEVELOPMENT
                 Logger.Debug($"Ped is not ready to render");
+#endif
                 // maybe done because of some other delay?
                 await SetupCharacter(true, skin, clothes);
             }
