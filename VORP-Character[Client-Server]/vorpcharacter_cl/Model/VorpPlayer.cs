@@ -23,6 +23,6 @@ namespace VorpCharacter.Model
         // Core methods
         public static dynamic CoreUser => PluginManager.CORE.getUser(Handle);
         public static dynamic CoreUserCharacter => CoreUser().getUsedCharacter;
-        public static dynamic CoreUserCharacters=> CoreUser().getUserCharacters;
+        public static dynamic CoreUserCharacters => CoreUser().getUserCharacters;
     }
 }
