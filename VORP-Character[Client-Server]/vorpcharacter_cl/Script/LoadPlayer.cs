@@ -25,32 +25,46 @@ namespace VorpCharacter.Script
         {
             EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<string, string>(OnLoadPlayerSkin);
 
-            EventHandlers["vorpcharacter:refreshPlayerSkin"] += new Action(ReloadCharacterSkin);
+            EventHandlers["vorpcharacter:refreshPlayerSkin"] += new Action<string>(ReloadCharacterSkin);
             EventHandlers["vorpcharacter:getPlayerComps"] += new Action<CallbackDelegate>(getPlayerComps);
             EventHandlers["vorpcharacter:reloadPlayerComps"] += new Action<ExpandoObject, ExpandoObject>(reloadPlayerComps);
 
-            API.RegisterCommand("rc", new Action<int, List<object>, string>((source, args, raw) =>
+            API.RegisterCommand("rc", new Action<int, List<object>, string>(async (source, args, raw) =>
             {
+                bool isDead = API.IsPlayerDead(API.PlayerId());
+
+                if (isDead) return; // need notification
+
                 bool isCuffed = Utilities.IsPedCuffed(Cache.PlayerPedId);
                 bool isHogtied = Utilities.IsPedHogtied(Cache.PlayerPedId);
                 
                 if (isCuffed || isHogtied) return; // need notification
 
-                ReloadCharacterSkin();
+                if (args.Count == 0)
+                {
+                    ReloadCharacterSkin(string.Empty);
+                    return;
+                }
+
+                ReloadCharacterSkin($"{args[0]}");
+
             }), false);
 
         }
 
-        private async void ReloadCharacterSkin()
+        private async void ReloadCharacterSkin(string part = "")
         {
             if (!API.IsPlayerDead(API.PlayerId())) // Fixed Revive
             {
                 string skin = GetResourceKvpString2("skin");
                 string clothes = GetResourceKvpString2("clothes");
+                bool isMale = false;
 
                 if (!string.IsNullOrEmpty(skin))
                 {
                     cache_skin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skin);
+                    if (cache_skin.ContainsKey("sex"))
+                        isMale = cache_skin["sex"] == "mp_male";
 #if DEVELOPMENT
                     Logger.Debug($"Loaded skin from resource store");
 #endif
@@ -65,7 +79,15 @@ namespace VorpCharacter.Script
 #endif
                 }
 
-                await SetupCharacter(true, cache_skin, cache_cloths, true);
+                switch (part)
+                {
+                    case "clothes":
+                        await SetPedComponents(cache_cloths, Cache.PlayerPedId, isMale);
+                        break;
+                    default:
+                        await SetupCharacter(true, cache_skin, cache_cloths, true);
+                        break;
+                }
             }
         }
 
@@ -153,7 +175,7 @@ namespace VorpCharacter.Script
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
             Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
-            Utilities.UpdatePedVariation(pedHandle);
+            await Utilities.UpdatePedVariation(pedHandle);
         }
 
         public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, bool doFades = false, int delay = 0, bool newChaarcter = false)
@@ -200,7 +222,7 @@ namespace VorpCharacter.Script
                     pedHandle = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
                 }
 
-                Utilities.UpdatePedVariation(pedHandle);
+                await Utilities.UpdatePedVariation(pedHandle);
                 int pHealth = Utilities.GetAttributeCoreValue(pedHandle, eAttributeCore.Health);
 
                 //PreLoad TextureFace
