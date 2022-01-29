@@ -88,7 +88,7 @@ namespace VorpCharacter.Utils
             await BaseScript.Delay(delay);
         }
 
-        public static async Task ApplyShopItemToPed(int pedHandle, uint componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true, int delay = MAX_COMPONENT_CHANGE_DELAY)
+        public static async Task ApplyShopItemToPed(int pedHandle, uint componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true, int delay = MAX_COMPONENT_CHANGE_DELAY, ePedComponent ePedComponent = ePedComponent.UNKNOWN)
         {
             Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, immediately, isMultiplayer, p4);
             await UpdatePedVariation(pedHandle, delay);
