@@ -53,7 +53,7 @@ namespace VorpCharacter.Script
 
         public static Dictionary<string, dynamic> texture_types = new Dictionary<string, dynamic>();
 
-        public static void ToggleOverlayChange(string name, int visibility, int tx_id, int tx_normal = 0, int tx_material = 0, int tx_color_type = 0, float tx_opacity = 1.0f, int tx_unk = 0, int palette_id = 0, int palette_color_primary = 0, int palette_color_secondary = 0, int palette_color_tertiary = 0, int var = 0, float opacity = 1.0f)
+        public async static void ToggleOverlayChange(string name, int visibility, int tx_id, int tx_normal = 0, int tx_material = 0, int tx_color_type = 0, float tx_opacity = 1.0f, int tx_unk = 0, int palette_id = 0, int palette_color_primary = 0, int palette_color_secondary = 0, int palette_color_tertiary = 0, int var = 0, float opacity = 1.0f)
         {
             for (int i = 0; i < SkinsUtils.overlay_all_layers.Count(); i++)
             {
@@ -98,7 +98,7 @@ namespace VorpCharacter.Script
                     }
                 }
             }
-            changeOverlays();
+            await changeOverlays();
         }
 
         public static async Task changeOverlays()
@@ -112,7 +112,6 @@ namespace VorpCharacter.Script
             }
 
             textureId = Function.Call<int>((Hash)0xC5E7204F322E49EB, texture_types["albedo"], texture_types["normal"], texture_types["material"]);
-
 
             foreach (Dictionary<string, dynamic> layer in SkinsUtils.overlay_all_layers)
             {
@@ -136,7 +135,7 @@ namespace VorpCharacter.Script
 
             Function.Call<bool>((Hash)0x0B46E25761519058, ped, API.GetHashKey("heads"), textureId);
             Function.Call<bool>((Hash)0x92DAABA2C1C10B0E, textureId);
-            Function.Call<bool>((Hash)0xCC8CA3E88256E58F, ped, 0, 1, 1, 1, false);
+            await Utilities.UpdatePedVariation(ped);
         }
         //vars scene end
 
@@ -253,43 +252,42 @@ namespace VorpCharacter.Script
             { "shadows_palette_color_primary", 0 },
         };
 
-        public static Dictionary<string, object> clothesPlayer = new Dictionary<string, object>() {
-            { "Hat", -1 },
-            { "EyeWear", -1 },
-            { "Mask", -1},
-            { "NeckWear", -1 },
-            { "NeckTies", -1 },
-            { "Shirt", -1 },
-            { "Suspender", -1 },
-            { "Vest", -1 },
-            { "Coat", -1 },
-            { "Poncho", -1 },
-            { "Cloak", -1 },
-            { "Glove", -1 },
-            { "RingRh", -1 },
-            { "RingLh", -1 },
-            { "Bracelet", -1 },
-            { "Gunbelt", -1 },
-            { "Belt", -1 },
-            { "Buckle", -1 },
-            { "Holster", -1 },
-            { "Pant", -1 },
-            { "Skirt", -1 },
-            { "bow", -1 },
-            { "armor", -1 },
-            { "teeth", -1 },
-            { "Chap", -1 },
-            { "Boots", -1 },
-            { "Spurs", -1 },
-            { "Spats", -1 },
-            { "GunbeltAccs", -1 },
-            { "Gauntlets", -1 },
-            { "Loadouts", -1 },
-            { "Accessories", -1 },
-            { "Satchels", -1 },
-            { "CoatClosed", -1 }
+        public static Dictionary<string, uint> clothesPlayer = new Dictionary<string, uint>() {
+            { "Hat", 0 },
+            { "EyeWear", 0 },
+            { "Mask", 0},
+            { "NeckWear", 0 },
+            { "NeckTies", 0 },
+            { "Shirt", 0 },
+            { "Suspender", 0 },
+            { "Vest", 0 },
+            { "Coat", 0 },
+            { "Poncho", 0 },
+            { "Cloak", 0 },
+            { "Glove", 0 },
+            { "RingRh", 0 },
+            { "RingLh", 0 },
+            { "Bracelet", 0 },
+            { "Gunbelt", 0 },
+            { "Belt", 0 },
+            { "Buckle", 0 },
+            { "Holster", 0 },
+            { "Pant", 0 },
+            { "Skirt", 0 },
+            { "bow", 0 },
+            { "armor", 0 },
+            { "teeth", 0 },
+            { "Chap", 0 },
+            { "Boots", 0 },
+            { "Spurs", 0 },
+            { "Spats", 0 },
+            { "GunbeltAccs", 0 },
+            { "Gauntlets", 0 },
+            { "Loadouts", 0 },
+            { "Accessories", 0 },
+            { "Satchels", 0 },
+            { "CoatClosed", 0 }
         };
-        private object eControls;
 
         //end
 
@@ -308,7 +306,7 @@ namespace VorpCharacter.Script
                     //end
                     Function.Call((Hash)0xD710A5007C2AC539, pPID, category, 0);
                     Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
-                    clothesPlayer[idlist] = -1;
+                    clothesPlayer[idlist] = 0;
                 }
                 else
                 {
@@ -331,7 +329,7 @@ namespace VorpCharacter.Script
                 {
                     Function.Call((Hash)0xD710A5007C2AC539, pPID, category, 0);
                     Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, 0);
-                    clothesPlayer[idlist] = -1;
+                    clothesPlayer[idlist] = 0;
                 }
                 else
                 {
@@ -375,12 +373,13 @@ namespace VorpCharacter.Script
                 await Utilities.ApplyShopItemToPed(Cache.PlayerPedId, (uint)comp);
                 skinPlayer[skinP] = comp;
             }
-            Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            await Utilities.UpdatePedVariation(Cache.PlayerPedId);
         }
-        public static void SetPlayerBodyComponent(uint comp, string skinP)
+
+        public static async void SetPlayerBodyComponent(uint comp, string skinP)
         {
             Utilities.SetPedBodyComponent(Cache.PlayerPedId, comp);
-            Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            await Utilities.UpdatePedVariation(Cache.PlayerPedId);
             skinPlayer[skinP] = comp;
         }
 
@@ -392,10 +391,6 @@ namespace VorpCharacter.Script
             if (_sizeValue > 10)
             {
                 _sizeValue = -1 * _sizeValue;
-            }
-            else if (10 > _sizeValue)
-            {
-                _sizeValue = _sizeValue;
             }
             else
             {
