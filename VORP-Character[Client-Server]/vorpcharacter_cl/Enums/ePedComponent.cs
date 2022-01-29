@@ -2,6 +2,9 @@
 {
     public enum ePedComponent : uint
     {
+        UNKNOWN = 0xFAE91080,
+        Hair = 0x864B03AE,
+        Beard = 0xF8016BCA,
         Hat = 0x9925C067,
         EyeWear = 0x5E47CA6,
         Mask = 0x7505EF42,
@@ -35,6 +38,6 @@
         GunbeltAccs = 0xF1542D11,
         Bow = 0x8E84A2AA,
         Armor = 0x72E6EF74,
-        Teeth = 0x72E6EF74
+        Teeth = 0x72E6EF74, // this hash is invalid
     }
 }
