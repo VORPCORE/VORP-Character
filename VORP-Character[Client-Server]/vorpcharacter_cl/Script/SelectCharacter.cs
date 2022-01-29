@@ -37,7 +37,9 @@ namespace VorpCharacter.Script
         {
             try
             {
+#if DEVELOPMENT
                 Logger.Debug($"SpawnCharacter Called");
+#endif
 
                 int charIdentifier = int.Parse(myChar[0].charIdentifier.ToString());
                 TriggerServerEvent("vorp_CharSelectedCharacter", charIdentifier);
