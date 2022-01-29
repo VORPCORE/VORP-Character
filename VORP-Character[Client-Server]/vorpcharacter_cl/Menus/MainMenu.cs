@@ -20,7 +20,7 @@ namespace VorpCharacter.Menus
         {
             MenuController.AddSubmenu(menu, subMenu);
 
-            MenuItem subMenuButton = new MenuItem(titleTranslationKey, subtitleTranslationKey)
+            MenuItem subMenuButton = new MenuItem(Common.GetTranslation(titleTranslationKey), Common.GetTranslation(subtitleTranslationKey))
             {
                 RightIcon = MenuItem.Icon.ARROW_RIGHT
             };
