@@ -548,7 +548,7 @@ namespace VorpCharacter.Script
                 while (!isUsingComponent)
                 {
                     Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false, 10);
+                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false, 5);
                     isUsingComponent = Utilities.IsMetapedUsingComponent(pedHandle, pedComponent);
 
                     if (attempts > 10) break; // we don't want to get stuck here

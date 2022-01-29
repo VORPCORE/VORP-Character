@@ -92,7 +92,6 @@ namespace VorpCharacter.Utils
         {
             Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, immediately, isMultiplayer, p4);
             await UpdatePedVariation(pedHandle, delay);
-            await BaseScript.Delay(delay);
         }
 
         public async static Task<int> SetPlayerModel(uint hash)
