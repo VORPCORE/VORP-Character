@@ -1,112 +1,90 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using vorpcharacter_cl.Utils;
+using VorpCharacter.Extensions;
+using VorpCharacter.Script;
+using VorpCharacter.Utils;
 
-namespace vorpcharacter_cl.Menus
+namespace VorpCharacter.Menus
 {
     class MainMenu
     {
-        private static Menu mainMenu = new Menu(GetConfig.Langs["TitleMainMenu"], GetConfig.Langs["SubTitleMainMenu"]);
-        private static bool setupDone = false;
+        private static Menu mainMenu;
+        private static List<string> ScaleList = SkinsUtils.SCALE_LIST.Select(x => $"{x}").ToList();
+
+        private static MenuListItem miScaleList;
+        private static MenuItem miFinish;
+
+        private static void AddSubMenu(Menu menu, Menu subMenu, string titleTranslationKey, string subtitleTranslationKey)
+        {
+            MenuController.AddSubmenu(menu, subMenu);
+
+            MenuItem subMenuButton = new MenuItem(Common.GetTranslation(titleTranslationKey), Common.GetTranslation(subtitleTranslationKey))
+            {
+                RightIcon = MenuItem.Icon.ARROW_RIGHT
+            };
+
+            menu.AddMenuItem(subMenuButton);
+            MenuController.BindMenuItem(menu, subMenu, subMenuButton);
+        }
+
         private static void SetupMenu()
         {
-            if (setupDone) return;
-            setupDone = true;
+            if (mainMenu is not null) return;
+            mainMenu = new Menu(Common.GetTranslation("TitleMainMenu"), Common.GetTranslation("SubTitleMainMenu"));
             MenuController.AddMenu(mainMenu);
 
             MenuController.EnableMenuToggleKeyOnController = false;
             MenuController.MenuToggleKey = (Control)0;
 
-            //SkinMenu
-            MenuController.AddSubmenu(mainMenu, SkinMenu.GetMenu());
+            AddSubMenu(mainMenu, SkinMenu.SetupMenu(), "TitleSkinMenu", "SubTitleSkinMenu");
+            AddSubMenu(mainMenu, FaceMenu.GetMenu(), "TitleFaceMenu", "SubTitleFaceMenu");
+            AddSubMenu(mainMenu, ClothesMenu.GetMenu(), "TitleClothesMenu", "SubTitleClothesMenu");
 
-            MenuItem subMenuSkinBtn = new MenuItem(GetConfig.Langs["TitleSkinMenu"], GetConfig.Langs["SubTitleSkinMenu"])
-            {
-                RightIcon = MenuItem.Icon.ARROW_RIGHT
-            };
-
-            mainMenu.AddMenuItem(subMenuSkinBtn);
-            MenuController.BindMenuItem(mainMenu, SkinMenu.GetMenu(), subMenuSkinBtn);
-
-            //FaceMenu
-            MenuController.AddSubmenu(mainMenu, FaceMenu.GetMenu());
-
-            MenuItem subMenuFaceBtn = new MenuItem(GetConfig.Langs["TitleFaceMenu"], GetConfig.Langs["SubTitleFaceMenu"])
-            {
-                RightIcon = MenuItem.Icon.ARROW_RIGHT
-            };
-
-            mainMenu.AddMenuItem(subMenuFaceBtn);
-            MenuController.BindMenuItem(mainMenu, FaceMenu.GetMenu(), subMenuFaceBtn);
-
-            //ClothesMenu
-            MenuController.AddSubmenu(mainMenu, ClothesMenu.GetMenu());
-
-            MenuItem subMenuClothesBtn = new MenuItem(GetConfig.Langs["TitleClothesMenu"], GetConfig.Langs["SubTitleClothesMenu"])
-            {
-                RightIcon = MenuItem.Icon.ARROW_RIGHT
-            };
-
-            mainMenu.AddMenuItem(subMenuClothesBtn);
-            MenuController.BindMenuItem(mainMenu, ClothesMenu.GetMenu(), subMenuClothesBtn);
-
-            List<string> scaleValues = new List<string>();
-
-            foreach(float sc in Utils.SkinsUtils.SCALE_LIST)
-            {
-                scaleValues.Add(GetConfig.Langs["Scale"] + sc.ToString());
-            }
-
-            MenuListItem ScaleBtn = new MenuListItem(GetConfig.Langs["ScaleList"], scaleValues, 4, GetConfig.Langs["ScaleDesc"])
+            miScaleList = new MenuListItem(Common.GetTranslation("ScaleList"), ScaleList, 4, Common.GetTranslation("ScaleDesc"))
             {
                 RightIcon = MenuItem.Icon.STAR
             };
-            mainMenu.AddMenuItem(ScaleBtn);
+            mainMenu.AddMenuItem(miScaleList);
 
             //Finish Button
-            MenuItem FinishBtn = new MenuItem(GetConfig.Langs["FinishBtnMainMenu"], GetConfig.Langs["SubFinishBtnMainMenu"])
+            miFinish = new MenuItem(Common.GetTranslation("FinishBtnMainMenu"), Common.GetTranslation("SubFinishBtnMainMenu"))
             {
                 RightIcon = MenuItem.Icon.TICK
             };
-            mainMenu.AddMenuItem(FinishBtn);
+            mainMenu.AddMenuItem(miFinish);
 
             //Events
-            mainMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
+            mainMenu.OnListIndexChange += async (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
             {
                 if (_itemIndex == 3)
                 {
-                    CreateCharacter.changeScale(SkinsUtils.SCALE_LIST[_newIndex]);
+                    await Utilities.SetPedScale(Cache.PlayerPedId, SkinsUtils.SCALE_LIST[_newIndex]);
                 }
             };
 
-            mainMenu.OnMenuClose += (_menu) =>
-            {
-                if (CreateCharacter.isInCharCreation)
-                {
-                    CreateCharacter.CloseSecureMenu();
-                }
-            };
-
-            mainMenu.OnItemSelect += (_menu, _item, _index) =>
-            {
-                // Code in here would get executed whenever an item is pressed.
-                if (_index == 4)
-                {
-                    CreateCharacter.isInCharCreation = false;
-                    CreateCharacter.SaveChanges();
-                    mainMenu.CloseMenu();
-                }
-            };
-
+            mainMenu.OnMenuClose += MainMenu_OnMenuClose;
+            mainMenu.OnItemSelect += MainMenu_OnItemSelect;
         }
 
+        private static void MainMenu_OnMenuClose(Menu menu)
+        {
+            if (CreateCharacter.isInCharCreation)
+            {
+                CreateCharacter.CloseSecureMenu();
+            }
+        }
 
+        private static void MainMenu_OnItemSelect(Menu menu, MenuItem menuItem, int itemIndex)
+        {
+            if (menuItem == miFinish)
+            {
+                CreateCharacter.isInCharCreation = false;
+                CreateCharacter.SaveChanges();
+                mainMenu.CloseMenu();
+            }
+        }
 
         public static Menu GetMenu()
         {

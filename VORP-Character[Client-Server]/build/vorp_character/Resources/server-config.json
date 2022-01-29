@@ -1,0 +1,12 @@
+{
+  "discord": {
+    "key": "discordBotKey",
+    "webHooks": [
+      {
+        "name": "vorp_character",
+        "avatar": "https://media.discordapp.net/attachments/805495169901789194/911906312789585931/Artboard_11000.png",
+        "url": "https://discord.com/api/webhooks/921620992240005140/THkndLWI4_mGMZeajsttQCmM_dtpHmOqK87isetd4CY1IXqIekwfbPuCe5sCbIp06toT"
+      }
+    ]
+  }
+}
