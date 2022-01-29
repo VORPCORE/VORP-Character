@@ -478,28 +478,25 @@ namespace VorpCharacter.Script
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Hat, "Hat", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.EyeWear, "EyeWear", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Mask, "Mask", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Shirt, "Shirt", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckWear, "NeckWear", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckTies, "NeckTies", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Suspender, "Suspender", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Vest, "Vest", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Coat, "Coat", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatClosed, "CoatClosed", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Shirt, "Shirt", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckTies, "NeckTies", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Poncho, "Poncho", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloak, "Cloak", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Glove, "Glove", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingRh, "RingRh", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingLh, "RingLh", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Bracelet, "Bracelet", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Gunbelt, "Gunbelt", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Belt, "Belt", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Coat, "Coat", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatClosed, "CoatClosed", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Poncho, "Poncho", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloak, "Cloak", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Bracelet, "Bracelet", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingRh, "RingRh", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingLh, "RingLh", clothes);
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Glove, "Glove", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
-
-            if (!Utilities.IsMetapedUsingComponent(pedHandle, ePedComponent.Pant))
-                await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
-
+            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "bow", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "armor", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "teeth", clothes);
@@ -541,6 +538,12 @@ namespace VorpCharacter.Script
         public static async Task SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
         {
             if (!clothes.ContainsKey(component)) return;
+
+            // if they have Pant and Skirt set, only the Pant will apply, Skirt is to be ignored
+            if (clothes.ContainsKey("Pant") && clothes.ContainsKey("Skirt"))
+            {
+                if (clothes["Skirt"] > 0 && clothes["Pant"] > 0 && component == "Skirt") return;
+            }
 
             if (clothes[component] > 0)
             {
