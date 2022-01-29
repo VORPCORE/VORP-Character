@@ -541,8 +541,11 @@ namespace VorpCharacter.Script
 
             if (clothes[component] != -1)
             {
-                Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false);
+                while (!Utilities.IsMetapedUsingComponent(pedHandle, pedComponent))
+                {
+                    Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
+                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false);
+                }
             }
         }
 
