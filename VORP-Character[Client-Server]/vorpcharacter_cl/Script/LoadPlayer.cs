@@ -169,31 +169,6 @@ namespace VorpCharacter.Script
                 if (clothes.Count > 0)
                     API.SetResourceKvp2("clothes", JsonConvert.SerializeObject(clothes));
 
-                if (!newChaarcter)
-                {
-                    // handle a weird issue where things are sent through more than once
-                    // Need to handle when being send from creator or changing character
-                    if (skin.Count == 0)
-                    {
-                        string skinKvp = GetResourceKvpString2("skin");
-                        if (!string.IsNullOrEmpty(skinKvp))
-                        {
-                            cache_skin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinKvp);
-                            skin = cache_skin;
-                        }
-                    }
-
-                    if (clothes.Count == 0)
-                    {
-                        string clothesKvp = GetResourceKvpString2("clothes");
-                        if (!string.IsNullOrEmpty(clothesKvp))
-                        {
-                            cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, uint>>(clothesKvp);
-                            clothes = cache_cloths;
-                        }
-                    }
-                }
-
                 if (doFades) await Utilities.FadeOutScreen(1000);
 
                 if (!skin.ContainsKey("sex"))
