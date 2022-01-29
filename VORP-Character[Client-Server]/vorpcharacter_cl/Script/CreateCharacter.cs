@@ -378,8 +378,7 @@ namespace VorpCharacter.Script
 
         public static async void SetPlayerBodyComponent(uint comp, string skinP)
         {
-            Utilities.SetPedBodyComponent(Cache.PlayerPedId, comp);
-            await Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            await Utilities.SetPedBodyComponent(Cache.PlayerPedId, comp);
             skinPlayer[skinP] = comp;
         }
 

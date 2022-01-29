@@ -239,11 +239,8 @@ namespace VorpCharacter.Script
                 ApplyDefaultSkinSettings(pedHandle);
                 //LoadSkin
                 await SetupPedBodyTypes(skin, delay, pedHandle);
-
                 await SetupPedFaceFeatures(skin, pedHandle);
-
-                SetPedBodyComponents(skin, pedHandle);
-
+                await SetPedBodyComponents(skin, pedHandle);
                 await Utilities.UpdatePedVariation(pedHandle);
 
                 await BaseScript.Delay(100);
@@ -293,12 +290,12 @@ namespace VorpCharacter.Script
             CreateCharacter.texture_types["unk_arg"] = 0;
         }
 
-        private static void SetPedBodyComponents(Dictionary<string, string> skin, int pedHandle)
+        private static async Task SetPedBodyComponents(Dictionary<string, string> skin, int pedHandle)
         {
             string bodyValue = GetKeyValue(skin, "Body");
             string waistValue = GetKeyValue(skin, "Waist");
-            Utilities.SetPedBodyComponent(pedHandle, ConvertValue(bodyValue));
-            Utilities.SetPedBodyComponent(pedHandle, ConvertValue(waistValue));
+            await Utilities.SetPedBodyComponent(pedHandle, ConvertValue(bodyValue));
+            await Utilities.SetPedBodyComponent(pedHandle, ConvertValue(waistValue));
         }
 
         private static async Task SetupPedAdditionalFaceFeatures(Dictionary<string, string> skin, int pedHandle)

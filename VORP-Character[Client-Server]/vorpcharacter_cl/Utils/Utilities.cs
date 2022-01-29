@@ -57,9 +57,10 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0x77FF8D35EEC6BBC4, pedHandle, presetId, 0);
         }
 
-        public static void SetPedBodyComponent(int pedHandle, uint hash)
+        public static async Task SetPedBodyComponent(int pedHandle, uint hash)
         {
             Function.Call((Hash)0x1902C4CFCC5BE57C, pedHandle, hash);
+            await UpdatePedVariation(pedHandle);
         }
 
         public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, Dictionary<string, string> skin, string key, bool updateVariation = false, int delay = MAX_COMPONENT_CHANGE_DELAY)
