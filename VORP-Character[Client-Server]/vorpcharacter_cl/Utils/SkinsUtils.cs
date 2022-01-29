@@ -25,6 +25,69 @@ namespace VorpCharacter.Utils
             }
         }
 
+        public static List<uint> BOW_FEMALE = new List<uint>()
+        {
+            0x26C4159D,
+            0x27060B3C,
+            0x316A3305,
+            0x37F0B7F6,
+            0x4360D6F2,
+            0x44CDC6CB,
+            0x4A16DC42,
+            0x4F6FE7F8,
+            0x548C6750,
+            0x5526FA7E,
+            0x5703EB37,
+            0x64D499DD,
+            0x6C4915B5,
+            0x6E4999C2,
+            0x7104AA21,
+            0x7296A25C,
+            0x7DF33909,
+            0x7EBB5102,
+            0x835E4ED4,
+            0x94907138,
+            0x9987F032,
+            0xA5941B67,
+            0xB7B72C90,
+            0xB7DDBFFA,
+            0xC953E2E6,
+            0xC9C9DBAA,
+            0xDB787F07,
+            0xE8E0A1F3,
+            0xEEE325B0,
+            0xFA894544,
+        };
+
+        public static List<uint> ARMOR_FEMALE = new List<uint>()
+        {
+            0x35A189B4,
+            0x462C2AC9,
+            0x9D2DD8D3,
+            0x74748761,
+            0xA4BC4E10,
+            0xAE789C10,
+            0xAFD07E18,
+            0xBA92939C,
+            0xE79BEDAE,
+            0xF14A010A,
+        };
+
+        public static List<uint> ARMOR_MALE = new List<uint>()
+        {
+            0x3B01FC24,
+            0x61396EA0,
+            0x6C235E6A,
+            0x7A4EFAC1,
+            0x86D593CE,
+            0x92F6AC10,
+            0xA15448CB,
+            0xC95098C3,
+            0xE38F0D59,
+            0xF89BF759,
+        };
+
+
         public static List<uint> HATS_MALE = new List<uint>()
         {
             0x00483DA7,
