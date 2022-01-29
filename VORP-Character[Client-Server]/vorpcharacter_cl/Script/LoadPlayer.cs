@@ -29,7 +29,14 @@ namespace VorpCharacter.Script
             EventHandlers["vorpcharacter:getPlayerComps"] += new Action<CallbackDelegate>(getPlayerComps);
             EventHandlers["vorpcharacter:reloadPlayerComps"] += new Action<ExpandoObject, ExpandoObject>(reloadPlayerComps);
 
-            API.RegisterCommand("rc", new Action<int, List<object>, string>(async (source, args, raw) =>
+            RegisterCommand("cc_unstuck", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                if (IsEntityPositionFrozen(Cache.PlayerPedId))
+                    FreezeEntityPosition(Cache.PlayerPedId, false);
+
+            }), false);
+
+            API.RegisterCommand("rc", new Action<int, List<object>, string>((source, args, raw) =>
             {
                 bool isDead = API.IsPlayerDead(API.PlayerId());
 
