@@ -10659,6 +10659,7 @@ namespace VorpCharacter.Utils
            0x7E2D016B,
            0xFCAF241B,
         };
+
         public static List<uint> GUNBELTACCS_MALE = new List<uint>()
         {
             0x102CB403,
@@ -10680,7 +10681,6 @@ namespace VorpCharacter.Utils
             0xFBB436A4,
             0x0972D221,
             0xE6FF36CB,
-
         };
 
         public static List<uint> GUNBELTACCS_FEMALE = new List<uint>()
@@ -13522,7 +13522,10 @@ namespace VorpCharacter.Utils
             { "hair_female", HAIR_FEMALE},
             { "beard_male", BEARD_MALE},
             { "teeth_male", TEETH_MALE},
-            { "teeth_female", TEETH_FEMALE}
+            { "teeth_female", TEETH_FEMALE},
+            { "bow_female", BOW_FEMALE},
+            { "armor_female", ARMOR_FEMALE},
+            { "armor_male", ARMOR_MALE},
         };
     }
 }
