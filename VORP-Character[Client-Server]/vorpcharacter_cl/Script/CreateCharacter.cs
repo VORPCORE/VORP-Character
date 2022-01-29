@@ -704,7 +704,7 @@ namespace VorpCharacter.Script
             TriggerEvent("vorp:TipBottom", Common.GetTranslation("TipFinal"), 15000);
         }
 
-        
+
 
         private static async void StopCreation()
         {
@@ -832,7 +832,7 @@ namespace VorpCharacter.Script
             await Utilities.RequestModel(model_hash);
             await Utilities.SetPlayerModel(model_hash);
 
-            
+
 
             API.RenderScriptCams(false, true, 3000, true, true, 0);
             await Delay(2500);

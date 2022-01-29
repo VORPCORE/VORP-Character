@@ -37,7 +37,7 @@ namespace VorpCharacter.Script
 
                 bool isCuffed = Utilities.IsPedCuffed(Cache.PlayerPedId);
                 bool isHogtied = Utilities.IsPedHogtied(Cache.PlayerPedId);
-                
+
                 if (isCuffed || isHogtied) return; // need notification
 
                 if (args.Count == 0)
@@ -492,7 +492,7 @@ namespace VorpCharacter.Script
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
             await SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
-            
+
             if (!Utilities.IsMetapedUsingComponent(pedHandle, ePedComponent.Pant))
                 await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "Skirt", clothes);
 
@@ -537,7 +537,7 @@ namespace VorpCharacter.Script
         public static async Task SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
         {
             if (!clothes.ContainsKey(component)) return;
-            
+
             if (clothes[component] > 0)
             {
                 int attempts = 0;

@@ -84,7 +84,7 @@ namespace VorpCharacter.Web
                         Webhooks[x.Name] = x;
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error(ex, $"Error when trying to load Server Configuration, please check server-config.json exists.");
             }

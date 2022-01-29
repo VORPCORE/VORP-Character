@@ -71,7 +71,7 @@ namespace VorpCharacter.Menus
             List<string> lstTorso = PluginManager.Config.Male[_bodyIndex].Body.Select((x, i) => Common.GetTranslation("TorsoValues") + i).ToList();
             List<string> lstLegs = PluginManager.Config.Male[_bodyIndex].Legs.Select((x, i) => Common.GetTranslation("LegsValues") + i).ToList();
             List<string> lstHair = SkinsUtils.HAIR_MALE.Select((x, i) => Common.GetTranslation("HairValue") + i).ToList();
-            List<string> lstEyes = SkinsUtils.EYES_MALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList(); 
+            List<string> lstEyes = SkinsUtils.EYES_MALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList();
             List<string> lstBeards = SkinsUtils.BEARD_MALE.Select((x, i) => Common.GetTranslation("Eyes") + i).ToList();
 
             List<string> lstEyeBrows = SkinsUtils.overlays_info["eyebrows"].Select((x, i) => Common.GetTranslation("EyeBrows") + i).ToList();
