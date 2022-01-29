@@ -105,13 +105,13 @@ namespace VorpCharacter.Utils
 
         public async static Task UpdatePedVariation(int pedHandle, int delay = MAX_COMPONENT_CHANGE_DELAY)
         {
-            await BaseScript.Delay(delay);
             Function.Call((Hash)0xCC8CA3E88256E58F, pedHandle, false, true, true, true, false);
+            await BaseScript.Delay(delay);
         }
 
         public static async Task SetPedScale(int pedHandle, float scale)
         {
-            await BaseScript.Delay(500);
+            await BaseScript.Delay(500); // wait 500ms before setting, speed is not in the nature of the wild west
             Function.Call((Hash)0x25ACFC650B65C538, pedHandle, scale);
         }
 
