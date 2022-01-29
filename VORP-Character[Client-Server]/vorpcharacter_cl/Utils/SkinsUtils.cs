@@ -10642,6 +10642,8 @@ namespace VorpCharacter.Utils
             0xF9C8E1AC,
             0xFBFBC240,
             0xFC5BF198,
+            0xFBFBC240,
+            0xFC5BF198,
         };
 
         public static List<uint> SATCHELS_MALE = new List<uint>()
