@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vorpcharacter_cl", "vorpcharacter_cl\vorpcharacter_cl.csproj", "{51083C52-7FE7-422E-AED9-023D0903C6E6}"
 EndProject
@@ -10,15 +10,20 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Development|Any CPU = Development|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{51083C52-7FE7-422E-AED9-023D0903C6E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51083C52-7FE7-422E-AED9-023D0903C6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51083C52-7FE7-422E-AED9-023D0903C6E6}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{51083C52-7FE7-422E-AED9-023D0903C6E6}.Development|Any CPU.Build.0 = Development|Any CPU
 		{51083C52-7FE7-422E-AED9-023D0903C6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51083C52-7FE7-422E-AED9-023D0903C6E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}.Development|Any CPU.Build.0 = Development|Any CPU
 		{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
