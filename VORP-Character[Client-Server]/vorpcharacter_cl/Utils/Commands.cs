@@ -6,11 +6,11 @@ using VorpCharacter.Script;
 
 namespace VorpCharacter.Utils
 {
-    class Commands : BaseScript
+    public class Commands : BaseScript
     {
         static int playerPedId => Cache.PlayerPedId;
 
-        public static void InitCommands()
+        public Commands()
         {
             API.RegisterCommand(Common.GetTranslation("CommandHat"), new Action(Hat), false);
             API.RegisterCommand(Common.GetTranslation("CommandEyeWear"), new Action(EyeWear), false);

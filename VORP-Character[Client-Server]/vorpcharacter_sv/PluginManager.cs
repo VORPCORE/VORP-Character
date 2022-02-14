@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
-using VorpCharacter.Script;
 using VorpCharacter.Web;
 using static CitizenFX.Core.Native.API;
 
@@ -19,7 +18,6 @@ namespace VorpCharacter
         public ExportDictionary ExportRegistry => Exports;
         string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
 
-        readonly CharacterApi VorpCharacterAPI = new CharacterApi();
         readonly public DiscordClient DiscordClient = new();
 
         public PluginManager()
@@ -68,7 +66,6 @@ namespace VorpCharacter
                 }));
             }));
 
-            RegisterScript(VorpCharacterAPI);
             RegisterScript(DiscordClient);
 
             AddEvents();
@@ -100,7 +97,6 @@ namespace VorpCharacter
 
                 Logger.Info($"Stopping VORP Character");
 
-                UnregisterScript(VorpCharacterAPI);
                 UnregisterScript(DiscordClient);
             }));
         }

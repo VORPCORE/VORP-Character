@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using VorpCharacter.Diagnostics;
 using VorpCharacter.Model;
-using VorpCharacter.Script;
 using static CitizenFX.Core.Native.API;
 
 namespace VorpCharacter
@@ -22,10 +21,6 @@ namespace VorpCharacter
         public static Dictionary<string, string> Langs = new Dictionary<string, string>();
         public static bool IsLoaded = false;
 
-        public static readonly CreateCharacter _createCharacter = new();
-        public static readonly LoadPlayer _loadPlayer = new();
-        public static readonly SelectCharacter _selectCharacter = new();
-
         public PluginManager()
         {
             Logger.Info($"VORP Character Init");
@@ -38,10 +33,6 @@ namespace VorpCharacter
             await GetCore();
             LoadDefaultConfig();
             await IsReady();
-
-            RegisterScript(_loadPlayer);
-            RegisterScript(_createCharacter);
-            RegisterScript(_selectCharacter);
 
             Logger.Info($"VORP Character Started");
         }
@@ -85,8 +76,6 @@ namespace VorpCharacter
             Langs = JsonConvert.DeserializeObject<Dictionary<string, string>>(languageFile);
 
             IsLoaded = true;
-
-            Utils.Commands.InitCommands(); // this needs to be changed
         }
 
         public async Task IsReady()
@@ -111,10 +100,6 @@ namespace VorpCharacter
                 if (resourceName != GetCurrentResourceName()) return;
 
                 Logger.Info($"Stopping VORP Character");
-
-                UnregisterScript(_loadPlayer);
-                UnregisterScript(_createCharacter);
-                UnregisterScript(_selectCharacter);
             }));
         }
 

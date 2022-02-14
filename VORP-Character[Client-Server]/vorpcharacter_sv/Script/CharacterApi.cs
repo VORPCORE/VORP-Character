@@ -11,8 +11,12 @@ namespace VorpCharacter.Script
 {
     public class CharacterApi : BaseScript
     {
-        internal CharacterApi() // MOVE TO CORE v2
+        public static CharacterApi Instance { get; private set; }
+
+        public CharacterApi() // MOVE TO CORE v2
         {
+            Instance = this;
+
             //Event for create new character 
             EventHandlers["vorp_CreateNewCharacter"] += new Action<int>(CreateNewCharacter);
             //Event for select characters
@@ -55,6 +59,8 @@ namespace VorpCharacter.Script
                     Debug.WriteLine("This command was executed by the server console, Please use in game.");
                 }
             }), false);
+
+            Logger.Info($"VORP Character CharacterApi");
 
         }
 

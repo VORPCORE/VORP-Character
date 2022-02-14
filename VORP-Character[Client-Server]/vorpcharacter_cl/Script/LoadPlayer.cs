@@ -16,13 +16,15 @@ namespace VorpCharacter.Script
 {
     public class LoadPlayer : BaseScript
     {
-
+        public static LoadPlayer Instance { get; private set; }
         public static Dictionary<string, string> cache_skin = new Dictionary<string, string>();
         public static Dictionary<string, uint> cache_cloths = new Dictionary<string, uint>();
         public static bool IsCurrentlyRunningSetup = false;
 
-        internal LoadPlayer()
+        public LoadPlayer()
         {
+            Instance = this;
+
             // EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<string, string>(OnLoadPlayerSkin);
 
             EventHandlers["vorpcharacter:refreshPlayerSkin"] += new Action<string>(ReloadCharacterSkin);
@@ -58,6 +60,8 @@ namespace VorpCharacter.Script
                 ReloadCharacterSkin($"{args[0]}");
 
             }), false);
+
+            Logger.Info($"VORP Character LoadPlayer");
 
         }
 
