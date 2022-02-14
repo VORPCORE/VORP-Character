@@ -29,21 +29,6 @@ namespace VorpCharacter.Script
 
         public SelectCharacter()
         {
-            EventHandlers.Add("vorpcharacter:testevent", new Action(() =>
-            {
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-                Logger.Info($"HELLO WORLDS");
-            }));
-
             EventHandlers["vorpcharacter:selectCharacter"] += new Action<dynamic>(LoadCharacters);
             EventHandlers["vorpcharacter:spawnUniqueCharacter"] += new Action<dynamic>(SpawnCharacter);
 
@@ -150,16 +135,6 @@ namespace VorpCharacter.Script
 
         public async void LoadCharacters(dynamic myCharacters)
         {
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-            Logger.Info($"Loading Characters");
-
             await Utilities.FadeOutScreen(0);
 
             RegisterPrompts();
