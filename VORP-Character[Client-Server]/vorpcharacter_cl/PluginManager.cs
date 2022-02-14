@@ -72,6 +72,7 @@ namespace VorpCharacter
                 Logger.Error($"{Config.Defaultlang}.json file is missing.");
                 return;
             }
+            Logger.Success($"{Config.Defaultlang}.json file has been loaded.");
 
             Langs = JsonConvert.DeserializeObject<Dictionary<string, string>>(languageFile);
 
