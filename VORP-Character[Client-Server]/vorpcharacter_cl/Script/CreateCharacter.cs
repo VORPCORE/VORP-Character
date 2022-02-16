@@ -16,9 +16,11 @@ namespace VorpCharacter.Script
 {
     public class CreateCharacter : BaseScript
     {
+        public static CreateCharacter Instance { get; private set; }
 
         public CreateCharacter()
         {
+            Instance = this;
             // used to change a selected ped, this can be done better
             EventHandlers["vorpcharacter:secondchance"] += new Action<dynamic, dynamic>(StartCreationOfCharacter2);
         }

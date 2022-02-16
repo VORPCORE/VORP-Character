@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -26,10 +27,12 @@ namespace VorpCharacter.Script
         private int tagId = 0;
         private static bool swappingChar = true;
 
-        internal SelectCharacter()
+        public SelectCharacter()
         {
             EventHandlers["vorpcharacter:selectCharacter"] += new Action<dynamic>(LoadCharacters);
             EventHandlers["vorpcharacter:spawnUniqueCharacter"] += new Action<dynamic>(SpawnCharacter);
+
+            Logger.Info($"VORP Character SelectCharacter");
         }
 
         private async void SpawnCharacter(dynamic myChar)
@@ -49,7 +52,7 @@ namespace VorpCharacter.Script
                 JObject jPos = JObject.Parse(json_coords);
 
                 // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
-                await PluginManager._loadPlayer.LoadPlayerSkin(json_skin, json_components);
+                await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
                 API.DoScreenFadeOut(1000);
                 await Delay(800);
@@ -146,6 +149,9 @@ namespace VorpCharacter.Script
 
             API.SetEntityCoords(Cache.PlayerPedId, 1687.03f, 1507.06f, 145.60f, false, false, false, false);
 
+            Logger.Debug($"Load Characters");
+            Logger.Debug(JsonConvert.SerializeObject(myCharacters));
+
             myChars = myCharacters;
 
             mainCamera = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 1693.301f, 1507.959f, 148.84f, -13.82f, 0f, -84.67f, 50.00f, false, 0);
@@ -199,7 +205,7 @@ namespace VorpCharacter.Script
                 JObject jPos = JObject.Parse(json_coords);
 
                 // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
-                await PluginManager._loadPlayer.LoadPlayerSkin(json_skin, json_components);
+                await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
                 API.NetworkClearClockTimeOverride();
                 API.NetworkClearClockTimeOverride();
@@ -279,7 +285,7 @@ namespace VorpCharacter.Script
                 {
                     if (myChars.Count < PluginManager.MAX_ALLOWED_CHARACTERS)
                     {
-                        PluginManager._createCharacter.StartCreationOfCharacter();
+                        new CreateCharacter().StartCreationOfCharacter();
                         API.PromptSetEnabled(DeletePrompt, 0);
                         API.PromptSetVisible(DeletePrompt, 0);
                         API.PromptSetEnabled(CreatePrompt, 0);
@@ -386,7 +392,7 @@ namespace VorpCharacter.Script
                 clothes[s.Key] = LoadPlayer.ConvertValue(s.Value.ToString());
             }
 
-            pedHandle = await PluginManager._loadPlayer.SetupCharacter(false, skin, clothes, delay: 10, newChaarcter: true);
+            pedHandle = await LoadPlayer.Instance.SetupCharacter(false, skin, clothes, delay: 10, newChaarcter: true);
         }
     }
 }
