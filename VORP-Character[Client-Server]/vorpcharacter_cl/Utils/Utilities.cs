@@ -11,7 +11,7 @@ namespace VorpCharacter.Utils
 {
     internal class Utilities
     {
-        const int MAX_COMPONENT_CHANGE_DELAY = 50;
+        const int MAX_COMPONENT_CHANGE_DELAY = 10;
         public static Random RANDOM = new Random();
 
         public static void SetAttributeCoreValue(int pedHandle, eAttributeCore attribute, int value)

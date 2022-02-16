@@ -55,7 +55,7 @@ namespace VorpCharacter
 
         private void LoadDefaultConfig()
         {
-            string jsonFile = LoadResourceFile(GetCurrentResourceName(), "config/Config.json");
+            string jsonFile = LoadResourceFile(GetCurrentResourceName(), "/config/Config.json");
 
             if (string.IsNullOrEmpty(jsonFile))
             {
@@ -65,7 +65,7 @@ namespace VorpCharacter
 
             Config = JsonConvert.DeserializeObject<Config>(jsonFile);
 
-            string languageFile = LoadResourceFile(GetCurrentResourceName(), $"config/{Config.Defaultlang}.json");
+            string languageFile = LoadResourceFile(GetCurrentResourceName(), $"/config/{Config.Defaultlang}.json");
 
             if (string.IsNullOrEmpty(languageFile))
             {
