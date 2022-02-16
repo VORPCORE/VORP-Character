@@ -149,8 +149,10 @@ namespace VorpCharacter.Script
 
             API.SetEntityCoords(Cache.PlayerPedId, 1687.03f, 1507.06f, 145.60f, false, false, false, false);
 
+#if DEVELOPMENT
             Logger.Debug($"Load Characters");
             Logger.Debug(JsonConvert.SerializeObject(myCharacters));
+#endif
 
             myChars = myCharacters;
 
