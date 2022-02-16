@@ -23,16 +23,15 @@ namespace VorpCharacter
 
         public PluginManager()
         {
+            LoadDefaultConfig();
             Logger.Info($"VORP Character Init");
             Instance = this;
-            Setup();
+            Load();
         }
 
-        private async void Setup()
+        private async void Load()
         {
             await GetCore();
-            LoadDefaultConfig();
-            await IsReady();
 
             Logger.Info($"VORP Character Started");
         }
@@ -51,6 +50,7 @@ namespace VorpCharacter
                 }));
                 await Delay(100);
             }
+            Logger.Success($"getCore Loaded");
         }
 
         private void LoadDefaultConfig()
@@ -76,15 +76,6 @@ namespace VorpCharacter
 
             Langs = JsonConvert.DeserializeObject<Dictionary<string, string>>(languageFile);
 
-            IsLoaded = true;
-        }
-
-        public async Task IsReady()
-        {
-            while (!IsLoaded)
-            {
-                await Delay(100);
-            }
         }
 
         void AddEvents()
