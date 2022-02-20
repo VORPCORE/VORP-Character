@@ -104,7 +104,7 @@ namespace VorpCharacter.Script
             }
         }
 
-        private void reloadPlayerComps(ExpandoObject sskin, ExpandoObject scloth)
+        private async void reloadPlayerComps(ExpandoObject sskin, ExpandoObject scloth)
         {
             Dictionary<string, string> skin = new Dictionary<string, string>();
 
@@ -122,6 +122,8 @@ namespace VorpCharacter.Script
 
             cache_skin = skin;
             cache_cloths = cloths;
+
+            await SetupCharacter(true, cache_skin, cache_cloths, true);
         }
 
         public void getPlayerComps(CallbackDelegate cb)
