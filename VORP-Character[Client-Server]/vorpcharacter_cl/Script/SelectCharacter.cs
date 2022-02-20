@@ -394,7 +394,7 @@ namespace VorpCharacter.Script
                 clothes[s.Key] = LoadPlayer.ConvertValue(s.Value.ToString());
             }
 
-            pedHandle = await LoadPlayer.Instance.SetupCharacter(false, skin, clothes, delay: 10, newChaarcter: true);
+            pedHandle = await LoadPlayer.Instance.SetupCharacter(false, skin, clothes, delay: 10);
         }
     }
 }
