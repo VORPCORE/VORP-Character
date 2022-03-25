@@ -554,20 +554,12 @@ namespace VorpCharacter.Script
 
             if (clothes[component] > 0)
             {
-                int attempts = 0;
-                bool isUsingComponent = Utilities.IsMetapedUsingComponent(pedHandle, pedComponent);
-                while (!isUsingComponent)
-                {
-                    Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                    Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false);
-                    isUsingComponent = Utilities.IsMetapedUsingComponent(pedHandle, pedComponent);
-
-                    if (attempts > 10) break; // we don't want to get stuck here
-                    attempts++;
-                }
+                long hash = clothes[component];
+                Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
+                Utilities.ApplyShopItemToPed(pedHandle, hash, true, true, false);
 
 #if DEVELOPMENT
-                Logger.Debug($"{component} : {clothes[component]} : Using? {isUsingComponent}");
+                Logger.Debug($"{component} : {clothes[component]}");
 #endif
             }
         }
