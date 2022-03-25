@@ -69,10 +69,13 @@ namespace VorpCharacter
 
             if (string.IsNullOrEmpty(languageFile))
             {
-                Logger.Error($"{Config.Defaultlang}.json file is missing.");
-                return;
+                Logger.Error($"{Config.Defaultlang}.json file is missing, defaulting to 'En.json'.");
+                languageFile = LoadResourceFile(GetCurrentResourceName(), $"/config/En.json"); ;
             }
-            Logger.Success($"{Config.Defaultlang}.json file has been loaded.");
+            else
+            {
+                Logger.Success($"{Config.Defaultlang}.json file has been loaded.");
+            }
 
             Langs = JsonConvert.DeserializeObject<Dictionary<string, string>>(languageFile);
 
