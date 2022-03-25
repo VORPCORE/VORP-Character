@@ -44,7 +44,7 @@ namespace VorpCharacter.Utils
             API.RegisterCommand(Common.GetTranslation("CommandSatchels"), new Action(Satchels), false);
         }
 
-        static async void ToggleComponent(uint component, uint item)
+        static void ToggleComponent(uint component, uint item)
         {
             if (Utilities.IsMetapedUsingComponent(playerPedId, component))
             {
@@ -52,7 +52,7 @@ namespace VorpCharacter.Utils
             }
             else
             {
-                await Utilities.ApplyShopItemToPed(playerPedId, item);
+                Utilities.ApplyShopItemToPed(playerPedId, item);
             }
         }
 

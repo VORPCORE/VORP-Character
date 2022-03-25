@@ -137,7 +137,7 @@ namespace VorpCharacter.Script
 
             Function.Call<bool>((Hash)0x0B46E25761519058, ped, API.GetHashKey("heads"), textureId);
             Function.Call<bool>((Hash)0x92DAABA2C1C10B0E, textureId);
-            await Utilities.UpdatePedVariation(ped);
+            Utilities.UpdatePedVariation(ped);
         }
         //vars scene end
 
@@ -352,18 +352,18 @@ namespace VorpCharacter.Script
             Function.Call((Hash)0xD3A7B003ED343FD9, Cache.PlayerPedId, ConvertValue(skinPlayer["LegsType"].ToString()), true, true, true);
 
             //end
-            Function.Call((Hash)0xCC8CA3E88256E58F, pPID, 0, 1, 1, 1, false);
+            Utilities.UpdatePedVariation(pPID, true);
         }
 
-        public static async void SetPlayerModelComponent(string hex, string skinP)
+        public static void SetPlayerModelComponent(string hex, string skinP)
         {
             string comp = "0x" + hex;
             int compInt = Convert.ToInt32(comp, 16);
-            await Utilities.ApplyShopItemToPed(Cache.PlayerPedId, (uint)compInt);
+            Utilities.ApplyShopItemToPed(Cache.PlayerPedId, (uint)compInt);
             skinPlayer[skinP] = compInt;
         }
 
-        public static async void SetPlayerModelListComps(string skinP, uint comp, uint category)
+        public static void SetPlayerModelListComps(string skinP, uint comp, uint category)
         {
             if (comp == 0)
             {
@@ -372,16 +372,17 @@ namespace VorpCharacter.Script
             }
             else
             {
-                await Utilities.ApplyShopItemToPed(Cache.PlayerPedId, (uint)comp);
+                Utilities.ApplyShopItemToPed(Cache.PlayerPedId, (uint)comp);
                 skinPlayer[skinP] = comp;
             }
-            await Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            Utilities.UpdatePedVariation(Cache.PlayerPedId, true);
         }
 
-        public static async void SetPlayerBodyComponent(uint comp, string skinP)
+        public static void SetPlayerBodyComponent(uint comp, string skinP)
         {
-            await Utilities.SetPedBodyComponent(Cache.PlayerPedId, comp);
+            Utilities.SetPedBodyComponent(Cache.PlayerPedId, comp);
             skinPlayer[skinP] = comp;
+            Utilities.UpdatePedVariation(Cache.PlayerPedId, true);
         }
 
         public static void SetPlayerFaceBlend(int item, int index) //find me
@@ -710,7 +711,7 @@ namespace VorpCharacter.Script
         private static async void StopCreation()
         {
             isInCharCreation = false;
-            await DeleteAll();
+            DeleteAll();
         }
 
         private static async Task CreateCams()
@@ -723,7 +724,6 @@ namespace VorpCharacter.Script
             Camera_Waist = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.1779f, -3780.964f, 238.4654f, -0.6631846f, 0.0f, -91.76698f, 40.00f, false, 0);
             Camera_Legs = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -559.2103f, -3781.039f, 238.4678f, -42.50001f, 0.0f, -89.2997f, 40.00f, false, 0);
             Camera_Body = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -560.6195f, -3780.708f, 239.1954f, -15.75687f, 0.0f, -89.49976f, 40.00f, false, 0);
-            //Camera_Back = API.CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -563.0956f, -3780.669f, 238.465f, 0.906957f, 0.0f, -89.36639f, 40.00f, false, 0);
 
             uint HashVeh = (uint)API.GetHashKey("hotAirBalloon01");
             await Utilities.RequestModel(HashVeh);
@@ -733,7 +733,7 @@ namespace VorpCharacter.Script
 
         }
 
-        private static async Task DeleteAll()
+        private static void DeleteAll()
         {
             API.SetCamActive(Camera, false);
             API.DestroyCam(Camera, true);
@@ -801,28 +801,16 @@ namespace VorpCharacter.Script
             model_selected = model;
             skinPlayer["sex"] = model;
 
+            bool isMale = model == "mp_male";
 
-            if (model_selected == model_m)
-            {
-                skinPlayer["albedo"] = API.GetHashKey("mp_head_mr1_sc08_c0_000_ab");
-                texture_types["albedo"] = API.GetHashKey("mp_head_mr1_sc08_c0_000_ab");
-                texture_types["normal"] = API.GetHashKey("mp_head_mr1_000_nm");
-                texture_types["material"] = 0x7FC5B1E1;
-                texture_types["color_type"] = 1;
-                texture_types["texture_opacity"] = 1.0f;
-                texture_types["unk_arg"] = 0;
-            }
-            else
-            {
-                skinPlayer["albedo"] = API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
-                texture_types["albedo"] = API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
-                texture_types["normal"] = API.GetHashKey("head_fr1_mp_002_nm");
-                texture_types["material"] = 0x7FC5B1E1;
-                texture_types["color_type"] = 1;
-                texture_types["texture_opacity"] = 1.0f;
-                texture_types["unk_arg"] = 0;
-            }
-            await Delay(200);
+            skinPlayer["albedo"] = isMale ? API.GetHashKey("mp_head_mr1_sc08_c0_000_ab") : API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
+            texture_types["albedo"] = isMale ? API.GetHashKey("mp_head_mr1_sc08_c0_000_ab") : API.GetHashKey("mp_head_fr1_sc08_c0_000_ab");
+            texture_types["normal"] = isMale ? API.GetHashKey("mp_head_mr1_000_nm") : API.GetHashKey("head_fr1_mp_002_nm");
+            texture_types["material"] = 0x7FC5B1E1;
+            texture_types["color_type"] = 1;
+            texture_types["texture_opacity"] = 1.0f;
+            texture_types["unk_arg"] = 0;
+
             int pID = API.PlayerId();
             int pPedID = Cache.PlayerPedId;
             Menus.MainMenu.GetMenu();
@@ -833,22 +821,17 @@ namespace VorpCharacter.Script
             await Utilities.RequestModel(model_hash);
             await Utilities.SetPlayerModel(model_hash);
 
-
-
             API.RenderScriptCams(false, true, 3000, true, true, 0);
-            await Delay(2500);
+            await Delay(1000);
             LoadPlayer.ApplyDefaultSkinSettings(Cache.PlayerPedId);
-
             API.SetPedRandomComponentVariation(Cache.PlayerPedId, 1);
-
+            
             API.SetCamActive(Camera_Editor, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
             API.DeletePed(ref PedFemale);
             API.DeletePed(ref PedMale);
             isInCharCreation = true;
             Menus.MainMenu.GetMenu().OpenMenu();
-
-            //MenuCreateCharacter(model);
         }
 
         public void SwapCameras(int index)
