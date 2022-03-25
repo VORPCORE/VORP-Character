@@ -90,7 +90,7 @@ namespace VorpCharacter.Utils
         public static void ApplyShopItemToPed(int pedHandle, long componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true)
         {
             Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, immediately, isMultiplayer, p4);
-            UpdatePedVariation(pedHandle);
+            UpdatePedVariation(pedHandle, true); // this is called too fucking much due to the way the menu is setup
         }
 
         public async static Task<int> SetPlayerModel(uint hash)
