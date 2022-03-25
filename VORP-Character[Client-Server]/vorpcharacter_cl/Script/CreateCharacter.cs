@@ -17,6 +17,7 @@ namespace VorpCharacter.Script
     public class CreateCharacter : BaseScript
     {
         public static CreateCharacter Instance { get; private set; }
+        PluginManager pluginManager => PluginManager.Instance;
 
         public CreateCharacter()
         {
@@ -28,7 +29,7 @@ namespace VorpCharacter.Script
         //vars Scene
         static bool isSelectSexActive = false;
         static bool secondchance = false;
-        public static bool isInCharCreation = false;
+        public bool isInCharCreation = false;
         public static bool isMale => model_selected == model_m;
         public static string model_selected;
         static string model_f = "mp_female";
@@ -595,13 +596,11 @@ namespace VorpCharacter.Script
             return (uint)Int32.Parse(value, NumberStyles.HexNumber);
         }
 
-
-
-        public async void StartCreationOfCharacter()
+        async void Setup()
         {
-            Tick += OnTick;
+            pluginManager.AttachTickHandler(OnControlsTick);
+            pluginManager.AttachTickHandler(OnCameraTick);
 
-            Tick += OnTickCameras;
             Function.Call(Hash._REQUEST_IMAP, 183712523);
             Function.Call(Hash._REQUEST_IMAP, -1699673416);
             Function.Call(Hash._REQUEST_IMAP, 1679934574);
@@ -612,45 +611,34 @@ namespace VorpCharacter.Script
             await CreationSelectPeds();
             await CreateCams();
 
-
             API.SetCamActive(Camera, true);
             API.RenderScriptCams(true, true, 1000, true, true, 0);
 
             isSelectSexActive = true;
+        }
+
+        public async void StartCreationOfCharacter()
+        {
+            API.DoScreenFadeOut(500);
             secondchance = false;
+            Setup();
+            API.DoScreenFadeIn(500);
 
         }
 
         public async void StartCreationOfCharacter2(dynamic charsid, dynamic charxx)
         {
             API.DoScreenFadeOut(500);
-
-            Tick += OnTick;
             charidx = charsid;
             usedcha = charxx;
-            Tick += OnTickCameras;
-            Function.Call(Hash._REQUEST_IMAP, 183712523);
-            Function.Call(Hash._REQUEST_IMAP, -1699673416);
-            Function.Call(Hash._REQUEST_IMAP, 1679934574);
-            Function.Call(Hash.SET_CLOCK_TIME, 12, 00, 0);
-            API.SetClockTime(12, 00, 00);
-
-            VorpPlayer.Position = new Vector3(-563.1345f, -3775.811f, 237.60f);
-            await CreationSelectPeds();
-            await CreateCams();
-
-
-            API.SetCamActive(Camera, true);
-            API.RenderScriptCams(true, true, 1000, true, true, 0);
-
-            isSelectSexActive = true;
+            Setup();
             secondchance = true;
             API.DoScreenFadeIn(500);
 
         }
 
 
-        public static async Task SaveChanges()
+        public async Task SaveChanges()
         {
             TriggerEvent("vorpinputs:getInput", Common.GetTranslation("ButtonInputName"), Common.GetTranslation("PlaceHolderInputName"), new Action<dynamic>(async (cb) =>
             {
@@ -683,8 +671,6 @@ namespace VorpCharacter.Script
             }));
         }
 
-
-
         private static async void StartAnim()
         {
             TriggerEvent("vorp:initNewCharacter");
@@ -706,11 +692,13 @@ namespace VorpCharacter.Script
             TriggerEvent("vorp:TipBottom", Common.GetTranslation("TipFinal"), 15000);
         }
 
-
-
-        private static async void StopCreation()
+        private async void StopCreation()
         {
             isInCharCreation = false;
+
+            pluginManager.DetachTickHandler(OnControlsTick);
+            pluginManager.DetachTickHandler(OnCameraTick);
+
             DeleteAll();
         }
 
@@ -790,7 +778,7 @@ namespace VorpCharacter.Script
             API.SetPedRandomComponentVariation(PedMale, 1);
             Function.Call((Hash)0x283978A15512B2FE, PedFemale, true);
             Function.Call((Hash)0x283978A15512B2FE, PedMale, true);
-
+            isSelectSexActive = true;
             TriggerEvent("vorp:setInstancePlayer", true);
 
         }
@@ -877,7 +865,7 @@ namespace VorpCharacter.Script
             }
         }
 
-        private async Task OnTickCameras()
+        private async Task OnCameraTick()
         {
             if (isInCharCreation)
             {
@@ -917,7 +905,7 @@ namespace VorpCharacter.Script
             }
         }
 
-        private async Task OnTick()
+        private async Task OnControlsTick()
         {
             if (API.IsControlJustPressed(2, (uint)eControl.FrontendRight) && isSelectSexActive)
             {
@@ -977,6 +965,7 @@ namespace VorpCharacter.Script
                 else
                 {
                 }
+
                 await Delay(100);
             }
 
@@ -992,7 +981,6 @@ namespace VorpCharacter.Script
                 API.ClearPedTasks(Cache.PlayerPedId, 1, 1);
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);
             }
-
         }
     }
 }
