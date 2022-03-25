@@ -239,30 +239,15 @@ namespace VorpCharacter.Script
                 Utilities.UpdatePedVariation(pedHandle, true);
                 int pHealth = Utilities.GetAttributeCoreValue(pedHandle, eAttributeCore.Health);
 
-                //PreLoad TextureFace
                 PreloadPedTextures(skin, isMale);
-                //End
-                await Delay(0);
                 ApplyDefaultSkinSettings(pedHandle);
-                //LoadSkin
                 SetupPedBodyTypes(skin, delay, pedHandle);
-                Utilities.UpdatePedVariation(pedHandle);
+                await BaseScript.Delay(0);
                 SetupPedFaceFeatures(skin, pedHandle);
-                Utilities.UpdatePedVariation(pedHandle);
                 SetPedBodyComponents(skin, pedHandle);
-                Utilities.UpdatePedVariation(pedHandle, true);
-
-                await BaseScript.Delay(100);
-
                 SetPedFaceTextures(skin);
-                Utilities.UpdatePedVariation(pedHandle);
                 SetPedComponents(clothes, pedHandle, isMale);
-                Utilities.UpdatePedVariation(pedHandle, true);
-
-                await BaseScript.Delay(100);
-                // this has to be after SetPedFaceTextures, could be included inside SetPedFaceTextures?!
                 SetupPedAdditionalFaceFeatures(skin, pedHandle);
-                Utilities.UpdatePedVariation(pedHandle);
 
                 Utilities.SetAttributeCoreValue(pedHandle, (int)eAttributeCore.Health, pHealth);
 
@@ -304,6 +289,7 @@ namespace VorpCharacter.Script
             string waistValue = GetKeyValue(skin, "Waist");
             Utilities.SetPedBodyComponent(pedHandle, ConvertValue(bodyValue));
             Utilities.SetPedBodyComponent(pedHandle, ConvertValue(waistValue));
+            Utilities.UpdatePedVariation(Cache.PlayerPedId);
         }
 
         private static void SetupPedAdditionalFaceFeatures(Dictionary<string, string> skin, int pedHandle)
@@ -328,6 +314,7 @@ namespace VorpCharacter.Script
             Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(headType));
             Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(bodyType));
             Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(legsType));
+            Utilities.UpdatePedVariation(Cache.PlayerPedId);
         }
 
         private static void SetupPedFaceFeatures(Dictionary<string, string> skin, int pedHandle)
@@ -371,6 +358,7 @@ namespace VorpCharacter.Script
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinHeight, skin, "ChinH"); // ChinHeight
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinWidth, skin, "ChinW"); // ChinWidth
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinDepth, skin, "ChinD", true); // ChinDepth
+            Utilities.UpdatePedVariation(Cache.PlayerPedId);
         }
 
         private static void SetPedFaceTextures(Dictionary<string, string> skin)
@@ -479,6 +467,7 @@ namespace VorpCharacter.Script
             CreateCharacter.ToggleOverlayChange("grime", iGrimeVisibility, iGrimeTxId);
             CreateCharacter.ToggleOverlayChange("lipsticks", iLipstickVisibility, iLipstickTxId, palette_id: iLipstickPaletteId, palette_color_primary: iLipstickColorPrimary);
             CreateCharacter.ToggleOverlayChange("shadows", iShadowsVisibility, iShadowsTxId, palette_id: iShadowsPaletteId, palette_color_primary: iShadowsColorPrimary);
+            Utilities.UpdatePedVariation(Cache.PlayerPedId);
         }
 
         private static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle, bool isMale)
@@ -504,9 +493,9 @@ namespace VorpCharacter.Script
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "bow", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "armor", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "teeth", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Bow, "bow", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Armor, "armor", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Teeth, "teeth", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Chap, "Chap", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Boots, "Boots", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Spurs, "Spurs", clothes);
@@ -516,6 +505,7 @@ namespace VorpCharacter.Script
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Accessories, "Accessories", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Satchels, "Satchels", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
+            Utilities.UpdatePedVariation(Cache.PlayerPedId, true);
         }
 
         private static string GetKeyValue(Dictionary<string, string> skin, string key)
@@ -556,7 +546,7 @@ namespace VorpCharacter.Script
             {
                 long hash = clothes[component];
                 Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                Utilities.ApplyShopItemToPed(pedHandle, hash, true, true, false);
+                Utilities.ApplyShopItemToPed(pedHandle, hash);
 
 #if DEVELOPMENT
                 Logger.Debug($"{component} : {clothes[component]}");
