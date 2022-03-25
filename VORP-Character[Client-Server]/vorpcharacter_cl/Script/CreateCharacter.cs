@@ -811,7 +811,6 @@ namespace VorpCharacter.Script
             texture_types["texture_opacity"] = 1.0f;
             texture_types["unk_arg"] = 0;
 
-            int pID = API.PlayerId();
             int pPedID = Cache.PlayerPedId;
             Menus.MainMenu.GetMenu();
             VorpPlayer.Position = new Vector3(-558.3258f, -3781.111f, 237.60f);
