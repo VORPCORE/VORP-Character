@@ -31,8 +31,14 @@ namespace VorpCharacter.Script
         {
             EventHandlers["vorpcharacter:selectCharacter"] += new Action<dynamic>(LoadCharacters);
             EventHandlers["vorpcharacter:spawnUniqueCharacter"] += new Action<dynamic>(SpawnCharacter);
+            EventHandlers["vorpcharacter:createCharacter"] += new Action(OnCreateCharacter);
 
             Logger.Info($"VORP Character SelectCharacter");
+        }
+
+        private void OnCreateCharacter()
+        {
+            new CreateCharacter().StartCreationOfCharacter();
         }
 
         private async void SpawnCharacter(dynamic myChar)
@@ -213,7 +219,6 @@ namespace VorpCharacter.Script
                 await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
                 API.NetworkClearClockTimeOverride();
-                API.NetworkClearClockTimeOverride();
                 API.FreezeEntityPosition(Cache.PlayerPedId, false);
 
                 API.DoScreenFadeOut(1000);
@@ -336,7 +341,7 @@ namespace VorpCharacter.Script
                                 TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
                                 if (myChars.Count <= 1)
                                 {
-                                    TriggerEvent("vorpcharacter:createCharacter");
+                                    new CreateCharacter().StartCreationOfCharacter();
                                     API.PromptSetEnabled(DeletePrompt, 0);
                                     API.PromptSetVisible(DeletePrompt, 0);
                                     API.PromptSetEnabled(CreatePrompt, 0);
@@ -357,9 +362,12 @@ namespace VorpCharacter.Script
                                     else
                                     {
                                         selectedChar -= 1;
+                                        if (selectedChar < 0)
+                                            selectedChar = 0;
                                     }
 
-                                    await StartSwapCharacter();
+                                    if (selectedChar > 0)
+                                        await StartSwapCharacter();
                                 }
                             }
                         }
