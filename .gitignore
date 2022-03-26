@@ -12,3 +12,4 @@ VORP-Character\[Client-Server\]/build/vorp_character/CitizenFX.Core.xml
 VORP-Character\[Client-Server\]/build/vorp_character/CitizenFX.Core.dll
 /VORP-Character\[Client-Server\]/build/**.zip
 *.zip
+VORP-Character\[Client-Server\]/build/vorp_character/Newtonsoft.Json.xml
