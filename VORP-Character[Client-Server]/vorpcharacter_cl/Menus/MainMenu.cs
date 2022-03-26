@@ -16,6 +16,8 @@ namespace VorpCharacter.Menus
         private static MenuListItem miScaleList;
         private static MenuItem miFinish;
 
+        static CreateCharacter createCharacter => CreateCharacter.Instance;
+
         private static void AddSubMenu(Menu menu, Menu subMenu, string titleTranslationKey, string subtitleTranslationKey)
         {
             MenuController.AddSubmenu(menu, subMenu);
@@ -70,7 +72,7 @@ namespace VorpCharacter.Menus
 
         private static void MainMenu_OnMenuClose(Menu menu)
         {
-            if (CreateCharacter.isInCharCreation)
+            if (CreateCharacter.Instance.isInCharCreation)
             {
                 CreateCharacter.CloseSecureMenu();
             }
@@ -80,8 +82,8 @@ namespace VorpCharacter.Menus
         {
             if (menuItem == miFinish)
             {
-                CreateCharacter.isInCharCreation = false;
-                CreateCharacter.SaveChanges();
+                createCharacter.isInCharCreation = false;
+                createCharacter.SaveChanges();
                 mainMenu.CloseMenu();
             }
         }

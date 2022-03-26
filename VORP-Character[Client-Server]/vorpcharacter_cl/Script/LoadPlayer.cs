@@ -95,16 +95,17 @@ namespace VorpCharacter.Script
                 switch (part)
                 {
                     case "clothes":
-                        await SetPedComponents(cache_cloths, Cache.PlayerPedId, isMale);
+                        SetPedComponents(cache_cloths, Cache.PlayerPedId, isMale);
+                        Utilities.UpdatePedVariation(Cache.PlayerPedId, true);
                         break;
                     default:
-                        await SetupCharacter(true, cache_skin, cache_cloths, true);
+                        await SetupCharacter(true, cache_skin, cache_cloths);
                         break;
                 }
             }
         }
 
-        private void reloadPlayerComps(ExpandoObject sskin, ExpandoObject scloth)
+        private async void reloadPlayerComps(ExpandoObject sskin, ExpandoObject scloth)
         {
             Dictionary<string, string> skin = new Dictionary<string, string>();
 
@@ -122,6 +123,8 @@ namespace VorpCharacter.Script
 
             cache_skin = skin;
             cache_cloths = cloths;
+
+            await SetupCharacter(true, cache_skin, cache_cloths);
         }
 
         public void getPlayerComps(CallbackDelegate cb)
@@ -180,18 +183,18 @@ namespace VorpCharacter.Script
                 compLegs = Convert.ToUInt32($"0x{PluginManager.Config.Female[0].Legs[0]}", 16);
             }
 
-            await Utilities.ApplyShopItemToPed(pedHandle, compHead);
-            await Utilities.ApplyShopItemToPed(pedHandle, compEyes);
-            await Utilities.ApplyShopItemToPed(pedHandle, compBody);
-            await Utilities.ApplyShopItemToPed(pedHandle, compLegs);
+            Utilities.ApplyShopItemToPed(pedHandle, compHead);
+            Utilities.ApplyShopItemToPed(pedHandle, compEyes);
+            Utilities.ApplyShopItemToPed(pedHandle, compBody);
+            Utilities.ApplyShopItemToPed(pedHandle, compLegs);
 
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
             Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
-            await Utilities.UpdatePedVariation(pedHandle);
+            Utilities.UpdatePedVariation(pedHandle);
         }
 
-        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, bool doFades = false, int delay = 0, bool newChaarcter = false)
+        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, int delay = 0)
         {
             try
             {
@@ -204,8 +207,6 @@ namespace VorpCharacter.Script
                 if (clothes.Count > 0)
                     API.SetResourceKvp2("clothes", JsonConvert.SerializeObject(clothes));
 
-                if (doFades) await Utilities.FadeOutScreen(1000);
-
                 if (!skin.ContainsKey("sex"))
                 {
                     Logger.Error($"Information on selected character is null");
@@ -213,7 +214,6 @@ namespace VorpCharacter.Script
                 }
 
                 int pedHandle = -1;
-
                 if (isPlayer) pedHandle = Cache.PlayerPedId;
                 string sex = GetKeyValue(skin, "sex");
                 bool isMale = sex == "mp_male";
@@ -235,30 +235,27 @@ namespace VorpCharacter.Script
                     pedHandle = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
                 }
 
-                await Utilities.UpdatePedVariation(pedHandle);
+                while (!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, pedHandle)) // IsPedReadyToRender
+                {
+                    await BaseScript.Delay(0);
+                }
+
+                Utilities.UpdatePedVariation(pedHandle, true, true);
                 int pHealth = Utilities.GetAttributeCoreValue(pedHandle, eAttributeCore.Health);
 
-                //PreLoad TextureFace
                 PreloadPedTextures(skin, isMale);
-                //End
-                await Delay(0);
                 ApplyDefaultSkinSettings(pedHandle);
-                //LoadSkin
-                await SetupPedBodyTypes(skin, delay, pedHandle);
-                await SetupPedFaceFeatures(skin, pedHandle);
-                await SetPedBodyComponents(skin, pedHandle);
-                await Utilities.UpdatePedVariation(pedHandle);
-
-                await BaseScript.Delay(100);
-
-                SetPedFaceTextures(skin);
-                await SetPedComponents(clothes, pedHandle, isMale);
-
-                await Utilities.UpdatePedVariation(pedHandle);
-
-                await BaseScript.Delay(100);
-                // this has to be after SetPedFaceTextures, could be included inside SetPedFaceTextures?!
-                await SetupPedAdditionalFaceFeatures(skin, pedHandle);
+                SetupPedBodyTypes(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetupPedFaceFeatures(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetPedBodyComponents(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetPedFaceTextures(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetupPedAdditionalFaceFeatures(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetPedComponents(clothes, pedHandle, isMale);
 
                 Utilities.SetAttributeCoreValue(pedHandle, (int)eAttributeCore.Health, pHealth);
 
@@ -267,8 +264,6 @@ namespace VorpCharacter.Script
                 float pedScale = 1f;
                 float.TryParse(skin["Scale"], out pedScale);
                 await Utilities.SetPedScale(pedHandle, pedScale);
-
-                if (doFades) await Utilities.FadeInScreen(1000);
 
                 IsCurrentlyRunningSetup = false;
 
@@ -296,82 +291,85 @@ namespace VorpCharacter.Script
             CreateCharacter.texture_types["unk_arg"] = 0;
         }
 
-        private static async Task SetPedBodyComponents(Dictionary<string, string> skin, int pedHandle)
+        private static void SetPedBodyComponents(int pedHandle, Dictionary<string, string> skin)
         {
             string bodyValue = GetKeyValue(skin, "Body");
             string waistValue = GetKeyValue(skin, "Waist");
-            await Utilities.SetPedBodyComponent(pedHandle, ConvertValue(bodyValue));
-            await Utilities.SetPedBodyComponent(pedHandle, ConvertValue(waistValue));
+            Utilities.SetPedBodyComponent(pedHandle, ConvertValue(bodyValue));
+            Utilities.SetPedBodyComponent(pedHandle, ConvertValue(waistValue));
+            Utilities.UpdatePedVariation(pedHandle);
         }
 
-        private static async Task SetupPedAdditionalFaceFeatures(Dictionary<string, string> skin, int pedHandle)
+        private static void SetupPedAdditionalFaceFeatures(int pedHandle, Dictionary<string, string> skin)
         {
             string eyesValue = GetKeyValue(skin, "Eyes");
             string beardValue = GetKeyValue(skin, "Beard");
             string hairValue = GetKeyValue(skin, "Hair");
 
             Function.Call((Hash)0x59BD177A1A48600A, pedHandle, 0xF8016BCA);
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(eyesValue));
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(beardValue));
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(hairValue));
-            await Utilities.UpdatePedVariation(pedHandle);
+            Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(eyesValue));
+            Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(beardValue));
+            Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(hairValue));
+            Utilities.UpdatePedVariation(pedHandle);
         }
 
-        private static async Task SetupPedBodyTypes(Dictionary<string, string> skin, int delay, int pedHandle)
+        private static void SetupPedBodyTypes(int pedHandle, Dictionary<string, string> skin)
         {
             string headType = GetKeyValue(skin, "HeadType");
             string bodyType = GetKeyValue(skin, "BodyType");
             string legsType = GetKeyValue(skin, "LegsType");
 
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(headType), delay: delay);
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(bodyType), delay: delay);
-            await Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(legsType), delay: delay);
+            Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(headType));
+            Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(bodyType));
+            Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(legsType));
+            Utilities.UpdatePedVariation(pedHandle);
         }
 
-        private static async Task SetupPedFaceFeatures(Dictionary<string, string> skin, int pedHandle)
+        private static void SetupPedFaceFeatures(int pedHandle, Dictionary<string, string> skin)
         {
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.FaceSize, skin, "HeadSize"); // FaceSize
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowHeight, skin, "EyeBrowH"); // EyebrowHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowWidth, skin, "EyeBrowW"); // EyebrowWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowDepth, skin, "EyeBrowD"); // EyebrowDepth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsHeight, skin, "EarsH"); // EarsHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsAngle, skin, "EarsW"); // EarsAngle
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsSize, skin, "EarsD"); // EarsSize
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsLobeSize, skin, "EarsL"); // EarsLobeSize
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyelidsHeight, skin, "EyeLidH"); // EyelidsHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyelidsWidth, skin, "EyeLidW"); // EyelidsWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeDepth, skin, "EyeD"); // EyeDepth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeAngle, skin, "EyeAng"); // EyeAngle
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeSeparation, skin, "EyeDis"); // EyeSeparation
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeHeight, skin, "EyeH"); // EyeHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseWidth, skin, "NoseW"); // NoseWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseSize, skin, "NoseS"); // NoseSize
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseHeight, skin, "NoseH"); // NoseHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseAngle, skin, "NoseAng"); // NoseAngle
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseCurvature, skin, "NoseC"); // NoseCurvature
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NostrilsSeparation, skin, "NoseDis"); // NostrilsSeparation
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.CheekbonesHeight, skin, "CheekBonesH"); // CheekbonesHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.CheekbonesWidth, skin, "CheekBonesW"); // CheekbonesWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.CheekbonesDepth, skin, "CheekBonesD"); // CheekbonesDepth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthWidth, skin, "MouthW"); // MouthWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthDepth, skin, "MouthD"); // MouthDepth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthDeviation, skin, "MouthX"); // MouthDeviation
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthHeight, skin, "MouthY"); // MouthHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.UpperLipHeight, skin, "ULiphH"); // UpperLipHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.UpperLipWidth, skin, "ULiphW"); // UpperLipWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.UpperLipDepth, skin, "ULiphD"); // UpperLipDepth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.LowerLipHeight, skin, "LLiphH"); // LowerLipHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.LowerLipWidth, skin, "LLiphW"); // LowerLipWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.LowerLipDepth, skin, "LLiphD"); // LowerLipDepth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MandibleHeight, skin, "JawH"); // MandibleHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MandibleWidth, skin, "JawW"); // MandibleWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MandibleDepth, skin, "JawD"); // MandibleDepth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinHeight, skin, "ChinH"); // ChinHeight
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinWidth, skin, "ChinW"); // ChinWidth
-            await Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinDepth, skin, "ChinD", true); // ChinDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.FaceSize, skin, "HeadSize"); // FaceSize
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowHeight, skin, "EyeBrowH"); // EyebrowHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowWidth, skin, "EyeBrowW"); // EyebrowWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowDepth, skin, "EyeBrowD"); // EyebrowDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsHeight, skin, "EarsH"); // EarsHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsAngle, skin, "EarsW"); // EarsAngle
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsSize, skin, "EarsD"); // EarsSize
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EarsLobeSize, skin, "EarsL"); // EarsLobeSize
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyelidsHeight, skin, "EyeLidH"); // EyelidsHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyelidsWidth, skin, "EyeLidW"); // EyelidsWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeDepth, skin, "EyeD"); // EyeDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeAngle, skin, "EyeAng"); // EyeAngle
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeSeparation, skin, "EyeDis"); // EyeSeparation
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyeHeight, skin, "EyeH"); // EyeHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseWidth, skin, "NoseW"); // NoseWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseSize, skin, "NoseS"); // NoseSize
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseHeight, skin, "NoseH"); // NoseHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseAngle, skin, "NoseAng"); // NoseAngle
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NoseCurvature, skin, "NoseC"); // NoseCurvature
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.NostrilsSeparation, skin, "NoseDis"); // NostrilsSeparation
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.CheekbonesHeight, skin, "CheekBonesH"); // CheekbonesHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.CheekbonesWidth, skin, "CheekBonesW"); // CheekbonesWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.CheekbonesDepth, skin, "CheekBonesD"); // CheekbonesDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthWidth, skin, "MouthW"); // MouthWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthDepth, skin, "MouthD"); // MouthDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthDeviation, skin, "MouthX"); // MouthDeviation
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MouthHeight, skin, "MouthY"); // MouthHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.UpperLipHeight, skin, "ULiphH"); // UpperLipHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.UpperLipWidth, skin, "ULiphW"); // UpperLipWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.UpperLipDepth, skin, "ULiphD"); // UpperLipDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.LowerLipHeight, skin, "LLiphH"); // LowerLipHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.LowerLipWidth, skin, "LLiphW"); // LowerLipWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.LowerLipDepth, skin, "LLiphD"); // LowerLipDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MandibleHeight, skin, "JawH"); // MandibleHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MandibleWidth, skin, "JawW"); // MandibleWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.MandibleDepth, skin, "JawD"); // MandibleDepth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinHeight, skin, "ChinH"); // ChinHeight
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinWidth, skin, "ChinW"); // ChinWidth
+            Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinDepth, skin, "ChinD", true); // ChinDepth
+            Utilities.UpdatePedVariation(pedHandle, true);
         }
 
-        private static void SetPedFaceTextures(Dictionary<string, string> skin)
+        private static void SetPedFaceTextures(int pedHandle, Dictionary<string, string> skin)
         {
             // if you're looking at this, and saying "WTF is this..." welcome to to supporting a legacy model before refactoring to classes, yes, I don't like this either!
             // also can see that another resource has added this information into another column, so which one is the correct one?! what a mess.
@@ -477,43 +475,45 @@ namespace VorpCharacter.Script
             CreateCharacter.ToggleOverlayChange("grime", iGrimeVisibility, iGrimeTxId);
             CreateCharacter.ToggleOverlayChange("lipsticks", iLipstickVisibility, iLipstickTxId, palette_id: iLipstickPaletteId, palette_color_primary: iLipstickColorPrimary);
             CreateCharacter.ToggleOverlayChange("shadows", iShadowsVisibility, iShadowsTxId, palette_id: iShadowsPaletteId, palette_color_primary: iShadowsColorPrimary);
+            Utilities.UpdatePedVariation(pedHandle, true);
         }
 
-        private async static Task SetPedComponents(Dictionary<string, uint> clothes, int pedHandle, bool isMale)
+        private static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle, bool isMale)
         {
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Hat, "Hat", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.EyeWear, "EyeWear", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Mask, "Mask", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckWear, "NeckWear", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Suspender, "Suspender", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Vest, "Vest", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Coat, "Coat", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatClosed, "CoatClosed", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Shirt, "Shirt", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckTies, "NeckTies", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Poncho, "Poncho", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloak, "Cloak", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Glove, "Glove", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingRh, "RingRh", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.RingLh, "RingLh", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Bracelet, "Bracelet", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Gunbelt, "Gunbelt", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Belt, "Belt", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "bow", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "armor", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Skirt, "teeth", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Chap, "Chap", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Boots, "Boots", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Spurs, "Spurs", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Spats, "Spats", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Gauntlets, "Gauntlets", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Loadouts, "Loadouts", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Accessories, "Accessories", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.Satchels, "Satchels", clothes);
-            await SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Hat, "Hat", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.EyeWear, "EyeWear", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Mask, "Mask", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckWear, "NeckWear", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Suspender, "Suspender", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Vest, "Vest", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Coat, "Coat", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatClosed, "CoatClosed", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Shirt, "Shirt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckTies, "NeckTies", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Poncho, "Poncho", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloak, "Cloak", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Glove, "Glove", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.RingRh, "RingRh", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.RingLh, "RingLh", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Bracelet, "Bracelet", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Gunbelt, "Gunbelt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Belt, "Belt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Bow, "bow", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Armor, "armor", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Teeth, "teeth", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Chap, "Chap", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Boots, "Boots", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Spurs, "Spurs", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Spats, "Spats", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Gauntlets, "Gauntlets", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Loadouts, "Loadouts", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Accessories, "Accessories", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Satchels, "Satchels", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
+            Utilities.UpdatePedVariation(pedHandle, true);
         }
 
         private static string GetKeyValue(Dictionary<string, string> skin, string key)
@@ -540,7 +540,7 @@ namespace VorpCharacter.Script
         }
 
         // what does this do really?
-        public static async Task SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
+        public static void SetPlayerComponent(int pedHandle, bool isMale, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
         {
             if (!clothes.ContainsKey(component)) return;
 
@@ -552,20 +552,12 @@ namespace VorpCharacter.Script
 
             if (clothes[component] > 0)
             {
-                int attempts = 0;
-                bool isUsingComponent = Utilities.IsMetapedUsingComponent(pedHandle, pedComponent);
-                while (!isUsingComponent)
-                {
-                    Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                    await Utilities.ApplyShopItemToPed(pedHandle, clothes[component], true, true, false, 5);
-                    isUsingComponent = Utilities.IsMetapedUsingComponent(pedHandle, pedComponent);
-
-                    if (attempts > 10) break; // we don't want to get stuck here
-                    attempts++;
-                }
+                long hash = clothes[component];
+                Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
+                Utilities.ApplyShopItemToPed(pedHandle, hash);
 
 #if DEVELOPMENT
-                Logger.Debug($"{component} : {clothes[component]} : Using? {isUsingComponent}");
+                Logger.Debug($"{component} : {clothes[component]}");
 #endif
             }
         }

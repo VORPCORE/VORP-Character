@@ -45,11 +45,10 @@ namespace VorpCharacter.Utils
             return Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, pedHandle);
         }
 
-        public static async void RemoveTagFromMetaPed(int pedHandle, uint component, int p2 = 0, int delay = MAX_COMPONENT_CHANGE_DELAY)
+        public static void RemoveTagFromMetaPed(int pedHandle, uint component, int p2 = 0, int delay = MAX_COMPONENT_CHANGE_DELAY)
         {
             Function.Call((Hash)0xD710A5007C2AC539, pedHandle, component, p2);
-            await UpdatePedVariation(pedHandle);
-            await BaseScript.Delay(delay);
+            UpdatePedVariation(pedHandle);
         }
 
         public static void SetPedOutfitPreset(int pedHandle, int presetId)
@@ -57,13 +56,13 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0x77FF8D35EEC6BBC4, pedHandle, presetId, 0);
         }
 
-        public static async Task SetPedBodyComponent(int pedHandle, uint hash)
+        public static void SetPedBodyComponent(int pedHandle, uint hash)
         {
             Function.Call((Hash)0x1902C4CFCC5BE57C, pedHandle, hash);
-            await UpdatePedVariation(pedHandle);
+            UpdatePedVariation(pedHandle);
         }
 
-        public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, Dictionary<string, string> skin, string key, bool updateVariation = false, int delay = MAX_COMPONENT_CHANGE_DELAY)
+        public static void SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, Dictionary<string, string> skin, string key, bool updateVariation = false)
         {
             if (!skin.TryGetValue(key, out string keyValue))
             {
@@ -78,21 +77,19 @@ namespace VorpCharacter.Utils
             }
 
             Function.Call((Hash)0x5653AB26C82938CF, pedHandle, (uint)pedFaceFeature, value);
-            if (updateVariation) await UpdatePedVariation(pedHandle);
-            await BaseScript.Delay(delay);
+            if (updateVariation) UpdatePedVariation(pedHandle);
         }
 
         public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, float value, bool updateVariation = false, int delay = MAX_COMPONENT_CHANGE_DELAY)
         {
             Function.Call((Hash)0x5653AB26C82938CF, pedHandle, (uint)pedFaceFeature, value);
-            if (updateVariation) await UpdatePedVariation(pedHandle);
+            if (updateVariation) UpdatePedVariation(pedHandle);
             await BaseScript.Delay(delay);
         }
 
-        public static async Task ApplyShopItemToPed(int pedHandle, uint componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true, int delay = MAX_COMPONENT_CHANGE_DELAY, ePedComponent ePedComponent = ePedComponent.UNKNOWN)
+        public static void ApplyShopItemToPed(int pedHandle, long componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true)
         {
             Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, immediately, isMultiplayer, p4);
-            await UpdatePedVariation(pedHandle, delay);
         }
 
         public async static Task<int> SetPlayerModel(uint hash)
@@ -100,14 +97,13 @@ namespace VorpCharacter.Utils
             Function.Call((Hash)0xED40380076A31506, PlayerId(), hash, true);
             await BaseScript.Delay(100);
             int playerPedHandle = Cache.PlayerPedId;
-            await UpdatePedVariation(playerPedHandle);
+            UpdatePedVariation(playerPedHandle);
             return playerPedHandle;
         }
 
-        public async static Task UpdatePedVariation(int pedHandle, int delay = MAX_COMPONENT_CHANGE_DELAY)
+        public static void UpdatePedVariation(int pedHandle, bool p1 = false, bool p5 = false)
         {
-            Function.Call((Hash)0xCC8CA3E88256E58F, pedHandle, false, true, true, true, false);
-            await BaseScript.Delay(delay);
+            Function.Call((Hash)0xCC8CA3E88256E58F, pedHandle, p1, true, true, true, p5);
         }
 
         public static async Task SetPedScale(int pedHandle, float scale)

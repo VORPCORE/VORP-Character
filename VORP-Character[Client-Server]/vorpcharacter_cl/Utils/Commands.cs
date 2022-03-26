@@ -44,7 +44,7 @@ namespace VorpCharacter.Utils
             API.RegisterCommand(Common.GetTranslation("CommandSatchels"), new Action(Satchels), false);
         }
 
-        static async void ToggleComponent(uint component, uint item)
+        static void ToggleComponent(uint component, uint item)
         {
             if (Utilities.IsMetapedUsingComponent(playerPedId, component))
             {
@@ -52,7 +52,7 @@ namespace VorpCharacter.Utils
             }
             else
             {
-                await Utilities.ApplyShopItemToPed(playerPedId, item);
+                Utilities.ApplyShopItemToPed(playerPedId, item);
             }
         }
 
@@ -134,31 +134,31 @@ namespace VorpCharacter.Utils
 
         private static void Dress()
         {
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["CoatClosed"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()), true, true, false);
-            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()), true, true, false);
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Hat"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["EyeWear"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckWear"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["NeckTies"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Shirt"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Suspender"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Vest"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Coat"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["CoatClosed"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Poncho"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Cloak"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Glove"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingRh"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["RingLh"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Bracelet"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Gunbelt"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Belt"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Buckle"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Holster"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Pant"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Skirt"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Chap"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Boots"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["Spurs"].ToString()));
+            Utilities.ApplyShopItemToPed(playerPedId, LoadPlayer.ConvertValue(LoadPlayer.cache_cloths["GunbeltAccs"].ToString()));
         }
 
     }
