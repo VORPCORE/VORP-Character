@@ -138,6 +138,8 @@ namespace VorpCharacter.Script
         {
             await Utilities.FadeOutScreen(0);
 
+            Logger.Info($"Loading player characters");
+
             RegisterPrompts();
 
             isInCharacterSelector = true;
