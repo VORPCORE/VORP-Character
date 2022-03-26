@@ -125,7 +125,7 @@ namespace VorpCharacter.Script
             API.DeletePed(ref pedHandle);
             await Delay(1000);
             pedHandle = await LoadNpcComps(json_skin, json_components);
-            Utilities.UpdatePedVariation(pedHandle, true, true);
+            Utilities.UpdatePedVariation(pedHandle, true);
             tagId = Function.Call<int>((Hash)0x53CB4B502E1C57EA, pedHandle, $"{Common.GetTranslation("MoneyTag")}: ~COLOR_WHITE~$" + "~COLOR_REPLAY_GREEN~" + myChars[selectedChar].money, false, false, "", 0);
             Function.Call((Hash)0xA0D7CE5F83259663, tagId, myChars[selectedChar].firstname + " " + myChars[selectedChar].lastname);
             Function.Call((Hash)0x5F57522BC1EB9D9D, tagId, 0);
