@@ -10,6 +10,10 @@
   "CharactersFull": "No puedes crear más personajes.",
   "PressSelectInfo": "Cambiar personaje <- o -> | Seleccionar Personaje [ENTER]",
 
+  "ButtonSupprName": "Confirm Deletion",
+  "SUPPRConfirmMsg": "Enter 'delete' to delete the character.",
+  "SUPPRCode": "delete",
+
   "CommandHat": "sombrero",
   "CommandEyeWear": "gafas",
   "CommandMask": "mascara",

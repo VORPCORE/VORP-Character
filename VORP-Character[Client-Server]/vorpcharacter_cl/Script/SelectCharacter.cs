@@ -304,7 +304,7 @@ namespace VorpCharacter.Script
                     }
                 }
 
-                if (API.PromptHasHoldModeCompleted(DeletePrompt) && !swappingChar)
+                if (API.PromptHasHoldModeCompleted(DeletePrompt) && !isDeletionAttempt)
                 {
                     isDeletionAttempt = true;
                     isInCharacterSelector = false;
@@ -318,7 +318,9 @@ namespace VorpCharacter.Script
                 TriggerEvent("vorpinputs:getInput", Common.GetTranslation("ButtonSupprName"), Common.GetTranslation("SUPPRConfirmMsg"), new Action<dynamic>(async (cb) =>
                 {
                     string result = cb;
-                    await Delay(1000);
+                    await Delay(0);
+
+                    Logger.Debug($"Result: {result}");
 
                     if (!result.Equals("close"))
                     {
@@ -353,6 +355,7 @@ namespace VorpCharacter.Script
                                 await StartSwapCharacter();
                             }
 
+                            isDeletionAttempt = false;
                         }
                         else
                         {

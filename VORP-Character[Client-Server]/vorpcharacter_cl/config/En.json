@@ -10,6 +10,10 @@
   "CharactersFull": "You can't create more characters",
   "PressSelectInfo": "Change character <- or -> | Select Character [ENTER]",
 
+  "ButtonSupprName": "Confirm Deletion",
+  "SUPPRConfirmMsg": "Enter 'delete' to delete the character.",
+  "SUPPRCode": "delete",
+
   "CommandHat": "hat",
   "CommandEyeWear": "eyewear",
   "CommandMask": "mask",
