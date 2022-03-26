@@ -339,7 +339,7 @@ namespace VorpCharacter.Script
                             if (result.Equals(Common.GetTranslation("SUPPRCode")))
                             {
                                 TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
-                                if (myChars.Count <= 1)
+                                if (myChars.Count == 0)
                                 {
                                     new CreateCharacter().StartCreationOfCharacter();
                                     API.PromptSetEnabled(DeletePrompt, 0);
