@@ -198,34 +198,45 @@ namespace VorpCharacter.Script
 
         private void GoToSelectionMenu(int source)
         {
-            Player player = Common.GetPlayer(source);
-            if (player == null)
+            try
             {
-                Logger.Error($"GoToSelectionMenu: Player '{source}' doesn't exist.");
-                return;
-            }
-
-            dynamic coreUserCharacters = player.GetCoreUserCharacters();
-            Dictionary<string, dynamic> auxcharacter;
-            List<Dictionary<string, dynamic>> UserCharacters = new List<Dictionary<string, dynamic>>();
-            foreach (dynamic character in coreUserCharacters)
-            {
-                auxcharacter = new Dictionary<string, dynamic>
+                Player player = Common.GetPlayer(source);
+                if (player == null)
                 {
-                    ["charIdentifier"] = character.charIdentifier,
-                    ["money"] = character.money,
-                    ["gold"] = character.gold,
-                    ["firstname"] = character.firstname,
-                    ["lastname"] = character.lastname,
-                    ["skin"] = character.skin,
-                    ["components"] = character.comps,
-                    ["coords"] = character.coords,
-                    ["isDead"] = character.isdead
-                };
-                UserCharacters.Add(auxcharacter);
-            }
+                    Logger.Error($"GoToSelectionMenu: Player '{source}' doesn't exist.");
+                    return;
+                }
 
-            player.TriggerEvent("vorpcharacter:selectCharacter", UserCharacters);
+                Logger.Debug($"Loading '{player.Name}' characters");
+
+                dynamic coreUserCharacters = player.GetCoreUserCharacters();
+                Dictionary<string, dynamic> auxcharacter;
+                List<Dictionary<string, dynamic>> UserCharacters = new List<Dictionary<string, dynamic>>();
+                foreach (dynamic character in coreUserCharacters)
+                {
+                    auxcharacter = new Dictionary<string, dynamic>
+                    {
+                        ["charIdentifier"] = character.charIdentifier,
+                        ["money"] = character.money,
+                        ["gold"] = character.gold,
+                        ["firstname"] = character.firstname,
+                        ["lastname"] = character.lastname,
+                        ["skin"] = character.skin,
+                        ["components"] = character.comps,
+                        ["coords"] = character.coords,
+                        ["isDead"] = character.isdead
+                    };
+                    UserCharacters.Add(auxcharacter);
+                }
+
+                Logger.Debug($"Found {UserCharacters.Count} characters for player '{player.Name}'");
+
+                player.TriggerEvent("vorpcharacter:selectCharacter", UserCharacters);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, $"GoToSelectionMenu");
+            }
         }
 
         private void setPlayerCompChange(int source, string compsValue)
