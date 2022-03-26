@@ -733,110 +733,84 @@ namespace VorpCharacter.Menus
 
             clothesMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
             {
-                switch (_itemIndex)
+                if (_listItem == mListHats)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x9925C067, "Hat", SkinsUtils.HATS_MALE, SkinsUtils.HATS_FEMALE);
+                else if (_listItem == mListEyeWear)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x5E47CA6, "EyeWear", SkinsUtils.EYEWEAR_MALE, SkinsUtils.EYEWEAR_FEMALE);
+                else if (_listItem == mListMask)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7505EF42, "Mask", SkinsUtils.MASK_MALE, SkinsUtils.MASK_FEMALE);
+                else if (_listItem == mListNeckWear)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x5FC29285, "NeckWear", SkinsUtils.NECKWEAR_MALE, SkinsUtils.NECKWEAR_FEMALE);
+                else if (_listItem == mListNeckTies)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7A96FACA, "NeckTies", SkinsUtils.NECKTIES_MALE, SkinsUtils.NECKTIES_FEMALE);
+                else if (_listItem == mListShirts)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x2026C46D, "Shirt", SkinsUtils.SHIRTS_MALE, SkinsUtils.SHIRTS_FEMALE);
+                else if (_listItem == mListSuspenders)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x877A2CF7, "Suspender", SkinsUtils.SUSPENDERS_MALE, SkinsUtils.SUSPENDERS_FEMALE);
+                else if (_listItem == mListVest)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x485EE834, "Vest", SkinsUtils.VEST_MALE, SkinsUtils.VEST_FEMALE);
+                else if (_listItem == mListCoats)
                 {
-                    case 0:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x9925C067, "Hat", SkinsUtils.HATS_MALE, SkinsUtils.HATS_FEMALE);
-                        break;
-                    case 1:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x5E47CA6, "EyeWear", SkinsUtils.EYEWEAR_MALE, SkinsUtils.EYEWEAR_FEMALE);
-                        break;
-                    case 2:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7505EF42, "Mask", SkinsUtils.MASK_MALE, SkinsUtils.MASK_FEMALE);
-                        break;
-                    case 3:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x5FC29285, "NeckWear", SkinsUtils.NECKWEAR_MALE, SkinsUtils.NECKWEAR_FEMALE);
-                        break;
-                    case 4:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7A96FACA, "NeckTies", SkinsUtils.NECKTIES_MALE, SkinsUtils.NECKTIES_FEMALE);
-                        break;
-                    case 5:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x2026C46D, "Shirt", SkinsUtils.SHIRTS_MALE, SkinsUtils.SHIRTS_FEMALE);
-                        break;
-                    case 6:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x877A2CF7, "Suspender", SkinsUtils.SUSPENDERS_MALE, SkinsUtils.SUSPENDERS_FEMALE);
-                        break;
-                    case 7:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x485EE834, "Vest", SkinsUtils.VEST_MALE, SkinsUtils.VEST_FEMALE);
-                        break;
-                    case 8:
-                        CreateCharacter.SetPlayerComponent(0, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
-                        mListCoatsClosed.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
-                        break;
-                    case 9:
-                        CreateCharacter.SetPlayerComponent(0, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
-                        mListCoats.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
-                        break;
-                    case 10:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xAF14310B, "Poncho", SkinsUtils.PONCHOS_MALE, SkinsUtils.PONCHOS_FEMALE);
-                        break;
-                    case 11:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x3C1A74CD, "Cloak", SkinsUtils.CLOAK_MALE, SkinsUtils.CLOAK_FEMALE);
-                        break;
-                    case 12:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xEABE0032, "Glove", SkinsUtils.GLOVES_MALE, SkinsUtils.GLOVES_FEMALE);
-                        break;
-                    case 13:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7A6BBD0B, "RingRh", SkinsUtils.RINGS_RH_MALE, SkinsUtils.RINGS_RH_FEMALE);
-                        break;
-                    case 14:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xF16A1D23, "RingLh", SkinsUtils.RINGS_LH_MALE, SkinsUtils.RINGS_LH_FEMALE);
-                        break;
-                    case 15:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7BC10759, "Bracelet", SkinsUtils.BRACELETS_MALE, SkinsUtils.BRACELETS_FEMALE);
-                        break;
-                    case 16:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x9B2C8B89, "Gunbelt", SkinsUtils.GUNBELT_MALE, SkinsUtils.GUNBELT_FEMALE);
-                        break;
-                    case 17:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xA6D134C6, "Belt", SkinsUtils.BELT_MALE, SkinsUtils.BELT_FEMALE);
-                        break;
-                    case 18:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xFAE9107F, "Buckle", SkinsUtils.BUCKLE_MALE, SkinsUtils.BUCKLE_FEMALE);
-                        break;
-                    case 19:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xB6B6122D, "Holster", SkinsUtils.HOLSTERS_S_MALE, SkinsUtils.HOLSTERS_S_FEMALE);
-                        break;
-                    case 20:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x1D4C528A, "Pant", SkinsUtils.PANTS_MALE, SkinsUtils.PANTS_FEMALE);
-                        break;
-                    case 21:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xA0E3AB7F, "Skirt", SkinsUtils.SKIRTS_FEMALE, SkinsUtils.SKIRTS_FEMALE);
-                        break;
-                    case 22:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x3107499B, "Chap", SkinsUtils.CHAPS_MALE, SkinsUtils.CHAPS_FEMALE);
-                        break;
-                    case 23:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
-                        break;
-                    case 24:
-                        CreateCharacter.SetPlayerComponent(0, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
-                        mListSpats.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
-                        break;
-                    case 25:
-                        CreateCharacter.SetPlayerComponent(0, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
-                        mListSpurs.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
-                        break;
-                    case 26:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x91CE9B20, "Gauntlets", SkinsUtils.GAUNTLETS_MALE, SkinsUtils.GAUNTLETS_FEMALE);
-                        break;
-                    case 27:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x83887E88, "Loadouts", SkinsUtils.LOADOUTS_MALE, SkinsUtils.LOADOUTS_FEMALE);
-                        break;
-                    case 28:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x79D7DF96, "Accessories", SkinsUtils.ACCESSORIES_MALE, SkinsUtils.ACCESSORIES_FEMALE);
-                        break;
-                    case 29:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x94504D26, "Satchels", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
-                        break;
-                    case 30:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.GUNBELTACCS_MALE, SkinsUtils.GUNBELTACCS_MALE);
-                        break;
+                    CreateCharacter.SetPlayerComponent(0, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
+                    mListCoatsClosed.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
                 }
+                else if (_listItem == mListCoatsClosed)
+                {
+                    CreateCharacter.SetPlayerComponent(0, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
+                    mListCoats.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
+                }
+                else if (_listItem == mListPonchos)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xAF14310B, "Poncho", SkinsUtils.PONCHOS_MALE, SkinsUtils.PONCHOS_FEMALE);
+                else if (_listItem == mListCloak)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x3C1A74CD, "Cloak", SkinsUtils.CLOAK_MALE, SkinsUtils.CLOAK_FEMALE);
+                else if (_listItem == mListGloves)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xEABE0032, "Glove", SkinsUtils.GLOVES_MALE, SkinsUtils.GLOVES_FEMALE);
+                else if (_listItem == mListRingsRhType)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7A6BBD0B, "RingRh", SkinsUtils.RINGS_RH_MALE, SkinsUtils.RINGS_RH_FEMALE);
+                else if (_listItem == mListRingsLh)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xF16A1D23, "RingLh", SkinsUtils.RINGS_LH_MALE, SkinsUtils.RINGS_LH_FEMALE);
+                else if (_listItem == mListbracelets)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7BC10759, "Bracelet", SkinsUtils.BRACELETS_MALE, SkinsUtils.BRACELETS_FEMALE);
+                else if (_listItem == mListGunbelt)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x9B2C8B89, "Gunbelt", SkinsUtils.GUNBELT_MALE, SkinsUtils.GUNBELT_FEMALE);
+                else if (_listItem == mListBelt)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xA6D134C6, "Belt", SkinsUtils.BELT_MALE, SkinsUtils.BELT_FEMALE);
+                else if (_listItem == mListBuckle)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xFAE9107F, "Buckle", SkinsUtils.BUCKLE_MALE, SkinsUtils.BUCKLE_FEMALE);
+                else if (_listItem == mListSHolsters)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xB6B6122D, "Holster", SkinsUtils.HOLSTERS_S_MALE, SkinsUtils.HOLSTERS_S_FEMALE);
+                else if (_listItem == mListPants)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x1D4C528A, "Pant", SkinsUtils.PANTS_MALE, SkinsUtils.PANTS_FEMALE);
+                else if (_listItem == mListSkirts)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xA0E3AB7F, "Skirt", SkinsUtils.SKIRTS_FEMALE, SkinsUtils.SKIRTS_FEMALE);
+                else if (_listItem == mListChaps)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x3107499B, "Chap", SkinsUtils.CHAPS_MALE, SkinsUtils.CHAPS_FEMALE);
+                else if (_listItem == mListBoots)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
+                else if (_listItem == mListSpurs)
+                {
+                    CreateCharacter.SetPlayerComponent(0, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
+                    mListSpats.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
+                }
+                else if (_listItem == mListSpats)
+                {
+                    CreateCharacter.SetPlayerComponent(0, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
+                    mListSpurs.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
+                }
+                else if (_listItem == mListGunbeltAccs)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.GUNBELTACCS_MALE, SkinsUtils.GUNBELTACCS_MALE);
+                else if (_listItem == mListGauntlets)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x91CE9B20, "Gauntlets", SkinsUtils.GAUNTLETS_MALE, SkinsUtils.GAUNTLETS_FEMALE);
+                else if (_listItem == mListLoadouts)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x83887E88, "Loadouts", SkinsUtils.LOADOUTS_MALE, SkinsUtils.LOADOUTS_FEMALE);
+                else if (_listItem == mListAccessories)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x79D7DF96, "Accessories", SkinsUtils.ACCESSORIES_MALE, SkinsUtils.ACCESSORIES_FEMALE);
+                else if (_listItem == mListSatchels)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x94504D26, "Satchels", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
             };
 
         }
