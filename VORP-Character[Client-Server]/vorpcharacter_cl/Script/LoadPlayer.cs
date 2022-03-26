@@ -240,11 +240,18 @@ namespace VorpCharacter.Script
                     await BaseScript.Delay(0);
                 }
 
+                Function.Call((Hash)0x0BFA1BD465CDFEFD, pedHandle);
                 Utilities.UpdatePedVariation(pedHandle, true, true);
 
                 PreloadPedTextures(skin, isMale);
+                await BaseScript.Delay(0);
                 ApplyDefaultSkinSettings(pedHandle);
+                await BaseScript.Delay(0);
                 SetupPedBodyTypes(pedHandle, skin);
+                await BaseScript.Delay(0);
+                Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
+                Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
+                Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
                 await BaseScript.Delay(0);
                 SetupPedFaceFeatures(pedHandle, skin);
                 await BaseScript.Delay(0);
