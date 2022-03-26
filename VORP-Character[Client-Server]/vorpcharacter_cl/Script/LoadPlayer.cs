@@ -482,7 +482,7 @@ namespace VorpCharacter.Script
             Utilities.UpdatePedVariation(pedHandle, true);
         }
 
-        private static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle)
+        public static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle)
         {
             SetPlayerComponent(pedHandle, ePedComponent.Hats, "Hat", clothes);
             SetPlayerComponent(pedHandle, ePedComponent.EyeWear, "EyeWear", clothes);
@@ -554,16 +554,7 @@ namespace VorpCharacter.Script
                 if (clothes["Skirt"] > 0 && clothes["Pant"] > 0 && component == "Skirt") return;
             }
 
-            if (clothes[component] > 0)
-            {
-                long hash = clothes[component];
-                Function.Call((Hash)0x59BD177A1A48600A, pedHandle, (uint)pedComponent);
-                Utilities.ApplyShopItemToPed(pedHandle, hash);
-
-#if DEVELOPMENT
-                Logger.Debug($"{component} : {clothes[component]}");
-#endif
-            }
+            Utilities.SetComponent(pedHandle, pedComponent, clothes[component]);
         }
 
         private async Task IsLoaded(Dictionary<string, string> skin, Dictionary<string, uint> clothes)
