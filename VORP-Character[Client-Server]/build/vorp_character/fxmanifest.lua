@@ -15,3 +15,5 @@ files {
   'MenuAPI.dll',
   'Newtonsoft.Json.dll',
 }
+
+debug_enabled 'false'
