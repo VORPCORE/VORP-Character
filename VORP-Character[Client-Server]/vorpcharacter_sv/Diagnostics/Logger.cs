@@ -5,7 +5,7 @@ namespace VorpCharacter.Diagnostics
 {
     class Logger
     {
-        static bool isDebugEnabled => API.GetResourceMetadata(API.GetCurrentResourceName(), "debug_enabled", 0) == "true";
+        static bool isDebugEnabled = API.GetResourceMetadata(API.GetCurrentResourceName(), "debug_enabled", 0) == "true";
 
         public static void Info(string msg)
         {
