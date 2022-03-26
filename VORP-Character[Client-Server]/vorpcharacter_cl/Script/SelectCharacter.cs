@@ -304,74 +304,67 @@ namespace VorpCharacter.Script
                     }
                 }
 
-                if (API.PromptHasHoldModeCompleted(DeletePrompt) && !swappingChar)
+                if (API.PromptHasHoldModeCompleted(DeletePrompt))
                 {
-                    isDeletionAttempt = true;
+                    API.PromptSetEnabled(DeletePrompt, 0);
+                    API.PromptSetEnabled(CreatePrompt, 0);
+                    await Delay(500);
+                    API.PromptRestartModes(DeletePrompt);
+
                     isInCharacterSelector = false;
-                }
 
-                await Delay(0);
-            }
-
-            if (isDeletionAttempt)
-            {
-                TriggerEvent("vorpinputs:getInput", Common.GetTranslation("ButtonSupprName"), Common.GetTranslation("SUPPRConfirmMsg"), new Action<dynamic>(async (cb) =>
-                {
-                    string result = cb;
-                    await Delay(1000);
-
-                    if (!result.Equals("close"))
+                    TriggerEvent("vorpinputs:getInput", Common.GetTranslation("ButtonSupprName"), Common.GetTranslation("SUPPRConfirmMsg"), new Action<dynamic>(async (cb) =>
                     {
-                        if (result.Equals(Common.GetTranslation("SUPPRCode")))
+                        string result = cb;
+                        await Delay(100);
+
+                        isInCharacterSelector = true;
+                        isDeletionAttempt = false;
+                        Controller();
+                        DrawInformation();
+                        API.PromptSetEnabled(DeletePrompt, 1);
+                        API.PromptSetEnabled(CreatePrompt, 1);
+
+                        await Delay(100);
+
+                        if (!result.Equals("close"))
                         {
-                            TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
-                            if (myChars.Count <= 1)
+                            if (result.Equals(Common.GetTranslation("SUPPRCode")))
                             {
-                                TriggerEvent("vorpcharacter:createCharacter");
-                                API.PromptSetEnabled(DeletePrompt, 0);
-                                API.PromptSetVisible(DeletePrompt, 0);
-                                API.PromptSetEnabled(CreatePrompt, 0);
-                                API.PromptSetVisible(CreatePrompt, 0);
-                                API.DeletePed(ref pedHandle);
-                                isInCharacterSelector = false;
-                            }
-                            else
-                            {
-                                myChars.RemoveAt(selectedChar);
-
-                                Function.Call(Hash.ADD_EXPLOSION, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false, true);
-
-                                if (selectedChar == 0)
+                                TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
+                                if (myChars.Count <= 1)
                                 {
-                                    selectedChar = myChars.Count - 1;
+                                    TriggerEvent("vorpcharacter:createCharacter");
+                                    API.PromptSetEnabled(DeletePrompt, 0);
+                                    API.PromptSetVisible(DeletePrompt, 0);
+                                    API.PromptSetEnabled(CreatePrompt, 0);
+                                    API.PromptSetVisible(CreatePrompt, 0);
+                                    API.DeletePed(ref pedHandle);
+                                    isInCharacterSelector = false;
                                 }
                                 else
                                 {
-                                    selectedChar -= 1;
+                                    myChars.RemoveAt(selectedChar);
+
+                                    Function.Call(Hash.ADD_EXPLOSION, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false, true);
+
+                                    if (selectedChar == 0)
+                                    {
+                                        selectedChar = myChars.Count - 1;
+                                    }
+                                    else
+                                    {
+                                        selectedChar -= 1;
+                                    }
+
+                                    await StartSwapCharacter();
                                 }
-
-                                await StartSwapCharacter();
                             }
-
                         }
-                        else
-                        {
-                            RegisterPrompts();
-                            isDeletionAttempt = false;
-                            isInCharacterSelector = true;
-                            Controller();
-                        }
+                    }));
+                }
 
-                    }
-                    else
-                    {
-                        RegisterPrompts();
-                        isDeletionAttempt = false;
-                        isInCharacterSelector = true;
-                        Controller();
-                    }
-
-                }));
+                await Delay(0);
             }
         }
 

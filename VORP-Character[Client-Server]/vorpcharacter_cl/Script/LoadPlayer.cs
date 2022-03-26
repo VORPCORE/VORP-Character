@@ -241,7 +241,6 @@ namespace VorpCharacter.Script
                 }
 
                 Utilities.UpdatePedVariation(pedHandle, true, true);
-                int pHealth = Utilities.GetAttributeCoreValue(pedHandle, eAttributeCore.Health);
 
                 PreloadPedTextures(skin, isMale);
                 ApplyDefaultSkinSettings(pedHandle);
@@ -256,8 +255,6 @@ namespace VorpCharacter.Script
                 SetupPedAdditionalFaceFeatures(pedHandle, skin);
                 await BaseScript.Delay(0);
                 SetPedComponents(clothes, pedHandle, isMale);
-
-                Utilities.SetAttributeCoreValue(pedHandle, (int)eAttributeCore.Health, pHealth);
 
                 ResetEntityAlpha(pedHandle);
 
