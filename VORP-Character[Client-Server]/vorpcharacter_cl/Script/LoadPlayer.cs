@@ -188,8 +188,8 @@ namespace VorpCharacter.Script
             Utilities.ApplyShopItemToPed(pedHandle, compBody);
             Utilities.ApplyShopItemToPed(pedHandle, compLegs);
 
-            Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
             Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
+            Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
             Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
             Utilities.UpdatePedVariation(pedHandle);
         }
