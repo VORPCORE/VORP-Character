@@ -11,6 +11,39 @@ namespace VorpCharacter.Menus
     {
         private static Menu clothesMenu = new Menu(Common.GetTranslation("TitleClothesMenu"), Common.GetTranslation("SubTitleClothesMenu"));
         private static bool setupDone = false;
+
+        static MenuListItem mListHats;
+        static MenuListItem mListEyeWear;
+        static MenuListItem mListMask;
+        static MenuListItem mListNeckWear;
+        static MenuListItem mListNeckTies;
+        static MenuListItem mListShirts;
+        static MenuListItem mListSuspenders;
+        static MenuListItem mListVest;
+        static MenuListItem mListCoats;
+        static MenuListItem mListCoatsClosed;
+        static MenuListItem mListPonchos;
+        static MenuListItem mListCloak;
+        static MenuListItem mListGloves;
+        static MenuListItem mListRingsRhType;
+        static MenuListItem mListRingsLh;
+        static MenuListItem mListbracelets;
+        static MenuListItem mListGunbelt;
+        static MenuListItem mListBelt;
+        static MenuListItem mListBuckle;
+        static MenuListItem mListSHolsters;
+        static MenuListItem mListPants;
+        static MenuListItem mListSkirts;
+        static MenuListItem mListChaps;
+        static MenuListItem mListBoots;
+        static MenuListItem mListSpurs;
+        static MenuListItem mListSpats;
+        static MenuListItem mListGunbeltAccs;
+        static MenuListItem mListGauntlets;
+        static MenuListItem mListLoadouts;
+        static MenuListItem mListAccessories;
+        static MenuListItem mListSatchels;
+
         private static void SetupMenu()
         {
             if (setupDone) return;
@@ -39,7 +72,7 @@ namespace VorpCharacter.Menus
                     hatType.Add(Common.GetTranslation("HatsValue") + i);
                 }
             }
-            MenuListItem mListHats = new MenuListItem(Common.GetTranslation("Hats"), hatType, 0, Common.GetTranslation("HatsDesc"));
+            mListHats = new MenuListItem(Common.GetTranslation("Hats"), hatType, 0, Common.GetTranslation("HatsDesc"));
             clothesMenu.AddMenuItem(mListHats);
 
             List<string> eyeWearType = new List<string>();
@@ -61,7 +94,7 @@ namespace VorpCharacter.Menus
                     eyeWearType.Add(Common.GetTranslation("GlassesValue") + i);
                 }
             }
-            MenuListItem mListEyeWear = new MenuListItem(Common.GetTranslation("Glasses"), eyeWearType, 0, Common.GetTranslation("GlassesDesc")); // Añadimos la lista al boton
+            mListEyeWear = new MenuListItem(Common.GetTranslation("Glasses"), eyeWearType, 0, Common.GetTranslation("GlassesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListEyeWear); // Lo añadimos al menu
 
             List<string> maskType = new List<string>();
@@ -83,7 +116,7 @@ namespace VorpCharacter.Menus
                     maskType.Add(Common.GetTranslation("MaskValue") + i);
                 }
             }
-            MenuListItem mListMask = new MenuListItem(Common.GetTranslation("Masks"), maskType, 0, Common.GetTranslation("MasksDesc")); // Añadimos la lista al boton
+            mListMask = new MenuListItem(Common.GetTranslation("Masks"), maskType, 0, Common.GetTranslation("MasksDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListMask); // Lo añadimos al menu
 
             List<string> neckWearType = new List<string>();
@@ -105,7 +138,7 @@ namespace VorpCharacter.Menus
                     neckWearType.Add(Common.GetTranslation("NeckwearValue") + i);
                 }
             }
-            MenuListItem mListNeckWear = new MenuListItem(Common.GetTranslation("Neckwear"), neckWearType, 0, Common.GetTranslation("NeckwearDesc")); // Añadimos la lista al boton
+            mListNeckWear = new MenuListItem(Common.GetTranslation("Neckwear"), neckWearType, 0, Common.GetTranslation("NeckwearDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListNeckWear); // Lo añadimos al menu
 
             List<string> neckTiesType = new List<string>();
@@ -127,7 +160,7 @@ namespace VorpCharacter.Menus
                     neckTiesType.Add(Common.GetTranslation("TiesValue") + i);
                 }
             }
-            MenuListItem mListNeckTies = new MenuListItem(Common.GetTranslation("Ties"), neckTiesType, 0, Common.GetTranslation("TiesDesc")); // Añadimos la lista al boton
+            mListNeckTies = new MenuListItem(Common.GetTranslation("Ties"), neckTiesType, 0, Common.GetTranslation("TiesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListNeckTies); // Lo añadimos al menu
 
             List<string> shirtsType = new List<string>();
@@ -149,7 +182,7 @@ namespace VorpCharacter.Menus
                     shirtsType.Add(Common.GetTranslation("ShirtsValue") + i);
                 }
             }
-            MenuListItem mListShirts = new MenuListItem(Common.GetTranslation("Shirts"), shirtsType, 0, Common.GetTranslation("ShirtsDesc")); // Añadimos la lista al boton
+            mListShirts = new MenuListItem(Common.GetTranslation("Shirts"), shirtsType, 0, Common.GetTranslation("ShirtsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListShirts); // Lo añadimos al menu
 
             List<string> suspendersType = new List<string>();
@@ -171,7 +204,7 @@ namespace VorpCharacter.Menus
                     suspendersType.Add(Common.GetTranslation("SuspendersValue") + i);
                 }
             }
-            MenuListItem mListSuspenders = new MenuListItem(Common.GetTranslation("Suspenders"), suspendersType, 0, Common.GetTranslation("SuspendersDesc")); // Añadimos la lista al boton
+            mListSuspenders = new MenuListItem(Common.GetTranslation("Suspenders"), suspendersType, 0, Common.GetTranslation("SuspendersDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSuspenders); // Lo añadimos al menu
 
 
@@ -194,7 +227,7 @@ namespace VorpCharacter.Menus
                     vestType.Add(Common.GetTranslation("VestsValue") + i);
                 }
             }
-            MenuListItem mListVest = new MenuListItem(Common.GetTranslation("Vests"), vestType, 0, Common.GetTranslation("VestsDesc")); // Añadimos la lista al boton
+            mListVest = new MenuListItem(Common.GetTranslation("Vests"), vestType, 0, Common.GetTranslation("VestsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListVest); // Lo añadimos al menu
 
             List<string> coatsType = new List<string>();
@@ -216,7 +249,7 @@ namespace VorpCharacter.Menus
                     coatsType.Add(Common.GetTranslation("CoatsValue") + i);
                 }
             }
-            MenuListItem mListCoats = new MenuListItem(Common.GetTranslation("Coats"), coatsType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
+            mListCoats = new MenuListItem(Common.GetTranslation("Coats"), coatsType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCoats); // Lo añadimos al menu
 
             List<string> coatsClosedType = new List<string>();
@@ -238,7 +271,7 @@ namespace VorpCharacter.Menus
                     coatsClosedType.Add(Common.GetTranslation("CoatsValue") + i);
                 }
             }
-            MenuListItem mListCoatsClosed = new MenuListItem(Common.GetTranslation("CoatsClosed"), coatsClosedType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
+            mListCoatsClosed = new MenuListItem(Common.GetTranslation("CoatsClosed"), coatsClosedType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCoatsClosed); // Lo añadimos al menu
 
             List<string> ponchosType = new List<string>();
@@ -260,7 +293,7 @@ namespace VorpCharacter.Menus
                     ponchosType.Add(Common.GetTranslation("PonchosValue") + i);
                 }
             }
-            MenuListItem mListPonchos = new MenuListItem(Common.GetTranslation("Ponchos"), ponchosType, 0, Common.GetTranslation("PonchosDesc")); // Añadimos la lista al boton
+            mListPonchos = new MenuListItem(Common.GetTranslation("Ponchos"), ponchosType, 0, Common.GetTranslation("PonchosDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListPonchos); // Lo añadimos al menu
 
             List<string> cloakType = new List<string>();
@@ -282,7 +315,7 @@ namespace VorpCharacter.Menus
                     cloakType.Add(Common.GetTranslation("CloaksValue") + i);
                 }
             }
-            MenuListItem mListCloak = new MenuListItem(Common.GetTranslation("Cloaks"), cloakType, 0, Common.GetTranslation("CloaksDesc")); // Añadimos la lista al boton
+            mListCloak = new MenuListItem(Common.GetTranslation("Cloaks"), cloakType, 0, Common.GetTranslation("CloaksDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCloak); // Lo añadimos al menu
 
             List<string> glovesType = new List<string>();
@@ -304,7 +337,7 @@ namespace VorpCharacter.Menus
                     glovesType.Add(Common.GetTranslation("GlovesValue") + i);
                 }
             }
-            MenuListItem mListGloves = new MenuListItem(Common.GetTranslation("Gloves"), glovesType, 0, Common.GetTranslation("GlovesDesc")); // Añadimos la lista al boton
+            mListGloves = new MenuListItem(Common.GetTranslation("Gloves"), glovesType, 0, Common.GetTranslation("GlovesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListGloves); // Lo añadimos al menu
 
             List<string> ringsRhType = new List<string>();
@@ -326,7 +359,7 @@ namespace VorpCharacter.Menus
                     ringsRhType.Add(Common.GetTranslation("RingsValue") + i);
                 }
             }
-            MenuListItem mListRingsRhType = new MenuListItem(Common.GetTranslation("RightRings"), ringsRhType, 0, Common.GetTranslation("RightRingsDesc")); // Añadimos la lista al boton
+            mListRingsRhType = new MenuListItem(Common.GetTranslation("RightRings"), ringsRhType, 0, Common.GetTranslation("RightRingsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListRingsRhType); // Lo añadimos al menu
 
             List<string> ringsLhType = new List<string>();
@@ -348,7 +381,7 @@ namespace VorpCharacter.Menus
                     ringsLhType.Add(Common.GetTranslation("RingsValue") + i);
                 }
             }
-            MenuListItem mListRingsLh = new MenuListItem(Common.GetTranslation("LeftRings"), ringsLhType, 0, Common.GetTranslation("LeftRingsDesc")); // Añadimos la lista al boton
+            mListRingsLh = new MenuListItem(Common.GetTranslation("LeftRings"), ringsLhType, 0, Common.GetTranslation("LeftRingsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListRingsLh); // Lo añadimos al menu
 
             List<string> braceletsType = new List<string>();
@@ -370,7 +403,7 @@ namespace VorpCharacter.Menus
                     braceletsType.Add(Common.GetTranslation("BraceletsValue") + i);
                 }
             }
-            MenuListItem mListbracelets = new MenuListItem(Common.GetTranslation("Bracelets"), braceletsType, 0, Common.GetTranslation("BraceletsDesc")); // Añadimos la lista al boton
+            mListbracelets = new MenuListItem(Common.GetTranslation("Bracelets"), braceletsType, 0, Common.GetTranslation("BraceletsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListbracelets); // Lo añadimos al menu
 
             List<string> gunbeltType = new List<string>();
@@ -392,7 +425,7 @@ namespace VorpCharacter.Menus
                     gunbeltType.Add(Common.GetTranslation("HolstersValue") + i);
                 }
             }
-            MenuListItem mListGunbelt = new MenuListItem(Common.GetTranslation("PrimaryHolsters"), gunbeltType, 0, Common.GetTranslation("PrimaryHolstersDesc")); // Añadimos la lista al boton
+            mListGunbelt = new MenuListItem(Common.GetTranslation("PrimaryHolsters"), gunbeltType, 0, Common.GetTranslation("PrimaryHolstersDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListGunbelt); // Lo añadimos al menu
 
 
@@ -415,7 +448,7 @@ namespace VorpCharacter.Menus
                     beltType.Add(Common.GetTranslation("BeltsValue") + i);
                 }
             }
-            MenuListItem mListBelt = new MenuListItem(Common.GetTranslation("Belts"), beltType, 0, Common.GetTranslation("BeltsDesc")); // Añadimos la lista al boton
+            mListBelt = new MenuListItem(Common.GetTranslation("Belts"), beltType, 0, Common.GetTranslation("BeltsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBelt); // Lo añadimos al menu
 
             List<string> buckleType = new List<string>();
@@ -437,7 +470,7 @@ namespace VorpCharacter.Menus
                     buckleType.Add(Common.GetTranslation("BucklesValue") + i);
                 }
             }
-            MenuListItem mListBuckle = new MenuListItem(Common.GetTranslation("Buckles"), buckleType, 0, Common.GetTranslation("BucklesDesc")); // Añadimos la lista al boton
+            mListBuckle = new MenuListItem(Common.GetTranslation("Buckles"), buckleType, 0, Common.GetTranslation("BucklesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBuckle); // Lo añadimos al menu
 
             List<string> holstersSType = new List<string>();
@@ -459,7 +492,7 @@ namespace VorpCharacter.Menus
                     holstersSType.Add(Common.GetTranslation("HolstersValue") + i);
                 }
             }
-            MenuListItem mListSHolsters = new MenuListItem(Common.GetTranslation("SecondaryHolsters"), holstersSType, 0, Common.GetTranslation("SecondaryHolstersDesc")); // Añadimos la lista al boton
+            mListSHolsters = new MenuListItem(Common.GetTranslation("SecondaryHolsters"), holstersSType, 0, Common.GetTranslation("SecondaryHolstersDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSHolsters); // Lo añadimos al menu
 
             List<string> pantsType = new List<string>();
@@ -481,7 +514,7 @@ namespace VorpCharacter.Menus
                     pantsType.Add(Common.GetTranslation("PantsValue") + i);
                 }
             }
-            MenuListItem mListPants = new MenuListItem(Common.GetTranslation("Pants"), pantsType, 0, Common.GetTranslation("PantsDesc")); // Añadimos la lista al boton
+            mListPants = new MenuListItem(Common.GetTranslation("Pants"), pantsType, 0, Common.GetTranslation("PantsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListPants); // Lo añadimos al menu
 
             List<string> skirtsType = new List<string>();
@@ -498,7 +531,7 @@ namespace VorpCharacter.Menus
                     skirtsType.Add(Common.GetTranslation("SkirtsValue") + i);
                 }
             }
-            MenuListItem mListSkirts = new MenuListItem(Common.GetTranslation("Skirts"), skirtsType, 0, Common.GetTranslation("SkirtsDesc")); // Añadimos la lista al boton
+            mListSkirts = new MenuListItem(Common.GetTranslation("Skirts"), skirtsType, 0, Common.GetTranslation("SkirtsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSkirts); // Lo añadimos al menu
 
             List<string> chapsType = new List<string>();
@@ -520,7 +553,7 @@ namespace VorpCharacter.Menus
                     chapsType.Add(Common.GetTranslation("ChapsValue") + i);
                 }
             }
-            MenuListItem mListChaps = new MenuListItem(Common.GetTranslation("Chaps"), chapsType, 0, Common.GetTranslation("ChapsDesc")); // Añadimos la lista al boton
+            mListChaps = new MenuListItem(Common.GetTranslation("Chaps"), chapsType, 0, Common.GetTranslation("ChapsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListChaps); // Lo añadimos al menu
 
             List<string> bootsType = new List<string>();
@@ -542,7 +575,7 @@ namespace VorpCharacter.Menus
                     bootsType.Add(Common.GetTranslation("BootsValue") + i);
                 }
             }
-            MenuListItem mListBoots = new MenuListItem(Common.GetTranslation("Boots"), bootsType, 0, Common.GetTranslation("BootsDesc")); // Añadimos la lista al boton
+            mListBoots = new MenuListItem(Common.GetTranslation("Boots"), bootsType, 0, Common.GetTranslation("BootsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBoots); // Lo añadimos al menu
 
             List<string> spursType = new List<string>();
@@ -564,7 +597,7 @@ namespace VorpCharacter.Menus
                     spursType.Add(Common.GetTranslation("SpursValue") + i);
                 }
             }
-            MenuListItem mListSpurs = new MenuListItem(Common.GetTranslation("Spurs"), spursType, 0, Common.GetTranslation("SpursDesc")); // Añadimos la lista al boton
+            mListSpurs = new MenuListItem(Common.GetTranslation("Spurs"), spursType, 0, Common.GetTranslation("SpursDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSpurs); // Lo añadimos al menu
 
 
@@ -585,7 +618,7 @@ namespace VorpCharacter.Menus
                     spatsType.Add(Common.GetTranslation("SpatsValue") + i);
                 }
             }
-            MenuListItem mListSpats = new MenuListItem(Common.GetTranslation("Spats"), spatsType, 0, Common.GetTranslation("SpatsDesc"));
+            mListSpats = new MenuListItem(Common.GetTranslation("Spats"), spatsType, 0, Common.GetTranslation("SpatsDesc"));
             clothesMenu.AddMenuItem(mListSpats);
 
             List<string> gunbeltaccsType = new List<string>();
@@ -605,7 +638,7 @@ namespace VorpCharacter.Menus
                     gunbeltaccsType.Add(Common.GetTranslation("GunbeltAccsValue") + i);
                 }
             }
-            MenuListItem mListGunbeltAccs = new MenuListItem(Common.GetTranslation("GunbeltAccs"), gunbeltaccsType, 0, Common.GetTranslation("GunbeltAccsDesc"));
+            mListGunbeltAccs = new MenuListItem(Common.GetTranslation("GunbeltAccs"), gunbeltaccsType, 0, Common.GetTranslation("GunbeltAccsDesc"));
             clothesMenu.AddMenuItem(mListGunbeltAccs);
 
             List<string> gauntletsType = new List<string>();
@@ -625,7 +658,7 @@ namespace VorpCharacter.Menus
                     gauntletsType.Add(Common.GetTranslation("GauntletsValue") + i);
                 }
             }
-            MenuListItem mListGauntlets = new MenuListItem(Common.GetTranslation("Gauntlets"), gauntletsType, 0, Common.GetTranslation("GauntletsDesc"));
+            mListGauntlets = new MenuListItem(Common.GetTranslation("Gauntlets"), gauntletsType, 0, Common.GetTranslation("GauntletsDesc"));
             clothesMenu.AddMenuItem(mListGauntlets);
 
             List<string> loadoutsType = new List<string>();
@@ -645,7 +678,7 @@ namespace VorpCharacter.Menus
                     loadoutsType.Add(Common.GetTranslation("LoadoutsValue") + i);
                 }
             }
-            MenuListItem mListLoadouts = new MenuListItem(Common.GetTranslation("Loadouts"), loadoutsType, 0, Common.GetTranslation("LoadoutsDesc"));
+            mListLoadouts = new MenuListItem(Common.GetTranslation("Loadouts"), loadoutsType, 0, Common.GetTranslation("LoadoutsDesc"));
             clothesMenu.AddMenuItem(mListLoadouts);
 
             List<string> accessoriesType = new List<string>();
@@ -665,7 +698,7 @@ namespace VorpCharacter.Menus
                     accessoriesType.Add(Common.GetTranslation("AccessoriesValue") + i);
                 }
             }
-            MenuListItem mListAccessories = new MenuListItem(Common.GetTranslation("Accessories"), accessoriesType, 0, Common.GetTranslation("AccessoriesDesc"));
+            mListAccessories = new MenuListItem(Common.GetTranslation("Accessories"), accessoriesType, 0, Common.GetTranslation("AccessoriesDesc"));
             clothesMenu.AddMenuItem(mListAccessories);
 
             List<string> satchelsType = new List<string>();
@@ -685,7 +718,7 @@ namespace VorpCharacter.Menus
                     satchelsType.Add(Common.GetTranslation("SatchelsValue") + i);
                 }
             }
-            MenuListItem mListSatchels = new MenuListItem(Common.GetTranslation("Satchels"), satchelsType, 0, Common.GetTranslation("SatchelsDesc"));
+            mListSatchels = new MenuListItem(Common.GetTranslation("Satchels"), satchelsType, 0, Common.GetTranslation("SatchelsDesc"));
             clothesMenu.AddMenuItem(mListSatchels);
 
             clothesMenu.OnMenuOpen += (_menu) =>
