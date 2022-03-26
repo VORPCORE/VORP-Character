@@ -29,6 +29,8 @@ namespace VorpCharacter
 
             Setup();
 
+            Logger.Debug($"Debugging is enabled.");
+
             Logger.Info($"VORP Character Loaded");
         }
 
