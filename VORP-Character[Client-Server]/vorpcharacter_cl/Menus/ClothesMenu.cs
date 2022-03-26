@@ -11,6 +11,39 @@ namespace VorpCharacter.Menus
     {
         private static Menu clothesMenu = new Menu(Common.GetTranslation("TitleClothesMenu"), Common.GetTranslation("SubTitleClothesMenu"));
         private static bool setupDone = false;
+
+        static MenuListItem mListHats;
+        static MenuListItem mListEyeWear;
+        static MenuListItem mListMask;
+        static MenuListItem mListNeckWear;
+        static MenuListItem mListNeckTies;
+        static MenuListItem mListShirts;
+        static MenuListItem mListSuspenders;
+        static MenuListItem mListVest;
+        static MenuListItem mListCoats;
+        static MenuListItem mListCoatsClosed;
+        static MenuListItem mListPonchos;
+        static MenuListItem mListCloak;
+        static MenuListItem mListGloves;
+        static MenuListItem mListRingsRhType;
+        static MenuListItem mListRingsLh;
+        static MenuListItem mListbracelets;
+        static MenuListItem mListGunbelt;
+        static MenuListItem mListBelt;
+        static MenuListItem mListBuckle;
+        static MenuListItem mListSHolsters;
+        static MenuListItem mListPants;
+        static MenuListItem mListSkirts;
+        static MenuListItem mListChaps;
+        static MenuListItem mListBoots;
+        static MenuListItem mListSpurs;
+        static MenuListItem mListSpats;
+        static MenuListItem mListGunbeltAccs;
+        static MenuListItem mListGauntlets;
+        static MenuListItem mListLoadouts;
+        static MenuListItem mListAccessories;
+        static MenuListItem mListSatchels;
+
         private static void SetupMenu()
         {
             if (setupDone) return;
@@ -39,7 +72,7 @@ namespace VorpCharacter.Menus
                     hatType.Add(Common.GetTranslation("HatsValue") + i);
                 }
             }
-            MenuListItem mListHats = new MenuListItem(Common.GetTranslation("Hats"), hatType, 0, Common.GetTranslation("HatsDesc"));
+            mListHats = new MenuListItem(Common.GetTranslation("Hats"), hatType, 0, Common.GetTranslation("HatsDesc"));
             clothesMenu.AddMenuItem(mListHats);
 
             List<string> eyeWearType = new List<string>();
@@ -61,7 +94,7 @@ namespace VorpCharacter.Menus
                     eyeWearType.Add(Common.GetTranslation("GlassesValue") + i);
                 }
             }
-            MenuListItem mListEyeWear = new MenuListItem(Common.GetTranslation("Glasses"), eyeWearType, 0, Common.GetTranslation("GlassesDesc")); // Añadimos la lista al boton
+            mListEyeWear = new MenuListItem(Common.GetTranslation("Glasses"), eyeWearType, 0, Common.GetTranslation("GlassesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListEyeWear); // Lo añadimos al menu
 
             List<string> maskType = new List<string>();
@@ -83,7 +116,7 @@ namespace VorpCharacter.Menus
                     maskType.Add(Common.GetTranslation("MaskValue") + i);
                 }
             }
-            MenuListItem mListMask = new MenuListItem(Common.GetTranslation("Masks"), maskType, 0, Common.GetTranslation("MasksDesc")); // Añadimos la lista al boton
+            mListMask = new MenuListItem(Common.GetTranslation("Masks"), maskType, 0, Common.GetTranslation("MasksDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListMask); // Lo añadimos al menu
 
             List<string> neckWearType = new List<string>();
@@ -105,7 +138,7 @@ namespace VorpCharacter.Menus
                     neckWearType.Add(Common.GetTranslation("NeckwearValue") + i);
                 }
             }
-            MenuListItem mListNeckWear = new MenuListItem(Common.GetTranslation("Neckwear"), neckWearType, 0, Common.GetTranslation("NeckwearDesc")); // Añadimos la lista al boton
+            mListNeckWear = new MenuListItem(Common.GetTranslation("Neckwear"), neckWearType, 0, Common.GetTranslation("NeckwearDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListNeckWear); // Lo añadimos al menu
 
             List<string> neckTiesType = new List<string>();
@@ -127,7 +160,7 @@ namespace VorpCharacter.Menus
                     neckTiesType.Add(Common.GetTranslation("TiesValue") + i);
                 }
             }
-            MenuListItem mListNeckTies = new MenuListItem(Common.GetTranslation("Ties"), neckTiesType, 0, Common.GetTranslation("TiesDesc")); // Añadimos la lista al boton
+            mListNeckTies = new MenuListItem(Common.GetTranslation("Ties"), neckTiesType, 0, Common.GetTranslation("TiesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListNeckTies); // Lo añadimos al menu
 
             List<string> shirtsType = new List<string>();
@@ -149,7 +182,7 @@ namespace VorpCharacter.Menus
                     shirtsType.Add(Common.GetTranslation("ShirtsValue") + i);
                 }
             }
-            MenuListItem mListShirts = new MenuListItem(Common.GetTranslation("Shirts"), shirtsType, 0, Common.GetTranslation("ShirtsDesc")); // Añadimos la lista al boton
+            mListShirts = new MenuListItem(Common.GetTranslation("Shirts"), shirtsType, 0, Common.GetTranslation("ShirtsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListShirts); // Lo añadimos al menu
 
             List<string> suspendersType = new List<string>();
@@ -171,7 +204,7 @@ namespace VorpCharacter.Menus
                     suspendersType.Add(Common.GetTranslation("SuspendersValue") + i);
                 }
             }
-            MenuListItem mListSuspenders = new MenuListItem(Common.GetTranslation("Suspenders"), suspendersType, 0, Common.GetTranslation("SuspendersDesc")); // Añadimos la lista al boton
+            mListSuspenders = new MenuListItem(Common.GetTranslation("Suspenders"), suspendersType, 0, Common.GetTranslation("SuspendersDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSuspenders); // Lo añadimos al menu
 
 
@@ -194,7 +227,7 @@ namespace VorpCharacter.Menus
                     vestType.Add(Common.GetTranslation("VestsValue") + i);
                 }
             }
-            MenuListItem mListVest = new MenuListItem(Common.GetTranslation("Vests"), vestType, 0, Common.GetTranslation("VestsDesc")); // Añadimos la lista al boton
+            mListVest = new MenuListItem(Common.GetTranslation("Vests"), vestType, 0, Common.GetTranslation("VestsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListVest); // Lo añadimos al menu
 
             List<string> coatsType = new List<string>();
@@ -216,7 +249,7 @@ namespace VorpCharacter.Menus
                     coatsType.Add(Common.GetTranslation("CoatsValue") + i);
                 }
             }
-            MenuListItem mListCoats = new MenuListItem(Common.GetTranslation("Coats"), coatsType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
+            mListCoats = new MenuListItem(Common.GetTranslation("Coats"), coatsType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCoats); // Lo añadimos al menu
 
             List<string> coatsClosedType = new List<string>();
@@ -238,7 +271,7 @@ namespace VorpCharacter.Menus
                     coatsClosedType.Add(Common.GetTranslation("CoatsValue") + i);
                 }
             }
-            MenuListItem mListCoatsClosed = new MenuListItem(Common.GetTranslation("CoatsClosed"), coatsClosedType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
+            mListCoatsClosed = new MenuListItem(Common.GetTranslation("CoatsClosed"), coatsClosedType, 0, Common.GetTranslation("CoatsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCoatsClosed); // Lo añadimos al menu
 
             List<string> ponchosType = new List<string>();
@@ -260,7 +293,7 @@ namespace VorpCharacter.Menus
                     ponchosType.Add(Common.GetTranslation("PonchosValue") + i);
                 }
             }
-            MenuListItem mListPonchos = new MenuListItem(Common.GetTranslation("Ponchos"), ponchosType, 0, Common.GetTranslation("PonchosDesc")); // Añadimos la lista al boton
+            mListPonchos = new MenuListItem(Common.GetTranslation("Ponchos"), ponchosType, 0, Common.GetTranslation("PonchosDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListPonchos); // Lo añadimos al menu
 
             List<string> cloakType = new List<string>();
@@ -282,7 +315,7 @@ namespace VorpCharacter.Menus
                     cloakType.Add(Common.GetTranslation("CloaksValue") + i);
                 }
             }
-            MenuListItem mListCloak = new MenuListItem(Common.GetTranslation("Cloaks"), cloakType, 0, Common.GetTranslation("CloaksDesc")); // Añadimos la lista al boton
+            mListCloak = new MenuListItem(Common.GetTranslation("Cloaks"), cloakType, 0, Common.GetTranslation("CloaksDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListCloak); // Lo añadimos al menu
 
             List<string> glovesType = new List<string>();
@@ -304,7 +337,7 @@ namespace VorpCharacter.Menus
                     glovesType.Add(Common.GetTranslation("GlovesValue") + i);
                 }
             }
-            MenuListItem mListGloves = new MenuListItem(Common.GetTranslation("Gloves"), glovesType, 0, Common.GetTranslation("GlovesDesc")); // Añadimos la lista al boton
+            mListGloves = new MenuListItem(Common.GetTranslation("Gloves"), glovesType, 0, Common.GetTranslation("GlovesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListGloves); // Lo añadimos al menu
 
             List<string> ringsRhType = new List<string>();
@@ -326,7 +359,7 @@ namespace VorpCharacter.Menus
                     ringsRhType.Add(Common.GetTranslation("RingsValue") + i);
                 }
             }
-            MenuListItem mListRingsRhType = new MenuListItem(Common.GetTranslation("RightRings"), ringsRhType, 0, Common.GetTranslation("RightRingsDesc")); // Añadimos la lista al boton
+            mListRingsRhType = new MenuListItem(Common.GetTranslation("RightRings"), ringsRhType, 0, Common.GetTranslation("RightRingsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListRingsRhType); // Lo añadimos al menu
 
             List<string> ringsLhType = new List<string>();
@@ -348,7 +381,7 @@ namespace VorpCharacter.Menus
                     ringsLhType.Add(Common.GetTranslation("RingsValue") + i);
                 }
             }
-            MenuListItem mListRingsLh = new MenuListItem(Common.GetTranslation("LeftRings"), ringsLhType, 0, Common.GetTranslation("LeftRingsDesc")); // Añadimos la lista al boton
+            mListRingsLh = new MenuListItem(Common.GetTranslation("LeftRings"), ringsLhType, 0, Common.GetTranslation("LeftRingsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListRingsLh); // Lo añadimos al menu
 
             List<string> braceletsType = new List<string>();
@@ -370,7 +403,7 @@ namespace VorpCharacter.Menus
                     braceletsType.Add(Common.GetTranslation("BraceletsValue") + i);
                 }
             }
-            MenuListItem mListbracelets = new MenuListItem(Common.GetTranslation("Bracelets"), braceletsType, 0, Common.GetTranslation("BraceletsDesc")); // Añadimos la lista al boton
+            mListbracelets = new MenuListItem(Common.GetTranslation("Bracelets"), braceletsType, 0, Common.GetTranslation("BraceletsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListbracelets); // Lo añadimos al menu
 
             List<string> gunbeltType = new List<string>();
@@ -392,7 +425,7 @@ namespace VorpCharacter.Menus
                     gunbeltType.Add(Common.GetTranslation("HolstersValue") + i);
                 }
             }
-            MenuListItem mListGunbelt = new MenuListItem(Common.GetTranslation("PrimaryHolsters"), gunbeltType, 0, Common.GetTranslation("PrimaryHolstersDesc")); // Añadimos la lista al boton
+            mListGunbelt = new MenuListItem(Common.GetTranslation("PrimaryHolsters"), gunbeltType, 0, Common.GetTranslation("PrimaryHolstersDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListGunbelt); // Lo añadimos al menu
 
 
@@ -415,7 +448,7 @@ namespace VorpCharacter.Menus
                     beltType.Add(Common.GetTranslation("BeltsValue") + i);
                 }
             }
-            MenuListItem mListBelt = new MenuListItem(Common.GetTranslation("Belts"), beltType, 0, Common.GetTranslation("BeltsDesc")); // Añadimos la lista al boton
+            mListBelt = new MenuListItem(Common.GetTranslation("Belts"), beltType, 0, Common.GetTranslation("BeltsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBelt); // Lo añadimos al menu
 
             List<string> buckleType = new List<string>();
@@ -437,7 +470,7 @@ namespace VorpCharacter.Menus
                     buckleType.Add(Common.GetTranslation("BucklesValue") + i);
                 }
             }
-            MenuListItem mListBuckle = new MenuListItem(Common.GetTranslation("Buckles"), buckleType, 0, Common.GetTranslation("BucklesDesc")); // Añadimos la lista al boton
+            mListBuckle = new MenuListItem(Common.GetTranslation("Buckles"), buckleType, 0, Common.GetTranslation("BucklesDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBuckle); // Lo añadimos al menu
 
             List<string> holstersSType = new List<string>();
@@ -459,7 +492,7 @@ namespace VorpCharacter.Menus
                     holstersSType.Add(Common.GetTranslation("HolstersValue") + i);
                 }
             }
-            MenuListItem mListSHolsters = new MenuListItem(Common.GetTranslation("SecondaryHolsters"), holstersSType, 0, Common.GetTranslation("SecondaryHolstersDesc")); // Añadimos la lista al boton
+            mListSHolsters = new MenuListItem(Common.GetTranslation("SecondaryHolsters"), holstersSType, 0, Common.GetTranslation("SecondaryHolstersDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSHolsters); // Lo añadimos al menu
 
             List<string> pantsType = new List<string>();
@@ -481,7 +514,7 @@ namespace VorpCharacter.Menus
                     pantsType.Add(Common.GetTranslation("PantsValue") + i);
                 }
             }
-            MenuListItem mListPants = new MenuListItem(Common.GetTranslation("Pants"), pantsType, 0, Common.GetTranslation("PantsDesc")); // Añadimos la lista al boton
+            mListPants = new MenuListItem(Common.GetTranslation("Pants"), pantsType, 0, Common.GetTranslation("PantsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListPants); // Lo añadimos al menu
 
             List<string> skirtsType = new List<string>();
@@ -498,7 +531,7 @@ namespace VorpCharacter.Menus
                     skirtsType.Add(Common.GetTranslation("SkirtsValue") + i);
                 }
             }
-            MenuListItem mListSkirts = new MenuListItem(Common.GetTranslation("Skirts"), skirtsType, 0, Common.GetTranslation("SkirtsDesc")); // Añadimos la lista al boton
+            mListSkirts = new MenuListItem(Common.GetTranslation("Skirts"), skirtsType, 0, Common.GetTranslation("SkirtsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSkirts); // Lo añadimos al menu
 
             List<string> chapsType = new List<string>();
@@ -520,7 +553,7 @@ namespace VorpCharacter.Menus
                     chapsType.Add(Common.GetTranslation("ChapsValue") + i);
                 }
             }
-            MenuListItem mListChaps = new MenuListItem(Common.GetTranslation("Chaps"), chapsType, 0, Common.GetTranslation("ChapsDesc")); // Añadimos la lista al boton
+            mListChaps = new MenuListItem(Common.GetTranslation("Chaps"), chapsType, 0, Common.GetTranslation("ChapsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListChaps); // Lo añadimos al menu
 
             List<string> bootsType = new List<string>();
@@ -542,7 +575,7 @@ namespace VorpCharacter.Menus
                     bootsType.Add(Common.GetTranslation("BootsValue") + i);
                 }
             }
-            MenuListItem mListBoots = new MenuListItem(Common.GetTranslation("Boots"), bootsType, 0, Common.GetTranslation("BootsDesc")); // Añadimos la lista al boton
+            mListBoots = new MenuListItem(Common.GetTranslation("Boots"), bootsType, 0, Common.GetTranslation("BootsDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListBoots); // Lo añadimos al menu
 
             List<string> spursType = new List<string>();
@@ -564,7 +597,7 @@ namespace VorpCharacter.Menus
                     spursType.Add(Common.GetTranslation("SpursValue") + i);
                 }
             }
-            MenuListItem mListSpurs = new MenuListItem(Common.GetTranslation("Spurs"), spursType, 0, Common.GetTranslation("SpursDesc")); // Añadimos la lista al boton
+            mListSpurs = new MenuListItem(Common.GetTranslation("Spurs"), spursType, 0, Common.GetTranslation("SpursDesc")); // Añadimos la lista al boton
             clothesMenu.AddMenuItem(mListSpurs); // Lo añadimos al menu
 
 
@@ -585,7 +618,7 @@ namespace VorpCharacter.Menus
                     spatsType.Add(Common.GetTranslation("SpatsValue") + i);
                 }
             }
-            MenuListItem mListSpats = new MenuListItem(Common.GetTranslation("Spats"), spatsType, 0, Common.GetTranslation("SpatsDesc"));
+            mListSpats = new MenuListItem(Common.GetTranslation("Spats"), spatsType, 0, Common.GetTranslation("SpatsDesc"));
             clothesMenu.AddMenuItem(mListSpats);
 
             List<string> gunbeltaccsType = new List<string>();
@@ -605,7 +638,7 @@ namespace VorpCharacter.Menus
                     gunbeltaccsType.Add(Common.GetTranslation("GunbeltAccsValue") + i);
                 }
             }
-            MenuListItem mListGunbeltAccs = new MenuListItem(Common.GetTranslation("GunbeltAccs"), gunbeltaccsType, 0, Common.GetTranslation("GunbeltAccsDesc"));
+            mListGunbeltAccs = new MenuListItem(Common.GetTranslation("GunbeltAccs"), gunbeltaccsType, 0, Common.GetTranslation("GunbeltAccsDesc"));
             clothesMenu.AddMenuItem(mListGunbeltAccs);
 
             List<string> gauntletsType = new List<string>();
@@ -625,7 +658,7 @@ namespace VorpCharacter.Menus
                     gauntletsType.Add(Common.GetTranslation("GauntletsValue") + i);
                 }
             }
-            MenuListItem mListGauntlets = new MenuListItem(Common.GetTranslation("Gauntlets"), gauntletsType, 0, Common.GetTranslation("GauntletsDesc"));
+            mListGauntlets = new MenuListItem(Common.GetTranslation("Gauntlets"), gauntletsType, 0, Common.GetTranslation("GauntletsDesc"));
             clothesMenu.AddMenuItem(mListGauntlets);
 
             List<string> loadoutsType = new List<string>();
@@ -645,7 +678,7 @@ namespace VorpCharacter.Menus
                     loadoutsType.Add(Common.GetTranslation("LoadoutsValue") + i);
                 }
             }
-            MenuListItem mListLoadouts = new MenuListItem(Common.GetTranslation("Loadouts"), loadoutsType, 0, Common.GetTranslation("LoadoutsDesc"));
+            mListLoadouts = new MenuListItem(Common.GetTranslation("Loadouts"), loadoutsType, 0, Common.GetTranslation("LoadoutsDesc"));
             clothesMenu.AddMenuItem(mListLoadouts);
 
             List<string> accessoriesType = new List<string>();
@@ -665,7 +698,7 @@ namespace VorpCharacter.Menus
                     accessoriesType.Add(Common.GetTranslation("AccessoriesValue") + i);
                 }
             }
-            MenuListItem mListAccessories = new MenuListItem(Common.GetTranslation("Accessories"), accessoriesType, 0, Common.GetTranslation("AccessoriesDesc"));
+            mListAccessories = new MenuListItem(Common.GetTranslation("Accessories"), accessoriesType, 0, Common.GetTranslation("AccessoriesDesc"));
             clothesMenu.AddMenuItem(mListAccessories);
 
             List<string> satchelsType = new List<string>();
@@ -685,7 +718,7 @@ namespace VorpCharacter.Menus
                     satchelsType.Add(Common.GetTranslation("SatchelsValue") + i);
                 }
             }
-            MenuListItem mListSatchels = new MenuListItem(Common.GetTranslation("Satchels"), satchelsType, 0, Common.GetTranslation("SatchelsDesc"));
+            mListSatchels = new MenuListItem(Common.GetTranslation("Satchels"), satchelsType, 0, Common.GetTranslation("SatchelsDesc"));
             clothesMenu.AddMenuItem(mListSatchels);
 
             clothesMenu.OnMenuOpen += (_menu) =>
@@ -700,110 +733,84 @@ namespace VorpCharacter.Menus
 
             clothesMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
             {
-                switch (_itemIndex)
+                if (_listItem == mListHats)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x9925C067, "Hat", SkinsUtils.HATS_MALE, SkinsUtils.HATS_FEMALE);
+                else if (_listItem == mListEyeWear)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x5E47CA6, "EyeWear", SkinsUtils.EYEWEAR_MALE, SkinsUtils.EYEWEAR_FEMALE);
+                else if (_listItem == mListMask)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7505EF42, "Mask", SkinsUtils.MASK_MALE, SkinsUtils.MASK_FEMALE);
+                else if (_listItem == mListNeckWear)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x5FC29285, "NeckWear", SkinsUtils.NECKWEAR_MALE, SkinsUtils.NECKWEAR_FEMALE);
+                else if (_listItem == mListNeckTies)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7A96FACA, "NeckTies", SkinsUtils.NECKTIES_MALE, SkinsUtils.NECKTIES_FEMALE);
+                else if (_listItem == mListShirts)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x2026C46D, "Shirt", SkinsUtils.SHIRTS_MALE, SkinsUtils.SHIRTS_FEMALE);
+                else if (_listItem == mListSuspenders)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x877A2CF7, "Suspender", SkinsUtils.SUSPENDERS_MALE, SkinsUtils.SUSPENDERS_FEMALE);
+                else if (_listItem == mListVest)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x485EE834, "Vest", SkinsUtils.VEST_MALE, SkinsUtils.VEST_FEMALE);
+                else if (_listItem == mListCoats)
                 {
-                    case 0:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x9925C067, "Hat", SkinsUtils.HATS_MALE, SkinsUtils.HATS_FEMALE);
-                        break;
-                    case 1:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x5E47CA6, "EyeWear", SkinsUtils.EYEWEAR_MALE, SkinsUtils.EYEWEAR_FEMALE);
-                        break;
-                    case 2:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7505EF42, "Mask", SkinsUtils.MASK_MALE, SkinsUtils.MASK_FEMALE);
-                        break;
-                    case 3:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x5FC29285, "NeckWear", SkinsUtils.NECKWEAR_MALE, SkinsUtils.NECKWEAR_FEMALE);
-                        break;
-                    case 4:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7A96FACA, "NeckTies", SkinsUtils.NECKTIES_MALE, SkinsUtils.NECKTIES_FEMALE);
-                        break;
-                    case 5:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x2026C46D, "Shirt", SkinsUtils.SHIRTS_MALE, SkinsUtils.SHIRTS_FEMALE);
-                        break;
-                    case 6:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x877A2CF7, "Suspender", SkinsUtils.SUSPENDERS_MALE, SkinsUtils.SUSPENDERS_FEMALE);
-                        break;
-                    case 7:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x485EE834, "Vest", SkinsUtils.VEST_MALE, SkinsUtils.VEST_FEMALE);
-                        break;
-                    case 8:
-                        CreateCharacter.SetPlayerComponent(0, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
-                        mListCoatsClosed.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
-                        break;
-                    case 9:
-                        CreateCharacter.SetPlayerComponent(0, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
-                        mListCoats.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
-                        break;
-                    case 10:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xAF14310B, "Poncho", SkinsUtils.PONCHOS_MALE, SkinsUtils.PONCHOS_FEMALE);
-                        break;
-                    case 11:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x3C1A74CD, "Cloak", SkinsUtils.CLOAK_MALE, SkinsUtils.CLOAK_FEMALE);
-                        break;
-                    case 12:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xEABE0032, "Glove", SkinsUtils.GLOVES_MALE, SkinsUtils.GLOVES_FEMALE);
-                        break;
-                    case 13:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7A6BBD0B, "RingRh", SkinsUtils.RINGS_RH_MALE, SkinsUtils.RINGS_RH_FEMALE);
-                        break;
-                    case 14:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xF16A1D23, "RingLh", SkinsUtils.RINGS_LH_MALE, SkinsUtils.RINGS_LH_FEMALE);
-                        break;
-                    case 15:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x7BC10759, "Bracelet", SkinsUtils.BRACELETS_MALE, SkinsUtils.BRACELETS_FEMALE);
-                        break;
-                    case 16:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x9B2C8B89, "Gunbelt", SkinsUtils.GUNBELT_MALE, SkinsUtils.GUNBELT_FEMALE);
-                        break;
-                    case 17:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xA6D134C6, "Belt", SkinsUtils.BELT_MALE, SkinsUtils.BELT_FEMALE);
-                        break;
-                    case 18:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xFAE9107F, "Buckle", SkinsUtils.BUCKLE_MALE, SkinsUtils.BUCKLE_FEMALE);
-                        break;
-                    case 19:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xB6B6122D, "Holster", SkinsUtils.HOLSTERS_S_MALE, SkinsUtils.HOLSTERS_S_FEMALE);
-                        break;
-                    case 20:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x1D4C528A, "Pant", SkinsUtils.PANTS_MALE, SkinsUtils.PANTS_FEMALE);
-                        break;
-                    case 21:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xA0E3AB7F, "Skirt", SkinsUtils.SKIRTS_FEMALE, SkinsUtils.SKIRTS_FEMALE);
-                        break;
-                    case 22:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x3107499B, "Chap", SkinsUtils.CHAPS_MALE, SkinsUtils.CHAPS_FEMALE);
-                        break;
-                    case 23:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
-                        break;
-                    case 24:
-                        CreateCharacter.SetPlayerComponent(0, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
-                        mListSpats.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
-                        break;
-                    case 25:
-                        CreateCharacter.SetPlayerComponent(0, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
-                        mListSpurs.ListIndex = 0;
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
-                        break;
-                    case 26:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x91CE9B20, "Gauntlets", SkinsUtils.GAUNTLETS_MALE, SkinsUtils.GAUNTLETS_FEMALE);
-                        break;
-                    case 27:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x83887E88, "Loadouts", SkinsUtils.LOADOUTS_MALE, SkinsUtils.LOADOUTS_FEMALE);
-                        break;
-                    case 28:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x79D7DF96, "Accessories", SkinsUtils.ACCESSORIES_MALE, SkinsUtils.ACCESSORIES_FEMALE);
-                        break;
-                    case 29:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0x94504D26, "Satchels", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
-                        break;
-                    case 30:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.GUNBELTACCS_MALE, SkinsUtils.GUNBELTACCS_MALE);
-                        break;
+                    CreateCharacter.SetPlayerComponent(0, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
+                    mListCoatsClosed.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
                 }
+                else if (_listItem == mListCoatsClosed)
+                {
+                    CreateCharacter.SetPlayerComponent(0, 0xE06D30CE, "Coat", SkinsUtils.COATS_MALE, SkinsUtils.COATS_FEMALE);
+                    mListCoats.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x0662AC34, "CoatClosed", SkinsUtils.COATS_CLOSED_MALE, SkinsUtils.COATS_CLOSED_FEMALE);
+                }
+                else if (_listItem == mListPonchos)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xAF14310B, "Poncho", SkinsUtils.PONCHOS_MALE, SkinsUtils.PONCHOS_FEMALE);
+                else if (_listItem == mListCloak)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x3C1A74CD, "Cloak", SkinsUtils.CLOAK_MALE, SkinsUtils.CLOAK_FEMALE);
+                else if (_listItem == mListGloves)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xEABE0032, "Glove", SkinsUtils.GLOVES_MALE, SkinsUtils.GLOVES_FEMALE);
+                else if (_listItem == mListRingsRhType)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7A6BBD0B, "RingRh", SkinsUtils.RINGS_RH_MALE, SkinsUtils.RINGS_RH_FEMALE);
+                else if (_listItem == mListRingsLh)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xF16A1D23, "RingLh", SkinsUtils.RINGS_LH_MALE, SkinsUtils.RINGS_LH_FEMALE);
+                else if (_listItem == mListbracelets)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x7BC10759, "Bracelet", SkinsUtils.BRACELETS_MALE, SkinsUtils.BRACELETS_FEMALE);
+                else if (_listItem == mListGunbelt)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x9B2C8B89, "Gunbelt", SkinsUtils.GUNBELT_MALE, SkinsUtils.GUNBELT_FEMALE);
+                else if (_listItem == mListBelt)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xA6D134C6, "Belt", SkinsUtils.BELT_MALE, SkinsUtils.BELT_FEMALE);
+                else if (_listItem == mListBuckle)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xFAE9107F, "Buckle", SkinsUtils.BUCKLE_MALE, SkinsUtils.BUCKLE_FEMALE);
+                else if (_listItem == mListSHolsters)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xB6B6122D, "Holster", SkinsUtils.HOLSTERS_S_MALE, SkinsUtils.HOLSTERS_S_FEMALE);
+                else if (_listItem == mListPants)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x1D4C528A, "Pant", SkinsUtils.PANTS_MALE, SkinsUtils.PANTS_FEMALE);
+                else if (_listItem == mListSkirts)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xA0E3AB7F, "Skirt", SkinsUtils.SKIRTS_FEMALE, SkinsUtils.SKIRTS_FEMALE);
+                else if (_listItem == mListChaps)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x3107499B, "Chap", SkinsUtils.CHAPS_MALE, SkinsUtils.CHAPS_FEMALE);
+                else if (_listItem == mListBoots)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x777EC6EF, "Boots", SkinsUtils.BOOTS_MALE, SkinsUtils.BOOTS_FEMALE);
+                else if (_listItem == mListSpurs)
+                {
+                    CreateCharacter.SetPlayerComponent(0, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
+                    mListSpats.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
+                }
+                else if (_listItem == mListSpats)
+                {
+                    CreateCharacter.SetPlayerComponent(0, 0x18729F39, "Spurs", SkinsUtils.SPURS_MALE, SkinsUtils.SPURS_FEMALE);
+                    mListSpurs.ListIndex = 0;
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x514ADCEA, "Spats", SkinsUtils.SPATS_MALE, SkinsUtils.SPATS_FEMALE);
+                }
+                else if (_listItem == mListGunbeltAccs)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.GUNBELTACCS_MALE, SkinsUtils.GUNBELTACCS_MALE);
+                else if (_listItem == mListGauntlets)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x91CE9B20, "Gauntlets", SkinsUtils.GAUNTLETS_MALE, SkinsUtils.GAUNTLETS_FEMALE);
+                else if (_listItem == mListLoadouts)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x83887E88, "Loadouts", SkinsUtils.LOADOUTS_MALE, SkinsUtils.LOADOUTS_FEMALE);
+                else if (_listItem == mListAccessories)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x79D7DF96, "Accessories", SkinsUtils.ACCESSORIES_MALE, SkinsUtils.ACCESSORIES_FEMALE);
+                else if (_listItem == mListSatchels)
+                    CreateCharacter.SetPlayerComponent(_newIndex, 0x94504D26, "Satchels", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
             };
 
         }

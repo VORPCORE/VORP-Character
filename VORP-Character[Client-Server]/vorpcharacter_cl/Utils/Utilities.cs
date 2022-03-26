@@ -87,9 +87,22 @@ namespace VorpCharacter.Utils
             await BaseScript.Delay(delay);
         }
 
-        public static void ApplyShopItemToPed(int pedHandle, long componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = true)
+        public static void SetComponent(int pedHandle, ePedComponent componentCategory, long componentHash)
+        {
+            Logger.Debug($"SetComponent: {pedHandle} / {componentCategory} / {componentHash}");
+
+            if (componentCategory == ePedComponent.UNKNOWN) return;
+            if (componentHash == 0)
+                RemoveTagFromMetaPed((int)componentCategory, 0);
+            else
+                Function.Call((Hash)0x59BD177A1A48600A, pedHandle, componentHash);
+            Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, true, true, false);
+        }
+
+        public static void ApplyShopItemToPed(int pedHandle, long componentHash, bool immediately = true, bool isMultiplayer = true, bool p4 = false)
         {
             Function.Call((Hash)0xD3A7B003ED343FD9, pedHandle, componentHash, immediately, isMultiplayer, p4);
+            UpdatePedVariation(pedHandle);
         }
 
         public async static Task<int> SetPlayerModel(uint hash)
