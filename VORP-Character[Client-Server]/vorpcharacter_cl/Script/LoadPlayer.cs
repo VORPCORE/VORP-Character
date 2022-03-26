@@ -214,7 +214,6 @@ namespace VorpCharacter.Script
                 }
 
                 int pedHandle = -1;
-
                 if (isPlayer) pedHandle = Cache.PlayerPedId;
                 string sex = GetKeyValue(skin, "sex");
                 bool isMale = sex == "mp_male";
@@ -236,18 +235,27 @@ namespace VorpCharacter.Script
                     pedHandle = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
                 }
 
-                Utilities.UpdatePedVariation(pedHandle, true);
+                while (!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, pedHandle)) // IsPedReadyToRender
+                {
+                    await BaseScript.Delay(0);
+                }
+
+                Utilities.UpdatePedVariation(pedHandle, true, true);
                 int pHealth = Utilities.GetAttributeCoreValue(pedHandle, eAttributeCore.Health);
 
                 PreloadPedTextures(skin, isMale);
                 ApplyDefaultSkinSettings(pedHandle);
-                SetupPedBodyTypes(skin, delay, pedHandle);
+                SetupPedBodyTypes(pedHandle, skin);
                 await BaseScript.Delay(0);
-                SetupPedFaceFeatures(skin, pedHandle);
-                SetPedBodyComponents(skin, pedHandle);
-                SetPedFaceTextures(skin);
+                SetupPedFaceFeatures(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetPedBodyComponents(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetPedFaceTextures(pedHandle, skin);
+                await BaseScript.Delay(0);
+                SetupPedAdditionalFaceFeatures(pedHandle, skin);
+                await BaseScript.Delay(0);
                 SetPedComponents(clothes, pedHandle, isMale);
-                SetupPedAdditionalFaceFeatures(skin, pedHandle);
 
                 Utilities.SetAttributeCoreValue(pedHandle, (int)eAttributeCore.Health, pHealth);
 
@@ -283,16 +291,16 @@ namespace VorpCharacter.Script
             CreateCharacter.texture_types["unk_arg"] = 0;
         }
 
-        private static void SetPedBodyComponents(Dictionary<string, string> skin, int pedHandle)
+        private static void SetPedBodyComponents(int pedHandle, Dictionary<string, string> skin)
         {
             string bodyValue = GetKeyValue(skin, "Body");
             string waistValue = GetKeyValue(skin, "Waist");
             Utilities.SetPedBodyComponent(pedHandle, ConvertValue(bodyValue));
             Utilities.SetPedBodyComponent(pedHandle, ConvertValue(waistValue));
-            Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            Utilities.UpdatePedVariation(pedHandle);
         }
 
-        private static void SetupPedAdditionalFaceFeatures(Dictionary<string, string> skin, int pedHandle)
+        private static void SetupPedAdditionalFaceFeatures(int pedHandle, Dictionary<string, string> skin)
         {
             string eyesValue = GetKeyValue(skin, "Eyes");
             string beardValue = GetKeyValue(skin, "Beard");
@@ -305,7 +313,7 @@ namespace VorpCharacter.Script
             Utilities.UpdatePedVariation(pedHandle);
         }
 
-        private static void SetupPedBodyTypes(Dictionary<string, string> skin, int delay, int pedHandle)
+        private static void SetupPedBodyTypes(int pedHandle, Dictionary<string, string> skin)
         {
             string headType = GetKeyValue(skin, "HeadType");
             string bodyType = GetKeyValue(skin, "BodyType");
@@ -314,10 +322,10 @@ namespace VorpCharacter.Script
             Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(headType));
             Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(bodyType));
             Utilities.ApplyShopItemToPed(pedHandle, ConvertValue(legsType));
-            Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            Utilities.UpdatePedVariation(pedHandle);
         }
 
-        private static void SetupPedFaceFeatures(Dictionary<string, string> skin, int pedHandle)
+        private static void SetupPedFaceFeatures(int pedHandle, Dictionary<string, string> skin)
         {
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.FaceSize, skin, "HeadSize"); // FaceSize
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.EyebrowHeight, skin, "EyeBrowH"); // EyebrowHeight
@@ -358,10 +366,10 @@ namespace VorpCharacter.Script
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinHeight, skin, "ChinH"); // ChinHeight
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinWidth, skin, "ChinW"); // ChinWidth
             Utilities.SetPedFaceFeature(pedHandle, ePedFaceFeature.ChinDepth, skin, "ChinD", true); // ChinDepth
-            Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            Utilities.UpdatePedVariation(pedHandle, true);
         }
 
-        private static void SetPedFaceTextures(Dictionary<string, string> skin)
+        private static void SetPedFaceTextures(int pedHandle, Dictionary<string, string> skin)
         {
             // if you're looking at this, and saying "WTF is this..." welcome to to supporting a legacy model before refactoring to classes, yes, I don't like this either!
             // also can see that another resource has added this information into another column, so which one is the correct one?! what a mess.
@@ -467,7 +475,7 @@ namespace VorpCharacter.Script
             CreateCharacter.ToggleOverlayChange("grime", iGrimeVisibility, iGrimeTxId);
             CreateCharacter.ToggleOverlayChange("lipsticks", iLipstickVisibility, iLipstickTxId, palette_id: iLipstickPaletteId, palette_color_primary: iLipstickColorPrimary);
             CreateCharacter.ToggleOverlayChange("shadows", iShadowsVisibility, iShadowsTxId, palette_id: iShadowsPaletteId, palette_color_primary: iShadowsColorPrimary);
-            Utilities.UpdatePedVariation(Cache.PlayerPedId);
+            Utilities.UpdatePedVariation(pedHandle, true);
         }
 
         private static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle, bool isMale)
@@ -505,7 +513,7 @@ namespace VorpCharacter.Script
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Accessories, "Accessories", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Satchels, "Satchels", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
-            Utilities.UpdatePedVariation(Cache.PlayerPedId, true);
+            Utilities.UpdatePedVariation(pedHandle, true);
         }
 
         private static string GetKeyValue(Dictionary<string, string> skin, string key)
