@@ -1,9 +1,12 @@
-﻿using System;
+﻿using CitizenFX.Core.Native;
+using System;
 
 namespace VorpCharacter.Diagnostics
 {
     class Logger
     {
+        static bool isDebugEnabled => API.GetConvarInt("vorp_character_debug", 0) == 1;
+
         public static void Info(string msg)
         {
             WriteLine("INFO", msg);
@@ -36,7 +39,8 @@ namespace VorpCharacter.Diagnostics
 
         public static void Debug(string msg)
         {
-            WriteLine("DEBUG", msg);
+            if (isDebugEnabled)
+                WriteLine("DEBUG", msg);
         }
 
         private static void WriteLine(string title, string msg)
