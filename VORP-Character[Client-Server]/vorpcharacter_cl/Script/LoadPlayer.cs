@@ -232,7 +232,7 @@ namespace VorpCharacter.Script
 
                 if (!isPlayer)
                 {
-                    pedHandle = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, false, true, true);
+                    pedHandle = API.CreatePed(model_hash, 1701.316f, 1512.134f, 146.87f, 116.70f, false, true, true, true);
                 }
 
                 while (!Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, pedHandle)) // IsPedReadyToRender
@@ -484,31 +484,31 @@ namespace VorpCharacter.Script
 
         private static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle, bool isMale)
         {
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Hat, "Hat", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Hats, "Hat", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.EyeWear, "EyeWear", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Mask, "Mask", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckWear, "NeckWear", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Suspender, "Suspender", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Vest, "Vest", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Coat, "Coat", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatClosed, "CoatClosed", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Shirt, "Shirt", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.NeckTies, "NeckTies", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Poncho, "Poncho", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloak, "Cloak", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Glove, "Glove", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.RingRh, "RingRh", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.RingLh, "RingLh", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Bracelet, "Bracelet", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Gunbelt, "Gunbelt", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Belt, "Belt", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Buckle, "Buckle", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Holster, "Holster", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Pant, "Pant", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Masks, "Mask", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Neckwear, "NeckWear", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Suspenders, "Suspender", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Vests, "Vest", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Coats, "Coat", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.CoatsClosed, "CoatClosed", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.ShirtsFull, "Shirt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Neckties, "NeckTies", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Ponchos, "Poncho", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Cloaks, "Cloak", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Gloves, "Glove", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.JewelryRingsRight, "RingRh", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.JewelryRingsLeft, "RingLh", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.JewelryBracelets, "Bracelet", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Gunbelts, "Gunbelt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Belts, "Belt", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.BeltBuckles, "Buckle", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.HolstersLeft, "Holster", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Pants, "Pant", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Bow, "bow", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Armor, "armor", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Teeth, "teeth", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.Chap, "Chap", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.Chaps, "Chap", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Boots, "Boots", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Spurs, "Spurs", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Spats, "Spats", clothes);
@@ -516,7 +516,7 @@ namespace VorpCharacter.Script
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Loadouts, "Loadouts", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Accessories, "Accessories", clothes);
             SetPlayerComponent(pedHandle, isMale, ePedComponent.Satchels, "Satchels", clothes);
-            SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccs, "GunbeltAccs", clothes);
+            SetPlayerComponent(pedHandle, isMale, ePedComponent.GunbeltAccessories, "GunbeltAccs", clothes);
             Utilities.UpdatePedVariation(pedHandle, true);
         }
 
