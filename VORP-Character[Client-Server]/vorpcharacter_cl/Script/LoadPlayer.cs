@@ -194,7 +194,7 @@ namespace VorpCharacter.Script
             Utilities.UpdatePedVariation(pedHandle);
         }
 
-        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes, int delay = 0)
+        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes)
         {
             try
             {
