@@ -801,7 +801,7 @@ namespace VorpCharacter.Menus
                         CreateCharacter.SetPlayerComponent(_newIndex, 0x94504D26, "Satchels", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
                         break;
                     case 30:
-                        CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.SATCHELS_MALE, SkinsUtils.SATCHELS_FEMALE);
+                        CreateCharacter.SetPlayerComponent(_newIndex, 0xF1542D11, "GunbeltAccs", SkinsUtils.GUNBELTACCS_MALE, SkinsUtils.GUNBELTACCS_MALE);
                         break;
                 }
             };
