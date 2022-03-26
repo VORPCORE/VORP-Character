@@ -306,7 +306,10 @@ namespace VorpCharacter.Script
 
                 if (API.PromptHasHoldModeCompleted(DeletePrompt))
                 {
+                    API.PromptSetEnabled(DeletePrompt, 0);
+                    API.PromptSetEnabled(CreatePrompt, 0);
                     await Delay(500);
+                    API.PromptRestartModes(DeletePrompt);
                     Logger.Debug($"PromptHasHoldModeCompleted (DeletePrompt)");
 
                     isInCharacterSelector = false;
@@ -319,6 +322,9 @@ namespace VorpCharacter.Script
                         isInCharacterSelector = true;
                         isDeletionAttempt = false;
                         Controller();
+                        DrawInformation();
+                        API.PromptSetEnabled(DeletePrompt, 1);
+                        API.PromptSetEnabled(CreatePrompt, 1);
 
                         await Delay(100);
 
