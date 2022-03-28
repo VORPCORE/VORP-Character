@@ -97,6 +97,9 @@ namespace VorpCharacter.Script
                     case "clothes":
                         SetPedComponents(cache_cloths, Cache.PlayerPedId);
                         Utilities.UpdatePedVariation(Cache.PlayerPedId, true);
+                        await BaseScript.Delay(0);
+                        SetPedComponents(cache_cloths, Cache.PlayerPedId);
+                        Utilities.UpdatePedVariation(Cache.PlayerPedId, true);
                         break;
                     default:
                         await SetupCharacter(true, cache_skin, cache_cloths);
@@ -243,25 +246,31 @@ namespace VorpCharacter.Script
                 Function.Call((Hash)0x0BFA1BD465CDFEFD, pedHandle);
                 Utilities.UpdatePedVariation(pedHandle, true, true);
 
-                PreloadPedTextures(skin, isMale);
-                await BaseScript.Delay(0);
-                ApplyDefaultSkinSettings(pedHandle);
-                await BaseScript.Delay(0);
-                SetupPedBodyTypes(pedHandle, skin);
-                await BaseScript.Delay(0);
-                Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
-                Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
-                Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
-                await BaseScript.Delay(0);
-                SetupPedFaceFeatures(pedHandle, skin);
-                await BaseScript.Delay(0);
-                SetPedBodyComponents(pedHandle, skin);
-                await BaseScript.Delay(0);
-                SetPedFaceTextures(pedHandle, skin);
-                await BaseScript.Delay(0);
-                SetupPedAdditionalFaceFeatures(pedHandle, skin);
-                await BaseScript.Delay(0);
-                SetPedComponents(clothes, pedHandle);
+                // loop this twice, why, cause the first time round it doesn't apply correctly
+                for (var i = 0; i < 2; i++)
+                {
+                    PreloadPedTextures(skin, isMale);
+                    await BaseScript.Delay(0);
+                    ApplyDefaultSkinSettings(pedHandle);
+                    await BaseScript.Delay(0);
+                    SetupPedBodyTypes(pedHandle, skin);
+                    await BaseScript.Delay(0);
+                    Utilities.RemoveTagFromMetaPed(pedHandle, 0x1D4C528A, 0);
+                    Utilities.RemoveTagFromMetaPed(pedHandle, 0x3F1F01E5, 0);
+                    Utilities.RemoveTagFromMetaPed(pedHandle, 0xDA0E2C55, 0);
+                    await BaseScript.Delay(0);
+                    SetupPedFaceFeatures(pedHandle, skin);
+                    await BaseScript.Delay(0);
+                    SetPedBodyComponents(pedHandle, skin);
+                    await BaseScript.Delay(0);
+                    SetPedFaceTextures(pedHandle, skin);
+                    await BaseScript.Delay(0);
+                    SetupPedAdditionalFaceFeatures(pedHandle, skin);
+                    await BaseScript.Delay(0);
+                    SetPedComponents(clothes, pedHandle);
+                    await BaseScript.Delay(100);
+                    SetPedComponents(clothes, pedHandle);
+                }
 
                 ResetEntityAlpha(pedHandle);
 

@@ -23,7 +23,6 @@ namespace VorpCharacter.Script
         private static int mainCamera = -1;
         dynamic myChars = null;
         private static bool isInCharacterSelector = false;
-        private static bool isDeletionAttempt = false;
         private int tagId = 0;
         private static bool swappingChar = true;
 
@@ -218,7 +217,6 @@ namespace VorpCharacter.Script
                 string json_coords = myChars[selectedChar].coords;
                 JObject jPos = JObject.Parse(json_coords);
 
-                // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
                 await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
                 API.NetworkClearClockTimeOverride();
@@ -316,10 +314,11 @@ namespace VorpCharacter.Script
 
                 if (API.PromptHasHoldModeCompleted(DeletePrompt))
                 {
+                    API.PromptRestartModes(DeletePrompt);
+
                     API.PromptSetEnabled(DeletePrompt, 0);
                     API.PromptSetEnabled(CreatePrompt, 0);
                     await Delay(500);
-                    API.PromptRestartModes(DeletePrompt);
 
                     isInCharacterSelector = false;
 
@@ -329,11 +328,8 @@ namespace VorpCharacter.Script
                         await Delay(100);
 
                         isInCharacterSelector = true;
-                        isDeletionAttempt = false;
                         Controller();
                         DrawInformation();
-                        API.PromptSetEnabled(DeletePrompt, 1);
-                        API.PromptSetEnabled(CreatePrompt, 1);
 
                         await Delay(100);
 
@@ -342,6 +338,11 @@ namespace VorpCharacter.Script
                             if (result.Equals(Common.GetTranslation("SUPPRCode")))
                             {
                                 TriggerServerEvent("vorp_DeleteCharacter", (int)myChars[selectedChar].charIdentifier);
+
+                                myChars.RemoveAt(selectedChar);
+
+                                Function.Call(Hash.ADD_EXPLOSION, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false, true);
+
                                 if (myChars.Count == 0)
                                 {
                                     new CreateCharacter().StartCreationOfCharacter();
@@ -354,10 +355,6 @@ namespace VorpCharacter.Script
                                 }
                                 else
                                 {
-                                    myChars.RemoveAt(selectedChar);
-
-                                    Function.Call(Hash.ADD_EXPLOSION, 1696.17f, 1508.474f, 147.85f, 26, 50.0f, true, false, true);
-
                                     if (selectedChar == 0)
                                     {
                                         selectedChar = myChars.Count - 1;
@@ -369,8 +366,7 @@ namespace VorpCharacter.Script
                                             selectedChar = 0;
                                     }
 
-                                    if (selectedChar > 0)
-                                        await StartSwapCharacter();
+                                    await StartSwapCharacter();
                                 }
                             }
                         }
