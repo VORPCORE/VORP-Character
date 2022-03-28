@@ -23,7 +23,6 @@ namespace VorpCharacter.Script
         private static int mainCamera = -1;
         dynamic myChars = null;
         private static bool isInCharacterSelector = false;
-        private static bool isDeletionAttempt = false;
         private int tagId = 0;
         private static bool swappingChar = true;
 
