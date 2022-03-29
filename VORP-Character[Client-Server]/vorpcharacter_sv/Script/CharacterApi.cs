@@ -148,7 +148,6 @@ namespace VorpCharacter.Script
                 Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
                 player.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
                 await Delay(2000);
-                player.TriggerEvent("vorp_NewCharacter");
                 TriggerEvent("vorp_NewCharacter", int.Parse(player.Handle));
 
                 PluginManager.Instance.DiscordClient.SendDiscordEmbededMessage("vorp_character", $"VORP Character Sentry", $"Created Character", $"User: {player.Name}", Web.DiscordColor.Green);
