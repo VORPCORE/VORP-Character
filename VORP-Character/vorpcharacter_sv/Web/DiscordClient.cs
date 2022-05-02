@@ -69,7 +69,7 @@ namespace VorpCharacter.Web
             await BaseScript.Delay(10000);
         }
 
-        private async Task UpdateWebhooks()
+        private void UpdateWebhooks()
         {
             try
             {
