@@ -402,7 +402,7 @@ namespace VORP.Character.Client.Script
                 skin[s.Key] = s.Value.ToString();
             }
 
-            Dictionary<string, uint> clothes = new Dictionary<string, uint>();
+            Dictionary<string, long> clothes = new Dictionary<string, long>();
 
             foreach (var s in jcomp)
             {
