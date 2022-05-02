@@ -47,7 +47,7 @@ namespace VorpCharacter.Web
         }
 
         [Tick]
-        private async Task OnDiscordWebhookUpdate()
+        private async Task OnDiscordWebhookUpdateAsync()
         {
             if ((API.GetGameTimer() - lastUpdate) > 120000)
             {
@@ -91,7 +91,7 @@ namespace VorpCharacter.Web
             }
         }
 
-        public async Task SendDiscordEmbededMessage(string webHookName, string name, string title, string description, DiscordColor discordColor)
+        public async Task SendDiscordEmbededMessageAsync(string webHookName, string name, string title, string description, DiscordColor discordColor)
         {
             try
             {
