@@ -1,10 +1,8 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
+﻿using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using VORP.Character.Server.Diagnostics;
 using VORP.Character.Server.Extensions;
 
 namespace VORP.Character.Server.Script
@@ -13,7 +11,7 @@ namespace VORP.Character.Server.Script
     {
         public static CharacterApi Instance { get; private set; }
 
-        public CharacterApi() // MOVE TO CORE v2
+        public void Init()
         {
             Instance = this;
 
@@ -60,8 +58,7 @@ namespace VORP.Character.Server.Script
                 }
             }), false);
 
-            Logger.Info($"VORP Character CharacterApi");
-
+            Logger.Info($"INIT VORP Character CharacterApi");
         }
 
         private void SpawnUniqueCharacter(int source)
