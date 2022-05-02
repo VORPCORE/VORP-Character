@@ -1,9 +1,10 @@
-﻿using CitizenFX.Core;
+﻿global using CitizenFX.Core;
+global using VORP.Character.Server.Diagnostics;
+global using static CitizenFX.Core.Native.API;
 using System;
 using System.Threading.Tasks;
-using VORP.Character.Server.Diagnostics;
+using VORP.Character.Server.Script;
 using VORP.Character.Server.Web;
-using static CitizenFX.Core.Native.API;
 
 namespace VORP.Character.Server
 {
@@ -13,12 +14,14 @@ namespace VORP.Character.Server
         public static PlayerList PlayerList;
         public static dynamic CORE;
         public static int MAX_ALLOWED_CHARACTERS;
+        public static bool USE_CORE_EXPORTS = false;
 
         public EventHandlerDictionary EventRegistry => EventHandlers;
         public ExportDictionary ExportRegistry => Exports;
         string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
 
         readonly public DiscordClient DiscordClient = new();
+        readonly public CharacterApi CharacterApi = new();
 
         public PluginManager()
         {
@@ -57,6 +60,18 @@ namespace VORP.Character.Server
         {
             await VendorReady(); // wait till ghmattimysql resource has started
 
+            USE_CORE_EXPORTS = GetResourceMetadata(GetCurrentResourceName(), "vorp_core_csharp_new", 0) == "true";
+
+            if (USE_CORE_EXPORTS)
+            {
+                Logger.Info($"Using VORP-CORE Exports.");
+            }
+
+            DiscordClient.Init();
+            CharacterApi.Init();
+
+            AddEvents();
+
             TriggerEvent("getCore", new Action<dynamic>((dic) =>
             {
                 Logger.Success($"VORP Core Setup");
@@ -67,10 +82,6 @@ namespace VORP.Character.Server
                     cb(MAX_ALLOWED_CHARACTERS);
                 }));
             }));
-
-            RegisterScript(DiscordClient);
-
-            AddEvents();
         }
 
 
