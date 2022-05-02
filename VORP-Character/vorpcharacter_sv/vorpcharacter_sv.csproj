@@ -34,7 +34,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Development|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>Y:\GTA\FXServer\RedM\server-data\resources\[vorp_core]\vorp_character\</OutputPath>
+    <OutputPath>Y:\GTA\FXServer\RedM\server-data-refactor\resources\[vorp_core]\vorp_character\</OutputPath>
     <DefineConstants>TRACE;DEBUG;DEVELOPMENT</DefineConstants>
     <DebugType>portable</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
