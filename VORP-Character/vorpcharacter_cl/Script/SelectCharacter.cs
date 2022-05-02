@@ -74,7 +74,7 @@ namespace VORP.Character.Client.Script
                 }
                 float heading = position.H;
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
-                await Delay(1000);
+                await Delay(2000);
                 int playerPedId = API.PlayerPedId();
                 API.SetEntityCoords(playerPedId, position.X, position.Y, position.Z, false, false, false, true);
                 API.SetEntityHeading(playerPedId, position.H);
@@ -223,7 +223,7 @@ namespace VORP.Character.Client.Script
                 string json_skin = myChars[selectedChar].skin; // make this a class
                 string json_components = myChars[selectedChar].components;
                 string json_coords = myChars[selectedChar].coords;
-                JObject jPos = JObject.Parse(json_coords);
+                Position pos = JsonConvert.DeserializeObject<Position>(json_coords);
 
                 await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
@@ -235,7 +235,7 @@ namespace VORP.Character.Client.Script
                 API.SetCamActive(mainCamera, false);
                 API.DestroyCam(mainCamera, true);
                 API.RenderScriptCams(true, true, 1000, true, true, 0);
-                Vector3 playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(), jPos["z"].ToObject<float>());
+                Vector3 playerCoords = pos.AsVector();
                 bool isDead = false;
                 try
                 {
@@ -245,8 +245,12 @@ namespace VORP.Character.Client.Script
                 {
                     Debug.WriteLine(e.Message);
                 }
-                float heading = jPos["heading"].ToObject<float>();
+                float heading = pos.H;
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
+
+                int playerPedId = API.PlayerPedId();
+                API.SetEntityCoords(playerPedId, pos.X, pos.Y, pos.Z, false, false, false, true);
+                API.SetEntityHeading(playerPedId, pos.H);
 
                 await Delay(1000);
                 API.DoScreenFadeIn(1000);
