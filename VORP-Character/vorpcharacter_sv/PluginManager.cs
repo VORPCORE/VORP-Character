@@ -1,11 +1,12 @@
-﻿using CitizenFX.Core;
+﻿global using CitizenFX.Core;
+global using VORP.Character.Server.Diagnostics;
+global using static CitizenFX.Core.Native.API;
 using System;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Web;
-using static CitizenFX.Core.Native.API;
+using VORP.Character.Server.Script;
+using VORP.Character.Server.Web;
 
-namespace VorpCharacter
+namespace VORP.Character.Server
 {
     public class PluginManager : BaseScript
     {
@@ -13,12 +14,15 @@ namespace VorpCharacter
         public static PlayerList PlayerList;
         public static dynamic CORE;
         public static int MAX_ALLOWED_CHARACTERS;
+        public static bool USE_CORE_EXPORTS = false;
+        public static string VORP_DATABASE_RESOURCE = "ghmattimysql";
 
         public EventHandlerDictionary EventRegistry => EventHandlers;
         public ExportDictionary ExportRegistry => Exports;
-        string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
+        string _MySqlResourceState => GetResourceState(VORP_DATABASE_RESOURCE);
 
         readonly public DiscordClient DiscordClient = new();
+        readonly public CharacterApi CharacterApi = new();
 
         public PluginManager()
         {
@@ -36,12 +40,12 @@ namespace VorpCharacter
 
         async Task VendorReady()
         {
-            string dbResource = _GHMattiMySqlResourceState;
+            string dbResource = _MySqlResourceState;
             if (dbResource == "missing")
             {
                 while (true)
                 {
-                    Logger.Error($"ghmattimysql resource not found! Please make sure you have the resource!");
+                    Logger.Error($"{VORP_DATABASE_RESOURCE} resource not found! Please make sure you have the resource!");
                     await Delay(1000);
                 }
             }
@@ -49,12 +53,26 @@ namespace VorpCharacter
             while (!(dbResource == "started"))
             {
                 await Delay(500);
-                dbResource = _GHMattiMySqlResourceState;
+                StartResource(VORP_DATABASE_RESOURCE);
+                await Delay(500);
+                dbResource = _MySqlResourceState;
             }
         }
 
         async void Setup()
         {
+            USE_CORE_EXPORTS = GetResourceMetadata(GetCurrentResourceName(), "vorp_core_csharp_new", 0) == "true";
+
+            if (USE_CORE_EXPORTS)
+            {
+                Logger.Info($"Using VORP-CORE Exports.");
+            }
+
+            DiscordClient.Init();
+            CharacterApi.Init();
+
+            AddEvents();
+
             await VendorReady(); // wait till ghmattimysql resource has started
 
             TriggerEvent("getCore", new Action<dynamic>((dic) =>
@@ -67,10 +85,6 @@ namespace VorpCharacter
                     cb(MAX_ALLOWED_CHARACTERS);
                 }));
             }));
-
-            RegisterScript(DiscordClient);
-
-            AddEvents();
         }
 
 
@@ -98,9 +112,12 @@ namespace VorpCharacter
                 if (resourceName != GetCurrentResourceName()) return;
 
                 Logger.Info($"Stopping VORP Character");
-
-                UnregisterScript(DiscordClient);
             }));
+        }
+        public void Hook(string eventName, Delegate @delegate)
+        {
+            Logger.Debug($"Registered Legacy Event Handler '{eventName}'");
+            EventHandlers.Add(eventName, @delegate);
         }
     }
 }

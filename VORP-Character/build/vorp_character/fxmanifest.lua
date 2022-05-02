@@ -3,11 +3,11 @@ fx_version 'adamant'
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 client_scripts {
-  'vorpcharacter_cl.net.dll'
+  '*.Client.net.dll'
 }
 
 server_scripts {
-  'vorpcharacter_sv.net.dll'
+  '*.Server.net.dll'
 }
 
 files {
@@ -17,3 +17,5 @@ files {
 }
 
 debug_enabled 'false'
+vorp_core_csharp_new 'true'
+vorp_database_resource 'ghmattimysql'

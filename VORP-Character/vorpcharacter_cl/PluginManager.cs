@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Model;
+using VORP.Character.Client.Diagnostics;
+using VORP.Character.Client.Model;
 using static CitizenFX.Core.Native.API;
 
-namespace VorpCharacter
+namespace VORP.Character.Client
 {
     public class PluginManager : BaseScript
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace VorpCharacter.Web.Discord.Entity
+namespace VORP.Character.Server.Web.Discord.Entity
 {
     public class Field
     {

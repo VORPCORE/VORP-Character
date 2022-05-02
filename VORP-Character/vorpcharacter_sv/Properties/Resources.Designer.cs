@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VorpCharacter.Properties {
+namespace VORP.Character.Server.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace VorpCharacter.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VorpCharacter.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VORP.Character.Server.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,25 +57,6 @@ namespace VorpCharacter.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;discord&quot;: {
-        ///    &quot;webHooks&quot;: [
-        ///      {
-        ///        &quot;name&quot;: &quot;vorp_character&quot;,
-        ///        &quot;avatar&quot;: &quot;myAvatarUrl&quot;,
-        ///        &quot;url&quot;: &quot;myWebhookUrl&quot;
-        ///      }
-        ///    ]
-        ///  }
-        ///}.
-        /// </summary>
-        internal static string server_config {
-            get {
-                return ResourceManager.GetString("server_config", resourceCulture);
             }
         }
     }

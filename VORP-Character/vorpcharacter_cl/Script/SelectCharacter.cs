@@ -5,12 +5,13 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Enums;
-using VorpCharacter.Extensions;
-using VorpCharacter.Utils;
+using VORP.Character.Client.Diagnostics;
+using VORP.Character.Client.Enums;
+using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Model;
+using VORP.Character.Client.Utils;
 
-namespace VorpCharacter.Script
+namespace VORP.Character.Client.Script
 {
     public class SelectCharacter : BaseScript
     {
@@ -54,14 +55,14 @@ namespace VorpCharacter.Script
                 string json_skin = myChar[0].skin;
                 string json_components = myChar[0].components;
                 string json_coords = myChar[0].coords;
-                JObject jPos = JObject.Parse(json_coords);
+                Position position = JsonConvert.DeserializeObject<Position>(json_coords);
 
                 // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
                 await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
                 API.DoScreenFadeOut(1000);
                 await Delay(800);
-                Vector3 playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(), jPos["z"].ToObject<float>());
+                Vector3 playerCoords = position.AsVector();
                 bool isDead = false;
                 try
                 {
@@ -71,10 +72,17 @@ namespace VorpCharacter.Script
                 {
                     Debug.WriteLine(e.Message);
                 }
-                float heading = jPos["heading"].ToObject<float>();
+                float heading = position.H;
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
-                await Delay(1000);
+                await Delay(2000);
+                int playerPedId = API.PlayerPedId();
+                API.SetEntityCoords(playerPedId, position.X, position.Y, position.Z, false, false, false, true);
+                API.SetEntityHeading(playerPedId, position.H);
                 API.DoScreenFadeIn(1000);
+                while(API.IsScreenFadingIn())
+                {
+                    await BaseScript.Delay(100);
+                }
             }
             catch (Exception ex)
             {
@@ -215,7 +223,7 @@ namespace VorpCharacter.Script
                 string json_skin = myChars[selectedChar].skin; // make this a class
                 string json_components = myChars[selectedChar].components;
                 string json_coords = myChars[selectedChar].coords;
-                JObject jPos = JObject.Parse(json_coords);
+                Position pos = JsonConvert.DeserializeObject<Position>(json_coords);
 
                 await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
@@ -227,7 +235,7 @@ namespace VorpCharacter.Script
                 API.SetCamActive(mainCamera, false);
                 API.DestroyCam(mainCamera, true);
                 API.RenderScriptCams(true, true, 1000, true, true, 0);
-                Vector3 playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(), jPos["z"].ToObject<float>());
+                Vector3 playerCoords = pos.AsVector();
                 bool isDead = false;
                 try
                 {
@@ -237,8 +245,12 @@ namespace VorpCharacter.Script
                 {
                     Debug.WriteLine(e.Message);
                 }
-                float heading = jPos["heading"].ToObject<float>();
+                float heading = pos.H;
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
+
+                int playerPedId = API.PlayerPedId();
+                API.SetEntityCoords(playerPedId, pos.X, pos.Y, pos.Z, false, false, false, true);
+                API.SetEntityHeading(playerPedId, pos.H);
 
                 await Delay(1000);
                 API.DoScreenFadeIn(1000);
@@ -390,7 +402,7 @@ namespace VorpCharacter.Script
                 skin[s.Key] = s.Value.ToString();
             }
 
-            Dictionary<string, uint> clothes = new Dictionary<string, uint>();
+            Dictionary<string, long> clothes = new Dictionary<string, long>();
 
             foreach (var s in jcomp)
             {

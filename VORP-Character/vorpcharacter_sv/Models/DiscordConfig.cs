@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using VorpCharacter.Web.Discord.Entity;
+using VORP.Character.Server.Web.Discord.Entity;
 
-namespace VorpCharacter.Models
+namespace VORP.Character.Server.Models
 {
     [DataContract]
     public class DiscordConfig

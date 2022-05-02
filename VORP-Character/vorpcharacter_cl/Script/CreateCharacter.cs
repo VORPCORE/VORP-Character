@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using VorpCharacter.Enums;
-using VorpCharacter.Extensions;
-using VorpCharacter.Model;
-using VorpCharacter.Utils;
+using VORP.Character.Client.Enums;
+using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Model;
+using VORP.Character.Client.Utils;
 using static CitizenFX.Core.Native.API;
 
-namespace VorpCharacter.Script
+namespace VORP.Character.Client.Script
 {
     public class CreateCharacter : BaseScript
     {

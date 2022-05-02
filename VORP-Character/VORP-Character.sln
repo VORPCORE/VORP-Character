@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vorpcharacter_cl", "vorpcharacter_cl\vorpcharacter_cl.csproj", "{51083C52-7FE7-422E-AED9-023D0903C6E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VORP.Character.Client", "vorpcharacter_cl\VORP.Character.Client.csproj", "{51083C52-7FE7-422E-AED9-023D0903C6E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vorpcharacter_sv", "vorpcharacter_sv\vorpcharacter_sv.csproj", "{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VORP.Character.Server", "vorpcharacter_sv\VORP.Character.Server.csproj", "{EAF3ACC4-8378-4923-ADD0-5959DC21DA03}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VORP.Shared", "VORP.Shared\VORP.Shared.shproj", "{5FDA9865-AB7C-4D8E-8E29-D445FD6D6303}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		VORP.Shared\VORP.Shared.projitems*{5fda9865-ab7c-4d8e-8e29-d445fd6d6303}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Development|Any CPU = Development|Any CPU

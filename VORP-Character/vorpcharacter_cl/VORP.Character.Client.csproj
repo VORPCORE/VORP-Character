@@ -7,12 +7,13 @@
     <ProjectGuid>{51083C52-7FE7-422E-AED9-023D0903C6E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VorpCharacter</RootNamespace>
-    <AssemblyName>vorpcharacter_cl.net</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>VORP.Character</RootNamespace>
+    <AssemblyName>VORP.Character.Client.net</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <LangVersion>latest</LangVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -91,13 +92,13 @@
     <Compile Include="Utils\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config\Config.json">
+    <Content Include="Config\Config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\En.json">
+    <Content Include="Config\En.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\Es.json">
+    <Content Include="Config\Es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

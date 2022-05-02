@@ -1,4 +1,3 @@
-using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using System;
@@ -6,7 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace VorpCharacter.Web
+namespace VORP.Character.Server.Web
 {
     public struct RequestResponse
     {

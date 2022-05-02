@@ -7,18 +7,18 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Enums;
-using VorpCharacter.Utils;
+using VORP.Character.Client.Diagnostics;
+using VORP.Character.Client.Enums;
+using VORP.Character.Client.Utils;
 using static CitizenFX.Core.Native.API;
 
-namespace VorpCharacter.Script
+namespace VORP.Character.Client.Script
 {
     public class LoadPlayer : BaseScript
     {
         public static LoadPlayer Instance { get; private set; }
         public static Dictionary<string, string> cache_skin = new Dictionary<string, string>();
-        public static Dictionary<string, uint> cache_cloths = new Dictionary<string, uint>();
+        public static Dictionary<string, long> cache_cloths = new Dictionary<string, long>();
         public static bool IsCurrentlyRunningSetup = false;
 
         public LoadPlayer()
@@ -86,7 +86,7 @@ namespace VorpCharacter.Script
 
                 if (!string.IsNullOrEmpty(clothes))
                 {
-                    cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, uint>>(clothes);
+                    cache_cloths = JsonConvert.DeserializeObject<Dictionary<string, long>>(clothes);
 #if DEVELOPMENT
                     Logger.Debug($"Loaded clothes from resource store");
 #endif
@@ -117,7 +117,7 @@ namespace VorpCharacter.Script
                 skin[s.Key] = s.Value.ToString();
             }
 
-            Dictionary<string, uint> cloths = new Dictionary<string, uint>();
+            Dictionary<string, long> cloths = new Dictionary<string, long>();
 
             foreach (var s in scloth)
             {
@@ -149,7 +149,7 @@ namespace VorpCharacter.Script
                 skin[s.Key] = s.Value.ToString();
             }
 
-            Dictionary<string, uint> cloths = new Dictionary<string, uint>();
+            Dictionary<string, long> cloths = new Dictionary<string, long>();
 
             foreach (var s in jCloth)
             {
@@ -197,7 +197,7 @@ namespace VorpCharacter.Script
             Utilities.UpdatePedVariation(pedHandle);
         }
 
-        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, uint> clothes)
+        public async Task<int> SetupCharacter(bool isPlayer, Dictionary<string, string> skin, Dictionary<string, long> clothes)
         {
             try
             {
@@ -491,7 +491,7 @@ namespace VorpCharacter.Script
             Utilities.UpdatePedVariation(pedHandle, true);
         }
 
-        public static void SetPedComponents(Dictionary<string, uint> clothes, int pedHandle)
+        public static void SetPedComponents(Dictionary<string, long> clothes, int pedHandle)
         {
             SetPlayerComponent(pedHandle, ePedComponent.Hats, "Hat", clothes);
             SetPlayerComponent(pedHandle, ePedComponent.EyeWear, "EyeWear", clothes);
@@ -553,7 +553,7 @@ namespace VorpCharacter.Script
         }
 
         // what does this do really?
-        public static void SetPlayerComponent(int pedHandle, ePedComponent pedComponent, string component, Dictionary<string, uint> clothes)
+        public static void SetPlayerComponent(int pedHandle, ePedComponent pedComponent, string component, Dictionary<string, long> clothes)
         {
             if (!clothes.ContainsKey(component)) return;
 
@@ -566,7 +566,7 @@ namespace VorpCharacter.Script
             Utilities.SetComponent(pedHandle, pedComponent, clothes[component]);
         }
 
-        private async Task IsLoaded(Dictionary<string, string> skin, Dictionary<string, uint> clothes)
+        private async Task IsLoaded(Dictionary<string, string> skin, Dictionary<string, long> clothes)
         {
             await Delay(1500);
             bool loaded = Utilities.IsPedReadyToRender(Cache.PlayerPedId);

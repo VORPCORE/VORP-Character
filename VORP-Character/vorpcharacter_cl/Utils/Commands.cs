@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using System;
-using VorpCharacter.Extensions;
-using VorpCharacter.Script;
+using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Script;
 
-namespace VorpCharacter.Utils
+namespace VORP.Character.Client.Utils
 {
     public class Commands : BaseScript
     {

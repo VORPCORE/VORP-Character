@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
 using System.Collections.Generic;
-using VorpCharacter.Extensions;
-using VorpCharacter.Script;
+using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Script;
 
-namespace VorpCharacter.Menus
+namespace VORP.Character.Client.Menus
 {
     class FaceMenu
     {

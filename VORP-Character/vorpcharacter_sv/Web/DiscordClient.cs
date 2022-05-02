@@ -1,15 +1,13 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
+﻿using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Models;
-using VorpCharacter.Web.Discord.Entity;
+using VORP.Character.Server.Models;
+using VORP.Character.Server.Web.Discord.Entity;
 
-namespace VorpCharacter.Web
+namespace VORP.Character.Server.Web
 {
     public enum WebhookChannel
     {
@@ -26,7 +24,7 @@ namespace VorpCharacter.Web
         Orange = 16757575
     }
 
-    public class DiscordClient : BaseScript
+    public class DiscordClient
     {
         static Request request = new Request();
         public Dictionary<string, DiscordWebhook> Webhooks = new Dictionary<string, DiscordWebhook>();
@@ -36,8 +34,9 @@ namespace VorpCharacter.Web
 
         private static Regex _compiledUnicodeRegex = new Regex(@"[^\u0000-\u007F]", RegexOptions.Compiled);
 
-        internal DiscordClient()
+        public void Init()
         {
+            Logger.Info("INIT Character Discord Webhooks");
             UpdateWebhooks();
         }
 
@@ -47,7 +46,7 @@ namespace VorpCharacter.Web
         }
 
         [Tick]
-        private async Task OnDiscordWebhookUpdate()
+        private async Task OnDiscordWebhookUpdateAsync()
         {
             if ((API.GetGameTimer() - lastUpdate) > 120000)
             {
@@ -69,11 +68,12 @@ namespace VorpCharacter.Web
             await BaseScript.Delay(10000);
         }
 
-        private async Task UpdateWebhooks()
+        private void UpdateWebhooks()
         {
             try
             {
-                ServerConfig serverConfig = JsonConvert.DeserializeObject<ServerConfig>(Properties.Resources.server_config);
+                string serverConfigFile = API.LoadResourceFile(API.GetCurrentResourceName(), "/config/server-config.json");
+                ServerConfig serverConfig = JsonConvert.DeserializeObject<ServerConfig>(serverConfigFile);
                 DiscordBotKey = serverConfig.DiscordConfig.Key;
                 serverConfig.DiscordConfig.WebHooks.ForEach(x =>
                 {
@@ -90,7 +90,7 @@ namespace VorpCharacter.Web
             }
         }
 
-        public async Task SendDiscordEmbededMessage(string webHookName, string name, string title, string description, DiscordColor discordColor)
+        public async Task SendDiscordEmbededMessageAsync(string webHookName, string name, string title, string description, DiscordColor discordColor)
         {
             try
             {

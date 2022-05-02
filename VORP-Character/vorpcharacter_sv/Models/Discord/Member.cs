@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace VorpCharacter.Models.Discord
+namespace VORP.Character.Server.Models.Discord
 {
     public partial class Member
     {

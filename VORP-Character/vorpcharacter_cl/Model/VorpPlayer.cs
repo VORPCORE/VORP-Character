@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 
-namespace VorpCharacter.Model
+namespace VORP.Character.Client.Model
 {
     public static class VorpPlayer
     {

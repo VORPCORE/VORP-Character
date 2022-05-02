@@ -1,4 +1,4 @@
-﻿namespace VorpCharacter.Enums
+﻿namespace VORP.Character.Client.Enums
 {
     public enum eAttributeCore : int
     {

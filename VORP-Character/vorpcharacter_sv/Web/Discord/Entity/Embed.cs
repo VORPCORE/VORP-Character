@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace VorpCharacter.Web.Discord.Entity
+namespace VORP.Character.Server.Web.Discord.Entity
 {
     public class Embed
     {
