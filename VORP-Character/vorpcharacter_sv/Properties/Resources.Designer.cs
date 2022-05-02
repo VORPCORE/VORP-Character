@@ -59,25 +59,5 @@ namespace VORP.Character.Server.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;discord&quot;: {
-        ///    &quot;key&quot;: &quot;discordBotKey&quot;,
-        ///    &quot;webHooks&quot;: [
-        ///      {
-        ///        &quot;name&quot;: &quot;vorp_character&quot;,
-        ///        &quot;avatar&quot;: &quot;myAvatarUrl&quot;,
-        ///        &quot;url&quot;: &quot;myWebhookUrl&quot;
-        ///      }
-        ///    ]
-        ///  }
-        ///}.
-        /// </summary>
-        internal static string server_config {
-            get {
-                return ResourceManager.GetString("server_config", resourceCulture);
-            }
-        }
     }
 }
