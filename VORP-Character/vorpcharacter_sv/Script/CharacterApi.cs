@@ -7,32 +7,28 @@ using VORP.Character.Server.Extensions;
 
 namespace VORP.Character.Server.Script
 {
-    public class CharacterApi : BaseScript
+    public class CharacterApi
     {
-        public static CharacterApi Instance { get; private set; }
-
         public void Init()
         {
-            Instance = this;
-
             //Event for create new character 
-            EventHandlers["vorp_CreateNewCharacter"] += new Action<int>(CreateNewCharacter);
+            PluginManager.Instance.Hook("vorp_CreateNewCharacter", new Action<int>(CreateNewCharacter));
             //Event for select characters
-            EventHandlers["vorp_GoToSelectionMenu"] += new Action<int>(GoToSelectionMenu);
+            PluginManager.Instance.Hook("vorp_GoToSelectionMenu", new Action<int>(GoToSelectionMenu));
             //Event for spawn unique character
-            EventHandlers["vorp_SpawnUniqueCharacter"] += new Action<int>(SpawnUniqueCharacter);
+            PluginManager.Instance.Hook("vorp_SpawnUniqueCharacter", new Action<int>(SpawnUniqueCharacter));
             //Event for save the new character
-            EventHandlers["vorp_SaveNewCharacter"] += new Action<Player, dynamic, dynamic, string>(SaveNewCharacter);
-            EventHandlers["vorp_updateexisting"] += new Action<Player, dynamic, dynamic, string, dynamic, dynamic>(SaveNewCharacter2);
+            PluginManager.Instance.Hook("vorp_SaveNewCharacter", new Action<Player, dynamic, dynamic, string>(SaveNewCharacter));
+            PluginManager.Instance.Hook("vorp_updateexisting", new Action<Player, dynamic, dynamic, string, dynamic, dynamic>(SaveNewCharacter2));
             //Event for delete the character
-            EventHandlers["vorp_DeleteCharacter"] += new Action<Player, int>(DeleteCharacter);
+            PluginManager.Instance.Hook("vorp_DeleteCharacter", new Action<Player, int>(DeleteCharacter));
 
-            EventHandlers["vorp_CharSelectedCharacter"] += new Action<Player, int>(SelectCharacter);
+            PluginManager.Instance.Hook("vorp_CharSelectedCharacter", new Action<Player, int>(SelectCharacter));
 
-            EventHandlers["vorpcharacter:getPlayerComps"] += new Action<int, dynamic>(getPlayerComps);
-            EventHandlers["vorpcharacter:setPlayerSkinChange"] += new Action<int, string>(setPlayerSkinChange);
-            EventHandlers["vorpcharacter:setPlayerCompChange"] += new Action<int, string>(setPlayerCompChange);
-            EventHandlers["vorpcharacter:getPlayerSkin"] += new Action<Player>(getPlayerSkin);
+            PluginManager.Instance.Hook("vorpcharacter:getPlayerComps", new Action<int, dynamic>(getPlayerComps));
+            PluginManager.Instance.Hook("vorpcharacter:setPlayerSkinChange", new Action<int, string>(setPlayerSkinChange));
+            PluginManager.Instance.Hook("vorpcharacter:setPlayerCompChange", new Action<int, string>(setPlayerCompChange));
+            PluginManager.Instance.Hook("vorpcharacter:getPlayerSkin", new Action<Player>(getPlayerSkin));
 
             // maybe worth protecting this with ACE Permissions?
             API.RegisterCommand("createcharacter", new Action<int, List<object>, string>((source, args, rawCommand) =>
@@ -144,8 +140,8 @@ namespace VORP.Character.Server.Script
                 Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
                 Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
                 player.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
-                await Delay(2000);
-                TriggerEvent("vorp_NewCharacter", int.Parse(player.Handle));
+                await BaseScript.Delay(2000);
+                BaseScript.TriggerEvent("vorp_NewCharacter", int.Parse(player.Handle));
 
                 PluginManager.Instance.DiscordClient.SendDiscordEmbededMessageAsync("vorp_character", $"VORP Character Sentry", $"Created Character", $"User: {player.Name}", Web.DiscordColor.Green);
             }
@@ -171,8 +167,8 @@ namespace VORP.Character.Server.Script
             {
                 Dictionary<string, string> scloth = JsonConvert.DeserializeObject<Dictionary<string, string>>(compsPlayer);
                 Dictionary<string, string> sskin = JsonConvert.DeserializeObject<Dictionary<string, string>>(skinPlayer);
-                Exports["ghmattimysql"].execute("UPDATE characters SET `firstname` = ? , `lastname` = ?, `skinPlayer` = ?, `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ? ", new object[] { firstname, lastname, skinPlayer, compsPlayer, sid, UserCharacter });
-                await Delay(0);
+                PluginManager.Instance.ExportRegistry[PluginManager.VORP_DATABASE_RESOURCE].execute("UPDATE characters SET `firstname` = ? , `lastname` = ?, `skinPlayer` = ?, `compPlayer` = ? WHERE `identifier` = ? AND `charidentifier` = ? ", new object[] { firstname, lastname, skinPlayer, compsPlayer, sid, UserCharacter });
+                await BaseScript.Delay(0);
                 player.TriggerEvent("vorpcharacter:reloadPlayerComps", sskin, scloth);
             }
             catch (Exception e)

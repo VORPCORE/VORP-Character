@@ -24,7 +24,7 @@ namespace VORP.Character.Server.Web
         Orange = 16757575
     }
 
-    public class DiscordClient : BaseScript
+    public class DiscordClient
     {
         static Request request = new Request();
         public Dictionary<string, DiscordWebhook> Webhooks = new Dictionary<string, DiscordWebhook>();

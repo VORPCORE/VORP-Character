@@ -15,10 +15,11 @@ namespace VORP.Character.Server
         public static dynamic CORE;
         public static int MAX_ALLOWED_CHARACTERS;
         public static bool USE_CORE_EXPORTS = false;
+        public static string VORP_DATABASE_RESOURCE = "ghmattimysql";
 
         public EventHandlerDictionary EventRegistry => EventHandlers;
         public ExportDictionary ExportRegistry => Exports;
-        string _GHMattiMySqlResourceState => GetResourceState("ghmattimysql");
+        string _MySqlResourceState => GetResourceState(VORP_DATABASE_RESOURCE);
 
         readonly public DiscordClient DiscordClient = new();
         readonly public CharacterApi CharacterApi = new();
@@ -39,12 +40,12 @@ namespace VORP.Character.Server
 
         async Task VendorReady()
         {
-            string dbResource = _GHMattiMySqlResourceState;
+            string dbResource = _MySqlResourceState;
             if (dbResource == "missing")
             {
                 while (true)
                 {
-                    Logger.Error($"ghmattimysql resource not found! Please make sure you have the resource!");
+                    Logger.Error($"{VORP_DATABASE_RESOURCE} resource not found! Please make sure you have the resource!");
                     await Delay(1000);
                 }
             }
@@ -52,14 +53,14 @@ namespace VORP.Character.Server
             while (!(dbResource == "started"))
             {
                 await Delay(500);
-                dbResource = _GHMattiMySqlResourceState;
+                StartResource(VORP_DATABASE_RESOURCE);
+                await Delay(500);
+                dbResource = _MySqlResourceState;
             }
         }
 
         async void Setup()
         {
-            await VendorReady(); // wait till ghmattimysql resource has started
-
             USE_CORE_EXPORTS = GetResourceMetadata(GetCurrentResourceName(), "vorp_core_csharp_new", 0) == "true";
 
             if (USE_CORE_EXPORTS)
@@ -71,6 +72,8 @@ namespace VORP.Character.Server
             CharacterApi.Init();
 
             AddEvents();
+
+            await VendorReady(); // wait till ghmattimysql resource has started
 
             TriggerEvent("getCore", new Action<dynamic>((dic) =>
             {
@@ -109,9 +112,12 @@ namespace VORP.Character.Server
                 if (resourceName != GetCurrentResourceName()) return;
 
                 Logger.Info($"Stopping VORP Character");
-
-                UnregisterScript(DiscordClient);
             }));
+        }
+        public void Hook(string eventName, Delegate @delegate)
+        {
+            Logger.Debug($"Registered Legacy Event Handler '{eventName}'");
+            EventHandlers.Add(eventName, @delegate);
         }
     }
 }
