@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace VorpCharacter.Models
+namespace VORP.Character.Server.Models
 {
     [DataContract]
     public class ServerConfig

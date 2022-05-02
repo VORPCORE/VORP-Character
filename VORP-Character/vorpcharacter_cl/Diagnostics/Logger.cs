@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core.Native;
 using System;
 
-namespace VorpCharacter.Diagnostics
+namespace VORP.Character.Client.Diagnostics
 {
     class Logger
     {

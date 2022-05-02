@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace VorpCharacter.Web.Discord.Entity
+namespace VORP.Character.Server.Web.Discord.Entity
 {
     [DataContract]
     public class DiscordWebhook

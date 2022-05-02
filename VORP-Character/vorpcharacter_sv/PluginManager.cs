@@ -1,11 +1,11 @@
 ﻿using CitizenFX.Core;
 using System;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Web;
+using VORP.Character.Server.Diagnostics;
+using VORP.Character.Server.Web;
 using static CitizenFX.Core.Native.API;
 
-namespace VorpCharacter
+namespace VORP.Character.Server
 {
     public class PluginManager : BaseScript
     {

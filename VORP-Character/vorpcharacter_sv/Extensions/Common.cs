@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 
-namespace VorpCharacter.Extensions
+namespace VORP.Character.Server.Extensions
 {
     static class Common
     {

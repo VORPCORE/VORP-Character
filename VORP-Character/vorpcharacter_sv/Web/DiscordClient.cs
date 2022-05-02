@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Models;
-using VorpCharacter.Web.Discord.Entity;
+using VORP.Character.Server.Diagnostics;
+using VORP.Character.Server.Models;
+using VORP.Character.Server.Web.Discord.Entity;
 
-namespace VorpCharacter.Web
+namespace VORP.Character.Server.Web
 {
     public enum WebhookChannel
     {

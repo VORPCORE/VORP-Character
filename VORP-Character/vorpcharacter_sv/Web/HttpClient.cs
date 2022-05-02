@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace VorpCharacter.Web
+namespace VORP.Character.Server.Web
 {
     public struct RequestResponse
     {

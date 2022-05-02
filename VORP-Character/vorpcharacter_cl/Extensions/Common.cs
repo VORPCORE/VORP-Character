@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
-using VorpCharacter.Model;
+using VORP.Character.Client.Model;
 
-namespace VorpCharacter.Extensions
+namespace VORP.Character.Client.Extensions
 {
     static class Common
     {

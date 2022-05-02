@@ -1,4 +1,4 @@
-﻿namespace VorpCharacter.Model
+﻿namespace VORP.Character.Client.Model
 {
     public class Position
     {

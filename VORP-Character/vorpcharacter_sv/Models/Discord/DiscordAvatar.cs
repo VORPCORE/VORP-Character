@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace VorpCharacter.Models.Discord
+namespace VORP.Character.Server.Models.Discord
 {
     [DataContract]
     public class DiscordAvatar

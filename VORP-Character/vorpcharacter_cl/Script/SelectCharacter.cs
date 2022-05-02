@@ -5,12 +5,12 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Enums;
-using VorpCharacter.Extensions;
-using VorpCharacter.Utils;
+using VORP.Character.Client.Diagnostics;
+using VORP.Character.Client.Enums;
+using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Utils;
 
-namespace VorpCharacter.Script
+namespace VORP.Character.Client.Script
 {
     public class SelectCharacter : BaseScript
     {

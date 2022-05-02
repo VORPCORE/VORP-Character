@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace VorpCharacter.Web.Discord.Entity
+namespace VORP.Character.Server.Web.Discord.Entity
 {
     public class Webhook
     {

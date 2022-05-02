@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core.Native;
 
-namespace VorpCharacter
+namespace VORP.Character.Client
 {
     public class Cache
     {

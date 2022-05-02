@@ -4,10 +4,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Extensions;
+using VORP.Character.Server.Diagnostics;
+using VORP.Character.Server.Extensions;
 
-namespace VorpCharacter.Script
+namespace VORP.Character.Server.Script
 {
     public class CharacterApi : BaseScript
     {

@@ -1,11 +1,11 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
 using System.Collections.Generic;
-using VorpCharacter.Extensions;
-using VorpCharacter.Script;
-using VorpCharacter.Utils;
+using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Script;
+using VORP.Character.Client.Utils;
 
-namespace VorpCharacter.Menus
+namespace VORP.Character.Client.Menus
 {
     class ClothesMenu
     {

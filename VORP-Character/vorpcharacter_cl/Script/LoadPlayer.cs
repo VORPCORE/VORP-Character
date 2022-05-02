@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Enums;
-using VorpCharacter.Utils;
+using VORP.Character.Client.Diagnostics;
+using VORP.Character.Client.Enums;
+using VORP.Character.Client.Utils;
 using static CitizenFX.Core.Native.API;
 
-namespace VorpCharacter.Script
+namespace VORP.Character.Client.Script
 {
     public class LoadPlayer : BaseScript
     {

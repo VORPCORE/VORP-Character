@@ -2,11 +2,11 @@
 using MenuAPI;
 using System.Collections.Generic;
 using System.Linq;
-using VorpCharacter.Extensions;
-using VorpCharacter.Script;
-using VorpCharacter.Utils;
+using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Script;
+using VORP.Character.Client.Utils;
 
-namespace VorpCharacter.Menus
+namespace VORP.Character.Client.Menus
 {
     class MainMenu
     {

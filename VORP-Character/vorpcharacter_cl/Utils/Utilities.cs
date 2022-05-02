@@ -3,11 +3,11 @@ using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VorpCharacter.Diagnostics;
-using VorpCharacter.Enums;
+using VORP.Character.Client.Diagnostics;
+using VORP.Character.Client.Enums;
 using static CitizenFX.Core.Native.API;
 
-namespace VorpCharacter.Utils
+namespace VORP.Character.Client.Utils
 {
     internal class Utilities
     {
