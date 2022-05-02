@@ -11,7 +11,6 @@ namespace VORP.Character.Client.Utils
 {
     internal class Utilities
     {
-        const int MAX_COMPONENT_CHANGE_DELAY = 10;
         public static Random RANDOM = new Random();
 
         public static void SetAttributeCoreValue(int pedHandle, eAttributeCore attribute, int value)
@@ -45,7 +44,7 @@ namespace VORP.Character.Client.Utils
             return Function.Call<bool>((Hash)0xA0BC8FAED8CFEB3C, pedHandle);
         }
 
-        public static void RemoveTagFromMetaPed(int pedHandle, uint component, int p2 = 0, int delay = MAX_COMPONENT_CHANGE_DELAY)
+        public static void RemoveTagFromMetaPed(int pedHandle, uint component, int p2 = 0)
         {
             Function.Call((Hash)0xD710A5007C2AC539, pedHandle, component, p2);
             UpdatePedVariation(pedHandle);
@@ -80,11 +79,10 @@ namespace VORP.Character.Client.Utils
             if (updateVariation) UpdatePedVariation(pedHandle);
         }
 
-        public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, float value, bool updateVariation = false, int delay = MAX_COMPONENT_CHANGE_DELAY)
+        public static async Task SetPedFaceFeature(int pedHandle, ePedFaceFeature pedFaceFeature, float value, bool updateVariation = false)
         {
             Function.Call((Hash)0x5653AB26C82938CF, pedHandle, (uint)pedFaceFeature, value);
             if (updateVariation) UpdatePedVariation(pedHandle);
-            await BaseScript.Delay(delay);
         }
 
         public static void SetComponent(int pedHandle, ePedComponent componentCategory, long componentHash)
