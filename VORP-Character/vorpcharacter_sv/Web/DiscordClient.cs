@@ -1,11 +1,9 @@
-﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
+﻿using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VORP.Character.Server.Diagnostics;
 using VORP.Character.Server.Models;
 using VORP.Character.Server.Web.Discord.Entity;
 
@@ -36,8 +34,9 @@ namespace VORP.Character.Server.Web
 
         private static Regex _compiledUnicodeRegex = new Regex(@"[^\u0000-\u007F]", RegexOptions.Compiled);
 
-        internal DiscordClient()
+        public void Init()
         {
+            Logger.Info("INIT Character Discord Webhooks");
             UpdateWebhooks();
         }
 
@@ -73,7 +72,7 @@ namespace VORP.Character.Server.Web
         {
             try
             {
-                string serverConfigFile = API.LoadResourceFile(API.GetCurrentResourceName(), "/Resources/server-config.json");
+                string serverConfigFile = API.LoadResourceFile(API.GetCurrentResourceName(), "/config/server-config.json");
                 ServerConfig serverConfig = JsonConvert.DeserializeObject<ServerConfig>(serverConfigFile);
                 DiscordBotKey = serverConfig.DiscordConfig.Key;
                 serverConfig.DiscordConfig.WebHooks.ForEach(x =>
