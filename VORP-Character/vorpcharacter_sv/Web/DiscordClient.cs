@@ -73,7 +73,8 @@ namespace VorpCharacter.Web
         {
             try
             {
-                ServerConfig serverConfig = JsonConvert.DeserializeObject<ServerConfig>(Properties.Resources.server_config);
+                string serverConfigFile = API.LoadResourceFile(API.GetCurrentResourceName(), "/Resources/server-config.json");
+                ServerConfig serverConfig = JsonConvert.DeserializeObject<ServerConfig>(serverConfigFile);
                 DiscordBotKey = serverConfig.DiscordConfig.Key;
                 serverConfig.DiscordConfig.WebHooks.ForEach(x =>
                 {
