@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using VORP.Character.Client.Diagnostics;
 using VORP.Character.Client.Enums;
 using VORP.Character.Client.Extensions;
+using VORP.Character.Client.Model;
 using VORP.Character.Client.Utils;
 
 namespace VORP.Character.Client.Script
@@ -54,14 +55,14 @@ namespace VORP.Character.Client.Script
                 string json_skin = myChar[0].skin;
                 string json_components = myChar[0].components;
                 string json_coords = myChar[0].coords;
-                JObject jPos = JObject.Parse(json_coords);
+                Position position = JsonConvert.DeserializeObject<Position>(json_coords);
 
                 // TriggerEvent("vorpcharacter:loadPlayerSkin", json_skin, json_components); // WHY?! just call the class method
                 await LoadPlayer.Instance.LoadPlayerSkin(json_skin, json_components);
 
                 API.DoScreenFadeOut(1000);
                 await Delay(800);
-                Vector3 playerCoords = new Vector3(jPos["x"].ToObject<float>(), jPos["y"].ToObject<float>(), jPos["z"].ToObject<float>());
+                Vector3 playerCoords = position.AsVector();
                 bool isDead = false;
                 try
                 {
@@ -71,10 +72,17 @@ namespace VORP.Character.Client.Script
                 {
                     Debug.WriteLine(e.Message);
                 }
-                float heading = jPos["heading"].ToObject<float>();
+                float heading = position.H;
                 TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead);
                 await Delay(1000);
+                int playerPedId = API.PlayerPedId();
+                API.SetEntityCoords(playerPedId, position.X, position.Y, position.Z, false, false, false, true);
+                API.SetEntityHeading(playerPedId, position.H);
                 API.DoScreenFadeIn(1000);
+                while(API.IsScreenFadingIn())
+                {
+                    await BaseScript.Delay(100);
+                }
             }
             catch (Exception ex)
             {

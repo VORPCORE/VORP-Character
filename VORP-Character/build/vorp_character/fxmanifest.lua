@@ -18,3 +18,4 @@ files {
 
 debug_enabled 'false'
 vorp_core_csharp_new 'true'
+vorp_database_resource 'ghmattimysql'
