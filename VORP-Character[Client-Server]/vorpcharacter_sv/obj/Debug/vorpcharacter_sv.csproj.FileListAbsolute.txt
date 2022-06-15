@@ -42,3 +42,10 @@ C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Serve
 C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csproj.CopyComplete
 C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.dll
 C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.pdb
+C:\Users\Luis\Documents\GitHub\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_sv.net.dll
+C:\Users\Luis\Documents\GitHub\VORP-Character\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_sv.net.pdb
+C:\Users\Luis\Documents\GitHub\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csproj.AssemblyReference.cache
+C:\Users\Luis\Documents\GitHub\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csproj.CoreCompileInputs.cache
+C:\Users\Luis\Documents\GitHub\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.csproj.CopyComplete
+C:\Users\Luis\Documents\GitHub\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.dll
+C:\Users\Luis\Documents\GitHub\VORP-Character\VORP-Character[Client-Server]\vorpcharacter_sv\obj\Debug\vorpcharacter_sv.net.pdb
