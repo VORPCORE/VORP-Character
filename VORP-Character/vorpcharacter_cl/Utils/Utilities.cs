@@ -21,7 +21,7 @@ namespace VorpCharacter.Utils
 
         public static int GetAttributeCoreValue(int pedHandle, eAttributeCore attribute)
         {
-            return Function.Call<int>((Hash)0xC6258F41D86676E0, pedHandle, (int)attribute);
+            return Function.Call<int>((Hash)0x36731AC041289BB1, pedHandle, (int)attribute);
         }
 
         public static bool IsMetapedUsingComponent(int pedHandle, ePedComponent component) => IsMetapedUsingComponent(pedHandle, (uint)component);
