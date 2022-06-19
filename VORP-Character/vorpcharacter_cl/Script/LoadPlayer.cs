@@ -44,6 +44,9 @@ namespace VorpCharacter.Script
             {
                 bool isDead = API.IsPlayerDead(API.PlayerId());
 
+                int pHealth = Utilities.GetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Health);
+                int pStamina = Utilities.GetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Stamina);
+
                 if (isDead) return; // need notification
 
                 bool isCuffed = Utilities.IsPedCuffed(Cache.PlayerPedId);
@@ -54,10 +57,18 @@ namespace VorpCharacter.Script
                 if (args.Count == 0)
                 {
                     ReloadCharacterSkin(string.Empty);
+                
+                    Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Health, pHealth);
+                    Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Stamina, pStamina);
+                    
                     return;
                 }
 
                 ReloadCharacterSkin($"{args[0]}");
+                
+                Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Health, pHealth);
+                Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Stamina, pStamina);
+                
 
             }), false);
 
