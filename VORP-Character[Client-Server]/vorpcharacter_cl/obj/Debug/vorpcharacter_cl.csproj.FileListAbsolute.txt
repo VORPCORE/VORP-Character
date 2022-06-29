@@ -64,3 +64,12 @@ C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Serve
 C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.dll
 C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.pdb
 C:\Users\Administrator\Desktop\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CopyComplete
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\Config.json
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\Es.json
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.dll
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\build\vorp_character\vorpcharacter_cl.net.pdb
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CoreCompileInputs.cache
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.CopyComplete
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.dll
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.net.pdb
+C:\Users\Luis\Downloads\VORP-Character-master\VORP-Character-master\VORP-Character[Client-Server]\vorpcharacter_cl\obj\Debug\vorpcharacter_cl.csproj.AssemblyReference.cache

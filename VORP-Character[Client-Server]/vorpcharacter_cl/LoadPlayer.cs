@@ -142,7 +142,8 @@ namespace vorpcharacter_cl
             }
             //End
             CreateCharacter.ApplyDefaultSkinCanaryEdition(API.PlayerPedId());
-            Function.Call((Hash)0x77FF8D35EEC6BBC4, API.PlayerPedId(), 4, false);
+            //possible fix for female body
+            //Function.Call((Hash)0x77FF8D35EEC6BBC4, API.PlayerPedId(), 4, 0);
             //LoadSkin
             Function.Call((Hash)0xD3A7B003ED343FD9, API.PlayerPedId(), ConvertValue(skin["HeadType"]), true, true, true);
             Function.Call((Hash)0xCC8CA3E88256E58F, API.PlayerPedId(), 0, 1, 1, 1, false);
