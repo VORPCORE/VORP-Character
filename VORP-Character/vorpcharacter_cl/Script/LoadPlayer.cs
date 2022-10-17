@@ -26,7 +26,7 @@ namespace VorpCharacter.Script
             Instance = this;
 
             EventHandlers["vorpcharacter:loadPlayerSkin"] += new Action<string, string>(OnLoadPlayerSkin);
-
+            EventHandlers["vorpcharacter:savenew"] += new Action<string>(savenew);
             EventHandlers["vorpcharacter:refreshPlayerSkin"] += new Action<string>(ReloadCharacterSkin);
             EventHandlers["vorpcharacter:getPlayerComps"] += new Action<CallbackDelegate>(getPlayerComps);
             EventHandlers["vorpcharacter:reloadPlayerComps"] += new Action<ExpandoObject, ExpandoObject>(reloadPlayerComps);
@@ -74,6 +74,23 @@ namespace VorpCharacter.Script
 
             Logger.Info($"VORP Character LoadPlayer");
 
+        }
+
+        public async void savenew(string s_cloths)
+        {
+
+            JObject jCloth = JObject.Parse(s_cloths);
+
+
+            Dictionary<string, uint> cloths = new Dictionary<string, uint>();
+
+            foreach (var s in jCloth)
+            {
+                cloths[s.Key] = ConvertValue(s.Value.ToString());
+            }
+
+            await Delay(2000);
+            cache_cloths = cloths;
         }
 
         private async void ReloadCharacterSkin(string part = "")
