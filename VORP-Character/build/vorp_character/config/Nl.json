@@ -1,0 +1,391 @@
+{
+  "PressRightOrLeft": "Druk op [<-] of [->] om je geslacht te kiezen.",
+
+  "PressGuide": "Roteer met <-[A] en [D]-> | Cameras met [W] en [S]",
+
+  //New Update
+  "CreateNewChar": "Maak nieuw karakter",
+  "DeleteChar": "Verwijder",
+  "MoneyTag": "Geld",
+  "CharactersFull": "Je kan geen nieuwe karakters meer maken.",
+  "PressSelectInfo": "Verander karakter met <- of -> | Selecteer Karakter met [ENTER]",
+
+  "CommandHat": "hat",
+  "CommandEyeWear": "eyewear",
+  "CommandMask": "mask",
+  "CommandNeckWear": "neckwear",
+  "CommandNeckTies": "neckties",
+  "CommandShirt": "shirt",
+  "CommandSuspender": "suspender",
+  "CommandVest": "vest",
+  "CommandCoat": "coat",
+  "CommandCCoat": "ccoat",
+  "Commandbow": "bow",
+  "Commandarmor": "armor",
+  "CommandPoncho": "poncho",
+  "CommandCloak": "cloack",
+  "CommandGlove": "glove",
+  "CommandRings": "rings",
+  "CommandBracelet": "bracelet",
+  "CommandBelt": "belt",
+  "CommandBuckle": "buckle",
+  "CommandPant": "pant",
+  "CommandSkirt": "skirt",
+  "CommandChap": "chap",
+  "CommandBoots": "boots",
+  "CommandSpurs": "spurs",
+  "CommandSpats": "spats",
+  "CommandGauntlets": "gauntlets",
+  "CommandLoadouts": "loadouts",
+  "CommandAccessories": "accessories",
+  "CommandSatchels": "satchels",
+  "CommandGunbeltAccs": "gunbeltaccs",
+  "CommandUndress": "undress",
+  "CommandDress": "dress",
+
+  "Scale": "Grootte #",
+  "ScaleList": "Karakter Grootte",
+  "ScaleDesc": "Pas grootte aan (Doe dit als laatste zodat de cameras goed werken.)",
+
+  "EyeBrows": "Wenkbrauwen #",
+  "EyeBrowsList": "Type wenkbrauwen",
+  "EyeBrowsDesc": "Wenkbrauw vorm",
+
+  "Scars": "Litteken #",
+  "ScarsList": "Type littekens",
+  "ScarsDesc": "Littekens toevoegen",
+
+  "Spots": "Zonnevlekken #",
+  "SpotsList": "Type Zonnevlekken",
+  "SpotsDesc": "Zonnevlekken",
+
+  "Disc": "Petechiae #",
+  "DiscList": "Type Petechiae",
+  "DiscDesc": "Rode vlekken op het gezicht (vanwege leeftijd)",
+
+  "Complex": "Complexiteit #",
+  "ComplexList": "Type Complexiteit",
+  "ComplexDesc": "Zonnebrand",
+
+  "Acne": "Acne #",
+  "AcneList": "Type acne",
+  "AcneDesc": "Acne op gezicht",
+
+  "Ageing": "Veroudering #",
+  "AgeingList": "Type Verouderingen",
+  "AgeingDesc": "Gezichtsveroudering",
+
+  "Moles": "Mollen #",
+  "MolesList": "Type Mollen",
+  "MolesDesc": "Mollen toevoegen",
+
+  "Freckles": "Sproeten #",
+  "FrecklesList": "Type Sproeten",
+  "FrecklesDesc": "Sproeten toevoegen",
+
+  "Grimes": "Vuil #",
+  "GrimesList": "Type Vuil",
+  "GrimesDesc": "Vuil of drek toevoegen",
+
+  "Lipsticks": "Lippenstift #",
+  "LipsticksList": "Type Lippenstift",
+  "LipsticksDesc": "Makeup toevoegen",
+
+  "LipsticksColors": "Kleur #",
+  "LipsticksColorsList": "Basiskleur lippenstift",
+  "LipsticksColorsDesc": "Makeup toevoegen",
+
+  "LipsticksPColors": "Kleur #",
+  "LipsticksPColorsList": "Gemengde lippenstiftkleur",
+  "LipsticksPColorsDesc": "Makeup toevoegen",
+
+  "Shadows": "Oogschaduw #",
+  "ShadowsList": "Type Oogschaduw",
+  "ShadowsDesc": "Makeup toevoegen",
+
+  "ShadowsColors": "Kleur #",
+  "ShadowsColorsList": "Basiskleur Oogschaduw",
+  "ShadowsColorsDesc": "Makeup toevoegen",
+
+  "ShadowsPColors": "Kleur #",
+  "ShadowsPColorsList": "Gemengde oogschaduwkleur",
+  "ShadowsPColorsDesc": "Makeup toevoegen",
+
+  "Eyes": "Ogen #",
+  "EyesList": "Type ogen",
+  "EyesDesc": "Verander oogkleur",
+
+  //Input Name 
+  "PlaceHolderInputName": "Voor- en familienaam karakter",
+  "ButtonInputName": "Bevestig",
+  "InputError": "Je naam moet langer zijn dan 3 karakters",
+
+  //Body
+  "TitleMainMenu": "Karakter-editor",
+  "SubTitleMainMenu": "Pas je personage aan",
+  "FinishBtnMainMenu": "Bevestig en opslaan",
+  "SubFinishBtnMainMenu": "Voltooi het maken van personage.",
+
+  "TitleClothesMenu": "Kleedkamer",
+  "SubTitleClothesMenu": "Kleed je personage aan",
+
+  "TitleFaceMenu": "Gezicht aanpassen",
+  "SubTitleFaceMenu": "Pas het gezicht van je personage aan",
+
+  "TitleSkinMenu": "Lichaam aanpassen",
+  "SubTitleSkinMenu": "Pas het lichaam van je personage aan",
+
+  "TitleImportMenu": "Importeer Skin",
+  "SubTitleImportMenu": "Als je op een andere server hebt gespeeld die VORP Core gebruikt, kun je je skin importeren.",
+
+  "LegsValues": "Benen #",
+  "TorsoValues": "Torso #",
+  "FaceValues": "Gezicht #",
+  "MaskValue": "Masker #",
+  "BodyColorValues": "Kleur #",
+  "TypeValues": "Type #",
+  "BeardValue": "Baard #",
+  "HairValue": "Haar #",
+  "BodySizeValue": "Lichaam #",
+  "WaistValue": "Taille #",
+  "NoExistValue": "Bestaat niet",
+
+  "LegsType": "Type benen",
+  "TorsoType": "Type torso",
+  "FaceType": "Type gezicht",
+  "BodyColor": "Huidskleur",
+  "FaceSize": "Gezichtsgrootte",
+  "EyebrowHeight": "Wenkbrauw hoogte",
+  "EyebrowWidth": "Wenkbrauw breedte",
+  "EyebrowDepth": "Wenkbrauw diepte",
+  "EarsHeight": "Oren hoogte",
+  "EarsAngle": "Oren neiging",
+  "EarsSize": "Oorgrootte",
+  "EarsLobeSize": "Oorlel maat",
+  "EyelidsHeight": "Oogleden hoogte",
+  "EyelidsWidth": "Oogleden breedte",
+  "EyeDepth": "Oog diepte",
+  "EyeAngle": "Oog neiging",
+  "EyeSeparation": "Oog scheiding",
+  "EyeHeight": "Oog hoogte",
+  "NoseWidth": "Neus breedte",
+  "NoseSize": "Neus grootte",
+  "NoseHeight": "Neus hoogte",
+  "NoseAngle": "Neus neiging",
+  "NoseCurvature": "Neus kromming",
+  "NostrilsSeparation": "Neusgaten scheiding",
+  "CheekbonesHeight": "Jukbeenderen hoogte",
+  "CheekbonesWidth": "Jukbeenderen breedte",
+  "CheekbonesDepth": "Jukbeenderen diepte",
+  "MouthWidth": "Mond breedte",
+  "MouthDepth": "Mond diepte",
+  "MouthDeviation": "Mond afwijking",
+  "MouthHeight": "Mond hoogte",
+  "UpperLipHeight": "Bovenlip hoogte",
+  "UpperLipWidth": "Bovenlip breedte",
+  "UpperLipDepth": "Bovenlip diepte",
+  "LowerLipHeight": "Onderlip hoogte",
+  "LowerLipWidth": "Onderlip breedte",
+  "LowerLipDepth": "Onderlip diepte",
+  "MandibleHeight": "Onderkaak hoogte",
+  "MandibleWidth": "Onderkaak breedte",
+  "MandibleDepth": "Onderkaak diepte",
+  "ChinHeight": "Kin hoogte",
+  "ChinWidth": "Kin width",
+  "ChinDepth": "Kin depth",
+  "BeardType": "Type baard",
+  "HairType": "Type haar",
+  "BodyType": "Type lichaam",
+  "WaistType": "Type taille",
+  "Confirm": "Bevestig",
+
+  ///Descriptions of the body Menu sections
+  "LegsTypeDesc": "Kies het type benen",
+  "TorsoTypeDesc": "Kies het type torso",
+  "FaceTypeDesc": "Kies het type gezicht",
+  "BodyColorDesc": "Kies je huidskleur",
+  "FaceSizeDesc": "Kies je gezichtsformaat",
+  "EyebrowHeightDesc": "Kies de wenkbrauwhoogte",
+  "EyebrowWidthDesc": "Kies de wenkbrauwbreedte",
+  "EyebrowDepthDesc": "Kies de wenkbrauwdiepte",
+  "EarsHeightDesc": "Kies de oorhoogte",
+  "EarsAngleDesc": "Kies de oorneiging",
+  "EarsSizeDesc": "Kies de oorgrootte",
+  "EarsLobeSizeDesc": "Kies de grootte van de oorlellen",
+  "EyelidsHeightDesc": "Kies de hoogte van de oogleden",
+  "EyelidsWidthDesc": "Kies de breedte van de oorleden",
+  "EyeDepthDesc": "Kies de oogdiepte",
+  "EyeAngleDesc": "Kies de ogen begonnen",
+  "EyeSeparationDesc": "Kies de oogscheiding",
+  "EyeHeightDesc": "Kies de ooghoogte",
+  "NoseWidthDesc": "Kies de neusbreedte",
+  "NoseSizeDesc": "Kies de neusmaat",
+  "NoseHeigthDesc": "Kies de neushoogte",
+  "NoseAngleDesc": "Kies de neusneiging",
+  "NoseCurvatureDesc": "Kies de neuskromming",
+  "NostrilsSeparationDesc": "Kies de scheiding van de neusgaten",
+  "CheekbonesHeightDesc": "Kies de jukbeenhoogte",
+  "CheekbonesWidthDesc": "Kies de breedte van de jukbeenderen",
+  "CheekbonesDepthDesc": "Kies de diepte van de jukbeenderen",
+  "MouthWidthDesc": "Kies de mondbreedte",
+  "MouthDepthDesc": "Kies de monddiepte",
+  "MouthDeviationDesc": "Kies de mondafwijking",
+  "MouthHeightDesc": "Kies de mondhoogte",
+  "UpperLipHeightDesc": "Kies de hoogte van de bovenlip",
+  "UpperLipWidthDesc": "Kies de breedte van de bovenlip",
+  "UpperLipDepthDesc": "Kies de diepte van de bovenlip",
+  "LowerLipHeightDesc": "Kies de hoogte van de onderlip",
+  "LowerLipWidthDesc": "Kies de breedte van de onderlip",
+  "LowerLipDepthDesc": "Kies de diepte van de onderlip",
+  "MandibleHeightDesc": "Kies de hoogte van de onderkaak",
+  "MandibleWidthDesc": "Kies de breedte van de onderkaak",
+  "MandibleDepthDesc": "Kies de onderkaakdiepte",
+  "ChinHeightDesc": "Kies de kinhoogte",
+  "ChinWidthDesc": "Kies de kinwijdte",
+  "ChinDepthDesc": "Kies de kindiepte",
+  "BeardTypeDesc": "Kies de baard",
+  "HairTypeDesc": "Kies het haar",
+  "BodyTypeDesc": "Kies het lichaamstype",
+  "WaistTypeDesc": "Kies de taille",
+  "ConfirmDesc": "Tijd om je aan te kleden, je kunt terugkeren naar deze sectie als je iets wilt veranderen",
+
+  //Ropa
+  "TitleMenuClothes": "Kleedkamer", // Menu Tittle
+  "SubTitleMenuClothes": "Kleed je personage aan", // Menu Description
+
+  "HatsValue": "Hoed #", // The options of the hats section
+  "GlassesValue": "Brillen #", // The options of the glasses section
+  "NeckwearValue": "Kledingstuk #", // The options of the neckwear section
+  "TiesValue": "Stropdas #", // The options of the ties section
+  "ShirtsValue": "Shirt #", // The options of the shirts section
+  "SuspendersValue": "Bretels #", // The options of the suspenders section
+  "VestsValue": "Vest #", // The options of the vests section
+  "CoatsValue": "Jassen #", // The options of the coats section
+  "PonchosValue": "Poncho #", // The options of the ponchos section
+  "CloaksValue": "Mantel #", // The options of the cloaks section
+  "GlovesValue": "Handschoenen #", // The options of the gloves section
+  "RingsValue": "Ring #", // The options of the rings section
+  "BraceletsValue": "Armband #", // The options of the bracelets section
+  "HolstersValue": "Holster #", // The options of the holsters section
+  "BeltsValue": "Riem #", // The options of the belts section
+  "BucklesValue": "Gesp #", // The options of the buckles section
+  "PantsValue": "Broeken #", // The options of the pants section
+  "SkirtsValue": "Rok #", // The options of the skirts section
+  "bowValue": "bow #", // The options of the bow section
+  "armorValue": "armor #", // The options of the armor section
+  "teethValue": "teeth #", // The options of the teethe section
+  "ChapsValue": "Chaps #", // The options of the chaps section
+  "BootsValue": "Laarzen #", // The options of the boots section
+  "SpursValue": "Sporen #", // The options of the spurs section
+  "SpatsValue": "Slobkousen #",
+  "GauntletsValue": "Wapengordel Accessoires #",
+  "LoadoutsValue": "Uitrustingen #",
+  "AccessoriesValue": "Accessoires #",
+  "SatchelsValue": "Tassen #",
+  "GunbeltAccsValue": "Onderarmbeschermers #",
+  "NoHatsValue": "Zonder hoed", // The option it gives when you do not wear a hat
+  "NoGlassesValue": "Zonder bril", // The option it gives when you do not wear glasses
+  "NoNeckwearValue": "Zonder halskleding", // The option it gives when you do not wear neckwear
+  "NoTiesValue": "Zonder stropdas", // The option it gives when you do not wear a tie
+  "NoShirtsValue": "Zonder hemd", // The option it gives when you do not wear a shirt
+  "NoSuspendersValue": "Zonder bretels", // The option it gives when you do not wear suspenders
+  "NoVestsValue": "Zonder vest", // The option it gives when you do not wear a vest
+  "NoCoatsValue": "Zonder jas", // The option it gives when you do not wear a coat
+  "NoPonchosValue": "Zonder poncho", // The option it gives when you do not wear a poncho
+  "NoCloaksValue": "Zonder mantel", // The option it gives when you do not wear a cloak
+  "NoGlovesValue": "Zonder handschoenen", // The option it gives when you do not wear gloves
+  "NoRingsValue": "Zonder Ring", // The option it gives when you do not wear a ring
+  "NoBraceletsValue": "Zonder armband", // The option it gives when you do not wear a bracelet
+  "NoHolstersValue": "Zonder holster", // The option it gives when you do not wear a holster
+  "NoBeltsValue": "Zonder riem", // The option it gives when you do not wear a belt
+  "NoBucklesValue": "Zonder gesp", // The option it gives when you do not wear a buckle
+  "NoPantsValue": "Zonder broek", // The option it gives when you do not wear pants
+  "NoSkirtsValue": "Zonder rok", // The option it gives when you do not wear a skirt
+  "NobowValue": "Without a Bow", // The option it gives when you do not wear a bow
+  "NoarmorValue": "Zonder pantser", // The option it gives when you do not wear a bow
+  "NoteethValue": "Zonder tanden", // The option it gives when you do not wear a bow
+  "NoChapsValue": "Zonder chaps", // The option it gives when you do not wear chaps
+  "NoBootsValue": "Zonder laarzen", // The option it gives when you do not wear boots
+  "NoSpursValue": "Zonder sporen", // The option it gives when you do not wear spurs
+  "NoSpatsValue": "Zonder slobkousen",
+  "NoGauntletsValue": "Zonder wapengordel accs",
+  "NoLoadoutsValue": "Zonder uitrusting",
+  "NoAccessoriesValue": "Zonder accessoires",
+  "NoSatchelsValue": "Zonder tassen",
+  "NoGunbeltAccsValue": "Zonder onderarmbeschermers",
+  "NoMaskValue": "Zonder masker", // The option it gives when you do not wear a face mask
+
+  "Hats": "Hoeden",
+  "Glasses": "Brillen",
+  "Masks": "Maskers",
+  "Neckwear": "Halskleding",
+  "Ties": "Stropdassen",
+  "Shirts": "Shirts",
+  "Suspenders": "Bretels",
+  "Vests": "Vesten",
+  "Coats": "Jassen",
+  "CoatsClosed": "Gesloten Jassen",
+  "Ponchos": "Ponchos",
+  "Cloaks": "Mantels",
+  "Gloves": "Handschoenen",
+  "RightRings": "Rechterhand ringen",
+  "LeftRings": "Linkerhand ringen",
+  "Bracelets": "Armbanden",
+  "PrimaryHolsters": "Primaire holsters",
+  "Belts": "Riemen",
+  "Buckles": "Gespen",
+  "SecondaryHolsters": "Secundaire holsters",
+  "Pants": "Broeken",
+  "Skirts": "Rokken",
+  "bow": "Bows",
+  "armor": "Pantser",
+  "teeth": "Tanden",
+  "Chaps": "Chaps",
+  "Boots": "Laarzen",
+  "Spurs": "Sporen",
+  "Spats": "Slobkousen",
+  "Gauntlets": "Wapenriem Accessoires",
+  "Loadouts": "Uitrustingen",
+  "Accessories": "Accessoires",
+  "Satchels": "Tassen",
+  "GunbeltAccs": "Onderarmbeschermers",
+
+  "Finish": "Kleedje karakter aan", // Confirms the options of the Menu
+
+  // Descriptions of the Clothing Menu
+  "HatsDesc": "Kies de hoed",
+  "GlassesDesc": "Kies de bril",
+  "MasksDesc": "Kies het masker als je er een wilt dragen",
+  "NeckwearDesc": "Kies de halskleding",
+  "TiesDesc": "Kies de stropdas",
+  "ShirtsDesc": "Kies het hemd",
+  "SuspendersDesc": "Kies de bretels",
+  "VestsDesc": "Kies het vest",
+  "CoatsDesc": "Kies de jas",
+  "PonchosDesc": "Kies de poncho",
+  "CloaksDesc": "Kies de mantel",
+  "GlovesDesc": "Kies de handschoenen",
+  "RightRingsDesc": "Kies de rechtse ringen",
+  "LeftRingsDesc": "Kies de linkse ringen",
+  "BraceletsDesc": "Kies de armband",
+  "PrimaryHolstersDesc": "Kies de primaire holster",
+  "BeltsDesc": "Kies de riem",
+  "BucklesDesc": "Kies de gesp",
+  "SecondaryHolstersDesc": "Kies de secundaire holster",
+  "PantsDesc": "Kies de broek",
+  "SkirtsDesc": "Kies de rok",
+  "bowDesc": "Choose the Bow",
+  "armorDesc": "Kies voor pantser",
+  "teethDesc": "Kies tanden",
+  "ChapsDesc": "Kies chaps",
+  "BootsDesc": "Kies de laarzen",
+  "SpursDesc": "Kies de sporen",
+  "SpatsDesc": "Kies de slobkousen",
+  "GauntletsDesc": "Kies de handschoenen",
+  "LoadoutsDesc": "Kies de uitrusting",
+  "AccessoriesDesc": "Kies de accessoires",
+  "SatchelsDesc": "Kies de tassen",
+  "GunbeltAccsDesc": "Kies de wapenriem accessoires",
+  "FinishDesc": "Zorg ervoor dat je alles hebt gekozen zoals je wilt, je zult naar een kledingwinkel moeten gaan om je om te kleden.",
+  "TipFinal": "Welkom in Vorp, we hopen dat uw verblijf zeer vermakelijk is."
+}
