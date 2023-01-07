@@ -43,41 +43,37 @@ namespace VorpCharacter.Script
             API.RegisterCommand("rc", new Action<int, List<object>, string>(async (source, args, raw) =>
             {
                 bool isDead = API.IsPlayerDead(API.PlayerId());
+                if (isDead) return; // TODO: Add notification
 
-                int pHealth = Utilities.GetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Health);
-                int pStamina = Utilities.GetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Stamina);
+                // We only need to grab this player ped ID once, we shouldn't wait CPU cycles
+                int playerPedId = Cache.PlayerPedId;
 
-                if (isDead) return; // need notification
+                int pHealth = Utilities.GetAttributeCoreValue(playerPedId, eAttributeCore.Health);
+                int pStamina = Utilities.GetAttributeCoreValue(playerPedId, eAttributeCore.Stamina);
 
-                bool isCuffed = Utilities.IsPedCuffed(Cache.PlayerPedId);
-                bool isHogtied = Utilities.IsPedHogtied(Cache.PlayerPedId);
+                bool isCuffed = Utilities.IsPedCuffed(playerPedId);
+                bool isHogtied = Utilities.IsPedHogtied(playerPedId);
 
                 if (isCuffed || isHogtied) return; // need notification
 
-                int playerPed = API.PlayerPedId();
-
-                while (API.IsEntityAttached(playerPed))
+                while (API.IsEntityAttached(playerPedId))
                 {
                     await BaseScript.Delay(0);
-                    int entity = API.GetEntityAttachedTo(playerPed);
+                    int entity = API.GetEntityAttachedTo(playerPedId);
                     if (API.DoesEntityExist(entity))
                         API.DeleteEntity(ref entity);
                 }
 
                 if (args.Count == 0)
-                {
                     ReloadCharacterSkin(string.Empty);
-                
-                    Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Health, pHealth);
-                    Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Stamina, pStamina);
-                    
-                    return;
-                }
+                else
+                    ReloadCharacterSkin($"{args[0]}");
 
-                ReloadCharacterSkin($"{args[0]}");
-                
-                Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Health, pHealth);
-                Utilities.SetAttributeCoreValue(API.PlayerPedId(), eAttributeCore.Stamina, pStamina);
+                // update Player Ped ID as it changes due to the model being reloaded
+                playerPedId = Cache.PlayerPedId;
+
+                Utilities.SetAttributeCoreValue(playerPedId, eAttributeCore.Health, pHealth);
+                Utilities.SetAttributeCoreValue(playerPedId, eAttributeCore.Stamina, pStamina);
                 
 
             }), false);
