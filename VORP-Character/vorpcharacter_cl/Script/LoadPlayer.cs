@@ -40,7 +40,7 @@ namespace VorpCharacter.Script
             }), false);
 #endif
 
-            API.RegisterCommand("rc", new Action<int, List<object>, string>((source, args, raw) =>
+            API.RegisterCommand("rc", new Action<int, List<object>, string>(async (source, args, raw) =>
             {
                 bool isDead = API.IsPlayerDead(API.PlayerId());
 
@@ -53,6 +53,16 @@ namespace VorpCharacter.Script
                 bool isHogtied = Utilities.IsPedHogtied(Cache.PlayerPedId);
 
                 if (isCuffed || isHogtied) return; // need notification
+
+                int playerPed = API.PlayerPedId();
+
+                while (API.IsEntityAttached(playerPed))
+                {
+                    await BaseScript.Delay(0);
+                    int entity = API.GetEntityAttachedTo(playerPed);
+                    if (API.DoesEntityExist(entity))
+                        API.DeleteEntity(ref entity);
+                }
 
                 if (args.Count == 0)
                 {
